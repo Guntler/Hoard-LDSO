@@ -9,13 +9,14 @@
 		<title>Hoard</title>
 
 		<!-- Fonts -->
-  		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700' rel='stylesheet' type='text/css'>
 
 		<!-- JQuery -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.js"></script>
 
 		<!-- Semantic JS and CSS -->
-  		<link rel="stylesheet" type="text/css" href="./semantic/css/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="./semantic/css/semantic.min.css">
 		<script src="./semantic/javascript/semantic.min.js"></script>
 
 		<!-- Hoard JS and CSS -->
@@ -25,7 +26,7 @@
 	<body id="hoard">
 		<!-- SideBar with Form for Log In-->
 		<div class="ui right red sidebar login">
-			<div class="ui form segment">
+			<div class="ui form segment" href="./p/user/lproducts.html">
 				<div class="field">
 					<label>Email</label>
 					<div class="ui left labeled icon input">
@@ -49,7 +50,11 @@
 				<div class="ui error message">
 					<div class="header">We noticed some issues</div>
 				</div>
-				<div class="ui red submit button">Login</div>
+				<a href="./p/user/lproducts.html">
+					<div class="ui red submit button">
+    					Log in
+    				</div>
+    			</a>
 				<div class="ui divider"></div>
 				<div class="ui facebook button">
 					<i class="facebook icon"></i>
