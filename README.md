@@ -11,5 +11,5 @@ Os produtos existentes na aplicação são provenientes das mais variadas lojas 
 Tecnologias escolhidas:
 =======================
 
-Server Side - NodeJS
+Server Side - NodeJS    
 Client Side - Ionic (Cordova, AngularJS)
