@@ -8,6 +8,5 @@ $(document)
 			.sidebar('attach events', '.toggle.button.signin')
 		;
 
-		
 	})
 ;
