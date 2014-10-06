@@ -6,6 +6,10 @@ DROP TABLE IF EXISTS favoriteproduct CASCADE;
 DROP TABLE IF EXISTS editrequest CASCADE;
 DROP TABLE IF EXISTS productcategory CASCADE;
 
+DROP TYPE IF EXISTS editstatuses CASCADE;
+DROP TYPE IF EXISTS usertypes CASCADE;
+DROP TYPE IF EXISTS edittypes CASCADE;
+
 CREATE TYPE editstatuses AS ENUM ('Approved', 'Denied', 'Pending');
 CREATE TYPE usertypes AS ENUM ('User', 'Content Manager', 'Admin');
 CREATE TYPE edittypes AS ENUM ('Add', 'Delete', 'Link', 'Name', 'Price', 'Category');
