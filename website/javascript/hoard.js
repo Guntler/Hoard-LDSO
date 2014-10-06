@@ -7,5 +7,7 @@ $(document)
 		$('.ui.sidebar.signin').first()
 			.sidebar('attach events', '.toggle.button.signin')
 		;
+
+		
 	})
 ;

@@ -23,6 +23,11 @@ body {
   background-image: url("../images/barcode.jpg");
 }
 
+.pageshowing {
+  float: right;
+  margin-top: 0.9em;
+}
+
 
 /*******************************
           Responsive
