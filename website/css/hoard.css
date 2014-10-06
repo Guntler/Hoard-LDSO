@@ -1,0 +1,34 @@
+/*******************************
+            Global
+*******************************/
+
+html,
+body {
+  margin: 0px;
+  text-rendering: optimizeLegibility;
+  min-width: 320px;
+  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+.top {
+  color: white;
+  font-size: 32px;
+  background-color: #FC5447;
+}
+
+.middle {
+  height: 600px;
+  background-size:105% 100%;
+  background-repeat: no-repeat;
+  background-image: url("../images/barcode.jpg");
+}
+
+
+/*******************************
+          Responsive
+*******************************/
+/* Mobile */
+@media only screen and (max-width : 768px) {
+  .top {
+    font-size: 22px;
+  }
