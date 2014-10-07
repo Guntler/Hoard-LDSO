@@ -1,16 +1,16 @@
-<ion-view title="Products">
-	<ion-content class="has-header has-footer" padding="true" id="content" >
-		<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
+<ion-view title="products">
+	<ion-content id="content">
+		<ion-slide-box does-continue="true" show-pager="true" on-slide-changed="slideHasChanged($index)">
 			<ion-slide>
 				<button id="item" class="button button-stable button-large">
 					<img ng-src="img/item1.jpg"><br>
-					Item
+					Item 1
 				</button>
 			</ion-slide>
 			<ion-slide>
 				<button id="item" class="button button-stable button-large">
 					<img ng-src="img/item2.jpg"><br>
-					Item2
+					Item 2
 				</button>
 			</ion-slide>
 		</ion-slide-box>
