@@ -2,19 +2,10 @@
 
 #favorites, #settings, #addfav {color:white;font-size: 250%;}
 
-#header, #footer {padding-left:5%; padding-right:10%; height:10%;background-color: #FC5447;}
-#footer { padding-left:35%;}
-#item  {
-	width:50%;
-	height:50%;}
-#item img {
-	height:auto;
-	width:auto;
-	min-width:50%;
-	min-height:50%;
-	max-width:90%;
-	max-height:90%;}
+#header, #footer {height:10%;background-color: #FC5447;}
+#item {width:50%;height:50%;position:absolute;}
 #content{
-	padding-top:25%;
-	padding-left:25%;
-	background-image:url('../img/bg.gif');}
+		float:center;
+		padding-top:25%;
+		padding-left:25%;
+		background-image:url('../img/bg.gif');}

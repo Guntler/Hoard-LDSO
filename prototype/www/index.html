@@ -33,11 +33,14 @@
 		</div>
 	</ion-header-bar >
 	
-	<body>
-		<ion-nav-view></ion-nav-view>
+	<body animation="slide-left-right-ios7">
+		<ion-content class="has-header has-footer" padding="true" id="content">
+			<div class="padding">
+				<button id="item" class="button button-stable button-large">Item</button>
+			</div>
+		</ion-content>
 	</body>
 	
 	<div id="footer" class="bar bar-footer">
-		<i id="addfav" class="icon ion-plus-circled"/>
 	</div>
 </html>
