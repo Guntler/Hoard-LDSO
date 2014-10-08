@@ -1,6 +1,6 @@
 <ion-view title="products">
 	<ion-content id="content">
-		<ion-slide-box padding="" does-continue="true" show-pager="true" on-slide-changed="slideHasChanged($index)">
+		<ion-slide-box padding="" does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
 			<ion-slide>
 				<button id="item" class="button button-stable button-large">
 					<img ng-src="img/item1.jpg"><br>
@@ -14,5 +14,9 @@
 				</button>
 			</ion-slide>
 		</ion-slide-box>
+		
+		<button class="button button-clear col-offset-50">
+			<i class="icon ion-plus-circled"></i>
+		</button>
 	</ion-content>
 </ion-view>
