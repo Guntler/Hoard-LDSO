@@ -9,7 +9,8 @@ filesys = require("fs");
 //create http server 
 my_http.createServer(function(request,response){  
     var my_path = url.parse(request.url).pathname;  
-    var full_path = path.join(process.cwd(),my_path);
+    var full_path = path.join(process.cwd(),'/../website/');
+	var full_path = path.join(full_path, my_path);
 
 	//check if path exists
     path.exists(full_path,function(exists){ 
