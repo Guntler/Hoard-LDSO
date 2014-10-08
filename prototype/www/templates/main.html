@@ -1,22 +1,26 @@
 <ion-view title="products">
-	<ion-content id="content">
+	<ion-pane class="content">
+
 		<ion-slide-box padding="" does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
 			<ion-slide>
-				<button id="item" class="button button-stable button-large">
+				<div class="item button button-stable button-large centered">
 					<img ng-src="img/item1.jpg"><br>
-					Item 1
-				</button>
+					<div class="button button-clear assertive centered">
+						<i class="icon ion-plus-circled"></i>
+					</div>
+					<br>Item 1
+				</div>
 			</ion-slide>
 			<ion-slide>
-				<button id="item" class="button button-stable button-large">
+				<div class="item button button-stable button-large centered">
 					<img ng-src="img/item2.jpg"><br>
-					Item 2
-				</button>
+					<div class="button button-clear assertive centered">
+						<i class="icon ion-plus-circled"></i>
+					</div>
+					<br>Item 2
+				</div>
 			</ion-slide>
 		</ion-slide-box>
-		
-		<button class="button button-clear col-offset-50">
-			<i class="icon ion-plus-circled"></i>
-		</button>
-	</ion-content>
+
+	</ion-pane>
 </ion-view>
