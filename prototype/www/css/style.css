@@ -1,14 +1,21 @@
-
-.content{
-	top: 43px;
-	background-image:url('../img/bg.gif');
-}
-
 .centered {
 	height: 100%;
 	width: 100%;
 	margin: 0 auto;
 	margin-left: 0;
+}
+
+.slider {
+	position: absolute !important;
+	top: 43px !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	right: 0 !important;
+	background-image:url('../img/bg.gif');
+}
+
+.item {
+	background-image:url('../img/bg.gif');
 }
 
 .item img {

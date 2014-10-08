@@ -1,8 +1,8 @@
 <ion-view title="products">
-	<ion-pane class="content">
 
-		<ion-slide-box padding="" does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
-			<ion-slide>
+	<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
+		<ion-slide>
+			<ion-pane>
 				<div class="item button button-stable button-large centered">
 					<img ng-src="img/item1.jpg"><br>
 					<div class="button button-clear assertive centered">
@@ -10,8 +10,10 @@
 					</div>
 					<br>Item 1
 				</div>
-			</ion-slide>
-			<ion-slide>
+			</ion-pane>
+		</ion-slide>
+		<ion-slide>
+			<ion-pane>
 				<div class="item button button-stable button-large centered">
 					<img ng-src="img/item2.jpg"><br>
 					<div class="button button-clear assertive centered">
@@ -19,8 +21,8 @@
 					</div>
 					<br>Item 2
 				</div>
-			</ion-slide>
-		</ion-slide-box>
+			</ion-pane>
+		</ion-slide>
+	</ion-slide-box>
 
-	</ion-pane>
 </ion-view>
