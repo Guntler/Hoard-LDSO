@@ -1,30 +1,28 @@
 <ion-view title="products">
-	<ion-content id="content">
-		<ion-slide-box padding="" does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
-			<ion-slide>
-				<div class="row">
-				<div class="col col-center">
-				<button id="item" class="button button-stable button-large">
+
+	<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
+		<ion-slide>
+			<ion-pane>
+				<div class="item button button-stable button-large centered">
 					<img ng-src="img/item1.jpg"><br>
-					Item 1
-				</button>
+					<div class="button button-clear assertive centered">
+						<i class="icon ion-plus-circled"></i>
+					</div>
+					<br>Item 1
 				</div>
-				</div>
-			</ion-slide>
-			<ion-slide>
-				<div class="row">
-				<div class="col col-center">
-				<button id="item" class="button button-stable button-large">
+			</ion-pane>
+		</ion-slide>
+		<ion-slide>
+			<ion-pane>
+				<div class="item button button-stable button-large centered">
 					<img ng-src="img/item2.jpg"><br>
-					Item 2
-				</button>
+					<div class="button button-clear assertive centered">
+						<i class="icon ion-plus-circled"></i>
+					</div>
+					<br>Item 2
 				</div>
-				</div>
-			</ion-slide>
-		</ion-slide-box>
-		
-		<button class="button button-clear col-offset-50">
-			<i id="addfav" class="icon ion-plus-circled"></i>
-		</button>
-	</ion-content>
+			</ion-pane>
+		</ion-slide>
+	</ion-slide-box>
+
 </ion-view>
