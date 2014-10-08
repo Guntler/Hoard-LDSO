@@ -2,21 +2,29 @@
 	<ion-content id="content">
 		<ion-slide-box padding="" does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
 			<ion-slide>
+				<div class="row">
+				<div class="col col-center">
 				<button id="item" class="button button-stable button-large">
 					<img ng-src="img/item1.jpg"><br>
 					Item 1
 				</button>
+				</div>
+				</div>
 			</ion-slide>
 			<ion-slide>
+				<div class="row">
+				<div class="col col-center">
 				<button id="item" class="button button-stable button-large">
 					<img ng-src="img/item2.jpg"><br>
 					Item 2
 				</button>
+				</div>
+				</div>
 			</ion-slide>
 		</ion-slide-box>
 		
 		<button class="button button-clear col-offset-50">
-			<i class="icon ion-plus-circled"></i>
+			<i id="addfav" class="icon ion-plus-circled"></i>
 		</button>
 	</ion-content>
 </ion-view>

@@ -1,4 +1,13 @@
-
+#favorites, #settings, #addfav {font-size: 400%;}
+#addfav {font-size:400%; color:#FC5447;}
+#item img {
+    height:auto;
+    width:auto;
+    min-width:50%;
+    min-height:50%;
+    max-width:90%;
+    max-height:90%;}
+	
 #content{
 	padding-top:5%;
 	background-image:url('../img/bg.gif');}
