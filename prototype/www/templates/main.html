@@ -1,12 +1,18 @@
-<ion-view title="products" ng-controller="NavCtrl">
+<link href="css/dropdown.css" rel="stylesheet">
+
+<ion-view title="products" ng-controller="NavCtrl" right-buttons="rightButtons">
 	<ion-header-bar class="bar-assertive">
 		<button class="button button-clear" ng-click="viewFavorites()">
 			<i class="icon ion-heart"></i>
 		</button>
   		<h1 class="title">Hoard</h1>
-		<button class="button button-clear" ng-click="viewSettings()">
-			<i class="icon ion-gear-b"></i>
-		</button>
+		<li class="settings button button-clear icon ion-gear-b">
+			<ul>
+				<li><a href="http://tutorialzine.com/2012/10/css3-dropdown-menu/">Back to the tutorial</a></li>
+				<li><a href="http://tutorialzine.com/2012/10/css3-dropdown-menu/#comments">Get help</a></li>
+				<li><a href="http://tutorialzine.com/2012/10/css3-dropdown-menu/">Download this example</a></li>
+			</ul>
+		</li>
 	</ion-header-bar>
 	
 	<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
@@ -33,5 +39,4 @@
 			</ion-pane>
 		</ion-slide>
 	</ion-slide-box>
-
 </ion-view>

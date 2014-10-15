@@ -1,6 +1,6 @@
 angular.module('starter.controllers', []);
 
-app.controller('NavCtrl', function($scope, $state) {//, User) {
+app.controller('NavCtrl', function($scope, $state, $ionicSideMenuDelegate) {//, User) {
 	/*$scope.profile = {
 		email: '',
 		password: ''
@@ -25,4 +25,4 @@ app.controller('NavCtrl', function($scope, $state) {//, User) {
 	$scope.close = function() { 
 		$state.go('main'); 
 	};
-});  
+}); 
