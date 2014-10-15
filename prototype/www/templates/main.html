@@ -1,22 +1,37 @@
-<ion-view title="products">
-	<ion-content id="content">
-		<ion-slide-box padding="" does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
-			<ion-slide>
-				<button id="item" class="button button-stable button-large">
-					<img ng-src="img/item1.jpg"><br>
-					Item 1
-				</button>
-			</ion-slide>
-			<ion-slide>
-				<button id="item" class="button button-stable button-large">
-					<img ng-src="img/item2.jpg"><br>
-					Item 2
-				</button>
-			</ion-slide>
-		</ion-slide-box>
-		
-		<button class="button button-clear col-offset-50">
-			<i class="icon ion-plus-circled"></i>
+<ion-view title="products" ng-controller="NavCtrl">
+	<ion-header-bar class="bar-assertive">
+		<button class="button button-clear" ng-click="viewFavorites()">
+			<i id="favorites" class="icon ion-heart"></i>
 		</button>
-	</ion-content>
+  		<h1 class="title">Hoard</h1>
+		<button class="button button-clear">
+			<i id="settings" class="icon ion-gear-b"></i>
+		</button>
+	</ion-header-bar>
+	
+	<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
+		<ion-slide>
+			<ion-pane>
+				<div class="item button button-stable button-large centered">
+					<img ng-src="img/item1.jpg"><br>
+					<div class="button button-clear assertive centered">
+						<i class="icon ion-plus-circled"></i>
+					</div>
+					<br>Item 1
+				</div>
+			</ion-pane>
+		</ion-slide>
+		<ion-slide>
+			<ion-pane>
+				<div class="item button button-stable button-large centered">
+					<img ng-src="img/item2.jpg"><br>
+					<div class="button button-clear assertive centered">
+						<i class="icon ion-plus-circled"></i>
+					</div>
+					<br>Item 2
+				</div>
+			</ion-pane>
+		</ion-slide>
+	</ion-slide-box>
+
 </ion-view>

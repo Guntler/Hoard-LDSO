@@ -5,5 +5,8 @@ $(document)
 			.tab()
 		;
 
+		$('.sidebar.edit-profile').first()
+			.sidebar('attach events', '.item.edit-profile.selection')
+		;
 	})
 ;

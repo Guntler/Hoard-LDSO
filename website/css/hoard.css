@@ -28,6 +28,9 @@ body {
   margin-top: 0.9em;
 }
 
+.removepadding {
+  padding: 0 !important;
+}
 
 /*******************************
           Responsive

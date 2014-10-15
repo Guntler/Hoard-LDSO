@@ -2260,7 +2260,6 @@ body > .ui.grid {
   color: rgba(50, 50, 50, 0.8);
   font-size: 0.875rem;
   padding: 0em;
-  text-transform: uppercase;
   font-weight: bold;
 }
 /*--- fluid text ---*/
@@ -4396,7 +4395,6 @@ i.massive.basic.icon {
   margin: 0em;
   padding: 0.8em 1.5em;
   font-size: 1rem;
-  text-transform: uppercase;
   line-height: 1;
   font-weight: bold;
   font-style: normal;
@@ -5585,7 +5583,6 @@ i.massive.basic.icon {
   font-size: 0.875rem;
   font-weight: bold;
   text-align: center;
-  text-transform: uppercase;
   color: rgba(0, 0, 0, 0.8);
 }
 /*--------------
@@ -7837,7 +7834,6 @@ img.ui.image {
   border-color: #E8E8E8;
   padding: 0.5em 0.8em;
   color: rgba(0, 0, 0, 0.65);
-  text-transform: uppercase;
   font-weight: normal;
   border-radius: 0.325em;
   -webkit-box-sizing: border-box;
