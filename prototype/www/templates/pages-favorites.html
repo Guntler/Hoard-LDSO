@@ -2,16 +2,16 @@
 
 <ion-view title="favorites" ng-controller="NavCtrl">
 	<ion-header-bar class="bar-assertive">
-		<button class="button button-clear" ng-click="closeFavorites()">
-			<i id="favorites" class="icon ion-chevron-left"></i>
+		<button class="button button-clear" ng-click="close()">
+			<i class="icon ion-chevron-left"></i>
 		</button>
   		<h1 class="title">Hoard</h1>
-		<button class="button button-clear">
-			<i id="settings" class="icon ion-gear-b"></i>
+		<button class="button button-clear" ng-click="viewSettings()">
+			<i class="icon ion-gear-b"></i>
 		</button>
 	</ion-header-bar>
 	
-	<ion-pane class="favoritesList">
+	<ion-pane class="contentPane">
 		<div class="row">
 			<div class="col col-25">
 				<div class="favoriteItem button button-stable"><img ng-src="img/item1.jpg"><br></div>

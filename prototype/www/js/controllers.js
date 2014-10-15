@@ -1,10 +1,28 @@
 angular.module('starter.controllers', []);
 
-app.controller('NavCtrl', function($scope, $state) {
+app.controller('NavCtrl', function($scope, $state) {//, User) {
+	/*$scope.profile = {
+		email: '',
+		password: ''
+	};
+  
+	$scope.submitInfo = function() {
+		User.create($scope.profile).then(function(userId) {
+		$scope.post = {
+			email: '',
+			password: ''
+		};
+		$state.go('settings');
+		});
+	}*/
+	
+	$scope.viewSettings = function() {
+		$state.go('settings');
+	}
 	$scope.viewFavorites = function() {
 		$state.go('favorites');
 	}
-	$scope.closeFavorites = function() { 
+	$scope.close = function() { 
 		$state.go('main'); 
 	};
 });  

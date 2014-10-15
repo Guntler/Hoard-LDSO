@@ -36,6 +36,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/pages-favorites.html',
 	  controller: 'NavCtrl'
     })
+	
+	.state('settings', {
+      url: '/settings',
+      templateUrl: 'templates/pages-settings.html',
+	  controller: 'NavCtrl'
+    })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main');
