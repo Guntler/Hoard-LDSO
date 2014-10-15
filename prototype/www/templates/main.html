@@ -1,18 +1,18 @@
 <ion-view title="products" ng-controller="NavCtrl">
 	<ion-header-bar class="bar-assertive">
 		<button class="button button-clear" ng-click="viewFavorites()">
-			<i id="favorites" class="icon ion-heart"></i>
+			<i class="icon ion-heart"></i>
 		</button>
   		<h1 class="title">Hoard</h1>
-		<button class="button button-clear">
-			<i id="settings" class="icon ion-gear-b"></i>
+		<button class="button button-clear" ng-click="viewSettings()">
+			<i class="icon ion-gear-b"></i>
 		</button>
 	</ion-header-bar>
 	
 	<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
 		<ion-slide>
 			<ion-pane>
-				<div class="item button button-stable button-large centered">
+				<div class="product button button-stable button-large centered">
 					<img ng-src="img/item1.jpg"><br>
 					<div class="button button-clear assertive centered">
 						<i class="icon ion-plus-circled"></i>
@@ -23,7 +23,7 @@
 		</ion-slide>
 		<ion-slide>
 			<ion-pane>
-				<div class="item button button-stable button-large centered">
+				<div class="product button button-stable button-large centered">
 					<img ng-src="img/item2.jpg"><br>
 					<div class="button button-clear assertive centered">
 						<i class="icon ion-plus-circled"></i>
