@@ -1,28 +1,26 @@
 angular.module('starter.controllers', []);
 
 app.controller('NavCtrl', function($scope, $state, $ionicSideMenuDelegate) {//, User) {
-	/*$scope.profile = {
-		email: '',
-		password: ''
-	};
-  
 	$scope.submitInfo = function() {
-		User.create($scope.profile).then(function(userId) {
-		$scope.post = {
-			email: '',
-			password: ''
-		};
-		$state.go('settings');
-		});
-	}*/
+		/*TODO*/
+	}
 	
-	$scope.viewSettings = function() {
-		$state.go('settings');
+	$scope.viewProfile = function() {
+		$state.go('profile');
+	}
+	$scope.viewFilters = function() {
+		$state.go('filters');
+	}
+	$scope.logout = function() {
+		/*log out*/
 	}
 	$scope.viewFavorites = function() {
 		$state.go('favorites');
 	}
 	$scope.close = function() { 
 		$state.go('main'); 
+	};
+	$scope.submitRange = function() {
+		/*TODO*/
 	};
 }); 

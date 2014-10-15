@@ -12,10 +12,11 @@
 .settings ul{
 	position:absolute;
 	list-style:none;
-	text-align:center;
+	text-align:left;
 	width:180px;
 	left:50%;
-	margin-left:-90px;
+	top:38px;
+	margin-left:-158px;
 	font:bold 12px 'Open Sans Condensed', sans-serif;
 	
 	/* This is important for the show/hide CSS animation */

@@ -37,9 +37,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	  controller: 'NavCtrl'
     })
 	
-	.state('settings', {
-      url: '/settings',
-      templateUrl: 'templates/pages-settings.html',
+	.state('profile', {
+      url: '/profile',
+      templateUrl: 'templates/pages-profile.html',
+	  controller: 'NavCtrl'
+    })
+	
+	.state('filters', {
+      url: '/filters',
+      templateUrl: 'templates/pages-filters.html',
 	  controller: 'NavCtrl'
     })
 
