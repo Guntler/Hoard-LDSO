@@ -20,7 +20,26 @@ app.controller('NavCtrl', function($scope, $state, $ionicSideMenuDelegate) {//, 
 	$scope.close = function() { 
 		$state.go('main'); 
 	};
+	$scope.viewRegister = function() {
+		$state.go('register');
+	}
+	$scope.login = function() {
+		$state.go('main');
+	}
 	$scope.submitRange = function() {
 		/*TODO*/
 	};
+	
+	$scope.doRegister = function() {
+		/*TODO*/
+		$state.go('login');
+	}
+	$scope.doLogin = function() {
+		/*TODO*/
+		$state.go('main');
+	}
+	$scope.doLogout = function() {
+		/*TODO*/
+		$state.go('login');
+	}
 }); 

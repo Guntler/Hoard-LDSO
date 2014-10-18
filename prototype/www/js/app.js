@@ -48,6 +48,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/pages-filters.html',
 	  controller: 'NavCtrl'
     })
+	
+	.state('login', {
+      url: '/login',
+      templateUrl: 'templates/pages-login.html',
+	  controller: 'NavCtrl'
+    })
+	
+	.state('register', {
+      url: '/register',
+      templateUrl: 'templates/pages-register.html',
+	  controller: 'NavCtrl'
+    })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/main');

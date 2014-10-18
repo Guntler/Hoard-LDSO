@@ -3,15 +3,15 @@
 
 <ion-view title="favorites" ng-controller="NavCtrl">
 	<ion-header-bar class="bar-assertive">
-		<button class="button button-clear" ng-click="viewFavorites()">
-			<i class="icon ion-heart"></i>
+		<button class="button button-clear" ng-click="close()">
+			<i class="icon ion-chevron-left"></i>
 		</button>
   		<h1 class="title">Hoard</h1>
 		<li class="settings button button-clear icon ion-gear-b">
 			<ul>
 				<li ng-click="viewProfile()"><a class="icon ion-person" />Profile Info</a></li>
 				<li ng-click="viewFilters()"><a class="icon ion-levels" />Filters</a></li>
-				<li ng-click="logout()"><a class="icon ion-power" />Logout</a></li>
+				<li ng-click="doLogout()"><a class="icon ion-power" />Logout</a></li>
 			</ul>
 		</li>
 	</ion-header-bar>

@@ -2,13 +2,7 @@
 
 <ion-view title="settings" ng-controller="NavCtrl">
 	<ion-header-bar class="bar-assertive">
-		<button class="button button-clear" ng-click="close()">
-			<i class="icon ion-chevron-left"></i>
-		</button>
   		<h1 class="title">Hoard</h1>
-		<button class="button button-clear" ng-click="submitInfo()">
-			<i class="icon ion-checkmark-round"></i>
-		</button>
 	</ion-header-bar>
 	
 	<ion-pane class="contentPane">
@@ -24,6 +18,18 @@
 				Password
 				<div class><input type="password" placeholder="Password" ng-model="submit.password"></div>
 			</a>
+			
+			<button class="button button-stable" ng-click="doLogin()">
+				<i class="icon ion-checkmark-round"></i>
+			</button>
+			
+			<button class="button button-stable" ng-click="viewRegister()">
+				SIGN UP
+			</button>
+			
+			<button class="button button-stable" ng-click="viewPasswordRecovery()">
+				RECOVER PASSWORD
+			</button>
 		</div>
 	</ion-pane>
 </ion-view>
