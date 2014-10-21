@@ -1,9 +1,24 @@
-<ion-view title="products">
+<link href="css/dropdown.css" rel="stylesheet">
 
+<ion-view title="products" ng-controller="NavCtrl">
+	<ion-header-bar class="bar-assertive">
+		<button class="button button-clear" ng-click="viewFavorites()">
+			<i class="icon ion-heart"></i>
+		</button>
+  		<h1 class="title">Hoard</h1>
+		<li class="settings button button-clear icon ion-gear-b">
+			<ul>
+				<li ng-click="viewProfile()"><a class="icon ion-person" />Profile Info</a></li>
+				<li ng-click="viewFilters()"><a class="icon ion-levels" />Filters</a></li>
+				<li ng-click="doLogout()"><a class="icon ion-power" />Logout</a></li>
+			</ul>
+		</li>
+	</ion-header-bar>
+	
 	<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
 		<ion-slide>
 			<ion-pane>
-				<div class="item button button-stable button-large centered">
+				<div class="product button button-stable button-large centered">
 					<img ng-src="img/item1.jpg"><br>
 					<div class="button button-clear assertive centered">
 						<i class="icon ion-plus-circled"></i>
@@ -14,7 +29,7 @@
 		</ion-slide>
 		<ion-slide>
 			<ion-pane>
-				<div class="item button button-stable button-large centered">
+				<div class="product button button-stable button-large centered">
 					<img ng-src="img/item2.jpg"><br>
 					<div class="button button-clear assertive centered">
 						<i class="icon ion-plus-circled"></i>
@@ -24,5 +39,4 @@
 			</ion-pane>
 		</ion-slide>
 	</ion-slide-box>
-
 </ion-view>

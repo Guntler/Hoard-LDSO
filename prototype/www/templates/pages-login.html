@@ -1,0 +1,35 @@
+<link href="css/login.css" rel="stylesheet">
+
+<ion-view title="settings" ng-controller="NavCtrl">
+	<ion-header-bar class="bar-assertive">
+  		<h1 class="title">Hoard</h1>
+	</ion-header-bar>
+	
+	<ion-pane class="contentPane">
+		<div class="list">
+			<a class="item item-icon-left">
+				<i class="icon ion-email"></i>
+				Email Address
+				<div class><input type="text" placeholder="Email Address" ng-model="submit.email"></div>
+			</a>
+
+			<a class="item item-icon-left">
+				<i class="icon ion-compose"></i>
+				Password
+				<div class><input type="password" placeholder="Password" ng-model="submit.password"></div>
+			</a>
+			
+			<button class="button button-stable" ng-click="doLogin()">
+				<i class="icon ion-checkmark-round"></i>
+			</button>
+			
+			<button class="button button-stable" ng-click="viewRegister()">
+				SIGN UP
+			</button>
+			
+			<button class="button button-stable" ng-click="viewPasswordRecovery()">
+				RECOVER PASSWORD
+			</button>
+		</div>
+	</ion-pane>
+</ion-view>
