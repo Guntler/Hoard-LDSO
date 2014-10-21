@@ -10,17 +10,25 @@ body {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+#hoard {
+  background-image: url("../images/wallpaper2.jpeg");
+}
+
 .top {
   color: white;
   font-size: 32px;
   background-color: #FC5447;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
 }
 
 .middle {
-  height: 600px;
-  background-size:105% 100%;
-  background-repeat: no-repeat;
-  background-image: url("../images/barcode.jpg");
+  margin-top:150px;
+  margin-left:20%;
+  height: 2000px;
 }
 
 .pageshowing {
@@ -30,6 +38,72 @@ body {
 
 .removepadding {
   padding: 0 !important;
+}
+
+/*******************************
+          Hoard Button
+*******************************/
+.hoard.button {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  min-height: 1em;
+  outline: none;
+  border-style: solid;
+  background-color: #FAFAFA;
+  color: #808080;
+  margin: 0em;
+  padding: 0.8em 1.5em;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1;
+  font:bold;
+  font-style: normal;
+  text-align: center;
+  text-decoration: none;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.05)));
+  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+  background-image: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+  border-radius: 0.25em;
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08) inset;
+          box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08) inset;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease, background 0.25s ease, -webkit-box-shadow 0.25s ease;
+  -moz-transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+/*--- Red ---*/
+.hoard.red.button {
+  background-color: rgba(255, 255, 255, 0);
+  color: #FFFFFF;
+}
+.hoard.red.button:hover,
+.hoard.red.button.active {
+  border-color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #FC5447;
+}
+
+
+@font-face {
+         font-family: 'ChunkFiveRegular';
+         src: url('Chunkfive-webfont.eot');
+         src: url('Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Chunkfive-webfont.woff') format('woff'),
+         url('Chunkfive-webfont.ttf') format('truetype'),
+         url('Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
+         font-weight: normal;
+         font-style: normal;
 }
 
 /*******************************

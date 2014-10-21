@@ -1,8 +1,8 @@
 $(document)
 	.ready(function() {
 
-		$('.ui.sidebar.login').first()
-			.sidebar('attach events', '.toggle.button.login')
+		$('.ui.sidebar.signup').first()
+			.sidebar('attach events', '.toggle.button.signup')
 		;
 		$('.ui.sidebar.signin').first()
 			.sidebar('attach events', '.toggle.button.signin')
