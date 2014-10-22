@@ -2,9 +2,7 @@
 //tabela useraccount
 
 var pg = require("pg");
-var favoriteProducts = require("./models/FavoriteProduct.js");
-
-
+var UserAccount = require("./models/UserAccount.js");
 
 
 //mudar as credenciais consoante o user que estiverem a ser usados
@@ -16,51 +14,38 @@ var client = new pg.Client(conString);
 	//example query de insert 
 	client.connect();
 	
-	var query = client.query("SELECT * FROM useraccount ORDER BY userid");
+	var query = client.query("SELECT * FROM userAccount ORDER BY userid");
 
 
 	query.on("row", function (row, result) {
 						result.addRow(row);
 					});
-		
+	var users =[];
+	
 	query.on("end", function (result) {
-								console.log(JSON.stringify(result.rows, null, "    "));
-								client.end();
-						});
+							console.log(JSON.stringify(result.rows, null, "    "));
+							
+									for(i=0; i<result.rows.length; i++)
+				{
+				var temp_user = new UserAccount(
+				result.rows[i].userid ,
+				result.rows[i].email,
+				result.rows[i].password,
+				result.rows[i].permissions,
+				result.rows[i].registerdate,
+				result.rows[i].favorites,
+				result.rows[i].loggedin
+												);
+	
+				users.push( temp_user )
+				}
 						
-		var query = client.query("SELECT * FROM useraccount ORDER BY userid");
+						console.log(JSON.stringify(users, null, "     "));  
+						client.end();
+				});
+	
+	
+	
+	
 
-
-	query.on("row", function (row, result) {
-						result.addRow(row);
-					});
-		
-	query.on("end", function (result) {
-								console.log(JSON.stringify(result.rows, null, "    "));
-								client.end();
-						});
-						
-							var query = client.query("SELECT * FROM useraccount ORDER BY userid");
-
-
-	query.on("row", function (row, result) {
-						result.addRow(row);
-					});
-		
-	query.on("end", function (result) {
-								console.log(JSON.stringify(result.rows, null, "    "));
-								client.end();
-						});
-						
-							var query = client.query("SELECT * FROM useraccount ORDER BY userid");
-
-
-	query.on("row", function (row, result) {
-						result.addRow(row);
-					});
-		
-	query.on("end", function (result) {
-								console.log(JSON.stringify(result.rows, null, "    "));
-								client.end();
-						});
-						
+	
