@@ -1,6 +1,6 @@
 <link href="css/settings.css" rel="stylesheet">
 
-<ion-view title="settings" ng-controller="NavCtrl">
+<ion-view ng-cloak title="settings" ng-controller="NavCtrl" >
 	<ion-header-bar class="bar-assertive">
 		<button class="button button-clear" ng-click="close()">
 			<i class="icon ion-chevron-left"></i>
@@ -24,10 +24,6 @@
 				Password
 				<div class><input type="password" placeholder="Password" ng-model="submit.password"></div>
 			</a>
-			
-			<button class="button button-stable" ng-click="viewRegister()">
-				REGISTER
-			</button>
 		</div>
 	</ion-pane>
 </ion-view>
