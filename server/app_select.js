@@ -14,7 +14,7 @@ var client = new pg.Client(conString);
 	//example query de insert 
 	client.connect();
 	
-	var query = client.query("SELECT * FROM userAccount ORDER BY userid");
+	var query = client.query("SELECT * FROM userAccount ORDER BY userID");
 
 
 	query.on("row", function (row, result) {
