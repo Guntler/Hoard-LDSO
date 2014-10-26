@@ -6,7 +6,10 @@ var UserAccount = function (id, email, password, permissions, registerdate, favo
 	this.registerdate = registerdate;
 	this.favorites = favorites;
 	this.loggedin = loggedin;
+
 }
+
+
 
 UserAccount.prototype.id = -1;
 UserAccount.prototype.name = "";

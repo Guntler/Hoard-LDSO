@@ -8,9 +8,15 @@
     <ImageView
         android:id="@+id/product_image_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/product"
-        android:layout_weight="0.72" />
+        android:src="@drawable/product2"/>
+
+    <TextView
+        android:id="@+id/product_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
