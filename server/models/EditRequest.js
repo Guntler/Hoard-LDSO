@@ -1,4 +1,4 @@
-var EditRequest = function (id, product, submittedby, approvedby, edittype, editstatus, description, justification, editdate) {
+var EditRequest = function (id, product, submittedby, approvedby, edittype, editstatus, description, reason, editdate) {
 	this.id = id;
 	this.product = product;
 	this.submittedby = submittedby;
@@ -6,7 +6,7 @@ var EditRequest = function (id, product, submittedby, approvedby, edittype, edit
 	this.edittype = edittype;
 	this.editstatus = editstatus;
 	this.description = description;
-	this.justification = justification;
+	this.reason = reason;
 	this.editdate = editdate;
 }
 
@@ -17,7 +17,7 @@ EditRequest.prototype.approvedby = null;
 EditRequest.prototype.edittype = "";
 EditRequest.prototype.editstatus = "";
 EditRequest.prototype.description = "";
-EditRequest.prototype.justification = "";
+EditRequest.prototype.reason = "";
 EditRequest.prototype.editdate = "";
 
 module.exports = EditRequest;

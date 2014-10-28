@@ -1,4 +1,4 @@
-
+﻿
 ---DROP previous tables---
 DROP TABLE IF EXISTS userAccount CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
@@ -82,12 +82,12 @@ INSERT INTO userAccount (email, password, permissions, registerDate) VALUES ('m1
 INSERT INTO userAccount (email, password, permissions, registerDate) VALUES ('m2@m2.m2', 'm2', 'Manager', '2001-02-16 20:38:40');
 INSERT INTO userAccount (email, password, permissions, registerDate) VALUES ('admin@admin.admin', 'admin', 'Admin', '2001-02-16 20:38:40');
 
-INSERT INTO productCategory (categoryName) VALUES ("Gadgets");
-INSERT INTO productCategory (categoryName) VALUES ("Home & Office");
-INSERT INTO productCategory (categoryName) VALUES ("Tools");
-INSERT INTO productCategory (categoryName) VALUES ("Books");
-INSERT INTO productCategory (categoryName) VALUES ("Apparel");
-INSERT INTO productCategory (categoryName) VALUES ("Toys");
+INSERT INTO productCategory (categoryName) VALUES ('Gadgets');
+INSERT INTO productCategory (categoryName) VALUES ('Home & Office');
+INSERT INTO productCategory (categoryName) VALUES ('Tools');
+INSERT INTO productCategory (categoryName) VALUES ('Books');
+INSERT INTO productCategory (categoryName) VALUES ('Apparel');
+INSERT INTO productCategory (categoryName) VALUES ('Toys');
 
 INSERT INTO product (name, price, link, imageName, category, visible, addedBy, dateAdded) 
 VALUES ('Infectious Disease Ball', 2.00, 'http://www.thinkgeek.com/product/e8f1/',
@@ -108,24 +108,24 @@ INSERT INTO product (name, price, link, imageName, category, visible, addedBy, d
 VALUES ('The Unicorn Head Mask', 23.99, 'http://www.thinkgeek.com/product/1107/',
  '1107_unicorn_head_mask.jpg', 5, true, 8, '2001-02-16 20:38:40');
 
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (1, 1, 1, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 1, 2, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 1, 3, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (4, 1, 4, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 1, 5, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (1, 2, 1, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 2, 2, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (5, 2, 3, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 2, 4, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 3, 1, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 3, 2, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (4, 5, 1, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 5, 2, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 4, 1, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (5, 4, 2, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 6, 1, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 6, 2, true, 2001-02-16 20:38:40);
-INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 6, 3, true, 2001-02-16 20:38:40);
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (1, 1, 1, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 1, 2, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 1, 3, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (4, 1, 4, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 1, 5, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (1, 2, 1, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 2, 2, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (5, 2, 3, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 2, 4, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 3, 1, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 3, 2, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (4, 5, 1, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 5, 2, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 4, 1, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (5, 4, 2, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (6, 6, 1, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 6, 2, true, '2001-02-16 20:38:40');
+INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 6, 3, true, '2001-02-16 20:38:40');
 
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate) VALUES (1, 5, NULL, 'Delete', 'Pending', 'Crappy product. May cause Ebola epidemic.', 2001-02-16 20:38:40);
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate) VALUES (1, 5, NULL, 'Delete', 'Pending', 'Crappy product. May cause Ebola epidemic.', '2001-02-16 20:38:40');
 
