@@ -19,10 +19,18 @@ body {
   font-size: 32px;
   background-color: #FC5447;
   width: 100%;
-  position: fixed;
+  
   top: 0;
   left: 0;
   z-index: 998;
+}
+
+.name , .date{
+	color: rgba(0, 0, 0, 1); !important
+}
+
+.selection-list {
+	background-color: rgba(240, 240, 240, 0.7);
 }
 
 .middle {
