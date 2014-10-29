@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -5,18 +7,28 @@
     tools:context=".MainActivity"
     android:background="@color/white">
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/top_layout_bar"/>
+
     <RelativeLayout
+        android:id="@+id/top_layout_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/red">
 
         <ImageButton
+            android:id="@+id/favorite_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:src="@drawable/ic_action_favorite"
-            android:background="?android:attr/selectableItemBackground" />
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/app_name"
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,21 +36,26 @@
             android:text="@string/app_name"
             android:layout_centerInParent="true"
             android:textColor="@color/white"
-            android:textSize="20dp"
+            android:textSize="24sp"
             android:layout_gravity="center_horizontal" />
 
         <ImageButton
+            android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_action_settings"
-            android:background="?android:attr/selectableItemBackground" />
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/app_name"
+            tools:ignore="RtlHardcoded" />
 
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+    <ProgressBar
+        android:id="@+id/url_load_progress_bar"
+        style="?android:attr/progressBarStyleLargeInverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 </RelativeLayout>

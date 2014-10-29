@@ -4,6 +4,8 @@ package com.hoard.hoard;
  * Created by AndreSilva on 21/10/14
  */
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,46 +13,116 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
     /**
-     * The number of pages (wizard steps) to show in this demo.
+     * View Pager Stuff
      */
-    private static final int NUM_PAGES = 100;
+    private ViewPager viewPager;
 
     /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
+     * GestureDetector
      */
-    private ViewPager mPager;
+    private GestureDetector gestureDetector;
 
     /**
-     * The pager adapter, which provides the pages to the view pager widget.
+     * Progress Indicator
      */
-    private PagerAdapter mPagerAdapter;
+    private ProgressBar urlLoadProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        urlLoadProgressBar = (ProgressBar) findViewById(R.id.url_load_progress_bar);
+        /*
+        Instantiate a ViewPager and a PagerAdapter.\
+        */
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
+        /*
+        The pager adapter, which provides the pages to the view pager widget.
+        */
+        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mPagerAdapter);
+        viewPager.setOnPageChangeListener(new ProductOnPageChangeListener());
+
+        gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
+            public void onLongPress(MotionEvent e) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.thisiswhyimbroke.com/new/"));
+                startActivity(browserIntent);
+                urlLoadProgressBar.setVisibility(View.GONE);
+            }
+        });
+
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                float x = motionEvent.getX(), y = motionEvent.getY();
+                int action = motionEvent.getAction();
+
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.i("MainActivty>OnTouch: ", "X: " + x + "Y: " + y);
+                        urlLoadProgressBar.setX(x-15);
+                        urlLoadProgressBar.setY(y-15);
+                        urlLoadProgressBar.setVisibility(View.VISIBLE);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        urlLoadProgressBar.setVisibility(View.GONE);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        urlLoadProgressBar.setVisibility(View.GONE);
+                        break;
+                }
+
+                return gestureDetector.onTouchEvent(motionEvent);
+            }
+        });
+
+        /*
+        Instantiate the buttons from the view
+         */
+        ImageButton settings = (ImageButton) findViewById(R.id.settings_button);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Settings",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        ImageButton favorites = (ImageButton) findViewById(R.id.favorite_button);
+
+        favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Favorites",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
+        if (viewPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }
     }
 
@@ -65,12 +137,31 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
+            Log.i("MainActivity>ScreenSlidePagerAdapter:getItem", " " + position);
             return new ProductSlidePageFragment();
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return Integer.MAX_VALUE;
         }
+    }
+
+    /**
+     * Get the current view position from the ViewPager.
+     */
+    public static class ProductOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+        private int currentPage;
+
+        @Override
+        public void onPageSelected(int position) {
+            // current page from the actual position
+            currentPage = position;
+            Log.i("MainActivity>ProdcutOnPageChangeListener:onPageSelected", " " + currentPage);
+        }
+
+        /*public int getCurrentPage() {
+            return currentPage;
+        }*/
     }
 }

@@ -6,4 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="oard"><i>oard</i></string>
 
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+
 </resources>
