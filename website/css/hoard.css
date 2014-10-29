@@ -10,6 +10,14 @@ body {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+.sidebar {
+	
+}
+
+.ui.form{
+	min-height:100% !important;
+}
+
 #hoard {
   background-image: url("../images/wallpaper2.jpeg");
 }
@@ -19,10 +27,18 @@ body {
   font-size: 32px;
   background-color: #FC5447;
   width: 100%;
-  position: fixed;
+  
   top: 0;
   left: 0;
   z-index: 998;
+}
+
+.name , .date{
+	color: rgba(0, 0, 0, 1); !important
+}
+
+.shaded-bg {
+	background-color: rgba(240, 240, 240, 0.7);
 }
 
 .middle {

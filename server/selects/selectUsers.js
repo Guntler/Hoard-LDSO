@@ -7,14 +7,14 @@ var UserAccount = require("./models/UserAccount.js");
 
 //mudar as credenciais consoante o user que estiverem a ser usados
 //neste caso utilizador:postgres; pass: armindo; ip:localhost:5432; nome da db : hoard_db
-var conString = "pg://postgres:armindo@localhost:5432/hoard_db";
+var conString = "pg://postgres:armindo@localhost:5432/HoardDataBase";
 
 
 var client = new pg.Client(conString);
 	//example query de insert 
 	client.connect();
 	
-	var query = client.query("SELECT * FROM userAccount ORDER BY userid");
+	var query = client.query("SELECT * FROM userAccount ORDER BY userID");
 
 
 	query.on("row", function (row, result) {
@@ -23,7 +23,7 @@ var client = new pg.Client(conString);
 	var users =[];
 	
 	query.on("end", function (result) {
-							console.log(JSON.stringify(result.rows, null, "    "));
+							//console.log(JSON.stringify(result.rows, null, "    "));
 							
 									for(i=0; i<result.rows.length; i++)
 				{
