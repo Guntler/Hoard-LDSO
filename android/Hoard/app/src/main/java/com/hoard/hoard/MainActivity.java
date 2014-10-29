@@ -6,6 +6,7 @@ package com.hoard.hoard;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -37,21 +38,22 @@ public class MainActivity extends FragmentActivity {
      * Progress Indicator
      */
     private ProgressBar urlLoadProgressBar;
+    private boolean visibility = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        urlLoadProgressBar = (ProgressBar) findViewById(R.id.url_load_progress_bar);
         /*
-        Instantiate a ViewPager and a PagerAdapter.\
-        */
+         Instantiate ViewPager and ProgressBar.
+         */
         viewPager = (ViewPager) findViewById(R.id.pager);
+        urlLoadProgressBar = (ProgressBar) findViewById(R.id.url_load_progress_bar);
 
         /*
-        The pager adapter, which provides the pages to the view pager widget.
-        */
+         The pager adapter, which provides the pages to the view pager widget.
+         */
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mPagerAdapter);
         viewPager.setOnPageChangeListener(new ProductOnPageChangeListener());
@@ -73,15 +75,20 @@ public class MainActivity extends FragmentActivity {
 
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
-                        Log.i("MainActivty>OnTouch: ", "X: " + x + "Y: " + y);
-                        urlLoadProgressBar.setX(x-15);
-                        urlLoadProgressBar.setY(y-15);
-                        urlLoadProgressBar.setVisibility(View.VISIBLE);
+                        Log.i("MainActivty>OnTouch: ", "DOWN");
+                        visibility = true;
+                        urlLoadProgressBar.setX(x-30);
+                        urlLoadProgressBar.setY(y-30);
+                        new ShowProgressBarAsyncTask().execute();
                         break;
                     case MotionEvent.ACTION_MOVE:
+                        Log.i("MainActivty>OnTouch: ", "MOVE");
+                        visibility = false;
                         urlLoadProgressBar.setVisibility(View.GONE);
                         break;
                     case MotionEvent.ACTION_UP:
+                        Log.i("MainActivty>OnTouch: ", "UP");
+                        visibility = false;
                         urlLoadProgressBar.setVisibility(View.GONE);
                         break;
                 }
@@ -91,7 +98,7 @@ public class MainActivity extends FragmentActivity {
         });
 
         /*
-        Instantiate the buttons from the view
+         Instantiate the buttons from the view.
          */
         ImageButton settings = (ImageButton) findViewById(R.id.settings_button);
 
@@ -114,6 +121,31 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+    /**
+     * AsyncTask Class for delaying the progress bar appearance.
+     */
+    class ShowProgressBarAsyncTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            if(visibility) {
+                Log.i("Here", "h");
+                urlLoadProgressBar.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (viewPager.getCurrentItem() == 0) {
@@ -127,8 +159,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
+     * A simple pager adapter that represents ScreenSlidePageFragment objects, in sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {

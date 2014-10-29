@@ -1,14 +1,15 @@
 package com.hoard.hoard;
 
+/**
+ * Created by AndreSilva on 29/10/14
+ */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-/**
- * Created by AndreSilva on 29/10/14
- */
 public class LoginActivity extends Activity {
 
     /*
