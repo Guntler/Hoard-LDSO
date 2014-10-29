@@ -10,6 +10,14 @@ body {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+.sidebar {
+	
+}
+
+.ui.form{
+	min-height:100% !important;
+}
+
 #hoard {
   background-image: url("../images/wallpaper2.jpeg");
 }
@@ -29,7 +37,7 @@ body {
 	color: rgba(0, 0, 0, 1); !important
 }
 
-.selection-list {
+.shaded-bg {
 	background-color: rgba(240, 240, 240, 0.7);
 }
 
