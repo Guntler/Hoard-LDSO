@@ -4,18 +4,15 @@
 
 html,
 body {
-  margin: 0px;
-  text-rendering: optimizeLegibility;
-  min-width: 320px;
-  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+	height: 100%;
+	margin: 0px;
+	text-rendering: optimizeLegibility;
+	min-width: 320px;
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .ui.form{
 	min-height:100% !important;
-}
-
-#hoard {
-	background-image: url("../images/wallpaper.jpeg");
 }
 
 .top {
@@ -23,15 +20,27 @@ body {
 	font-size: 32px;
 	background-color: #FC5447;
 	width: 100%;
-	  
 	top: 0;
 	left: 0;
 	z-index: 998;
 }
 
-.middle {
-	margin-top:150px;
-	margin-left:20%;
+.information {
+	min-height: 85%;
+	height: auto;
+	background-image: url("../images/wallpaper.jpeg");
+	background-size: cover;
+}
+
+.infotext {
+	height: 90%;
+	min-height: 600px;
+}
+
+.bottom {
+	height: 10%;
+	text-align: center;
+	width: 100%;
 }
 
 .name , .date{
@@ -53,6 +62,19 @@ body {
 
 .shift-down {
 	margin-top: 15px;
+}
+
+.row.breadcrumb {
+	padding-top: 20px !important;
+}
+
+.ui.breadcrumb {
+	padding: 10px;
+}
+
+.profile-history {
+	margin-bottom: 20px;
+	padding-bottom: 20px !important;
 }
 
 /*******************************
