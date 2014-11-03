@@ -110,6 +110,12 @@ my_http.createServer(function(request,response){
 			}  
 		}
 	});  
+<<<<<<< HEAD
 }).listen(8080);  */
 
 //sys.puts("Server Running on 8080"); 
+=======
+}).listen(8081);  
+
+sys.puts("Server Running on 8080"); 
+>>>>>>> 7ce90e04b682f554a512879e4c379025c96e118c

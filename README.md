@@ -13,3 +13,4 @@ Tecnologias escolhidas:
 
 Server Side - NodeJS    
 Client Side - Ionic (Cordova, AngularJS)
+
