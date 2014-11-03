@@ -3,15 +3,48 @@ var sys = require("sys"),
 my_http = require("http"),  
 path = require("path"),  
 url = require("url"),  
-fs = require("fs"); 
+fs = require("fs"),
+express =  require('express');
 
+var full_path = path.join(process.cwd(),'/../website/');
 
-//create http server 
+	app = express();
+	console.log(full_path);
+	//configure
+	app.set('view engine', 'ejs'); //poderá eventualmente alterado para jade
+	app.set('views', full_path);
+	
+	//define routes
+	app.get('/', function(req, res)
+	{
+		res.render('home');
+			
+	
+	});
+	app.use("/css", express.static(full_path + '/css'));
+	app.use("/javascript", express.static(full_path + '/javascript'));
+	app.use("/semantic/css", express.static(full_path + '/semantic/css'));
+	app.use("/semantic/javascript", express.static(full_path + '/semantic/javascript'));
+	app.use("/semantic/fonts", express.static(full_path + '/semantic/fonts'));
+
+	app.use("/images", express.static(full_path + '/images'));
+	app.use("/jquery", express.static(full_path + '/jquery'));
+
+	
+	app.listen('8080',  function(){
+	
+		console.log('ready ond port 8080');
+	
+	});
+
+/*	
+	//create http server 
 my_http.createServer(function(request,response){  
     var my_path = url.parse(request.url).pathname;  
     var full_path = path.join(process.cwd(),'/../website/');
 	var full_path = path.join(full_path, my_path);
 
+	
 	//check if path exists
     fs.exists(full_path,function(exists){ 
         if(!exists){  //handle database requests here 
@@ -77,6 +110,6 @@ my_http.createServer(function(request,response){
 			}  
 		}
 	});  
-}).listen(8080);  
+}).listen(8080);  */
 
-sys.puts("Server Running on 8080"); 
+//sys.puts("Server Running on 8080"); 
