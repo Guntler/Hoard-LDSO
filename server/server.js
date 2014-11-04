@@ -1,11 +1,11 @@
 //require modules
 var sys = require("sys"),  
-my_http = require("http"),  
-path = require("path"),  
-url = require("url"),  
-fs = require("fs"),
-express =  require('express'), 
-pg  = require("pg");
+var my_http = require("http"),  
+var path = require("path"),  
+var url = require("url"),  
+var fs = require("fs"),
+var express =  require('express'), 
+var pg  = require("pg");
 
 
 var conString = "pg://postgres:armindo@localhost:5432/HoardDataBase";
@@ -23,30 +23,25 @@ var full_path = path.join(process.cwd(),'/../website/');
 	//define routes
 	
 	
-		app.get('/', function(req, res)
+	app.get('/', function(req, res)
 	{       
 	    res.render('index'); 
-		
 	});
 	
 	//Get all users from the DB
-		app.get('/users', function(req, res)
-		{
+	app.get('/users', function(req, res){
 			var client =  new pg.Client(conString);
 			client.connect();
 			result= [];
 			var query = client.query("SELECT * FROM userAccount ORDER BY userID");
 			query.on("row", function (row, result) {
-						result.addRow(row);
-						
-						});
-			query.on("end", function(result)
-					{
-						res.send(result.rows);
-					}
-					);
-		}
-		);
+					result.addRow(row);	
+				});
+			query.on("end", function(result){
+					res.send(result.rows);
+				}
+			);
+	});
 	//Get all products from the DB
 	//Get all EditRequest from the DB
 	//Get all FavoriteProducts of a User 
@@ -66,7 +61,7 @@ var full_path = path.join(process.cwd(),'/../website/');
 	
 	app.listen('8080',  function(){
 	
-		console.log('ready ond port 8080');
+		console.log('ready on port 8080');
 	
 	});
 
