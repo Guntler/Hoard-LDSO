@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="hoard">
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
@@ -15,6 +15,9 @@
 		<!-- Fonts -->
 		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700' rel='stylesheet' type='text/css'>
 
+		<!-- AngularJS -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 		<!-- JQuery -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.js"></script>
@@ -25,138 +28,9 @@
 
 		<!-- Hoard JS and CSS -->
 		<link rel="stylesheet" type="text/css" href="./css/hoard.css">
-		<script src="./javascript/hoard.js"></script>
+		<script src="./javascript/main.js"></script>
 	</head>
 	<body id="hoard">
-		<!-- SideBar with Form for Sign In-->
-		<div class="ui right red sidebar signin">
-			<div class="ui form segment" href="./p/user/frontpage.html">
-				<div class="field">
-					<label>Email</label>
-					<div class="ui left labeled icon input">
-						<input class="signin defaultFocus" type="text" placeholder="Email">
-						<i class="user icon"></i>
-						<div class="ui corner label">
-							<i class="icon asterisk"></i>
-						</div>
-					</div>
-				</div>
-				
-				<div class="field">
-					<label>Password</label>
-					<div class="ui left labeled icon input">
-						<input type="password" placeholder="Password">
-						<i class="lock icon"></i>
-						<div class="ui corner label">
-							<i class="icon asterisk"></i>
-						</div>
-					</div>
-				</div>
-				
-				<div class="ui error message">
-					<div class="header">We noticed some issues</div>
-				</div>
-				
-				<div class="ui center aligned grid">
-					<a href="./p/user/frontpage.html">
-						<div class="ui red submit button">
-							Sign In
-						</div>
-					</a>
-				</div>
-				<div class="ui divider"></div>
-				
-				<div class="ui center aligned grid">
-					<div class="ui button facebook">
-						<i class="facebook icon"></i>
-						Facebook Sign In
-					</div>
-				</div>
-				<div class="ui divider"></div>
-			</div>
-		</div>
-
-		<!-- SideBar with Form for Sign Up-->
-		<div class="ui right red signup sidebar">
-			<div class="ui form segment">
-				<div class="field">
-					<label>Email</label>
-					<div class="ui left labeled icon input">
-						<input class="signup defaultFocus" type="text" placeholder="Email">
-						<i class="user icon"></i>
-						<div class="ui corner label">
-							<i class="icon asterisk"></i>
-						</div>
-					</div>
-				</div>
-				
-				<div class="field">
-					<label>Password</label>
-					<div class="ui left labeled icon input">
-						<input type="password" placeholder="Password">
-						<i class="lock icon"></i>
-						<div class="ui corner label">
-							<i class="icon asterisk"></i>
-						</div>
-					</div>
-				</div>
-				
-				<div class="field">
-					<label>Confirm Password</label>
-					<div class="ui left labeled icon input">
-						<input type="password" placeholder="Password">
-						<i class="lock icon"></i>
-						<div class="ui corner label">
-							<i class="icon asterisk"></i>
-						</div>
-					</div>
-				</div>
-				
-				<div class="ui error message">
-					<div class="header">We noticed some issues</div>
-				</div>
-				
-				<div class="ui center aligned grid">
-					<div class="ui red submit button center">Sign Up</div>
-				</div>
-				<div class="ui divider"></div>
-				
-				<div class="ui center aligned grid">
-					<div class="ui facebook button">
-						<i class="facebook icon"></i>
-						Facebook Sign Up
-					</div>
-				</div>
-				<div class="ui divider"></div>
-			</div>
-		</div>
-
-		
-		<div class="top ui page grid">
-			<div class="four wide column left aligned">
-				<h1>hoard</h1>
-			</div>
-			
-			<div class="twelve wide column right aligned"> 
-				<div class="hoard red toggle button signup shift-down">
-					Sign Up
-				</div>
-				
-				<div class="hoard red toggle button signin shift-down">
-					Sign In
-				</div>
-			</div>
-		</div>
-		
-		<div class="information">
-			<div class="infotext">
-			</div>
-			<div class="bottom ui center aligned grid">
-				<br>
-				<h4 class="ui header">
-					All rights reserved, Hoard Lda
-				</h4>
-			</div>
-		</div>
+		<div ng-view></div>
 	</body>
 </html>

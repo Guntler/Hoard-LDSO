@@ -142,7 +142,7 @@ hoard.controller('FrontpageController', function($scope) {
 hoard.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
 		controller: 'WelcomeController',
-		templateUrl: 'p/user/welcome.html'
+		templateUrl: 'welcome.ejs'
 	}).
 	when('/user/frontpage', {
 		controller: 'FrontpageController',
