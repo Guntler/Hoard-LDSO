@@ -1,11 +1,11 @@
 //require modules
 var sys = require("sys"),  
-var my_http = require("http"),  
-var path = require("path"),  
-var url = require("url"),  
-var fs = require("fs"),
-var express =  require('express'), 
-var pg  = require("pg");
+my_http = require("http"),  
+path = require("path"),  
+url = require("url"),  
+fs = require("fs"),
+express =  require('express'), 
+pg  = require("pg");
 
 
 var conString = "pg://postgres:armindo@localhost:5432/HoardDataBase";
