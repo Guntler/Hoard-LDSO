@@ -26,7 +26,7 @@ body {
 }
 
 .information {
-	min-height: 85%;
+	min-height: 1000px;
 	height: auto;
 	background-image: url("../images/wallpaper.jpeg");
 	background-size: cover;
@@ -34,7 +34,7 @@ body {
 
 .infotext {
 	height: 90%;
-	min-height: 600px;
+	min-height: 950px;
 }
 
 .bottom {
