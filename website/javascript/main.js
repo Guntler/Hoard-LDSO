@@ -142,23 +142,23 @@ hoard.controller('FrontpageController', function($scope) {
 hoard.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
 		controller: 'WelcomeController',
-		templateUrl: 'welcome.ejs'
+		templateUrl: 'p/user/welcome.ejs'
 	}).
 	when('/user/frontpage', {
 		controller: 'FrontpageController',
-		templateUrl: 'p/user/frontpage.html'
+		templateUrl: 'p/user/frontpage.ejs'
 	}).
 	when('/user/profile', {
 		controller: 'FrontpageController',
-		templateUrl: 'p/user/profile.html'
+		templateUrl: 'p/user/profile.ejs'
 	}).
 	when('/product/profile', {
 		controller: 'FrontpageController',
-		templateUrl: 'p/product/profile.html'
+		templateUrl: 'p/product/profile.ejs'
 	}).
 	when('/user/edit', {
 		controller: 'FrontpageController',
-		templateUrl: 'p/user/edit.html'
+		templateUrl: 'p/user/edit.ejs'
 	}).
 	otherwise({template: '<h1> 404 Page Not Found </h1>'});
 }]);
