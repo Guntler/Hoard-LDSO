@@ -47,7 +47,7 @@ var full_path = path.join(process.cwd(),'/../website/');
 	//Get all FavoriteProducts of a User 
 	//Get the category product from DB
 
-
+/*
 	app.use("/css", express.static(full_path + '/css'));
 	app.use("/javascript", express.static(full_path + '/javascript'));
 	app.use("/images", express.static(full_path + '/images'));
@@ -58,7 +58,7 @@ var full_path = path.join(process.cwd(),'/../website/');
 	app.use("/semantic/fonts", express.static(full_path + '/semantic/fonts'));
 	app.use("/semantic/images", express.static(full_path + '/semantic/images'));
 	
-	
+	*/
 	app.listen('8080',  function(){
 	
 		console.log('ready on port 8080');
