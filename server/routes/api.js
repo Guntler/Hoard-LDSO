@@ -1,5 +1,11 @@
+pg  = require("pg");
+
+var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/database";
+//var conString = "pg://postgres:armindo@localhost:5432/HoardDataBase";
+
 //Get all users from the DB
 exports.users = function(req, res){
+		console.log("hi");
 		var client =  new pg.Client(conString);
 		client.connect();
 		result= [];

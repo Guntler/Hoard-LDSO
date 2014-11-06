@@ -1,9 +1,6 @@
 var pg = require("pg");
 var favoriteProducts = require("./models/FavoriteProduct.js");
 
-
-
-
 //mudar as credenciais consoante o user que estiverem a ser usados
 //neste caso utilizador:postgres; pass: armindo; ip:localhost:5432; nome da db : hoard_db
 var conString = "pg://postgres:armindo@localhost:5432/hoard_db";
