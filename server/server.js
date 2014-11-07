@@ -1,6 +1,10 @@
 //require modules
-path = require("path"),
+var path = require("path"),
 express = require('express'), 
+passport = require('passport'),
+expressSession = require('express-session'),
+bodyParser = require('body-parser'),
+cookieParser = require('cookie-parser'),
 rt = require("./routes");
 
 var full_path = path.join(process.cwd(),'/../website/');
