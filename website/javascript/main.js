@@ -29,7 +29,7 @@ hoard.controller('WelcomeController',function($scope) {
 	};
 	
 	$scope.hideSidebar = function(e) {
-		if (!$(e.target).parents('.signin.sidebar').length && $('.signin.sidebar').hasClass('beingUsed')){
+		if (!$(e.target).parents('.signin.sidebar').length && $('.signin.sidebar').hasClass('beingUsed') &&  !$(e.target).hasClass('hoard')){
 			$('.signin.sidebar').removeClass('beingUsed');
 			var transition = $(this).data('transition');
 			$('.signin.sidebar')
@@ -38,7 +38,7 @@ hoard.controller('WelcomeController',function($scope) {
 					mobileTransition : transition
 				})
 			.sidebar('hide');
-		} else if (!$(e.target).parents('.signup.sidebar').length && $('.signup.sidebar').hasClass('beingUsed')){
+		} else if (!$(e.target).parents('.signup.sidebar').length && $('.signup.sidebar').hasClass('beingUsed') && !$(e.target).hasClass('hoard')){
 			$('.signup.sidebar').removeClass('beingUsed');
 			var transition = $(this).data('transition');
 			$('.signup.sidebar')
@@ -109,7 +109,7 @@ hoard.controller('FrontpageController', function($scope) {
 	};
 	
 	$scope.hideSidebar = function(e) {
-		if (!$(e.target).parents('.signin.sidebar').length && $('.sidebar.edit-profile').hasClass('beingUsed')){
+		if (!$(e.target).parents('.signin.sidebar').length && $('.sidebar.edit-profile').hasClass('beingUsed') && !$(e.target).hasClass('edit-profile')){
 				$('.sidebar.edit-profile').removeClass('beingUsed');
 				var transition = $(this).data('transition');
 				$('.sidebar.edit-profile')
