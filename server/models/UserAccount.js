@@ -1,7 +1,7 @@
-var UserAccount = function (id, email, password, permissions, registerdate, favorites, loggedin) {
+var UserAccount = function (id, email/*, password*/, permissions, registerdate, favorites, loggedin) {
 	this.id = id;
 	this.email = email;
-	this.password = password;
+	//this.password = password;
 	this.permissions = permissions;
 	this.registerdate = registerdate;
 	this.favorites = favorites;
@@ -12,7 +12,7 @@ var UserAccount = function (id, email, password, permissions, registerdate, favo
 
 UserAccount.prototype.id = -1;
 UserAccount.prototype.name = "";
-UserAccount.prototype.password = "";
+//UserAccount.prototype.password = "";
 UserAccount.prototype.permissions = "";
 UserAccount.prototype.registerdate = "";
 UserAccount.prototype.favorites = [];

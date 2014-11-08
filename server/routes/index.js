@@ -30,6 +30,11 @@ module.exports = function(app, passport) {
 		res.render('p/product/' + name, {user: req.user});
 	});
 	
+	app.get('/p/:name', function(req,res) {
+		var name = req.params.name;
+		res.render('p/' + name);
+	});
+	
 	app.get('/api/users/all', api.users);
 	app.get('/api/users/id/:id', api.userById);
 	app.get('/api/users/email/:email', api.userByEmail);
@@ -42,12 +47,12 @@ module.exports = function(app, passport) {
 	});
 	
 	//----------- POSTS -----------//
-	
+	app.post('/actions/user/signup', function() {console.log("signing up");});
 }
 
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated())
 		return next();
 		
-	res.redirect('/');
+	res.sendStatus(401);
 }

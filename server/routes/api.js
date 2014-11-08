@@ -44,11 +44,13 @@ exports.checkLogin = function(req, res){
 
 //Check if a user exists
 exports.userExists = function(req, res){
-	users.userExists(req.params.email, function(err, result) {
+	users.userByEmail(req.params.email, function(err, result) {
 		if(err)
 			res.send(err);
-		else 
-			res.send(result);
+		else if (result)
+			res.send({result: true});
+		else
+			res.send({result: false});
 	});
 };
 
@@ -56,9 +58,11 @@ exports.userExists = function(req, res){
 exports.registerUser = function(req, res){
 	users.registerUser(req.params.email, req.params.password, function(err, result) {
 		if(err)
-			res.send(err);
-		else 
-			res.send(result);
+			res.send({result: false});
+		else if(result)
+			res.send({result: true});
+		else
+			res.send({result: false});
 	});
 };
 
