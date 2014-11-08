@@ -6,7 +6,6 @@ var UserAccount = function (id, email, password, permissions, registerdate, favo
 	this.registerdate = registerdate;
 	this.favorites = favorites;
 	this.loggedin = loggedin;
-
 }
 
 
