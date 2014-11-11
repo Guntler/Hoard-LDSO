@@ -7,6 +7,10 @@
     <string name="oard"><i>oard</i></string>
 
     <string name="username_hint">Username</string>
+    <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
+
+    <string name="timeout">10000</string>
+    <string name="login_url">http://178.62.105.68:8081/api/users/login/</string>
 
 </resources>

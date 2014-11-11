@@ -94,7 +94,7 @@ exports.registerUser = function(email, password, callback) {
 		
 		query.on("end", function(result) {
 			done();
-			callback(null,result.rows[0]);	
+			callback(null,result.rows[0]);
 		});
 		query.on("row", function(row, result) {
 			result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
