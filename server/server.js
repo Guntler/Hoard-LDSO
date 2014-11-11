@@ -38,7 +38,7 @@ app.use("/semantic/images", express.static(full_path + '/semantic/images'));
 //define routes
 require('./routes')(app, passport);
 
-app.listen('8080',  function(){
-	console.log('Ready on port 8080');
+app.listen('8081',  function(){ //8081 porque é o jenkins no 8080
+	console.log('Ready on port 8081');
 });
 
