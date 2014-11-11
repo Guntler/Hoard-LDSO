@@ -1,4 +1,5 @@
 var users = require('../api/users');
+var products = require('../api/products');
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
 //Get all users from the DB
@@ -72,18 +73,18 @@ exports.products = function(req, res){
 		if(err)
 			res.send({result: false});
 		else if(result)
-			res.send({result: true});
+			res.send(result);
 		else
 			res.send({result: false});
 	});
 };
 
-exports.getSomeProducts = function(req, res){
+exports.someProducts = function(req, res){
 	products.getSomeProducts(function(err, result) {
 		if(err)
 			res.send({result: false});
 		else if(result)
-			res.send({result: true});
+			res.send(result);
 		else
 			res.send({result: false});
 	});
