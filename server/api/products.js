@@ -30,7 +30,7 @@ exports.findById = function(id, callback) {
 	});
 };
 
-exports.getSomeProducts = function(email, callback) {
+exports.getSomeProducts = function(callback) {
 	pg.connect(conString, function(err, product, done) {
 		if(err) {
 			return callback(err, null);
