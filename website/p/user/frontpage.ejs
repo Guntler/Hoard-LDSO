@@ -103,17 +103,21 @@
 				</div>
 			</div>
 			<div ng-class="{active:tab === 'products'}" class="ui divided selection list tab">
+				<button class="bottom-button select-button">Select All</button>
+				<button class="bottom-button select-button">Select None</button>
+				<button class="bottom-button select-button">Invert Selection</button>
 				<div class="shaded-bg">
-					<a ng-repeat="product in products" href="#/product/profile" class="item">
+					<div ng-repeat="product in products" class="item">
+						<div class="left floated"><input type="checkbox" name="selected"></div>
+						<div class="right floated date"><button class="ui green button tiny">edit</button></div>
 						<div class="right floated date">{{product.date}}</div>
-						<div class="name">
-							{{product.name}}
+						<div class="name" >
+							<a href="#/product/profile">{{product.name}}</a>
 						</div>
-					</a>
+					</div>
 				</div>
-				<button class="ui white submit button">
-					Add Product
-				</button>
+				<button class="bottom-button add-button">Add Product</button>
+				<button class="bottom-button remove-button">Remove Selection</button>
 			</div>
 			
 			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab shaded-bg">
