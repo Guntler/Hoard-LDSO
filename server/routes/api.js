@@ -81,15 +81,26 @@ exports.products = function(req, res){
 	});
 };
 
-exports.someProducts = function(req, res){
-	products.getSomeProducts(function(err, result) {
-		if(err)
-			res.send({result: false});
-		else if(result)
-			res.send(result);
-		else
-			res.send({result: false});
-	});
+exports.viewProducts = function(req, res){
+	if(req.params.n == undefined){
+		products.getSomeProducts(null, function(err, result) {
+			if(err)
+				res.send({result: false});
+			else if(result)
+				res.send(result);
+			else
+				res.send({result: false});
+		});
+	} else {
+		products.getSomeProducts(req.params.n, function(err, result) {
+			if(err)
+				res.send({result: false});
+			else if(result)
+				res.send(result);
+			else
+				res.send({result: false});
+		});
+	}
 };
 
 
@@ -101,7 +112,7 @@ exports.productById = function(req, res){
 			res.send(result);
 	});
 };
-	
+
 //Get all EditRequest from the DB
 //Get all FavoriteProducts of a User 
 //Get the category product from DB
