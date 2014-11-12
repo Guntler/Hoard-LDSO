@@ -57,7 +57,6 @@ module.exports = function(app, passport) {
 										
 	app.post('/actions/user/signin', passport.authenticate("local-signin"), 
 										function(req, res) {
-											console.log("logged in");
 											res.send(req.user);
 										});
 }
