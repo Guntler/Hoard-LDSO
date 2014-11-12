@@ -47,7 +47,16 @@ module.exports = function(app, passport) {
 	});
 	
 	//----------- POSTS -----------//
-	app.post('/actions/user/signup', function() {console.log("signing up");});
+	app.post('/actions/user/signup', passport.authenticate("local-signup"), 
+										function(req, res) {
+											res.send(req.user);
+										});
+										
+	app.post('/actions/user/signin', passport.authenticate("local-signin"), 
+										function(req, res) {
+											console.log("logged in");
+											res.send(req.user);
+										});
 }
 
 function isLoggedIn(req, res, next) {

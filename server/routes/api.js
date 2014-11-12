@@ -37,8 +37,10 @@ exports.checkLogin = function(req, res){
 	users.checkLogin(req.params.email, req.params.password, function(err, result) {
 		if(err)
 			res.send(err);
-		else 
-			res.send(result);
+		else if (result)
+			res.send({result: true});
+		else
+			res.send({result: false});
 	});
 };
 
