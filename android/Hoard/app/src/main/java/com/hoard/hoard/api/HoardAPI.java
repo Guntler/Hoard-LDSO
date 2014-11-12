@@ -51,6 +51,27 @@ public class HoardAPI {
         }
     }
 
+    public Boolean registerEmailPassword(String email, String password) {
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.register_url)+email+"/"+password;
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+            String baseUrl = request.getUrl().toString();
+
+            Log.d("Request: ", baseUrl);
+
+            User user = request.execute().parseAs(User.class);
+            return user.getResult();
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>registerEmailPassword>Exception:", errorMessage);
+            return false;
+        }
+    }
+
     public static HttpRequestFactory createRequestFactory(final HttpTransport transport) {
         return transport.createRequestFactory(new HttpRequestInitializer() {
             public void initialize(HttpRequest request) {

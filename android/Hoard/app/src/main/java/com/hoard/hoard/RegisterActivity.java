@@ -12,14 +12,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.hoard.hoard.api.HoardAPI;
 
-public class LoginActivity extends Activity {
+public class RegisterActivity extends Activity {
 
     /*
      * Edit Texts Email Password
@@ -27,10 +26,9 @@ public class LoginActivity extends Activity {
     EditText email, password;
 
     /*
-     * Log In and  Register Buttons
+     * Register Button
      */
-    ImageButton logInButton;
-    Button registerButton;
+    ImageButton registerButton;
 
     /*
      * Progress Bar
@@ -38,7 +36,7 @@ public class LoginActivity extends Activity {
     ProgressBar progressBar;
 
     /*
-     * API Class and Handler Valid
+     * API Class
      */
     HoardAPI hoardAPI;
     Boolean valid = false;
@@ -51,37 +49,28 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         hoardAPI = new HoardAPI(this);
 
-        email = (EditText) findViewById(R.id.login_email);
-        password = (EditText) findViewById(R.id.login_password);
+        email = (EditText) findViewById(R.id.register_email);
+        password = (EditText) findViewById(R.id.register_password);
 
-        logInButton = (ImageButton) findViewById(R.id.login_button);
-        logInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logInButton.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                new CheckLoginAsyncTask().execute();
-            }
-        });
-
-        registerButton = (Button) findViewById(R.id.login_register_button);
+        registerButton = (ImageButton) findViewById(R.id.register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(i);
+                registerButton.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                new RegisterAsyncTask().execute();
             }
         });
 
-        progressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.register_progress_bar);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setMessage(R.string.dialog_fail_login_message)
-                .setTitle(R.string.dialog_fail_login_title);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+        builder.setMessage(R.string.dialog_fail_register_message)
+                .setTitle(R.string.dialog_fail_register_title);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
@@ -98,8 +87,7 @@ public class LoginActivity extends Activity {
         alertDialog.dismiss();
     }
 
-
-    class CheckLoginAsyncTask extends AsyncTask<String, String, String> {
+    class RegisterAsyncTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -108,13 +96,13 @@ public class LoginActivity extends Activity {
 
         protected String doInBackground(String... args) {
             try {
-                Log.i("LoginActivity>CheckLoginAsyncTask: Username - ", email.getText().toString());
-                Log.i("LoginActivity>CheckLoginAsyncTask: Password - ", password.getText().toString());
-                valid = hoardAPI.checkLoginForEmailPassword(email.getText().toString(), password.getText().toString());
+                Log.i("RegisterActivity>RegisterAsyncTask: Username - ", email.getText().toString());
+                Log.i("RegisterActivity>RegisterAsyncTask: Password - ", password.getText().toString());
+                valid = hoardAPI.registerEmailPassword(email.getText().toString(), password.getText().toString());
 
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("LoginActivity>CheckLoginAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("RegisterActivity>RegisterAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;
@@ -122,13 +110,15 @@ public class LoginActivity extends Activity {
 
         protected void onPostExecute(String file_url) {
             if(valid) {
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
 
                 finish();
             } else {
                 progressBar.setVisibility(View.GONE);
-                logInButton.setVisibility(View.VISIBLE);
+                registerButton.setVisibility(View.VISIBLE);
+
                 alertDialog.show();
             }
         }
