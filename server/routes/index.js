@@ -46,6 +46,11 @@ module.exports = function(app, passport) {
 	app.get('/api/products/viewProducts', api.viewProducts);
 	app.get('/api/products/id/:id', api.productById);
 	
+	app.get('/api/users/:id/favoriteProducts/', api.favoriteProductsById);
+	
+	
+	
+	
 	app.get('*', function(req, res){
 		res.render('index');
 	});
@@ -58,7 +63,6 @@ module.exports = function(app, passport) {
 										
 	app.post('/actions/user/signin', passport.authenticate("local-signin"), 
 										function(req, res) {
-											console.log("logged in");
 											res.send(req.user);
 										});
 }
