@@ -16,19 +16,11 @@ hoard.service('sessionService', function($http, $location) {
 				$location.url('/');
 			});
 		},
+
 		signout: function() {
 			
 		},
-		signup: function(email,password,confirmPwd) {
-			var Url = "/actions/user/signup";
-			var info = {email: email, password: password}; // might not be needed.
-			$http.post(Url, info).success(function(data){
-				user = data;
-				$location.url('/user/frontpage');
-			}).error(function(data,status,headers, config) {
-				$location.url('/');
-			});
-		},
+
 		getUser: function() {
 			return user;
 		}
@@ -36,25 +28,9 @@ hoard.service('sessionService', function($http, $location) {
 });
 // ----------- Welcome page sidebar controller -------------//
 hoard.controller('WelcomeController',function($scope,sessionService) {
-	$scope.showSignupSidebar = function() {
-		var transition = $(this).data('transition');
-		$('.signup.sidebar')
-			.sidebar('setting', {
-				transition       : transition,
-				mobileTransition : transition
-			})
-			.sidebar('toggle');
-		$('.signup.defaultFocus').focus();
-		$(".signup.sidebar").addClass('beingUsed');
-	};
 	
 	$scope.password = "";
 	$scope.email = "";
-	$scope.confirmPwd = "";
-	
-	$scope.signup = function() {
-		sessionService.signup($scope.email,$scope.password,$scope.confirmPwd);
-	}
 	
 	$scope.signin = function() {
 		sessionService.signin($scope.email,$scope.password);
@@ -82,28 +58,10 @@ hoard.controller('WelcomeController',function($scope,sessionService) {
 					mobileTransition : transition
 				})
 			.sidebar('hide');
-		} else if (!$(e.target).parents('.signup.sidebar').length && $('.signup.sidebar').hasClass('beingUsed') && !$(e.target).hasClass('hoard')){
-			$('.signup.sidebar').removeClass('beingUsed');
-			var transition = $(this).data('transition');
-			$('.signup.sidebar')
-				.sidebar('setting', {
-					transition       : transition,
-					mobileTransition : transition
-				})
-			.sidebar('hide');
 		}
 	}
 	
-	var init = function () {
-		$('.signup.sidebar').removeClass('beingUsed');
-		var transition1 = $(this).data('transition');
-		$('.signup.sidebar')
-			.sidebar('setting', {
-				transition       : transition1,
-				mobileTransition : transition1
-			})
-			.sidebar('hide');
-			
+	var init = function () {	
 		$('.signin.sidebar').removeClass('beingUsed');
 		var transition2 = $(this).data('transition');
 		$('.signin.sidebar')

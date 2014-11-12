@@ -30,14 +30,18 @@ exports.findById = function(id, callback) {
 	});
 };
 
-exports.getSomeProducts = function(callback) {
+exports.getSomeProducts = function(n, callback) {
 	pg.connect(conString, function(err, product, done) {
 		if(err) {
 			return callback(err, null);
 		}
-		
-		var query = product.query("SELECT * FROM product WHERE random() < 0.01 LIMIT 20");
-		
+
+		if(n == null){
+			var query = product.query("SELECT * FROM product OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT 5");
+		} else {
+			var query = product.query("SELECT * FROM product OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT $1", [n]);
+		}
+
 		query.on("row", function(row, result) {
 			result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
 		});
