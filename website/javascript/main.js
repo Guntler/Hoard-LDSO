@@ -2,8 +2,40 @@
 
 var hoard = angular.module('hoard', ['ngRoute']);
 
+hoard.service('sessionService', function($http, $location) {
+	var user = null;
+	
+	return {
+		signin: function(email, password) {
+			var Url = "/actions/user/signin";
+			var info = {email: email, password: password};
+			$http.post(Url, info).success(function(data){
+				$location.url('/user/frontpage');
+				user = data;
+			}).error(function(data,status,headers, config) {
+				$location.url('/');
+			});
+		},
+		signout: function() {
+			
+		},
+		signup: function(email,password,confirmPwd) {
+			var Url = "/actions/user/signup";
+			var info = {email: email, password: password}; // might not be needed.
+			$http.post(Url, info).success(function(data){
+				user = data;
+				$location.url('/user/frontpage');
+			}).error(function(data,status,headers, config) {
+				$location.url('/');
+			});
+		},
+		getUser: function() {
+			return user;
+		}
+	}
+});
 // ----------- Welcome page sidebar controller -------------//
-hoard.controller('WelcomeController',function($scope) {
+hoard.controller('WelcomeController',function($scope,sessionService) {
 	$scope.showSignupSidebar = function() {
 		var transition = $(this).data('transition');
 		$('.signup.sidebar')
@@ -15,6 +47,18 @@ hoard.controller('WelcomeController',function($scope) {
 		$('.signup.defaultFocus').focus();
 		$(".signup.sidebar").addClass('beingUsed');
 	};
+	
+	$scope.password = "";
+	$scope.email = "";
+	$scope.confirmPwd = "";
+	
+	$scope.signup = function() {
+		sessionService.signup($scope.email,$scope.password,$scope.confirmPwd);
+	}
+	
+	$scope.signin = function() {
+		sessionService.signin($scope.email,$scope.password);
+	}
 	
 	$scope.showSigninSidebar = function() {
 		var transition = $(this).data('transition');
@@ -77,8 +121,9 @@ hoard.controller('WelcomeController',function($scope) {
 
 // -------------- Logged in controller ------------- //
 
-hoard.controller('FrontpageController', function($scope) {
+hoard.controller('FrontpageController', function($scope, sessionService) {
 	$scope.tab = "products";
+	$scope.user = sessionService.getUser();
 	
 	$scope.users = [];
 	$scope.users.push({name: 'User1', date: 'Sep 14, 2014'});
@@ -139,7 +184,7 @@ hoard.controller('FrontpageController', function($scope) {
 
 // ------------ Routing ------------ //
 
-hoard.config(['$routeProvider', function($routeProvider) {
+hoard.config(/*['$routeProvider', */function($routeProvider, $httpProvider) {
 	$routeProvider.when('/', {
 		controller: 'WelcomeController',
 		templateUrl: 'p/welcome.ejs'
@@ -161,4 +206,20 @@ hoard.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'p/user/edit.ejs'
 	}).
 	otherwise({template: '<h1> 404 Page Not Found </h1>'});
-}]);
+	
+	$httpProvider.responseInterceptors.push(function($q, $location) { 
+		return function(promise) { 
+			return promise.then( 
+			// Success: just return the response 
+			function(response){ 
+				return response; 
+			}, 
+			// Error: check the error status to get only the 401 
+			function(response) { 
+				if (response.status === 401) 
+					$location.url('/'); 
+				return $q.reject(response); 
+			}); 
+		} 
+	});
+}/*]*/);
