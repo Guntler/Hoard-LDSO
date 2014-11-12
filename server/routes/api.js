@@ -1,5 +1,6 @@
 var users = require('../api/users');
 var products = require('../api/products');
+var editrequests = require('../api/editrequests');
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
 //Get all users from the DB
@@ -101,5 +102,36 @@ exports.productById = function(req, res){
 };
 	
 //Get all EditRequest from the DB
+exports.getAllEditRequestsDate = function(req, res){
+	editRequests.getAllByDate(function(err, result) {
+		if(err)
+			res.send({result: false});
+		else if(result)
+			res.send(result);
+		else
+			res.send({result: false});
+	});
+};
+
+exports.editrequests = function(req, res){
+	editRequests.getAllById(function(err, result) {
+		if(err)
+			res.send({result: false});
+		else if(result)
+			res.send(result);
+		else
+			res.send({result: false});
+	});
+};
+
+exports.getEditRequestByEditType = function(req, res){
+	editrequests.findByEditType(req.params.edittype, function(err, result) {
+		if(err)
+			res.send(err);
+		else 
+			res.send(result);
+	});
+};
+
 //Get all FavoriteProducts of a User 
 //Get the category product from DB
