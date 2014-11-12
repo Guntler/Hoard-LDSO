@@ -45,9 +45,8 @@ module.exports = function(app, passport) {
 	app.get('/api/products/view', api.someProducts);
 	app.get('/api/products/id/:id', api.productById);
 	
-	app.get('/api/users/:id/favoriteProducts/', api.favoriteProductsById);
-	
-	
+	app.get('/api/users/:id/favoriteProducts', api.favoriteProductsById);
+
 	
 	
 	app.get('*', function(req, res){

@@ -1,6 +1,7 @@
 var users = require('../api/users');
 var products = require('../api/products');
 var favoriteProducts =  require('../api/favoriteProducts');
+var productsCategory =  require('../api/productCategory');
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
 //Get all users from the DB
@@ -117,6 +118,5 @@ favoriteProducts.findById(req.params.id, function(err, result) {
 
 
 }
-
-
 //Get the category product from DB
+
