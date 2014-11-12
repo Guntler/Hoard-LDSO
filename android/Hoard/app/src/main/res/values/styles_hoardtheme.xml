@@ -19,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Hoardtheme" parent="@android:style/Theme.Holo">
+    <style name="Theme.Hoardtheme" parent="@android:style/Theme.Holo.NoActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_hoardtheme</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Hoardtheme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Hoardtheme</item>
@@ -29,7 +29,7 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_hoardtheme</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_hoardtheme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Hoardtheme</item>
-        
+        <item name="android:windowNoTitle">true</item>
         
     </style>
 

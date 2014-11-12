@@ -1,11 +1,11 @@
 <!-- SideBar with Form for Sign In-->
 <div ng-mousedown="hideSidebar($event)">
 	<div class="ui right red sidebar signin">
-		<form action="/actions/user/signin" class="ui form segment">
+		<form class="ui form segment">
 			<div class="field">
 				<label>Email</label>
 				<div class="ui left labeled icon input">
-					<input class="signin defaultFocus" type="text" placeholder="Email" name="email">
+					<input ng-model="email" class="signin defaultFocus" type="text" placeholder="Email" name="email">
 					<i class="user icon"></i>
 					<div class="ui corner label">
 						<i class="icon asterisk"></i>
@@ -16,7 +16,7 @@
 			<div class="field">
 				<label>Password</label>
 				<div class="ui left labeled icon input">
-					<input type="password" placeholder="Password" name="password">
+					<input ng-model="password" type="password" placeholder="Password" name="password">
 					<i class="lock icon"></i>
 					<div class="ui corner label">
 						<i class="icon asterisk"></i>
@@ -29,11 +29,9 @@
 			</div>
 			
 			<div class="ui center aligned grid">
-				<a href="#/user/frontpage">
-					<div class="ui red submit button">
+					<button ng-click="signin(email,password)" type="submit" class="ui red submit button">
 						Sign In
-					</div>
-				</a>
+					</button>
 			</div>
 			<div class="ui divider"></div>
 			
@@ -49,10 +47,10 @@
 
 	<!-- SideBar with Form for Sign Up-->
 	<div class="ui right red signup sidebar">
-		<form action="/actions/user/signup" method="post" class="ui form segment">
+		<form class="ui form segment">
 			<div class="field">
 				<label>Email</label>
-				<div class="ui left labeled icon input">
+				<div ng-model="email" class="ui left labeled icon input">
 					<input class="signup defaultFocus" type="text" placeholder="Email" name="email">
 					<i class="user icon"></i>
 					<div class="ui corner label">
@@ -64,7 +62,7 @@
 			<div class="field">
 				<label>Password</label>
 				<div class="ui left labeled icon input">
-					<input type="password" placeholder="Password" name="password">
+					<input ng-model="password" type="password" placeholder="Password" name="password">
 					<i class="lock icon"></i>
 					<div class="ui corner label">
 						<i class="icon asterisk"></i>
@@ -75,7 +73,7 @@
 			<div class="field">
 				<label>Confirm Password</label>
 				<div class="ui left labeled icon input">
-					<input type="password" placeholder="Password" name="confirmpassword">
+					<input ng-model="confirmPwd" type="password" placeholder="Password" name="confirmpassword">
 					<i class="lock icon"></i>
 					<div class="ui corner label">
 						<i class="icon asterisk"></i>
@@ -88,7 +86,7 @@
 			</div>
 			
 			<div class="ui center aligned grid">
-				<button type="submit" class="ui red submit button center">Sign Up</button>
+				<button ng-click="signup(email, password, confirmPwd)" class="ui red submit button center">Sign Up</button>
 			</div>
 			<div class="ui divider"></div>
 			

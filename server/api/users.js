@@ -72,14 +72,14 @@ exports.checkLogin = function(email, password, callback) {
 		query.on("end", function(result) {
 			done();
 			if(result.rows.length < 1)
-				callback(null, {result: false});
+				callback(null, null);
 			else
-				callback(null, {result: true});
+				callback(null, result.rows[0]);
 		});
 		
 		query.on("error", function(err) {
 			done();
-			callback(err, {result: false});
+			callback(err, null);
 		});
 	});
 };
@@ -94,14 +94,17 @@ exports.registerUser = function(email, password, callback) {
 		
 		query.on("end", function(result) {
 			done();
-			callback(null,result.rows[0]);	
+			if(result.rows.length < 1)
+				callback(null, null);
+			else
+				callback(null,result.rows[0]);	
 		});
 		query.on("row", function(row, result) {
 			result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
 		});
 		query.on("error", function(err) {
 			done();
-			callback(null, {result: false});
+			callback(null, null);
 		});
 	});
 };

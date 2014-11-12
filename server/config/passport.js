@@ -27,7 +27,7 @@ module.exports = function(passport) {
 					return done(null, false, req.flash('signupMessage','That email is already registered'));
 				}
 				else {
-					User.registerUser(email, password, function(err, user) {
+					Users.registerUser(email, password, function(err, user) {
 						if(err)
 							return done(err);
 						
@@ -37,4 +37,26 @@ module.exports = function(passport) {
 			});
 		})
 	);
+	
+	passport.use('local-signin', new LocalStrategy(
+		{
+			usernameField : 'email',
+			passwordField : 'password',
+			passReqToCallback : true // allows us to pass back the entire request to the callback
+		},
+		function(req, email, password, done) { // callback with email and password from our form
+        
+        Users.checkLogin(email, password, function(err, user) {
+            // if there are any errors, return the error before anything else
+            if (err)
+                return done(err);
+
+            // if no user is found, return the message
+            if (!user)
+                return done(null, false, req.flash('loginMessage', 'Login failed.'));
+				
+			return done(null,user);
+		});
+
+    }));
 }

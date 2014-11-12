@@ -57,6 +57,8 @@ CREATE TABLE favoriteProduct (
 	CHECK (lastFavorited <= now())
 );
 
+
+-- description: Link', 'Name', 'Price', 'Category' --
 CREATE TABLE editRequest (
 	requestID SERIAL PRIMARY KEY,
 	productID INTEGER NOT NULL REFERENCES product(productID),
@@ -127,5 +129,6 @@ INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited
 INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 6, 2, true, '2001-02-16 20:38:40');
 INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 6, 3, true, '2001-02-16 20:38:40');
 
+--- EditTypes are 'Delete' 'Edit' 'Add'---
 INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate) VALUES (1, 5, NULL, 'Delete', 'Pending', 'Crappy product. May cause Ebola epidemic.', '2001-02-16 20:38:40');
 
