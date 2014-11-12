@@ -1,4 +1,5 @@
 var users = require('../api/users');
+var products = require('../api/products');
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
 //Get all users from the DB
@@ -69,6 +70,38 @@ exports.registerUser = function(req, res){
 };
 
 //Get all products from the DB
+exports.products = function(req, res){
+	products.getAll(function(err, result) {
+		if(err)
+			res.send({result: false});
+		else if(result)
+			res.send(result);
+		else
+			res.send({result: false});
+	});
+};
+
+exports.someProducts = function(req, res){
+	products.getSomeProducts(function(err, result) {
+		if(err)
+			res.send({result: false});
+		else if(result)
+			res.send(result);
+		else
+			res.send({result: false});
+	});
+};
+
+
+exports.productById = function(req, res){
+	products.findById(req.params.id, function(err, result) {
+		if(err)
+			res.send(err);
+		else 
+			res.send(result);
+	});
+};
+	
 //Get all EditRequest from the DB
 //Get all FavoriteProducts of a User 
 //Get the category product from DB

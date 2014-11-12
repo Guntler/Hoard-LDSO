@@ -41,6 +41,9 @@ module.exports = function(app, passport) {
 	app.get('/api/users/login/:email/:password', api.checkLogin);
 	app.get('/api/users/exists/:email',api.userExists);
 	app.get('/api/users/register/:email/:password', api.registerUser);
+	app.get('/api/products/all', api.products);
+	app.get('/api/products/view', api.someProducts);
+	app.get('/api/products/id/:id', api.productById);
 	
 	app.get('*', function(req, res){
 		res.render('index');
