@@ -1,5 +1,6 @@
 var users = require('../api/users');
 var products = require('../api/products');
+var favoriteProducts =  require('../api/favoriteProducts');
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
 //Get all users from the DB
@@ -104,4 +105,18 @@ exports.productById = function(req, res){
 	
 //Get all EditRequest from the DB
 //Get all FavoriteProducts of a User 
+exports.favoriteProductsById = function(req,res){
+
+favoriteProducts.findById(req.params.id, function(err, result) {
+		if(err)
+			res.send(err);
+		else 
+			res.send(result);
+	});
+
+
+
+}
+
+
 //Get the category product from DB
