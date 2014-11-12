@@ -20,6 +20,7 @@ import java.io.IOException;
 /**
  * Created by AndreSilva on 11/11/14
  */
+
 public class HoardAPI {
 
     Context context;
@@ -33,7 +34,7 @@ public class HoardAPI {
 
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
-        String url = context.getResources().getString(R.string.login_url)+email+"/"+password;
+        String url = context.getResources().getString(R.string.checklogin_url)+email+"/"+password;
 
         try {
             HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
@@ -76,7 +77,7 @@ public class HoardAPI {
         return transport.createRequestFactory(new HttpRequestInitializer() {
             public void initialize(HttpRequest request) {
                 HttpHeaders headers = new HttpHeaders();
-                headers.setUserAgent("Diagnostico");
+                headers.setUserAgent("User");
                 request.setHeaders(headers);
                 JsonObjectParser parser = new JsonObjectParser(new JacksonFactory());
                 request.setParser(parser);

@@ -188,7 +188,7 @@ public class MainActivity extends FragmentActivity {
         public void onPageSelected(int position) {
             // current page from the actual position
             currentPage = position;
-            Log.i("MainActivity>ProdcutOnPageChangeListener:onPageSelected", " " + currentPage);
+            Log.i("MainActivity>ProductOnPageChangeListener:onPageSelected", " " + currentPage);
         }
 
         /*public int getCurrentPage() {

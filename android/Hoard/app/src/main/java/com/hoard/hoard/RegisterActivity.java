@@ -23,7 +23,12 @@ public class RegisterActivity extends Activity {
     /*
      * Edit Texts Email Password
      */
-    EditText email, password;
+    EditText emailEditText, passwordEditText, passwordConfirmationEditText;
+
+    /*
+     * Input Validator
+     */
+    Validation validator;
 
     /*
      * Register Button
@@ -53,16 +58,35 @@ public class RegisterActivity extends Activity {
 
         hoardAPI = new HoardAPI(this);
 
-        email = (EditText) findViewById(R.id.register_email);
-        password = (EditText) findViewById(R.id.register_password);
+        emailEditText = (EditText) findViewById(R.id.register_email);
+        passwordEditText = (EditText) findViewById(R.id.register_password);
+        passwordConfirmationEditText = (EditText) findViewById(R.id.register_password_confirmation);
+
+        validator = new Validation();
 
         registerButton = (ImageButton) findViewById(R.id.register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerButton.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                new RegisterAsyncTask().execute();
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                String passwordConfirmation = passwordConfirmationEditText.getText().toString();
+
+                if(validator.isValidEmail(email)){
+                    if(validator.isValidPassword(password)) {
+                        if(validator.isValidPasswordConfirmation(password, passwordConfirmation)) {
+                            registerButton.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.VISIBLE);
+                            new RegisterAsyncTask().execute();
+                        } else {
+                            passwordConfirmationEditText.setError(getResources().getString(R.string.validation_confirmation_password_error));
+                        }
+                    } else {
+                        passwordEditText.setError(getResources().getString(R.string.validation_password_error));
+                    }
+                } else {
+                    emailEditText.setError(getResources().getString(R.string.validation_email_error));
+                }
             }
         });
 
@@ -96,9 +120,9 @@ public class RegisterActivity extends Activity {
 
         protected String doInBackground(String... args) {
             try {
-                Log.i("RegisterActivity>RegisterAsyncTask: Username - ", email.getText().toString());
-                Log.i("RegisterActivity>RegisterAsyncTask: Password - ", password.getText().toString());
-                valid = hoardAPI.registerEmailPassword(email.getText().toString(), password.getText().toString());
+                Log.i("RegisterActivity>RegisterAsyncTask: Username - ", emailEditText.getText().toString());
+                Log.i("RegisterActivity>RegisterAsyncTask: Password - ", passwordEditText.getText().toString());
+                valid = hoardAPI.registerEmailPassword(emailEditText.getText().toString(), passwordEditText.getText().toString());
 
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();

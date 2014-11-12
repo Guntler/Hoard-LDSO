@@ -32,12 +32,25 @@
         android:hint="@string/password_hint"
         android:inputType="textPassword" />
 
+    <EditText
+        android:id="@+id/register_password_confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/register_password"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="@drawable/edittext"
+        android:textColor="@color/black"
+        android:hint="@string/confirm_password_hint"
+        android:inputType="textPassword" />
+
     <ImageButton
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/register_password"
+        android:layout_below="@id/register_password_confirmation"
         android:layout_margin="10dp"
         android:padding="5dp"
         android:src="@drawable/ic_action_accept"
@@ -49,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/register_password"
+        android:layout_below="@id/register_password_confirmation"
         android:visibility="gone" />
 
     <TextView

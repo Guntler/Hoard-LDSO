@@ -24,7 +24,12 @@ public class LoginActivity extends Activity {
     /*
      * Edit Texts Email Password
      */
-    EditText email, password;
+    EditText emailEditText, passwordEditText;
+
+    /*
+     * Input Validator
+     */
+    Validation validator;
 
     /*
      * Log In and  Register Buttons
@@ -55,16 +60,26 @@ public class LoginActivity extends Activity {
 
         hoardAPI = new HoardAPI(this);
 
-        email = (EditText) findViewById(R.id.login_email);
-        password = (EditText) findViewById(R.id.login_password);
+        emailEditText = (EditText) findViewById(R.id.login_email);
+        passwordEditText = (EditText) findViewById(R.id.login_password);
+
+        validator = new Validation();
 
         logInButton = (ImageButton) findViewById(R.id.login_button);
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logInButton.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                new CheckLoginAsyncTask().execute();
+                if(validator.isValidEmail(emailEditText.getText().toString())){
+                    if(validator.isValidPassword(passwordEditText.getText().toString())) {
+                        logInButton.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                        new CheckLoginAsyncTask().execute();
+                    } else {
+                        passwordEditText.setError(getResources().getString(R.string.validation_password_error));
+                    }
+                } else {
+                    emailEditText.setError(getResources().getString(R.string.validation_email_error));
+                }
             }
         });
 
@@ -108,9 +123,9 @@ public class LoginActivity extends Activity {
 
         protected String doInBackground(String... args) {
             try {
-                Log.i("LoginActivity>CheckLoginAsyncTask: Username - ", email.getText().toString());
-                Log.i("LoginActivity>CheckLoginAsyncTask: Password - ", password.getText().toString());
-                valid = hoardAPI.checkLoginForEmailPassword(email.getText().toString(), password.getText().toString());
+                Log.i("LoginActivity>CheckLoginAsyncTask: Username - ", emailEditText.getText().toString());
+                Log.i("LoginActivity>CheckLoginAsyncTask: Password - ", passwordEditText.getText().toString());
+                valid = hoardAPI.checkLoginForEmailPassword(emailEditText.getText().toString(), passwordEditText.getText().toString());
 
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
