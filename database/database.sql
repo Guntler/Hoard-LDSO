@@ -12,7 +12,7 @@ DROP TYPE IF EXISTS editType CASCADE;
 
 CREATE TYPE editStatus AS ENUM ('Approved', 'Denied', 'Pending');
 CREATE TYPE userType AS ENUM ('User', 'Manager', 'Admin');
-CREATE TYPE editType AS ENUM ('Add', 'Delete', 'Link', 'Name', 'Price', 'Category');
+CREATE TYPE editType AS ENUM ('Add', 'Delete', 'Edit');
 
 CREATE TABLE userAccount (
 	userID SERIAL PRIMARY KEY,
