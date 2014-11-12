@@ -44,6 +44,9 @@ module.exports = function(app, passport) {
 	app.get('/api/products/all', api.products);
 	app.get('/api/products/view', api.someProducts);
 	app.get('/api/products/id/:id', api.productById);
+	app.get('/api/editrequests/all', api.editrequests);
+	app.get('/api/editrequests/date', api.requestsByDate);
+	app.get('/api/editrequests/type/:edittype', api.requestsByEditType);
 	
 	app.get('*', function(req, res){
 		res.render('index');
@@ -51,20 +54,20 @@ module.exports = function(app, passport) {
 	
 	//----------- POSTS -----------//
 	app.post('/actions/user/signup', passport.authenticate("local-signup"), 
-										function(req, res) {
-											res.send(req.user);
-										});
-										
+		function(req, res) {
+			res.send(req.user);
+		});
+	
 	app.post('/actions/user/signin', passport.authenticate("local-signin"), 
-										function(req, res) {
-											console.log("logged in");
-											res.send(req.user);
-										});
+		function(req, res) {
+			console.log("logged in");
+			res.send(req.user);
+		});
 }
 
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated())
 		return next();
-		
+	
 	res.sendStatus(401);
 }

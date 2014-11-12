@@ -1,5 +1,7 @@
 var users = require('../api/users');
 var products = require('../api/products');
+var editrequests = require('../api/editrequests');
+
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
 //Get all users from the DB
@@ -7,7 +9,7 @@ exports.users = function(req, res){
 	users.getAll(function(err, result) {
 		if(err)
 			res.send(err);
-		else 
+		else
 			res.send(result);
 	});
 };
@@ -17,7 +19,7 @@ exports.userById = function(req, res){
 	users.findById(req.params.id, function(err, result) {
 		if(err)
 			res.send(err);
-		else 
+		else
 			res.send(result);
 	});
 };
@@ -27,7 +29,7 @@ exports.userByEmail = function(req, res){
 	users.findByEmail(req.params.email, function(err, result) {
 		if(err)
 			res.send(err);
-		else 
+		else
 			res.send(result);
 	});
 };
@@ -97,11 +99,44 @@ exports.productById = function(req, res){
 	products.findById(req.params.id, function(err, result) {
 		if(err)
 			res.send(err);
-		else 
+		else
 			res.send(result);
 	});
 };
-	
+
 //Get all EditRequest from the DB
-//Get all FavoriteProducts of a User 
+exports.editrequests = function(req, res){
+	editrequests.getAllById(function(err, result) {
+		if(err)
+			res.send({result: false});
+		else if(result)
+			res.send(result);
+		else
+			res.send({result: false});
+	});
+};
+
+exports.requestsByDate = function(req, res){
+	editrequests.getAllByDate(function(err, result) {
+		if(err)
+			res.send({result: false});
+		else if(result)
+			res.send(result);
+		else
+			res.send({result: false});
+	});
+};
+
+exports.requestsByEditType = function(req, res){
+	editrequests.findByEditType(req.params.edittype, function(err, result) {
+		if(err)
+			res.send({result: false});
+		else if(result)
+			res.send(result);
+		else
+			res.send({result: false});
+	});
+};
+
+//Get all FavoriteProducts of a User
 //Get the category product from DB
