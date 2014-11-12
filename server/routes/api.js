@@ -1,6 +1,7 @@
 var users = require('../api/users');
 var products = require('../api/products');
 var editrequests = require('../api/editrequests');
+var favoriteProducts =  require('../api/favoriteProducts');
 
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
@@ -83,15 +84,26 @@ exports.products = function(req, res){
 	});
 };
 
-exports.someProducts = function(req, res){
-	products.getSomeProducts(function(err, result) {
-		if(err)
-			res.send({result: false});
-		else if(result)
-			res.send(result);
-		else
-			res.send({result: false});
-	});
+exports.viewProducts = function(req, res){
+	if(req.params.n == undefined){
+		products.getSomeProducts(null, function(err, result) {
+			if(err)
+				res.send({result: false});
+			else if(result)
+				res.send(result);
+			else
+				res.send({result: false});
+		});
+	} else {
+		products.getSomeProducts(req.params.n, function(err, result) {
+			if(err)
+				res.send({result: false});
+			else if(result)
+				res.send(result);
+			else
+				res.send({result: false});
+		});
+	}
 };
 
 
@@ -140,3 +152,18 @@ exports.requestsByEditType = function(req, res){
 
 //Get all FavoriteProducts of a User
 //Get the category product from DB
+//Get all FavoriteProducts of a User 
+exports.favoriteProductsById = function(req,res){
+
+favoriteProducts.findById(req.params.id, function(err, result) {
+		if(err)
+			res.send(err);
+		else 
+			res.send(result);
+	});
+
+
+
+}
+//Get the category product from DB
+
