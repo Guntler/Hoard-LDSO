@@ -1,0 +1,70 @@
+<!-- SideBar with Form for Sign In-->
+<div ng-mousedown="hideSidebar($event)">
+	<div class="ui right red sidebar signin">
+		<form ng-class='{error:errorMessage != null}' class="ui form segment">
+			<div class="field">
+				<label>Email</label>
+				<div class="ui left labeled icon input">
+					<input ng-model="email" class="signin defaultFocus" type="text" placeholder="Email" name="email">
+					<i class="user icon"></i>
+					<div class="ui corner label">
+						<i class="icon asterisk"></i>
+					</div>
+				</div>
+			</div>
+			
+			<div class="field">
+				<label>Password</label>
+				<div class="ui left labeled icon input">
+					<input ng-model="password" type="password" placeholder="Password" name="password">
+					<i class="lock icon"></i>
+					<div class="ui corner label">
+						<i class="icon asterisk"></i>
+					</div>
+				</div>
+			</div>
+			
+			<div class="ui error message">
+				<div class="header">{{errorMessage}}</div>
+			</div>
+			<div class="ui center aligned grid">
+					<button ng-click="signin(email,password)" type="submit" class="ui red submit button">
+						Sign In
+					</button>
+			</div>
+			<div class="ui divider"></div>
+			
+			<div class="ui center aligned grid">
+				<div class="ui button facebook">
+					<i class="facebook icon"></i>
+					Facebook Sign In
+				</div>
+			</div>
+			<div class="ui divider"></div>
+		</form>
+	</div>
+
+	
+	<div class="top ui page grid">
+		<div class="four wide column left aligned">
+			<h1>hoard</h1>
+		</div>
+		
+		<div class="twelve wide column right aligned"> 	
+			<div ng-click="showSigninSidebar()" class="hoard red toggle button signin shift-down">
+				Sign In
+			</div>
+		</div>
+	</div>
+	
+	<div class="information">
+		<div class="infotext">
+		</div>
+		<div class="bottom ui center aligned grid">
+			<br>
+			<h4 class="ui header">
+				All rights reserved, Hoard Lda
+			</h4>
+		</div>
+	</div>
+</div>

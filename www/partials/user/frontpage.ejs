@@ -56,13 +56,13 @@
 						{{user.email}}
 					<i class="user icon"></i>
 					<div class="menu">
-						<div class="item edit-profile selection" ng-click="showSidebar()"><i class="edit icon"></i>Edit Profile</div>
-						<a href="#">
-							<div class="item">
-								<i class="sign out icon"></i>
-								Log out
-							</div>
-						</a>
+						<div class="item edit-profile selection" ng-click="showSidebar()">
+							<i class="edit icon"></i>Edit Profile
+						</div>
+						<div ng-click="logout()" class="item">
+							<i class="sign out icon"></i>
+							Log out
+						</div>
 					</div>
 				</div>
 			</div>

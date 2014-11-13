@@ -24,7 +24,7 @@ module.exports = function(passport) {
 					return done(err);
 					
 				if(user) {
-					return done(null, false, req.flash('signupMessage','That email is already registered'));
+					return done(null, false, req.flash('signupMessage','That email is already registered.'));
 				}
 				else {
 					Users.registerUser(email, password, function(err, user) {
@@ -42,20 +42,26 @@ module.exports = function(passport) {
 		{
 			usernameField : 'email',
 			passwordField : 'password',
-			passReqToCallback : true // allows us to pass back the entire request to the callback
+			passReqToCallback : true 
 		},
-		function(req, email, password, done) { // callback with email and password from our form
+		function(req, email, password, done) { 
         
         Users.checkLogin(email, password, function(err, user) {
             // if there are any errors, return the error before anything else
-            if (err)
+            if (err) {
+				console.log("error: " + err);
                 return done(err);
+			}
 
             // if no user is found, return the message
-            if (!user)
-                return done(null, false, req.flash('loginMessage', 'Login failed.'));
+            if (!user) {
+				console.log("no user");
+                return done(null, false, req.flash('loginMessage', "There's no user registered with that email/password."));
+			}
+			else if (user.permissions === "User")
+				return done(null, false, req.flash('loginMessage', "You don't have the necessary permissions to sign in."));
 				
-			return done(null,user);
+			return done(null,user, req.flash('loginMessage', "Wellcome " + user.email + "!"));
 		});
 
     }));

@@ -77,6 +77,10 @@ body {
 	padding-bottom: 20px !important;
 }
 
+.message {
+	font-size: 12px !important;
+}
+
 /*******************************
           Hoard Button
 *******************************/
