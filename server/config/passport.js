@@ -1,5 +1,5 @@
 var LocalStrategy = require('passport-local');
-var Users = require('../api/users');
+var Users = require('../database/users');
 
 module.exports = function(passport) {
 	passport.serializeUser(function(user, done) {
@@ -49,13 +49,11 @@ module.exports = function(passport) {
         Users.checkLogin(email, password, function(err, user) {
             // if there are any errors, return the error before anything else
             if (err) {
-				console.log("error: " + err);
                 return done(err);
 			}
 
             // if no user is found, return the message
             if (!user) {
-				console.log("no user");
                 return done(null, false, req.flash('loginMessage', "There's no user registered with that email/password."));
 			}
 			else if (user.permissions === "User")

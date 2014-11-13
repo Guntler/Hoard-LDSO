@@ -1,7 +1,7 @@
-var users = require('../api/users');
-var products = require('../api/products');
-var editrequests = require('../api/editrequests');
-var favoriteProducts =  require('../api/favoriteProducts');
+var users = require('../database/users');
+var products = require('../database/products');
+var editrequests = require('../database/editrequests');
+var favoriteProducts =  require('../database/favoriteProducts');
 
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in

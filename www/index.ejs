@@ -18,6 +18,7 @@
 		<!-- AngularJS -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+		
 		<!-- JQuery -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.js"></script>
@@ -26,11 +27,18 @@
 		<link rel="stylesheet" type="text/css" href="./semantic/css/semantic.min.css">
 		<script src="./semantic/javascript/semantic.min.js"></script>
 
-		<!-- Hoard JS and CSS -->
+		<!-- Hoard CSS -->
 		<link rel="stylesheet" type="text/css" href="./css/hoard.css">
-		<script src="./javascript/main.js"></script>
+		
 	</head>
 	<body id="hoard">
 		<div ng-view></div>
 	</body>
+	
+	<!-- Hoard JS -->
+	<script src="./js/main.js"></script>
+	<script src="./js/services/messageService.js"></script>
+	<script src="./js/services/sessionService.js"></script>
+	<script src="./js/controllers/welcomeController.js"></script>
+	<script src="./js/controllers/frontpageController.js"></script>
 </html>

@@ -7,19 +7,19 @@ module.exports = function(app, passport) {
 		res.render('index');
 	});
 	
-	app.get('/p/user/:name', managerPermissions, function (req, res) {
+	app.get('/partials/user/:name', managerPermissions, function (req, res) {
 		var name = req.params.name;
-		res.render('p/user/' + name, {user: req.user});
+		res.render('partials/user/' + name, {user: req.user});
 	});
 	
-	app.get('/p/product/:name', managerPermissions, function(req, res) {
+	app.get('/partials/product/:name', managerPermissions, function(req, res) {
 		var name = req.params.name;
-		res.render('p/product/' + name, {user: req.user});
+		res.render('partials/product/' + name, {user: req.user});
 	});
 	
-	app.get('/p/:name', function(req,res) {
+	app.get('/partials/:name', function(req,res) {
 		var name = req.params.name;
-		res.render('p/' + name);
+		res.render('partials/' + name);
 	});
 	
 	app.get('/api/users/all', api.users);
@@ -29,8 +29,13 @@ module.exports = function(app, passport) {
 	app.get('/api/users/exists/:email',api.userExists);
 	app.get('/api/users/register/:email/:password', api.registerUser);
 	app.get('/api/products/all', api.products);
-	app.get('/api/products/view', api.someProducts);
+	app.get('/api/products/viewProducts/:n', api.viewProducts);
+	app.get('/api/products/viewProducts', api.viewProducts);
 	app.get('/api/products/id/:id', api.productById);
+	app.get('/api/editrequests/all', api.editrequests);
+	app.get('/api/editrequests/date', api.requestsByDate);
+	app.get('/api/editrequests/type/:edittype', api.requestsByEditType);
+	app.get('/api/users/:id/favoriteProducts', api.favoriteProductsById);
 	app.get('/api/users/signout', function(req, res){
 		req.logout();
 		res.send({result: true});
@@ -44,11 +49,9 @@ module.exports = function(app, passport) {
 										
 	app.post('/api/users/signin', function(req,res,next) {
 										passport.authenticate("local-signin", function(err, user, info) {
-											console.log("hi");
 											if(err)
 												return next(err);
 											if(!user) {
-												console.log("here");
 												return res.send({message: req.flash('loginMessage'), user: false});
 											}
 											else req.login(user, function(err) {

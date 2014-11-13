@@ -7,7 +7,7 @@ var path 			= require("path"),
 	cookieParser 	= require('cookie-parser'),
 	flash			= require('connect-flash');
 
-var full_path = path.join(process.cwd(),'/../website/');
+var full_path = path.join(process.cwd(),'/../www/');
 
 var app = express();
 
@@ -26,7 +26,7 @@ app.set('view engine', 'ejs'); //poderá eventualmente alterado para jade
 app.set('views', full_path);
 
 app.use("/css", express.static(full_path + '/css'));
-app.use("/javascript", express.static(full_path + '/javascript'));
+app.use("/js", express.static(full_path + '/js'));
 app.use("/images", express.static(full_path + '/images'));
 app.use("/jquery", express.static(full_path + '/jquery'));
 
