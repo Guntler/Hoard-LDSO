@@ -12,8 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -25,33 +23,33 @@ public class RegisterActivity extends Activity {
     /*
      * Edit Texts Email Password
      */
-    EditText emailEditText, passwordEditText, passwordConfirmationEditText;
+    private EditText emailEditText, passwordEditText, passwordConfirmationEditText;
 
     /*
      * Input Validator
      */
-    Validation validator;
+    private Validation validator;
 
     /*
      * Register Button
      */
-    ImageButton registerButton;
+    private ImageButton registerButton;
 
     /*
      * Progress Bar
      */
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     /*
      * API Class
      */
-    HoardAPI hoardAPI;
-    Boolean valid = false;
+    private HoardAPI hoardAPI;
+    private Boolean valid = false;
 
     /*
      * Alert Dialog
      */
-    AlertDialog alertDialog;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

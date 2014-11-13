@@ -24,34 +24,33 @@ public class LoginActivity extends Activity {
     /*
      * Edit Texts Email Password
      */
-    EditText emailEditText, passwordEditText;
+    private EditText emailEditText, passwordEditText;
 
     /*
      * Input Validator
      */
-    Validation validator;
+    private Validation validator;
 
     /*
      * Log In and  Register Buttons
      */
-    ImageButton logInButton;
-    Button registerButton;
+    private ImageButton logInButton;
 
     /*
      * Progress Bar
      */
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     /*
      * API Class and Handler Valid
      */
-    HoardAPI hoardAPI;
-    Boolean valid = false;
+    private HoardAPI hoardAPI;
+    private Boolean valid = false;
 
     /*
      * Alert Dialog
      */
-    AlertDialog alertDialog;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,25 @@ public class LoginActivity extends Activity {
         hoardAPI = new HoardAPI(this);
 
         emailEditText = (EditText) findViewById(R.id.login_email);
+        emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus)
+                    emailEditText.setHint("");
+                else
+                    emailEditText.setHint(getResources().getString(R.string.email_hint));
+            }
+        });
         passwordEditText = (EditText) findViewById(R.id.login_password);
+        passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus)
+                    passwordEditText.setHint("");
+                else
+                    passwordEditText.setHint(getResources().getString(R.string.password_hint));
+            }
+        });
 
         validator = new Validation();
 
@@ -83,7 +100,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        registerButton = (Button) findViewById(R.id.login_register_button);
+        Button registerButton = (Button) findViewById(R.id.login_register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

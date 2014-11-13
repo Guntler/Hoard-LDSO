@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class HoardAPI {
 
-    Context context;
+    private Context context;
 
     // Global instance of the HTTP Transport
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();

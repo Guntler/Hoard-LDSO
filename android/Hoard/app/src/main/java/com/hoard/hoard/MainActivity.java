@@ -42,7 +42,6 @@ public class MainActivity extends FragmentActivity {
      * Notification View Bar
      */
     private RelativeLayout notificationBar;
-    private TextView notificationEditText;
 
     /**
      * Progress Indicator
@@ -56,10 +55,12 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         notificationBar = (RelativeLayout) findViewById(R.id.top_layout_notification_bar);
-        notificationEditText = (TextView) findViewById(R.id.notification_bar_text_edit);
+        TextView notificationEditText = (TextView) findViewById(R.id.notification_bar_text_edit);
 
         if(getIntent().hasExtra("notification")) {
-            startNotificationWithNotification(getIntent().getStringExtra("notification"));
+            notificationEditText.setText(getIntent().getStringExtra("notification"));
+
+            new NotificationShowDelayAsyncTask().execute();
         }
 
         /*
@@ -139,30 +140,47 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
-    private void startNotificationWithNotification(String notification) {
-        notificationEditText.setText(notification);
+    /**
+     * AsyncTask Class for delaying show notification
+     */
+    class NotificationShowDelayAsyncTask extends AsyncTask<String, String, String> {
 
-        Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.notification_down);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {}
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                new NotificationAsyncTask().execute();
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+                e.printStackTrace();
             }
+            return null;
+        }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
+        @Override
+        protected void onPostExecute(String string) {
 
-        notificationBar.startAnimation(anim);
+            Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.notification_down);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    new NotificationHideDelayAsyncTask().execute();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
+
+            notificationBar.startAnimation(anim);
+        }
     }
 
     /**
      * AsyncTask Class for delaying hide notification
      */
-    class NotificationAsyncTask extends AsyncTask<String, String, String> {
+    class NotificationHideDelayAsyncTask extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... strings) {
