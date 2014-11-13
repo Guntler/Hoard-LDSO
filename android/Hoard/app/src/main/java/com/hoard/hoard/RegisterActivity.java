@@ -59,8 +59,35 @@ public class RegisterActivity extends Activity {
         hoardAPI = new HoardAPI(this);
 
         emailEditText = (EditText) findViewById(R.id.register_email);
+        emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus)
+                    emailEditText.setHint("");
+                else
+                    emailEditText.setHint(getResources().getString(R.string.hint_email));
+            }
+        });
         passwordEditText = (EditText) findViewById(R.id.register_password);
+        passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus)
+                    passwordEditText.setHint("");
+                else
+                    passwordEditText.setHint(getResources().getString(R.string.hint_password));
+            }
+        });
         passwordConfirmationEditText = (EditText) findViewById(R.id.register_password_confirmation);
+        passwordConfirmationEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus)
+                    passwordConfirmationEditText.setHint("");
+                else
+                    passwordConfirmationEditText.setHint(getResources().getString(R.string.hint_confirm_password));
+            }
+        });
 
         validator = new Validation();
 

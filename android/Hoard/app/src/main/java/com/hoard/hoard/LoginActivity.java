@@ -66,7 +66,7 @@ public class LoginActivity extends Activity {
                 if (hasFocus)
                     emailEditText.setHint("");
                 else
-                    emailEditText.setHint(getResources().getString(R.string.email_hint));
+                    emailEditText.setHint(getResources().getString(R.string.hint_email));
             }
         });
         passwordEditText = (EditText) findViewById(R.id.login_password);
@@ -76,7 +76,7 @@ public class LoginActivity extends Activity {
                 if(hasFocus)
                     passwordEditText.setHint("");
                 else
-                    passwordEditText.setHint(getResources().getString(R.string.password_hint));
+                    passwordEditText.setHint(getResources().getString(R.string.hint_password));
             }
         });
 

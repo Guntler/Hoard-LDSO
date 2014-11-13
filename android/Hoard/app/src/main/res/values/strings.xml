@@ -19,10 +19,10 @@
     <string name="register">Register</string>
 
     <!-- Hints -->
-    <string name="username_hint">Username</string>
-    <string name="email_hint">Email</string>
-    <string name="password_hint">Password</string>
-    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
 
     <!-- Validation -->
     <string name="validation_email_error">Invalid Email</string>

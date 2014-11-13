@@ -29,7 +29,7 @@
         android:background="@drawable/textedit"
         android:textColor="@color/black"
         android:textCursorDrawable="@null"
-        android:hint="@string/email_hint"
+        android:hint="@string/hint_email"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -43,7 +43,7 @@
         android:background="@drawable/textedit"
         android:textColor="@color/black"
         android:textCursorDrawable="@null"
-        android:hint="@string/password_hint"
+        android:hint="@string/hint_password"
         android:inputType="textPassword" />
 
     <ImageButton
