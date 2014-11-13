@@ -30,8 +30,8 @@
     <string name="validation_confirmation_password_error">Passwords don\'t match</string>
 
     <!-- Notification -->
-    <string name="notification_signin">You\'ve successful signed in</string>
-    <string name="notification_register">You\'ve successful registered</string>
+    <string name="notification_signin">You\'ve successfully signed in</string>
+    <string name="notification_register">You\'ve successfully registered</string>
 
     <!-- API Request Stuff -->
     <string name="timeout">10000</string>
