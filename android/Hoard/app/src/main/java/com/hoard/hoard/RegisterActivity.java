@@ -12,19 +12,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.hoard.hoard.api.HoardAPI;
 
-public class LoginActivity extends Activity {
+public class RegisterActivity extends Activity {
 
     /*
      * Edit Texts Email Password
      */
-    private EditText emailEditText, passwordEditText;
+    private EditText emailEditText, passwordEditText, passwordConfirmationEditText;
 
     /*
      * Input Validator
@@ -32,9 +31,9 @@ public class LoginActivity extends Activity {
     private Validation validator;
 
     /*
-     * Log In and  Register Buttons
+     * Register Button
      */
-    private ImageButton logInButton;
+    private ImageButton registerButton;
 
     /*
      * Progress Bar
@@ -42,7 +41,7 @@ public class LoginActivity extends Activity {
     private ProgressBar progressBar;
 
     /*
-     * API Class and Handler Valid
+     * API Class
      */
     private HoardAPI hoardAPI;
     private Boolean valid = false;
@@ -55,11 +54,11 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         hoardAPI = new HoardAPI(this);
 
-        emailEditText = (EditText) findViewById(R.id.login_email);
+        emailEditText = (EditText) findViewById(R.id.register_email);
         emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -69,7 +68,7 @@ public class LoginActivity extends Activity {
                     emailEditText.setHint(getResources().getString(R.string.hint_email));
             }
         });
-        passwordEditText = (EditText) findViewById(R.id.login_password);
+        passwordEditText = (EditText) findViewById(R.id.register_password);
         passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -79,18 +78,36 @@ public class LoginActivity extends Activity {
                     passwordEditText.setHint(getResources().getString(R.string.hint_password));
             }
         });
+        passwordConfirmationEditText = (EditText) findViewById(R.id.register_password_confirmation);
+        passwordConfirmationEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus)
+                    passwordConfirmationEditText.setHint("");
+                else
+                    passwordConfirmationEditText.setHint(getResources().getString(R.string.hint_confirm_password));
+            }
+        });
 
         validator = new Validation();
 
-        logInButton = (ImageButton) findViewById(R.id.login_button);
-        logInButton.setOnClickListener(new View.OnClickListener() {
+        registerButton = (ImageButton) findViewById(R.id.register_button);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validator.isValidEmail(emailEditText.getText().toString())){
-                    if(validator.isValidPassword(passwordEditText.getText().toString())) {
-                        logInButton.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.VISIBLE);
-                        new CheckLoginAsyncTask().execute();
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                String passwordConfirmation = passwordConfirmationEditText.getText().toString();
+
+                if(validator.isValidEmail(email)){
+                    if(validator.isValidPassword(password)) {
+                        if(validator.isValidPasswordConfirmation(password, passwordConfirmation)) {
+                            registerButton.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.VISIBLE);
+                            new RegisterAsyncTask().execute();
+                        } else {
+                            passwordConfirmationEditText.setError(getResources().getString(R.string.validation_confirmation_password_error));
+                        }
                     } else {
                         passwordEditText.setError(getResources().getString(R.string.validation_password_error));
                     }
@@ -100,20 +117,11 @@ public class LoginActivity extends Activity {
             }
         });
 
-        Button registerButton = (Button) findViewById(R.id.login_register_button);
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(i);
-            }
-        });
+        progressBar = (ProgressBar) findViewById(R.id.register_progress_bar);
 
-        progressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setMessage(R.string.dialog_fail_login_message)
-                .setTitle(R.string.dialog_fail_login_title);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+        builder.setMessage(R.string.dialog_fail_register_message)
+                .setTitle(R.string.dialog_fail_register_title);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
@@ -130,8 +138,7 @@ public class LoginActivity extends Activity {
         alertDialog.dismiss();
     }
 
-
-    class CheckLoginAsyncTask extends AsyncTask<String, String, String> {
+    class RegisterAsyncTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -140,13 +147,13 @@ public class LoginActivity extends Activity {
 
         protected String doInBackground(String... args) {
             try {
-                Log.i("LoginActivity>CheckLoginAsyncTask: Username - ", emailEditText.getText().toString());
-                Log.i("LoginActivity>CheckLoginAsyncTask: Password - ", passwordEditText.getText().toString());
-                valid = hoardAPI.checkLoginForEmailPassword(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                Log.i("RegisterActivity>RegisterAsyncTask: Username - ", emailEditText.getText().toString());
+                Log.i("RegisterActivity>RegisterAsyncTask: Password - ", passwordEditText.getText().toString());
+                valid = hoardAPI.registerEmailPassword(emailEditText.getText().toString(), passwordEditText.getText().toString());
 
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("LoginActivity>CheckLoginAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("RegisterActivity>RegisterAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;
@@ -154,16 +161,18 @@ public class LoginActivity extends Activity {
 
         protected void onPostExecute(String file_url) {
             if(valid) {
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("notification", getResources().getString(R.string.notification_signin));
+                bundle.putString("notification", getResources().getString(R.string.notification_register));
                 i.putExtras(bundle);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
 
                 finish();
             } else {
                 progressBar.setVisibility(View.GONE);
-                logInButton.setVisibility(View.VISIBLE);
+                registerButton.setVisibility(View.VISIBLE);
+
                 alertDialog.show();
             }
         }

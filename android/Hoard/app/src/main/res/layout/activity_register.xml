@@ -7,19 +7,8 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/login_register_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/register"
-        android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="@string/app_name"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/login_email"
-        android:layout_alignEnd="@+id/login_email" />
-
     <EditText
-        android:id="@+id/login_email"
+        android:id="@+id/register_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -33,11 +22,11 @@
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/login_password"
+        android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/login_email"
+        android:layout_below="@+id/register_email"
         android:layout_margin="10dp"
         android:padding="5dp"
         android:background="@drawable/textedit"
@@ -46,12 +35,26 @@
         android:hint="@string/hint_password"
         android:inputType="textPassword" />
 
+    <EditText
+        android:id="@+id/register_password_confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/register_password"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="@drawable/textedit"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null"
+        android:hint="@string/hint_confirm_password"
+        android:inputType="textPassword" />
+
     <ImageButton
-        android:id="@+id/login_button"
+        android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/login_password"
+        android:layout_below="@id/register_password_confirmation"
         android:layout_margin="10dp"
         android:padding="5dp"
         android:src="@drawable/ic_action_accept"
@@ -59,21 +62,20 @@
         android:contentDescription="@string/app_name" />
 
     <ProgressBar
-        android:id="@+id/login_progress_bar"
+        android:id="@+id/register_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/login_password"
+        android:layout_below="@id/register_password_confirmation"
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/login_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="60sp"
-        android:text="@string/login"
-        android:layout_above="@+id/login_email"
+        android:text="@string/register"
+        android:layout_above="@+id/register_email"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

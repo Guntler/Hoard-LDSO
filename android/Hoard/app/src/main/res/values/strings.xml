@@ -6,11 +6,36 @@
     <string name="action_settings">Settings</string>
     <string name="oard"><i>oard</i></string>
 
-    <string name="username_hint">Username</string>
-    <string name="email_hint">Email</string>
-    <string name="password_hint">Password</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
+    <!-- Dialog Titles and Messages -->
+    <string name="dialog_fail_register_title">Failed to Register</string>
+    <string name="dialog_fail_login_title">Failed to Login</string>
+    <string name="dialog_fail_register_message">We were not able to register you. Please try again.</string>
+    <string name="dialog_fail_login_message">We were not able to log you in. Please try again.</string>
+
+    <string name="login">Sign In</string>
+    <string name="register">Register</string>
+
+    <!-- Hints -->
+    <string name="hint_username">Username</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+
+    <!-- Validation -->
+    <string name="validation_email_error">Invalid Email</string>
+    <string name="validation_password_error">Invalid Password</string>
+    <string name="validation_confirmation_password_error">Passwords don\'t match</string>
+
+    <!-- Notification -->
+    <string name="notification_signin">You\'ve successfully signed in</string>
+    <string name="notification_register">You\'ve successfully registered</string>
+
+    <!-- API Request Stuff -->
     <string name="timeout">10000</string>
-    <string name="login_url">http://178.62.105.68:8081/api/users/login/</string>
+    <string name="checklogin_url">http://178.62.105.68:8081/api/users/login/</string>
+    <string name="register_url">http://178.62.105.68:8081/api/users/register/</string>
 
 </resources>

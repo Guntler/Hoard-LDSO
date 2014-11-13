@@ -2,9 +2,9 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".MainActivity"
     android:background="@color/white">
 
     <android.support.v4.view.ViewPager
@@ -12,6 +12,26 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/top_layout_bar"/>
+
+    <RelativeLayout
+        android:id="@+id/top_layout_notification_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+        <TextView
+            android:id="@+id/notification_bar_text_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:text="@string/notification_signin"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/notification"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/top_layout_bar"
@@ -25,27 +45,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_action_favorite"
             android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_action_favorite"
             android:contentDescription="@string/app_name"
             tools:ignore="RtlHardcoded" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
             android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/app_name"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            android:layout_gravity="center_horizontal" />
+            android:textSize="24sp" />
 
         <ImageButton
             android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_action_settings"
             android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_action_settings"
             android:contentDescription="@string/app_name"
             tools:ignore="RtlHardcoded" />
 
@@ -53,9 +73,9 @@
 
     <ProgressBar
         android:id="@+id/url_load_progress_bar"
-        style="?android:attr/progressBarStyleLargeInverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLargeInverse"
         android:visibility="gone"/>
 
 </RelativeLayout>

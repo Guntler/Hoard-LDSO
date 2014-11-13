@@ -12,14 +12,14 @@ DROP TYPE IF EXISTS editType CASCADE;
 
 CREATE TYPE editStatus AS ENUM ('Approved', 'Denied', 'Pending');
 CREATE TYPE userType AS ENUM ('User', 'Manager', 'Admin');
-CREATE TYPE editType AS ENUM ('Add', 'Delete', 'Link', 'Name', 'Price', 'Category');
+CREATE TYPE editType AS ENUM ('Add', 'Delete', 'Edit');
 
 CREATE TABLE userAccount (
 	userID SERIAL PRIMARY KEY,
 	email VARCHAR(100) UNIQUE NOT NULL,
 	password VARCHAR(50),
 	permissions userType DEFAULT 'User',
-	registerDate DATE NOT NULL,
+	registerDate TIMESTAMP NOT NULL,
 	CHECK (char_length(password) <= 50),
 	CHECK (char_length(email) <= 100),
 	CHECK (registerdate <= now())
@@ -40,7 +40,7 @@ CREATE TABLE product (
 	category INTEGER NOT NULL REFERENCES productCategory(categoryID),
 	visible BOOLEAN NOT NULL DEFAULT false,
 	addedBy INTEGER NOT NULL REFERENCES userAccount(userID),
-	dateAdded DATE NOT NULL,
+	dateAdded TIMESTAMP NOT NULL,
 	CHECK (char_length(name) <= 200),
 	CHECK (char_length(link) <= 500),
 	CHECK (price >= 0),
@@ -52,11 +52,13 @@ CREATE TABLE favoriteProduct (
 	userID INTEGER NOT NULL REFERENCES userAccount(userID),
 	position INTEGER NOT NULL DEFAULT 0,
 	visible BOOLEAN NOT NULL DEFAULT true,
-	lastFavorited DATE NOT NULL,
+	lastFavorited TIMESTAMP NOT NULL,
 	PRIMARY KEY(productID, userID),
 	CHECK (lastFavorited <= now())
 );
 
+
+-- description: Link', 'Name', 'Price', 'Category' --
 CREATE TABLE editRequest (
 	requestID SERIAL PRIMARY KEY,
 	productID INTEGER NOT NULL REFERENCES product(productID),
@@ -66,7 +68,7 @@ CREATE TABLE editRequest (
 	editStatus editStatus NOT NULL DEFAULT 'Pending',
 	description VARCHAR(300),
 	reason VARCHAR(500),
-	editDate DATE NOT NULL,
+	editDate TIMESTAMP NOT NULL,
 	CHECK (char_length(description) <= 300),
 	CHECK (char_length(reason) <= 500),
 	CHECK (editdate <= now())
@@ -127,5 +129,9 @@ INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited
 INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (2, 6, 2, true, '2001-02-16 20:38:40');
 INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (3, 6, 3, true, '2001-02-16 20:38:40');
 
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate) VALUES (1, 5, NULL, 'Delete', 'Pending', 'Crappy product. May cause Ebola epidemic.', '2001-02-16 20:38:40');
-
+--- Description: Link, Name, Type, Category---
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate) VALUES (1, 7, NULL, 'Delete', 'Pending', 'Crappy product. May cause Ebola epidemic.', '2001-02-15 20:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate) VALUES (2, 7, 9, 'Delete', 'Denied', 'Caused Legionella epidemic.', '2001-02-15 21:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) VALUES (3, 8, NULL, 'Edit', 'Pending', 'Price, Category', 'Product was inserted in the wrong category with the wrong price', '2001-02-11 20:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) VALUES (4, 8, 9, 'Edit', 'Approved', 'Name', 'Name product was missing.', '2001-02-16 20:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) VALUES (5, 8, NULL, 'Edit', 'Pending', 'Link', 'Product number was missing.', '2001-02-17 20:38:40');
