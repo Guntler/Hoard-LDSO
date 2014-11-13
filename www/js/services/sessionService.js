@@ -1,6 +1,5 @@
 hoard.service('sessionService', function($http, $location, $templateCache, messageService) {
-	var user = null;
-	
+	var user;
 	return {
 		signin: function(email, password, message) {
 			var Url = "/api/users/signin";
@@ -28,6 +27,19 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 			}).error(function(data, status, headers, config) {
 				$templateCache.removeAll();
 				$location.url('/');
+			});
+		},
+		updateUser: function() {
+			var Url = "/api/users/current";
+			$http.get(Url).success(function(data){
+				if(data.user != false)
+				{
+					user = data.user;
+				}
+				else
+					user = null;
+			}).error(function(data, status, headers, config) {
+				user = null;
 			});
 		},
 		getUser: function() {

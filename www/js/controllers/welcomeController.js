@@ -3,6 +3,8 @@ hoard.controller('WelcomeController',function($scope,sessionService,messageServi
 	$scope.password = "";
 	$scope.email = "";
 	$scope.errorMessage = null;
+	$scope.emailError = false;
+	$scope.passwordError = false;
 	
 	$scope.$watch(function() {
 					return messageService.getMessages().errorMessage;
@@ -12,7 +14,23 @@ hoard.controller('WelcomeController',function($scope,sessionService,messageServi
 				});
 	
 	$scope.signin = function() {
-		sessionService.signin($scope.email, $scope.password, $scope.errorMessage);
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if($scope.email.match(re)) {
+				$scope.emailError = false;
+				if($scope.password.length > 0) {
+					sessionService.signin($scope.email, $scope.password, $scope.errorMessage);
+					$scope.passwordError = false;
+				}
+				else {
+					messageService.setError("Your password must be over 6 characters.");
+					$scope.passwordError = true;
+				}
+			}
+			else {
+				messageService.setError("You must insert a valid email address.");
+				$scope.emailError = true;
+			}
+		
 	}
 	
 	$scope.showSigninSidebar = function() {
@@ -40,7 +58,9 @@ hoard.controller('WelcomeController',function($scope,sessionService,messageServi
 		}
 	}
 	
-	var init = function () {		
+	var init = function () {
+		messageService.clearAll();
+		
 		$('.signin.sidebar').removeClass('beingUsed');
 		var transition2 = $(this).data('transition');
 		$('.signin.sidebar')

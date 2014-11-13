@@ -1,6 +1,13 @@
 hoard.controller('FrontpageController', function($scope, sessionService) {
 	$scope.tab = "products";
-	$scope.user = sessionService.getUser();
+	$scope.user = null;
+	
+	$scope.$watch(function() {
+					return sessionService.getUser();
+				},
+				function() {
+					$scope.user = sessionService.getUser();
+				});
 	
 	$scope.users = [];
 	$scope.users.push({name: 'User1', date: 'Sep 14, 2014'});
@@ -48,6 +55,8 @@ hoard.controller('FrontpageController', function($scope, sessionService) {
 	}
 	
 	var init = function () {
+		sessionService.updateUser();
+	
 		$('.sidebar.edit-profile').removeClass('beingUsed');
 		var transition = $(this).data('transition');
 		$('.sidebar.edit-profile')

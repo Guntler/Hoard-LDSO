@@ -2,7 +2,7 @@
 <div ng-mousedown="hideSidebar($event)">
 	<div class="ui right red sidebar signin">
 		<form ng-class='{error:errorMessage != null}' class="ui form segment">
-			<div class="field">
+			<div ng-class="{error: emailError}" class="field">
 				<label>Email</label>
 				<div class="ui left labeled icon input">
 					<input ng-model="email" class="signin defaultFocus" type="text" placeholder="Email" name="email">
@@ -13,7 +13,7 @@
 				</div>
 			</div>
 			
-			<div class="field">
+			<div ng-class="{error: passwordError}" class="field">
 				<label>Password</label>
 				<div class="ui left labeled icon input">
 					<input ng-model="password" type="password" placeholder="Password" name="password">

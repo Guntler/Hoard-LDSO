@@ -21,6 +21,12 @@ hoard.service('messageService', function() {
 		},
 		setInfo: function(message) {
 			messages.infoMessage = message;
+		},
+		clearAll: function() {
+			messages.errorMessage = null;
+			messages.warningMessage = null;
+			messages.successMessage = null;
+			messages.infoMessage = null;
 		}
 	}
 });

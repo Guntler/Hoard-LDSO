@@ -40,6 +40,12 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.send({result: true});
 	});
+	app.get('/api/users/current', function(req, res) {
+		if(isLoggedIn(req)) {
+			res.send({user: req.user});
+		}
+		else res.send({user: false});
+	});
 	
 	app.get('*', function(req, res){
 		res.render('index');
