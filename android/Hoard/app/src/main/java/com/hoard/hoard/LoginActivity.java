@@ -138,6 +138,9 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(String file_url) {
             if(valid) {
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("notification", getResources().getString(R.string.notification_signin));
+                i.putExtras(bundle);
                 startActivity(i);
 
                 finish();

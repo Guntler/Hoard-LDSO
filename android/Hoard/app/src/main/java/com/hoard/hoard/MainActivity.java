@@ -18,8 +18,12 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
@@ -34,6 +38,12 @@ public class MainActivity extends FragmentActivity {
      */
     private GestureDetector gestureDetector;
 
+    /*
+     * Notification View Bar
+     */
+    private RelativeLayout notificationBar;
+    private TextView notificationEditText;
+
     /**
      * Progress Indicator
      */
@@ -44,6 +54,13 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        notificationBar = (RelativeLayout) findViewById(R.id.top_layout_notification_bar);
+        notificationEditText = (TextView) findViewById(R.id.notification_bar_text_edit);
+
+        if(getIntent().hasExtra("notification")) {
+            startNotificationWithNotification(getIntent().getStringExtra("notification"));
+        }
 
         /*
          Instantiate ViewPager and ProgressBar.
@@ -107,6 +124,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Settings",
                         Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -119,6 +137,49 @@ public class MainActivity extends FragmentActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void startNotificationWithNotification(String notification) {
+        notificationEditText.setText(notification);
+
+        Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.notification_down);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                new NotificationAsyncTask().execute();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        notificationBar.startAnimation(anim);
+    }
+
+    /**
+     * AsyncTask Class for delaying hide notification
+     */
+    class NotificationAsyncTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.notification_up);
+            notificationBar.startAnimation(anim);
+        }
     }
 
     /**
@@ -190,9 +251,5 @@ public class MainActivity extends FragmentActivity {
             currentPage = position;
             Log.i("MainActivity>ProductOnPageChangeListener:onPageSelected", " " + currentPage);
         }
-
-        /*public int getCurrentPage() {
-            return currentPage;
-        }*/
     }
 }

@@ -12,6 +12,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -135,6 +137,9 @@ public class RegisterActivity extends Activity {
         protected void onPostExecute(String file_url) {
             if(valid) {
                 Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("notification", getResources().getString(R.string.notification_register));
+                i.putExtras(bundle);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
 

@@ -29,6 +29,10 @@
     <string name="validation_password_error">Invalid Password</string>
     <string name="validation_confirmation_password_error">Passwords don\'t match</string>
 
+    <!-- Notification -->
+    <string name="notification_signin">You\'ve successful signed in</string>
+    <string name="notification_register">You\'ve successful registered</string>
+
     <!-- API Request Stuff -->
     <string name="timeout">10000</string>
     <string name="checklogin_url">http://178.62.105.68:8081/api/users/login/</string>

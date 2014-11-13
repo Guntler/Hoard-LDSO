@@ -14,6 +14,26 @@
         android:layout_below="@+id/top_layout_bar"/>
 
     <RelativeLayout
+        android:id="@+id/top_layout_notification_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+        <TextView
+            android:id="@+id/notification_bar_text_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:text="@string/notification_signin"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@drawable/notification"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/top_layout_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
