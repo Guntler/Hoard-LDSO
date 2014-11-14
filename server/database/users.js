@@ -1,5 +1,6 @@
 pg  = require("pg");
 var User = require('../models/UserAccount');
+var bcrypt = require("bcrypt-nodejs")
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
@@ -63,7 +64,7 @@ exports.checkLogin = function(email, password, callback) {
 			return callback(err, {result: false});
 		}
 		
-		var query = client.query("SELECT * FROM userAccount WHERE email = $1 AND password = $2", [email,password]);
+		var query = client.query("SELECT * FROM userAccount WHERE email = $1 AND password = $2", [email,bcrypt.hashSync(password, bcrypt.genSaltSync(8))]);
 		
 		query.on("row", function(row, result) {
 			result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
@@ -90,7 +91,7 @@ exports.registerUser = function(email, password, callback) {
 			return callback(err, null);
 		}
 		
-		var query = client.query("INSERT INTO userAccount(email,password,registerdate) VALUES ($1,$2, Now()) RETURNING *", [email,password]);
+		var query = client.query("INSERT INTO userAccount(email,password,registerdate) VALUES ($1,$2, Now()) RETURNING *", [email,bcrypt.hashSync(password, bcrypt.genSaltSync(8))]);
 		
 		query.on("end", function(result) {
 			done();
