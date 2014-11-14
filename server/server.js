@@ -7,7 +7,7 @@ var path 			= require("path"),
 	cookieParser 	= require('cookie-parser'),
 	flash			= require('connect-flash');
 
-var full_path = path.join(process.cwd(),'/../www/');
+var full_path = path.join(process.cwd(),'www/');
 
 var app = express();
 
