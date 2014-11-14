@@ -4,7 +4,7 @@ module.exports = function(app, passport) {
 
 	//----------- GETS ------------//
 	app.get('/', function(req, res){
-		res.render('index');
+		res.render('index.ejs');
 	});
 	
 	app.get('/partials/user/:name', managerPermissions, function (req, res) {
@@ -48,7 +48,7 @@ module.exports = function(app, passport) {
 	});
 	
 	app.get('*', function(req, res){
-		res.render('index');
+		res.render('index.ejs');
 	});
 	
 	//----------- POSTS -----------//
