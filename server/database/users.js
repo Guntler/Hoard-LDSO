@@ -126,7 +126,7 @@ exports.registerUser = function (email, password, callback) {
     });
 };
 
-exports.getAll = function (callback) {
+exports.getAllUsers = function (callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {
             return callback(err, null);

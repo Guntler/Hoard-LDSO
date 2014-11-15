@@ -31,6 +31,7 @@ module.exports = function(app, passport) {
 	app.get('/api/products/all', api.products);
 	app.get('/api/products/viewProducts/:n', api.viewProducts);
 	app.get('/api/products/viewProducts', api.viewProducts);
+	app.get('/api/products/viewProductsFromTo/:from/:to', api.viewProductsFromTo)
 	app.get('/api/products/id/:id', api.productById);
 	app.get('/api/editrequests/all', api.editrequests);
 	app.get('/api/editrequests/date', api.requestsByDate);
