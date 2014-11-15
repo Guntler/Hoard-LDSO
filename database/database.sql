@@ -17,10 +17,10 @@ CREATE TYPE editType AS ENUM ('Add', 'Delete', 'Edit');
 CREATE TABLE userAccount (
 	userID SERIAL PRIMARY KEY,
 	email VARCHAR(100) UNIQUE NOT NULL,
-	password VARCHAR(50),
+	password VARCHAR(256),
 	permissions userType DEFAULT 'User',
 	registerDate TIMESTAMP NOT NULL,
-	CHECK (char_length(password) <= 50),
+	CHECK (char_length(password) <= 256),
 	CHECK (char_length(email) <= 100),
 	CHECK (registerdate <= now())
 );
