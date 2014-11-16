@@ -1,72 +1,7 @@
 <div ng-mousedown="hideSidebar($event)">
-	<div class="ui right red sidebar edit-profile">
-		<div class="ui form segment" href="#">
-			<div class="field">
-				<label>Change Email</label>
-				<div class="ui left labeled icon input">
-					<input type="text" placeholder="Email">
-					<i class="user icon"></i>
-					<div class="ui corner label">
-						<i class="icon asterisk"></i>
-					</div>
-				</div>
-			</div>
-			<div class="field">
-				<label>Current Password</label>
-				<div class="ui left labeled icon input">
-					<input type="password" placeholder="Password">
-					<i class="lock icon"></i>
-					<div class="ui corner label">
-						<i class="icon asterisk"></i>
-					</div>
-				</div>
-			</div>
-			<div class="field">
-				<label>New Password</label>
-				<div class="ui left labeled icon input">
-					<input type="password" placeholder="Password">
-					<i class="lock icon"></i>
-					<div class="ui corner label">
-						<i class="icon asterisk"></i>
-					</div>
-				</div>
-			</div>
-			<div class="ui error message">
-				<div class="header">We noticed some issues</div>
-			</div>
-			<div class="ui center aligned grid">
-				<a href="#/user/profile">
-					<div class="ui red submit button">
-						Confirm Changes
-					</div>
-				</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="top ui page grid">
-
-		<div class="twelve wide column">
-			<h1>hoard</h1>
-		</div>
-		<div class="four wide column">
-			<div class="ui compact menu">
-				<div class="ui simple dropdown icon right labeled button">
-						asd@hoard.com
-					<i class="user icon"></i>
-					<div class="menu">
-						<div class="item edit-profile selection" ng-click="showSidebar()"><i class="edit icon"></i>Edit Profile</div>
-						<a href="#">
-							<div class="item">
-								<i class="sign out icon"></i>
-								Log out
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
+	<div data-header-directive></div>
+	
 	<div class="ui page grid information">
 		<div class="row breadcrumb">
 			<div class="sixteen wide column shaded-bg">

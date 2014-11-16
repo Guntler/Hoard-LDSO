@@ -61,7 +61,7 @@ exports.findByEmail = function (email, callback) {
 exports.checkLogin = function (email, password, callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {
-            return callback(err, {result: false});
+            return callback(err, null);
         }
 
         var query = client.query("SELECT * FROM userAccount WHERE email = $1", [email]);
