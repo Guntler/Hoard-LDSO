@@ -11,6 +11,6 @@ Os produtos existentes na aplicação são provenientes das mais variadas lojas 
 Tecnologias escolhidas:
 =======================
 
-Server Side - NodeJS    
-Client Side - Ionic (Cordova, AngularJS)
+Server Side - NodeJS, Express, Passport  
+Client Side - AngularJS, Semantic UI, Android SDK
 
