@@ -149,3 +149,47 @@ exports.getAllUsers = function (callback) {
         });
     });
 };
+
+exports.getUsersFromTo = function (from, to, callback) {
+    pg.connect(conString, function (err, user, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = user.query("SELECT * FROM useraccount OFFSET $1 LIMIT $2", [from-1, to-from+1]);
+
+        query.on("row", function (row, result) {
+            result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+        });
+
+        query.on("end", function (result) {
+            done();
+            callback(null, result.rows);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};
+
+exports.getUserCount = function (callback) {
+    pg.connect(conString, function (err, user, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = user.query("SELECT COUNT (*) FROM useraccount");
+
+        query.on("row", function (row, result) {
+            done();
+            callback(null, row);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    })
+}

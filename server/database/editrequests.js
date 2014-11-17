@@ -79,3 +79,47 @@ exports.getAllByDate = function(callback) {
 		});
 	});
 };
+
+exports.getEditsFromTo = function (from, to, callback) {
+	pg.connect(conString, function (err, editrequest, done) {
+		if (err) {
+			return callback(err, null);
+		}
+
+		var query = editrequest.query("SELECT * FROM editrequest OFFSET $1 LIMIT $2", [from-1, to-from+1]);
+
+		query.on("row", function (row, result) {
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+		});
+
+		query.on("end", function (result) {
+			done();
+			callback(null, result.rows);
+		});
+
+		query.on("error", function (err) {
+			done();
+			callback(err, null);
+		});
+	});
+};
+
+exports.getEditCount = function (callback) {
+	pg.connect(conString, function (err, editrequest, done) {
+		if (err) {
+			return callback(err, null);
+		}
+
+		var query = editrequest.query("SELECT COUNT (*) FROM editrequest");
+
+		query.on("row", function (row, result) {
+			done();
+			callback(null, row);
+		});
+
+		query.on("error", function (err) {
+			done();
+			callback(err, null);
+		});
+	})
+}

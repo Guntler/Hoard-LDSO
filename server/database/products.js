@@ -106,3 +106,23 @@ exports.getAllProducts = function (callback) {
         });
     });
 };
+
+exports.getProductCount = function (callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = product.query("SELECT COUNT (*) FROM product");
+
+        query.on("row", function (row, result) {
+            done();
+            callback(null, row);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    })
+}
