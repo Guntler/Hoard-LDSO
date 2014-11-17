@@ -54,7 +54,6 @@ public class MainActivity extends FragmentActivity {
      * Menu View
      */
     private RelativeLayout menuView;
-    private TextView menuLogOutTextView;
     private boolean menuDown = false;
 
     /**
@@ -80,7 +79,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
-        menuLogOutTextView = (TextView) findViewById(R.id.top_layout_menu_logout);
+        TextView menuLogOutTextView = (TextView) findViewById(R.id.top_layout_menu_logout);
         menuLogOutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
