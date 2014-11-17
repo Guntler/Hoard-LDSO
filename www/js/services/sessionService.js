@@ -8,7 +8,7 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 				if(data.user) {
 					user = data.user;
 					messageService.setSuccess(data.message[0]);
-					$location.url('/user/frontpage');
+					$location.url('/home/products/1');
 				}
 				else {
 					messageService.setError(data.message[0]);

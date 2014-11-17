@@ -33,6 +33,29 @@
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/top_layout_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:id="@+id/top_layout_menu_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:text="@string/menu_logout"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@color/red"/>
+
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/top_layout_bar"
         android:layout_width="fill_parent"

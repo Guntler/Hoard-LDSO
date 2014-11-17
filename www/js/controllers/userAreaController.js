@@ -1,5 +1,4 @@
-hoard.controller('FrontpageController', function($scope, sessionService) {
-	$scope.tab = "products";
+hoard.controller('userAreaController', function($scope, sessionService) {
 	$scope.user = null;
 	
 	$scope.$watch(function() {
@@ -8,22 +7,6 @@ hoard.controller('FrontpageController', function($scope, sessionService) {
 				function() {
 					$scope.user = sessionService.getUser();
 				});
-	
-	$scope.users = [];
-	$scope.users.push({name: 'User1', date: 'Sep 14, 2014'});
-	$scope.users.push({name: 'User2', date: 'Sep 14, 2014'});
-	
-	$scope.products = [];
-	$scope.products.push({name: 'Product1', date: 'Sep 14, 2014'});
-	$scope.products.push({name: 'Product2', date: 'Sep 14, 2014'});
-	
-	$scope.edits = [];
-	$scope.edits.push({name: 'Edit1', date: 'Sep 14, 2014'});
-	$scope.edits.push({name: 'Edit2', date: 'Sep 14, 2014'});
-	
-	$scope.showTab = function(tab) {
-		$scope.tab = tab;
-	}
 	
 	$scope.logout = function() {
 		sessionService.signout();
