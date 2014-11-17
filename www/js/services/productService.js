@@ -1,18 +1,19 @@
-hoard.service('productService',function($http) {
+hoard.service('productService',function($http, messageService) {
 	var currProducts = [];
 	return {
-		getProductsByPage: function(page) {
-			var Url = "/api/products/viewProductsFromTo/"+page+"/10";
+		getProductsByPage: function(page, productsPerPage) {
+			var starting = ((page-1)*productsPerPage)+1;
+			var Url = "/api/products/viewProductsFromTo/"+starting+"/"+productsPerPage;
 			$http.get(Url).success(function(data){
-				if(data) {
-					currProducts = data;
-					messageService.setSuccess(data.message[0]);
+				if(data.result == false) {
+					//messageService.setError(data.message[0]);
 				}
 				else {
-					messageService.setError(data.message[0]);
+					currProducts = data;
+					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				messageService.setError(data.message[0]);
+				//messageService.setError(data.message[0]);
 			});
 		},
 		getProductById: function(id) {			

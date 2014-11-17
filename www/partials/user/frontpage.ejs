@@ -75,13 +75,8 @@
 
 			<div class="ui divider"></div>
 
-			<div class="pageshowing">Showing <b>2</b> of 2</div>
-
-			<div class="ui pagination menu">
-				<a class="icon item disabled"><i class="icon left arrow"></i></a>
-				<a class="active item">1</a>
-				<a class="icon item disabled"><i class="icon right arrow"></i></a>
-			</div>
+			<div data-pagination-directive total-items="totalTabItems" current-page="currentPage"
+					page-range="pageRange" items-per-page="itemsPerPage" item-type="tab" redirect-url="/home"></div>
 		</div>
 	</div>
 </div>
