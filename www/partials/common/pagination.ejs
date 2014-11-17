@@ -1,0 +1,7 @@
+<div class="pageshowing">Showing <b>{{currentPage}}</b> of {{totalPages}}</div>
+
+<div class="ui pagination menu">
+	<a class="icon item" ng-class="{disabled: currentPage <= 1}" ng-click="changePage('previous')"><i class="icon left arrow"></i></a>
+	<a ng-repeat="page in pages" class="item" ng-class="{active: currentPage == page, disabled: page == '...'}" ng-click="changePage(page)">{{page}}</a>
+	<a class="icon item" ng-class="{disabled: currentPage >= totalPages}" ng-click="changePage('next')"><i class="icon right arrow"></i></a>
+</div>
