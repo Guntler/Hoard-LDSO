@@ -37,6 +37,7 @@ module.exports = function (app, passport) {
     app.get('/api/products/viewProducts/:n', api.viewProducts);
     app.get('/api/products/viewProducts', api.viewProducts);
     app.get('/api/products/viewProductsFromTo/:from/:to', managerApiPermissions, api.viewProductsFromTo);
+	app.get('/api/products/count', managerApiPermissions, api.productCount);
     app.get('/api/products/id/:id', api.productById);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
@@ -46,7 +47,7 @@ module.exports = function (app, passport) {
         req.logout();
         res.send({result: true});
     });
-    app.get('/api/users/current', adminPermissions, function (req, res) {
+    app.get('/api/users/current', function (req, res) {
         if (isLoggedIn(req)) {
             res.send({user: req.user});
         }
@@ -99,7 +100,7 @@ function managerApiPermissions(req, res, next) {
             return next();
     }
 
-    res.send({result: "insufficient permissions"});
+    res.send({result: false});
 }
 
 function adminApiPermissions(req, res, next) {
@@ -108,5 +109,5 @@ function adminApiPermissions(req, res, next) {
             return next();
     }
 
-    res.send({result: "insufficient permissions"});
+    res.send({result: false});
 }
