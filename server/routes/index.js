@@ -17,6 +17,11 @@ module.exports = function(app, passport) {
 		res.render('partials/product/' + name, {user: req.user});
 	});
 	
+	app.get('/partials/common/:name', managerPermissions, function(req, res) {
+		var name = req.params.name;
+		res.render('partials/common/' + name, {user: req.user});
+	});
+	
 	app.get('/partials/:name', function(req,res) {
 		var name = req.params.name;
 		res.render('partials/' + name);

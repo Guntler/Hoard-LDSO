@@ -8,7 +8,7 @@ var path 			= require("path"),
 	flash			= require('connect-flash');
 
 var full_path = path.join(process.cwd(),'/../www/');
-
+console.log(process.cwd());
 var app = express();
 
 //configure

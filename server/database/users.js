@@ -60,13 +60,13 @@ exports.findByEmail = function(email, callback) {
 exports.checkLogin = function(email, password, callback) {
 	pg.connect(conString, function(err, client, done) {
 		if(err) {
-			return callback(err, {result: false});
+			return callback(err, null);
 		}
 		
 		var query = client.query("SELECT * FROM userAccount WHERE email = $1 AND password = $2", [email,password]);
 		
 		query.on("row", function(row, result) {
-			result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+			result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
 		});
 		
 		query.on("end", function(result) {
