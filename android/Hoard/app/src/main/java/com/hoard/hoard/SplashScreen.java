@@ -7,7 +7,6 @@ package com.hoard.hoard;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 public class SplashScreen extends Activity {
 
@@ -16,17 +15,20 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        int SPLASH_TIME_OUT = 3000;
-        new Handler().postDelayed(new Runnable() {
+        Session session = new Session(SplashScreen.this);
 
-            @Override
-            public void run() {
-                Intent i = new Intent(SplashScreen.this, LoginActivity.class);
-                startActivity(i);
+        if(session.checkSessionForUser()) {
+            Intent i = new Intent(SplashScreen.this, MainActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("notification", getResources().getString(R.string.notification_already));
+            i.putExtras(bundle);
+            startActivity(i);
+        } else {
+            Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+            startActivity(i);
+        }
 
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
+        finish();
     }
 
 }

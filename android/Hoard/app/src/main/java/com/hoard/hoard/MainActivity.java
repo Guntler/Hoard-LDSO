@@ -4,6 +4,8 @@ package com.hoard.hoard;
  * Created by AndreSilva on 21/10/14
  */
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -29,6 +31,11 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity {
 
     /**
+     * Session
+     */
+    private Session session;
+
+    /**
      * View Pager Stuff
      */
     private ViewPager viewPager;
@@ -43,6 +50,12 @@ public class MainActivity extends FragmentActivity {
      */
     private RelativeLayout notificationBar;
 
+    /*
+     * Menu View
+     */
+    private RelativeLayout menuView;
+    private boolean menuDown = false;
+
     /**
      * Progress Indicator
      */
@@ -54,14 +67,31 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        session = new Session(MainActivity.this);
+
         notificationBar = (RelativeLayout) findViewById(R.id.top_layout_notification_bar);
-        TextView notificationEditText = (TextView) findViewById(R.id.notification_bar_text_edit);
+        TextView notificationTextView = (TextView) findViewById(R.id.notification_bar_text_edit);
 
         if(getIntent().hasExtra("notification")) {
-            notificationEditText.setText(getIntent().getStringExtra("notification"));
+            notificationTextView.setText(getIntent().getStringExtra("notification"));
 
             new NotificationShowDelayAsyncTask().execute();
         }
+
+        menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
+        TextView menuLogOutTextView = (TextView) findViewById(R.id.top_layout_menu_logout);
+        menuLogOutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (menuDown) {
+                    session.logOut();
+
+                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                }
+            }
+        });
 
         /*
          Instantiate ViewPager and ProgressBar.
@@ -121,17 +151,27 @@ public class MainActivity extends FragmentActivity {
         ImageButton settings = (ImageButton) findViewById(R.id.settings_button);
 
         settings.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Settings",
-                        Toast.LENGTH_LONG).show();
+                if (menuDown) {
+                    AnimatorSet menuUp = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.menu_up);
+                    menuUp.setTarget(menuView);
+                    menuUp.start();
+                } else {
+                    AnimatorSet menuDown = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.menu_down);
+                    menuDown.setTarget(menuView);
+                    menuDown.start();
+                }
 
+                menuDown = !menuDown;
             }
         });
 
         ImageButton favorites = (ImageButton) findViewById(R.id.favorite_button);
 
         favorites.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Favorites",
@@ -218,7 +258,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         protected void onPostExecute(String string) {
-            if(visibility) {
+            if (visibility) {
                 Log.i("Here", "h");
                 urlLoadProgressBar.setVisibility(View.VISIBLE);
             }

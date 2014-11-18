@@ -17,10 +17,10 @@ CREATE TYPE editType AS ENUM ('Add', 'Delete', 'Edit');
 CREATE TABLE userAccount (
 	userID SERIAL PRIMARY KEY,
 	email VARCHAR(100) UNIQUE NOT NULL,
-	password VARCHAR(50),
+	password VARCHAR(256),
 	permissions userType DEFAULT 'User',
 	registerDate TIMESTAMP NOT NULL,
-	CHECK (char_length(password) <= 50),
+	CHECK (char_length(password) <= 256),
 	CHECK (char_length(email) <= 100),
 	CHECK (registerdate <= now())
 );
@@ -74,15 +74,17 @@ CREATE TABLE editRequest (
 	CHECK (editdate <= now())
 );
 
-INSERT INTO userAccount (email, password, registerDate) VALUES ('a@a.a', 'a', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, registerDate) VALUES ('b@b.b', 'b', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, registerDate) VALUES ('c@c.c', 'c', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, registerDate) VALUES ('d@d.d', 'd', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, registerDate) VALUES ('e@e.e', 'e', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, registerDate) VALUES ('f@f.f', 'f', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, permissions, registerDate) VALUES ('m1@m1.m1', 'm1', 'Manager', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, permissions, registerDate) VALUES ('m2@m2.m2', 'm2', 'Manager', '2001-02-16 20:38:40');
-INSERT INTO userAccount (email, password, permissions, registerDate) VALUES ('admin@admin.admin', 'admin', 'Admin', '2001-02-16 20:38:40');
+
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('u1@u.com', '$2a$10$UB0tKnaxoBHcHiuiWK9KBuD8kJnOWpi8zaimBSEh.s2/95kr5C07K', 'User', '2014-11-16 10:47:58.848157');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('u2@u.com', '$2a$10$YproDzfcCenNfj/NblZpwObBZCVO.E3B76n0uHjAMC8ZIMdO5GJLS', 'User', '2014-11-16 10:48:04.060251');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('u3@u.com', '$2a$10$EEKdpicXJQWYeJOXCp8BqOpUNvRFhEs.jePCKVGEDlNrpqTMluP2a', 'User', '2014-11-16 10:48:08.701495');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('u4@u.com', '$2a$10$rZltWBAut6dggRxn0HtqKuFklHe7YLO9fkfyVY4wubCohTvjVumUm', 'User', '2014-11-16 10:48:13.491823');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('u5@u.com', '$2a$10$QUJXyqsHfwaIDRxOeXeNQOMMdV/bnFbD8fS6svlvNuYrAz7kufmSi', 'User', '2014-11-16 10:48:17.349188');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('u6@u.com', '$2a$10$ZjG8PT4Scuphuyqs7czhwOVwklP2NjB2t6hv4G.RcW2FdTi8TCht6', 'User', '2014-11-16 10:48:23.721266');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('m1@m.com', '$2a$10$XEHeS6NuZkMbCqrv2M1DseQs74WItW0Dg5sRQUrvmEPrf37XGjdai', 'Manager', '2014-11-16 10:49:06.357659');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('m2@m.com', '$2a$10$2MNlG0MX8/TkcaGONkkLsedSb9Wwqjk1HcrjPPju74JNDLsFbKp.u', 'Manager', '2014-11-16 10:49:12.52281');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('a1@a.com', '$2a$10$uyvVXDZfKQNamvu6qgIGIe9pyMOxDvC2zO7iq2cmw1YmQ0qwgAPZC', 'Admin', '2014-11-16 10:48:47.539946');
+INSERT INTO useraccount (email, password, permissions, registerDate) VALUES ('a2@a.com', '$2a$10$uL0PVKWF2jXZk6gLd2o8uuonJcbEh7ARGfsPTYyAeM.3HoYoJpAGO', 'Admin', '2014-11-16 10:48:52.146526');
 
 INSERT INTO productCategory (categoryName) VALUES ('Gadgets');
 INSERT INTO productCategory (categoryName) VALUES ('Home & Office');

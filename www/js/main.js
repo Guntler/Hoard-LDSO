@@ -7,20 +7,20 @@ hoard.config(function($routeProvider, $httpProvider) {
 		controller: 'WelcomeController',
 		templateUrl: 'partials/welcome.ejs'
 	}).
-	when('/user/frontpage', {
-		controller: 'FrontpageController',
+	when('/home/:tab/:page', {
+		controller: 'userAreaController',
 		templateUrl: 'partials/user/frontpage.ejs'
 	}).
-	when('/user/profile', {
-		controller: 'FrontpageController',
+	when('/users/:user', {
+		controller: 'userAreaController',
 		templateUrl: 'partials/user/profile.ejs'
 	}).
-	when('/product/profile', {
-		controller: 'FrontpageController',
+	when('/products/:product', {
+		controller: 'userAreaController',
 		templateUrl: 'partials/product/profile.ejs'
 	}).
-	when('/user/edit', {
-		controller: 'FrontpageController',
+	when('/edits/:edit', {
+		controller: 'userAreaController',
 		templateUrl: 'partials/user/edit.ejs'
 	}).
 	otherwise({template: '<h1> 404 Page Not Found </h1>'});
