@@ -25,7 +25,16 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.users.push({name: 'User2', date: 'Sep 14, 2014'});
 	
 	//Products
-	$scope.products = productService.getCurrProducts();
+	if($scope.tab == 'products') {
+		$scope.$watch(function() {
+					return productService.getProductCount();
+				},
+				function() {
+					$scope.totalTabItems = productService.getProductCount();
+				});
+		productService.updateProductCount();
+	}
+		
 	$scope.$watch(function() {
 					return productService.getCurrProducts();
 				},
@@ -33,7 +42,7 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 					$scope.products = productService.getCurrProducts();
 					$scope.totalTabItems = $scope.products.length;
 				});
-	productService.getProductsByPage($routeParams.page,$scope.itemsPerPage);
+	productService.updateProductsByPage($routeParams.page,$scope.itemsPerPage);
 	
 	//Edits
 	$scope.edits = [];

@@ -84,6 +84,15 @@ exports.products = function (req, res) {
     });
 };
 
+exports.productCount = function (req, res) {
+	products.getProductCount(function(err, result) {
+		if(err || !result)
+			res.send({result: false});
+		else
+			res.send(result);
+	});
+}
+
 exports.viewProducts = function (req, res) {
     if (req.params.n == undefined) {
         products.getProducts(null, function (err, result) {

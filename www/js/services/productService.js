@@ -1,7 +1,8 @@
 hoard.service('productService',function($http, messageService) {
 	var currProducts = [];
+	var productCount = 0;
 	return {
-		getProductsByPage: function(page, productsPerPage) {
+		updateProductsByPage: function(page, productsPerPage) {
 			var starting = ((page-1)*productsPerPage)+1;
 			var Url = "/api/products/viewProductsFromTo/"+starting+"/"+productsPerPage;
 			$http.get(Url).success(function(data){
@@ -23,14 +24,16 @@ hoard.service('productService',function($http, messageService) {
 			return currProducts;
 		},
 		getProductCount: function() {
-			var starting = ((page-1)*productsPerPage)+1;
-			var Url = "/api/products/viewProductsFromTo/"+starting+"/"+productsPerPage;
+			return productCount;
+		},
+		updateProductCount: function() {
+			var Url = "/api/products/count/";
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
 					//messageService.setError(data.message[0]);
 				}
 				else {
-					currProducts = data;
+					productCount = data;
 					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
