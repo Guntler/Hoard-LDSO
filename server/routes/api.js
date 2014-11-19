@@ -15,6 +15,23 @@ exports.users = function (req, res) {
     });
 };
 
+//Get users paginated
+exports.usersFromTo = function (req, res) {
+    if (req.params.from == undefined || req.params.to == undefined) {
+        res.send({result: false});
+    } else {
+        users.getUsersFromTo(req.params.from, req.params.to, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+
 //Get a user by id
 exports.userById = function (req, res) {
     users.findById(req.params.id, function (err, result) {
@@ -115,7 +132,7 @@ exports.viewProducts = function (req, res) {
     }
 };
 
-exports.viewProductsFromTo = function (req, res) {
+exports.productsFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
         res.send({result: false});
     } else {
@@ -151,6 +168,23 @@ exports.editrequests = function (req, res) {
             res.send({result: false});
     });
 };
+
+//Get edit requests paginated
+exports.editsFromTo = function (req, res) {
+    if (req.params.from == undefined || req.params.to == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.getEditsFromTo(req.params.from, req.params.to, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 
 exports.requestsByDate = function (req, res) {
     editrequests.getAllByDate(function (err, result) {

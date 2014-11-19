@@ -30,16 +30,18 @@ module.exports = function (app, passport) {
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
-    app.get('/api/users/checklogin/:email/:password', api.checkLogin);
+    app.get('/api/users/fromTo/:from/:to', adminApiPermissions, api.usersFromTo);
     app.get('/api/users/exists/:email', adminApiPermissions, api.userExists);
+    app.get('/api/users/productsFromTo/:from/:to', managerApiPermissions, api.productsFromTo);
     app.get('/api/users/register/:email/:password', api.registerUser);
     app.get('/api/products/all', api.products);
     app.get('/api/products/viewProducts/:n', api.viewProducts);
     app.get('/api/products/viewProducts', api.viewProducts);
-    app.get('/api/products/viewProductsFromTo/:from/:to', managerApiPermissions, api.viewProductsFromTo);
+    app.get('/api/products/fromTo/:from/:to', managerApiPermissions, api.productsFromTo);
 	app.get('/api/products/count', managerApiPermissions, api.productCount);
     app.get('/api/products/id/:id', api.productById);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
+    app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);
     app.get('/api/editrequests/approve/:id', adminApiPermissions, api.approveRequest)
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
