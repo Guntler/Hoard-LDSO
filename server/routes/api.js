@@ -31,6 +31,15 @@ exports.usersFromTo = function (req, res) {
     }
 };
 
+exports.userCount = function (req, res) {
+	users.getUserCount(function(err, result) {
+		if(err || !result)
+			res.send({result: false});
+		else
+			res.send(result);
+	});
+}
+
 
 //Get a user by id
 exports.userById = function (req, res) {
@@ -184,6 +193,15 @@ exports.editsFromTo = function (req, res) {
         });
     }
 };
+
+exports.editCount = function (req, res) {
+	editrequests.getEditCount(function(err, result) {
+		if(err || !result)
+			res.send({result: false});
+		else
+			res.send(result);
+	});
+}
 
 
 exports.requestsByDate = function (req, res) {

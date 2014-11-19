@@ -1,6 +1,6 @@
 'use strict';
 
-var hoard = angular.module('hoard', ['ngRoute']);
+var hoard = angular.module('hoard', ['ngRoute','ngCookies']);
 
 hoard.config(function($routeProvider, $httpProvider) {
 	$routeProvider.when('/', {
