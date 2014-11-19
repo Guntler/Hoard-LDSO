@@ -16,6 +16,11 @@ module.exports = function (app, passport) {
         var name = req.params.name;
         res.render('partials/product/' + name, {user: req.user});
     });
+	
+	app.get('/partials/edit/:name', managerPermissions, function (req, res) {
+        var name = req.params.name;
+        res.render('partials/edit/' + name, {user: req.user});
+    });
 
     app.get('/partials/common/:name', managerPermissions, function (req, res) {
         var name = req.params.name;

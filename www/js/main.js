@@ -21,7 +21,7 @@ hoard.config(function($routeProvider, $httpProvider) {
 	}).
 	when('/edits/:edit', {
 		controller: 'userAreaController',
-		templateUrl: 'partials/user/edit.ejs'
+		templateUrl: 'partials/edit/edit.ejs'
 	}).
 	otherwise({template: '<h1> 404 Page Not Found </h1>'});
 	
