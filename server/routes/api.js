@@ -185,12 +185,28 @@ exports.requestsByManagerId = function (req, res) {
     });
 };
 
+exports.approveRequest = function (req, res) {
+    editrequests.findByEditType(req.params.edittype, function (err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
 
 
 //New edit request
-//Approve edit request
-//Refuse edit request
-//Get a Product's edits
+//New product (Default is not visible and also implies an edit request which needs to be approved)
+//Approve edit request (When a new product is approved it needs to be changed to visible)
+//Reject edit request
+//Remove manager privileges
+//Grant manager privileges
+//Get user/manager with similar email
+//Get all managers
+//See a product's specific edit info
+//See a product's changes made by a specific manager
 //Get all FavoriteProducts of a User
 //Get the category product from DB
 

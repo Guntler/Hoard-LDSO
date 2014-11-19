@@ -39,8 +39,8 @@ module.exports = function (app, passport) {
     app.get('/api/products/viewProductsFromTo/:from/:to', managerApiPermissions, api.viewProductsFromTo);
 	app.get('/api/products/count', managerApiPermissions, api.productCount);
     app.get('/api/products/id/:id', api.productById);
-    app.get('/api/editrequests/new/:productid/:edittype/:description/:reason', managerApiPermissions, api.editrequests);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
+    app.get('/api/editrequests/approve/:id', adminApiPermissions, api.approveRequest)
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);

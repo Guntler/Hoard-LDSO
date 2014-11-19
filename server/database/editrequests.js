@@ -86,7 +86,7 @@ exports.getEditsFromTo = function (from, to, callback) {
 			return callback(err, null);
 		}
 
-		var query = editrequest.query("SELECT * FROM editrequest OFFSET $1 LIMIT $2", [from-1, to-from+1]);
+		var query = editrequest.query("SELECT * FROM editrequest OFFSET $1 LIMIT $2",  [(from-1)*to, to]);
 
 		query.on("row", function (row, result) {
 			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));

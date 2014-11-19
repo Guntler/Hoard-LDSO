@@ -156,7 +156,7 @@ exports.getUsersFromTo = function (from, to, callback) {
             return callback(err, null);
         }
 
-        var query = user.query("SELECT * FROM useraccount OFFSET $1 LIMIT $2", [from-1, to-from+1]);
+        var query = user.query("SELECT * FROM useraccount OFFSET $1 LIMIT $2", [(from-1)*to, to]);
 
         query.on("row", function (row, result) {
             result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
