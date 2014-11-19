@@ -4,6 +4,7 @@ package com.hoard.hoard;
  * Created by AndreSilva on 21/10/14
  */
 
+import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Intent;
@@ -26,7 +27,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
@@ -79,6 +79,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
+        menuView.setVisibility(View.GONE);
         TextView menuLogOutTextView = (TextView) findViewById(R.id.top_layout_menu_logout);
         menuLogOutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +93,12 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         });
+
+        Session session = new Session(MainActivity.this);
+        if(session.checkSessionForUser()) {
+            TextView menuProfileTextView = (TextView) findViewById(R.id.top_layout_menu_profile);
+            menuProfileTextView.setText(session.getUserEmail());
+        }
 
         /*
          Instantiate ViewPager and ProgressBar.
@@ -157,10 +164,51 @@ public class MainActivity extends FragmentActivity {
                 if (menuDown) {
                     AnimatorSet menuUp = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.menu_up);
                     menuUp.setTarget(menuView);
+                    menuUp.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animator) {
+
+                        }
+                    });
                     menuUp.start();
                 } else {
                     AnimatorSet menuDown = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.menu_down);
                     menuDown.setTarget(menuView);
+                    menuDown.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) {
+                            menuView.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animator) {
+
+                        }
+                    });
                     menuDown.start();
                 }
 
@@ -174,8 +222,8 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Favorites",
-                        Toast.LENGTH_LONG).show();
+                Intent i = new Intent(MainActivity.this, FavoriteActivity.class);
+                startActivity(i);
             }
         });
     }

@@ -6,6 +6,7 @@
     <objectAnimator
         android:propertyName="y"
         android:duration="500"
-        android:valueTo="55"
+        android:valueFrom="-65"
+        android:valueTo="65"
         android:valueType="floatType"/>
 </set>

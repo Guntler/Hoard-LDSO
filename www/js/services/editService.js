@@ -1,40 +1,38 @@
-hoard.service('productService',function($http, messageService) {
-	var currProducts = [];
-	var productCount = {integer: 0};
+hoard.service('editService',function($http, messageService) {
+	var currEdits = [];
+	var editCount = {integer: 0};
 	return {
-		updateProductsByPage: function(page, productsPerPage) {
-			var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
-			console.log(Url);
+		updateEditsByPage: function(page, editsPerPage) {
+			var Url = "/api/editrequests/fromTo/"+page+"/"+editsPerPage;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
 					//messageService.setError(data.message[0]);
 				}
 				else {
-					currProducts = data;
-					console.log(data);
+					currEdits = data;
 					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
 				//messageService.setError(data.message[0]);
 			});
 		},
-		getProductById: function(id) {			
+		getEditById: function(id) {			
 			
 		},
-		getCurrProducts: function() {
-			return currProducts;
+		getCurrEdits: function() {
+			return currEdits;
 		},
-		getProductCount: function() {
-			return productCount;
+		getEditCount: function() {
+			return editCount;
 		},
-		updateProductCount: function() {
-			var Url = "/api/products/count/";
+		updateEditCount: function() {
+			var Url = "/api/editrequests/count/";
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
 					//messageService.setError(data.message[0]);
 				}
 				else {
-					productCount = {integer: data.count};
+					editCount = {integer: data.count};
 					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {

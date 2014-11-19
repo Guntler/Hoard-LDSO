@@ -1,40 +1,38 @@
-hoard.service('productService',function($http, messageService) {
-	var currProducts = [];
-	var productCount = {integer: 0};
+hoard.service('userService',function($http, messageService) {
+	var currUsers = [];
+	var userCount = {integer: 0};
 	return {
-		updateProductsByPage: function(page, productsPerPage) {
-			var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
-			console.log(Url);
+		updateUsersByPage: function(page, usersPerPage) {
+			var Url = "/api/users/fromTo/"+page+"/"+usersPerPage;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
 					//messageService.setError(data.message[0]);
 				}
 				else {
-					currProducts = data;
-					console.log(data);
+					currUsers = data;
 					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
 				//messageService.setError(data.message[0]);
 			});
 		},
-		getProductById: function(id) {			
+		getUserById: function(id) {			
 			
 		},
-		getCurrProducts: function() {
-			return currProducts;
+		getCurrUsers: function() {
+			return currUsers;
 		},
-		getProductCount: function() {
-			return productCount;
+		getUserCount: function() {
+			return userCount;
 		},
-		updateProductCount: function() {
-			var Url = "/api/products/count/";
+		updateUserCount: function() {
+			var Url = "/api/users/count/";
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
 					//messageService.setError(data.message[0]);
 				}
 				else {
-					productCount = {integer: data.count};
+					userCount = {integer: data.count};
 					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {

@@ -1,6 +1,13 @@
 hoard.controller('paginationController',function($scope,$location) {
 	$scope.pages = [];
 	$scope.totalPages = 0;
+	
+	$scope.$watch(function() {
+					return $scope.totalItems;
+				},
+				function() {
+					getPages($scope.currentPage,$scope.totalItems,$scope.itemsPerPage,$scope.pageRange);
+				});
 
 	function getPages(currentPage,totalItems,itemsPerPage,pageRange) {
 		$scope.pages = [];

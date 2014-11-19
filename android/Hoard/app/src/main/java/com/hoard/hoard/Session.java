@@ -23,6 +23,8 @@ public class Session {
         return sharedpreferences.contains(USER);
     }
 
+    public String getUserEmail() {return sharedpreferences.getString(USER,null);}
+
     public void logIn(String userEmail) {
         SharedPreferences.Editor editor = sharedpreferences.edit();
 

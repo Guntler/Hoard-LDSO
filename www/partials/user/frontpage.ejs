@@ -59,12 +59,16 @@
 				<a ng-repeat="user in users" href="#/users/user" class="item">
 					<div class="right floated date"><button class="ui green button tiny">edit</button></div>
 					<div class="right floated date">{{user.date}}</div>
+					<div class="right floated date">{{user.registerdate}}</div>
 					<div class="name">
-						{{user.name}}
+						{{user.email}}
+					</div>
+					<div class="name">
+						{{user.permissions}}
 					</div>
 				</a>
 			</div>
-			
+
 			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab">
 				<div class=" ui toggle button">Approved</div>
 				<div class=" ui toggle button">Unapproved</div>
@@ -84,6 +88,14 @@
 						</div>
 					</a>
 				</div>
+				
+			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab shaded-bg">
+				<a ng-repeat="edit in edits" href="#/edits/edit" class="item">
+					<div class="right floated date">{{edit.editdate}}</div>
+					<div class="name">
+						{{edit.edittype}}
+					</div>
+				</a>
 			</div>
 
 			<div class="ui divider"></div>

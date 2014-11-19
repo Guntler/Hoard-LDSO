@@ -31,6 +31,15 @@ exports.usersFromTo = function (req, res) {
     }
 };
 
+exports.userCount = function (req, res) {
+    users.getUserCount(function (err, result) {
+        if (err || !result)
+            res.send({result: false});
+        else
+            res.send(result);
+    });
+};
+
 
 //Get a user by id
 exports.userById = function (req, res) {
@@ -102,13 +111,13 @@ exports.products = function (req, res) {
 };
 
 exports.productCount = function (req, res) {
-	products.getProductCount(function(err, result) {
-		if(err || !result)
-			res.send({result: false});
-		else
-			res.send(result);
-	});
-}
+    products.getProductCount(function (err, result) {
+        if (err || !result)
+            res.send({result: false});
+        else
+            res.send(result);
+    });
+};
 
 exports.viewProducts = function (req, res) {
     if (req.params.n == undefined) {
@@ -157,6 +166,51 @@ exports.productById = function (req, res) {
     });
 };
 
+exports.addToFavorites = function (req, res) {
+    if (req.params.id == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.addToFavorites(req.params.id, req.user.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+exports.getFavorites = function (req, res) {
+    if (req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.getFavorites(req.user.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+exports.removeProduct = function (req, res) {
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        products.removeProduct(req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 //Get all EditRequest from the DB
 exports.editrequests = function (req, res) {
     editrequests.getAllById(function (err, result) {
@@ -183,6 +237,15 @@ exports.editsFromTo = function (req, res) {
                 res.send({result: false});
         });
     }
+};
+
+exports.editCount = function (req, res) {
+    editrequests.getEditCount(function (err, result) {
+        if (err || !result)
+            res.send({result: false});
+        else
+            res.send(result);
+    });
 };
 
 
@@ -235,14 +298,9 @@ exports.approveRequest = function (req, res) {
 //New product (Default is not visible and also implies an edit request which needs to be approved)
 //Approve edit request (When a new product is approved it needs to be changed to visible)
 //Reject edit request
-//Remove manager privileges
-//Grant manager privileges
-//Get user/manager with similar email
-//Get all managers
-//See a product's specific edit info
-//See a product's changes made by a specific manager
 //Get all FavoriteProducts of a User
 //Get the category product from DB
+//recover password
 
 exports.favoriteProductsById = function (req, res) {
 
@@ -254,6 +312,6 @@ exports.favoriteProductsById = function (req, res) {
     });
 
 
-}
+};
 //Get the category product from DB
 
