@@ -1,4 +1,4 @@
-hoard.controller('userAreaController', function($scope, sessionService) {
+hoard.controller('userAreaController', function($scope, $cookieStore, sessionService) {
 	$scope.user = null;
 	
 	$scope.$watch(function() {
@@ -10,6 +10,7 @@ hoard.controller('userAreaController', function($scope, sessionService) {
 	
 	$scope.logout = function() {
 		sessionService.signout();
+		$cookieStore.remove("connect.sid");
 	}
 			
 	$scope.showSidebar = function() {

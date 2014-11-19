@@ -1,4 +1,4 @@
-hoard.controller('homeController',function($scope, $routeParams, $location, productService) {
+hoard.controller('homeController',function($scope, $routeParams, $location, productService, editService, userService) {
 	
 	//State variables
 	$scope.tab = null;
@@ -21,23 +21,63 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	
 	//Users
 	$scope.users = [];
-	$scope.users.push({name: 'User1', date: 'Sep 14, 2014'});
-	$scope.users.push({name: 'User2', date: 'Sep 14, 2014'});
+	
+	if($scope.tab == 'users') {
+		$scope.$watch(function() {
+					return userService.getUserCount();
+				},
+				function() {
+					$scope.totalTabItems = userService.getUserCount().integer;
+				});
+		userService.updateUserCount();
+	}
+		
+	$scope.$watch(function() {
+					return userService.getCurrUsers();
+				},
+				function() {
+					$scope.users = userService.getCurrUsers();
+				});
+	userService.updateUsersByPage($routeParams.page,$scope.itemsPerPage);
 	
 	//Products
-	$scope.products = productService.getCurrProducts();
+	$scope.products = [];
+	if($scope.tab == 'products') {
+		$scope.$watch(function() {
+					return productService.getProductCount();
+				},
+				function() {
+					$scope.totalTabItems = productService.getProductCount().integer;
+				});
+		productService.updateProductCount();
+	}
+		
 	$scope.$watch(function() {
 					return productService.getCurrProducts();
 				},
 				function() {
 					$scope.products = productService.getCurrProducts();
-					$scope.totalTabItems = $scope.products.length;
 				});
-	productService.getProductsByPage($routeParams.page,$scope.itemsPerPage);
+	productService.updateProductsByPage($routeParams.page,$scope.itemsPerPage);
 	
 	//Edits
 	$scope.edits = [];
-	$scope.edits.push({name: 'Edit1', date: 'Sep 14, 2014'});
-	$scope.edits.push({name: 'Edit2', date: 'Sep 14, 2014'});
 	
+	if ($scope.tab == 'edits') {
+		$scope.$watch(function() {
+					return editService.getEditCount();
+				},
+				function() {
+					$scope.totalTabItems = editService.getEditCount().integer;
+				});
+		editService.updateEditCount();
+	}
+	
+	$scope.$watch(function() {
+					return editService.getCurrEdits();
+				},
+				function() {
+					$scope.edits = editService.getCurrEdits();
+				});
+	editService.updateEditsByPage($routeParams.page,$scope.itemsPerPage);
 });

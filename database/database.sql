@@ -34,7 +34,6 @@ CREATE TABLE productCategory (
 CREATE TABLE product (
 	productID SERIAL PRIMARY KEY,
 	name VARCHAR(200) UNIQUE NOT NULL,
-	price REAL NOT NULL,
 	link VARCHAR(500) UNIQUE NOT NULL,
 	imageName VARCHAR(128) UNIQUE NOT NULL, -- Images will be placed in folders with this structure: productImages/<productID>/<imageNameAsInsertedByUser>
 	category INTEGER NOT NULL REFERENCES productCategory(categoryID),
@@ -43,7 +42,6 @@ CREATE TABLE product (
 	dateAdded TIMESTAMP NOT NULL,
 	CHECK (char_length(name) <= 200),
 	CHECK (char_length(link) <= 500),
-	CHECK (price >= 0),
 	CHECK (dateAdded <= now())
 );
 
@@ -58,7 +56,7 @@ CREATE TABLE favoriteProduct (
 );
 
 
--- description: Link', 'Name', 'Price', 'Category' --
+-- description: Link', 'Name', 'Category' --
 CREATE TABLE editRequest (
 	requestID SERIAL PRIMARY KEY,
 	productID INTEGER NOT NULL REFERENCES product(productID),
@@ -93,23 +91,23 @@ INSERT INTO productCategory (categoryName) VALUES ('Books');
 INSERT INTO productCategory (categoryName) VALUES ('Apparel');
 INSERT INTO productCategory (categoryName) VALUES ('Toys');
 
-INSERT INTO product (name, price, link, imageName, category, visible, addedBy, dateAdded) 
-VALUES ('Infectious Disease Ball', 2.00, 'http://www.thinkgeek.com/product/e8f1/',
+INSERT INTO product (name, link, imageName, category, visible, addedBy, dateAdded)
+VALUES ('Infectious Disease Ball', 'http://www.thinkgeek.com/product/e8f1/',
  'e8f1_disease_stress_balls.gif', 2, true, 7, '2001-02-16 20:38:40');
-INSERT INTO product (name, price, link, imageName, category, visible, addedBy, dateAdded) 
-VALUES ('Flux Capacitor USB Car Charger', 24.99, 'http://www.thinkgeek.com/product/1dbd/',
+INSERT INTO product (name, link, imageName, category, visible, addedBy, dateAdded)
+VALUES ('Flux Capacitor USB Car Charger', 'http://www.thinkgeek.com/product/1dbd/',
  '1dbd_flux_capacitor_car_charger.gif', 1, true, 8, '2001-02-16 20:38:40');
-INSERT INTO product (name, price, link, imageName, category, visible, addedBy, dateAdded) 
-VALUES ('Star Wars Force FX Removable Blade Lightsabers', 169.99, 'http://www.thinkgeek.com/product/e26d/',
+INSERT INTO product (name, link, imageName, category, visible, addedBy, dateAdded)
+VALUES ('Star Wars Force FX Removable Blade Lightsabers', 'http://www.thinkgeek.com/product/e26d/',
  'e26d_star_wars_removable_blade_lightsabers_anim.gif', 6, true, 9, '2001-02-16 20:38:40');
-INSERT INTO product (name, price, link, imageName, category, visible, addedBy, dateAdded) 
-VALUES ('Optimus Popularis Keyboard', 1424.99, 'http://www.thinkgeek.com/product/181d/',
+INSERT INTO product (name, link, imageName, category, visible, addedBy, dateAdded)
+VALUES ('Optimus Popularis Keyboard', 'http://www.thinkgeek.com/product/181d/',
  '181d_optimus_popularis_keyboard.jpg', 6, true, 9, '2001-02-16 20:38:40');
-INSERT INTO product (name, price, link, imageName, category, visible, addedBy, dateAdded) 
-VALUES ('Light Show Fountain Speakers', 39.99, 'http://www.thinkgeek.com/product/f188/',
+INSERT INTO product (name, link, imageName, category, visible, addedBy, dateAdded)
+VALUES ('Light Show Fountain Speakers', 'http://www.thinkgeek.com/product/f188/',
  'f188_lightshow_fountain_speakers.gif', 1, true, 7, '2001-02-16 20:38:40');
-INSERT INTO product (name, price, link, imageName, category, visible, addedBy, dateAdded) 
-VALUES ('The Unicorn Head Mask', 23.99, 'http://www.thinkgeek.com/product/1107/',
+INSERT INTO product (name, link, imageName, category, visible, addedBy, dateAdded)
+VALUES ('The Unicorn Head Mask', 'http://www.thinkgeek.com/product/1107/',
  '1107_unicorn_head_mask.jpg', 5, true, 8, '2001-02-16 20:38:40');
 
 INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited) VALUES (1, 1, 1, true, '2001-02-16 20:38:40');

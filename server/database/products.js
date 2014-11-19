@@ -64,7 +64,7 @@ exports.getProductsFromTo = function (from, to, callback) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product OFFSET $1 LIMIT $2", [from-1, to-from+1]);
+        var query = product.query("SELECT * FROM product OFFSET $1 LIMIT $2", [(from-1)*to, to]);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
@@ -89,7 +89,7 @@ exports.getAllProducts = function (callback) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product ORDER BY productid");
+        var query = product.query("SELECT * FROM product WHERE visible ORDER BY name");
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
@@ -106,3 +106,23 @@ exports.getAllProducts = function (callback) {
         });
     });
 };
+
+exports.getProductCount = function (callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = product.query("SELECT COUNT (*) FROM product");
+
+        query.on("row", function (row, result) {
+            done();
+            callback(null, row);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    })
+}
