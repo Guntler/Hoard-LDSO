@@ -181,6 +181,21 @@ exports.addToFavorites = function (req, res) {
     }
 };
 
+exports.getFavorites = function (req, res) {
+    if (req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.getFavorites(req.user.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 exports.removeProduct = function (req, res) {
     if (req.params.id == undefined) {
         res.send({result: false});
