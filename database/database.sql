@@ -50,7 +50,7 @@ CREATE TABLE favoriteProduct (
 	userID INTEGER NOT NULL REFERENCES userAccount(userID),
 	position INTEGER NOT NULL DEFAULT 0,
 	visible BOOLEAN NOT NULL DEFAULT true,
-	lastFavorited TIMESTAMP NOT NULL,
+	lastFavorited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY(productID, userID),
 	CHECK (lastFavorited <= now())
 );

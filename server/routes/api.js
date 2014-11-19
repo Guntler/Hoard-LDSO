@@ -166,6 +166,21 @@ exports.productById = function (req, res) {
     });
 };
 
+exports.addToFavorites = function (req, res) {
+    if (req.params.id == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.addToFavorites(req.params.id, req.user.id, function (err, result) {
+            if (err)
+                res.send({result: "erro no addtofavorites"});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 //Get all EditRequest from the DB
 exports.editrequests = function (req, res) {
     editrequests.getAllById(function (err, result) {
@@ -253,14 +268,10 @@ exports.approveRequest = function (req, res) {
 //New product (Default is not visible and also implies an edit request which needs to be approved)
 //Approve edit request (When a new product is approved it needs to be changed to visible)
 //Reject edit request
-//Remove manager privileges
-//Grant manager privileges
-//Get user/manager with similar email
-//Get all managers
-//See a product's specific edit info
-//See a product's changes made by a specific manager
 //Get all FavoriteProducts of a User
 //Get the category product from DB
+//remove product (make non visible)
+//recover password
 
 exports.favoriteProductsById = function (req, res) {
 
