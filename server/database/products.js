@@ -36,10 +36,12 @@ exports.getProducts = function (n, callback) {
             return callback(err, null);
         }
 
+        var query;
+
         if (n == null) {
-            var query = product.query("SELECT * FROM product OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT 5");
+            query = product.query("SELECT * FROM product WHERE visible OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT 5");
         } else {
-            var query = product.query("SELECT * FROM product OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT $1", [n]);
+            query = product.query("SELECT * FROM product WHERE visible OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT $1", [n]);
         }
 
         query.on("row", function (row, result) {
@@ -113,9 +115,9 @@ exports.getProductCount = function (callback) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT COUNT (*) FROM product");
+        var query = product.query("SELECT COUNT (*) FROM product WHERE visible");
 
-        query.on("row", function (row, result) {
+        query.on("row", function (row) {
             done();
             callback(null, row);
         });
@@ -124,8 +126,8 @@ exports.getProductCount = function (callback) {
             done();
             callback(err, null);
         });
-    })
-}
+    });
+};
 
 exports.addToFavorites = function (productid, userid, callback) {
     pg.connect(conString, function (err, favorite, done)  {
@@ -158,5 +160,25 @@ exports.addToFavorites = function (productid, userid, callback) {
         })
 
 
+    });
+};
+
+exports.removeProduct = function (productid, callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = product.query("UPDATE product SET visible = 'false' WHERE productid = $1", [productid]);
+
+        query.on("row", function (row) {
+            done();
+            callback(null, row);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
     });
 };

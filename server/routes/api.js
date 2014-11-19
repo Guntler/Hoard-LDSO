@@ -32,13 +32,13 @@ exports.usersFromTo = function (req, res) {
 };
 
 exports.userCount = function (req, res) {
-	users.getUserCount(function(err, result) {
-		if(err || !result)
-			res.send({result: false});
-		else
-			res.send(result);
-	});
-}
+    users.getUserCount(function (err, result) {
+        if (err || !result)
+            res.send({result: false});
+        else
+            res.send(result);
+    });
+};
 
 
 //Get a user by id
@@ -111,13 +111,13 @@ exports.products = function (req, res) {
 };
 
 exports.productCount = function (req, res) {
-	products.getProductCount(function(err, result) {
-		if(err || !result)
-			res.send({result: false});
-		else
-			res.send(result);
-	});
-}
+    products.getProductCount(function (err, result) {
+        if (err || !result)
+            res.send({result: false});
+        else
+            res.send(result);
+    });
+};
 
 exports.viewProducts = function (req, res) {
     if (req.params.n == undefined) {
@@ -172,7 +172,22 @@ exports.addToFavorites = function (req, res) {
     } else {
         products.addToFavorites(req.params.id, req.user.id, function (err, result) {
             if (err)
-                res.send({result: "erro no addtofavorites"});
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+exports.removeProduct = function (req, res) {
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        products.removeProduct(req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
             else if (result)
                 res.send(result);
             else
@@ -210,13 +225,13 @@ exports.editsFromTo = function (req, res) {
 };
 
 exports.editCount = function (req, res) {
-	editrequests.getEditCount(function(err, result) {
-		if(err || !result)
-			res.send({result: false});
-		else
-			res.send(result);
-	});
-}
+    editrequests.getEditCount(function (err, result) {
+        if (err || !result)
+            res.send({result: false});
+        else
+            res.send(result);
+    });
+};
 
 
 exports.requestsByDate = function (req, res) {
@@ -270,7 +285,6 @@ exports.approveRequest = function (req, res) {
 //Reject edit request
 //Get all FavoriteProducts of a User
 //Get the category product from DB
-//remove product (make non visible)
 //recover password
 
 exports.favoriteProductsById = function (req, res) {
@@ -283,6 +297,6 @@ exports.favoriteProductsById = function (req, res) {
     });
 
 
-}
+};
 //Get the category product from DB
 
