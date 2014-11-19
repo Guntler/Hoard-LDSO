@@ -123,3 +123,27 @@ exports.getEditCount = function (callback) {
 		});
 	})
 }
+
+exports.getManagerEdits = function (managerId, callback) {
+	pg.connect(conString, function (err, editrequest, done) {
+		if (err) {
+			return callback(err, null);
+		}
+
+		var query = editrequest.query("SELECT * FROM editrequest WHERE submittedby = $1 ", [managerId]);
+
+		query.on("row", function (row, result) {
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+		});
+
+		query.on("end", function (result) {
+			done();
+			callback(null, result.rows);
+		});
+
+		query.on("error", function (err) {
+			done();
+			callback(err, null);
+		});
+	});
+}

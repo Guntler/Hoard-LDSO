@@ -174,9 +174,26 @@ exports.requestsByEditType = function (req, res) {
     });
 };
 
+exports.requestsByManagerId = function (req, res) {
+    editrequests.getManagerEdits(req.params.id, function (err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
+
+
+
+//New edit request
+//Approve edit request
+//Refuse edit request
+//Get a Product's edits
 //Get all FavoriteProducts of a User
 //Get the category product from DB
-//Get all FavoriteProducts of a User 
+
 exports.favoriteProductsById = function (req, res) {
 
     favoriteProducts.findById(req.params.id, function (err, result) {

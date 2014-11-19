@@ -39,9 +39,11 @@ module.exports = function (app, passport) {
     app.get('/api/products/viewProductsFromTo/:from/:to', managerApiPermissions, api.viewProductsFromTo);
 	app.get('/api/products/count', managerApiPermissions, api.productCount);
     app.get('/api/products/id/:id', api.productById);
+    app.get('/api/editrequests/new/:productid/:edittype/:description/:reason', managerApiPermissions, api.editrequests);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
+    app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
     app.get('/api/users/:id/favoriteProducts', adminApiPermissions, api.favoriteProductsById);
     app.get('/api/users/signout', function (req, res) {
         req.logout();
@@ -49,7 +51,7 @@ module.exports = function (app, passport) {
     });
     app.get('/api/users/current', function (req, res) {
         if (isLoggedIn(req)) {
-            res.send({user: req.user});
+            res.send    ({user: req.user});
         }
         else res.send({user: false});
     });
