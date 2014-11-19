@@ -35,7 +35,8 @@
     <string name="notification_register">You\'ve successfully registered</string>
 
     <!-- Main Menu -->
-    <string name="menu_logout">Log Out</string>
+    <string name="menu_item_profile">Profile</string>
+    <string name="menu_item_logout">Log Out</string>
 
     <!-- API Request Stuff -->
     <string name="timeout">10000</string>
