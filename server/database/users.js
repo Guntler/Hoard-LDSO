@@ -193,3 +193,24 @@ exports.getUserCount = function (callback) {
         });
     })
 }
+
+exports.updateUserEmail = function(userID, newEmail, callback)
+{
+    pg.connect(conString, function (err, user, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = user.query("UPDATE useraccount SET email = $1 WHERE userid= $2", [newEmail, userID]);
+		
+        query.on("row", function (row) {
+            done();
+            callback(null, row);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};
