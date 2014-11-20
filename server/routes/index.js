@@ -31,7 +31,9 @@ module.exports = function (app, passport) {
         var name = req.params.name;
         res.render('partials/' + name);
     });
+	
 
+	
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
@@ -60,6 +62,7 @@ module.exports = function (app, passport) {
     app.get('/api/products/getFavorites', api.getFavorites);
     app.get('/api/products/addToFavorites/:id', api.addToFavorites);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct  );
+	app.get('/api/products/removeFavorite/:productid', api.removeProductFromFavorites);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
     app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);
 	app.get('/api/editrequests/count', adminApiPermissions, api.editCount);
@@ -125,3 +128,7 @@ function adminApiPermissions(req, res, next) {
 
     res.send({result: false});
 }
+
+
+
+

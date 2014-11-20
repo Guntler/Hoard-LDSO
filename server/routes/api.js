@@ -211,6 +211,21 @@ exports.removeProduct = function (req, res) {
     }
 };
 
+exports.removeProductFromFavorites = function (req, res) {
+    if (req.params.productid == undefined || req.user ==  undefined) {
+		res.send({result: false});
+    } else {
+        products.removeProductFromFavorites(req.params.productid, req.user.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 //Get all EditRequest from the DB
 exports.editrequests = function (req, res) {
     editrequests.getAllById(function (err, result) {
