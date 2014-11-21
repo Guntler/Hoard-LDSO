@@ -1,4 +1,4 @@
-<div ng-mousedown="hideSidebar($event)">
+<div ng-mousedown="hideSidebar($event)" ng-controller="productProfileController">
 	
 	<div data-header-directive></div>
 	
@@ -10,37 +10,24 @@
 					<i class="right arrow icon divider"></i>
 					<a class="section">Products</a>
 					<i class="right arrow icon divider"></i>
-					<div class="active section">Macbook Pro</div>
+					<div class="active section">{{product.name | cut:true:50:' ...'}}</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="row profile-info equal height">
-			<div class="eleven wide column shaded-bg">
-				<h2>MAC BOOK PRO</h2>
+		<div class="row profile-info">
+			<div class="eleven wide column shaded-bg profile-data">
+				<h2>{{product.name | cut:true:50:' ...'}}</h2>
 			<div class="ui divider"></div>
-				<table>
-					<td>Description</td> 
-					</tr>
-					<td>Link</td>
-					</tr>
-					<td>Price</td>
-					</tr>
-					<td>Location</td>
-					</tr>
-					<td>Creator</td>
-					</tr>
-					<td>Tags</td>
-				  </tr>
-				</table>
+				<div>
+					<p>Link: <a href="{{product.link}}">{{product.link}}</a></p>
+					<p>Category: {{category.name}}</p>
+					<p>Creator: {{addedBy.email}}</p>
+				</div>
 				<div class="ui divider"></div>
 			</div>
 			<div class="four wide column shaded-bg profile-image">
-				<table>
-				  <tr>
-					<td>IMAGE GOES HERE</td>
-				  </tr>
-				</table>
+					<td><img src="/images/{{product.imageName}}"></img>
 			</div>
 		</div>
 		

@@ -44,10 +44,10 @@
 				<div class="shaded-bg">
 					<div ng-repeat="product in products" class="item">
 						<div class="left floated"><input type="checkbox" name="selected"></div>
-						<div class="right floated date"><button class="ui green button tiny">edit</button></div>
-						<div class="right floated date">{{product.date}}</div>
+						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
+						<div class="right floated date list-column-2">{{product.dateadded}}</div>
 						<div class="name" >
-							<a href="#/products/product">{{product.name}}</a>
+							<a href="#/products/{{product.id}}">{{product.name | cut:true:30:' ...'}}</a>
 						</div>
 					</div>
 				</div>
@@ -57,15 +57,16 @@
 			
 			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab shaded-bg">
 				<a ng-repeat="user in users" href="#/users/user" class="item">
-					<div class="right floated date"><button class="ui green button tiny">edit</button></div>
-					<div class="right floated date">{{user.date}}</div>
-					<div class="right floated date">{{user.registerdate}}</div>
-					<div class="name">
-						{{user.email}}
-					</div>
-					<div class="name">
-						{{user.permissions}}
-					</div>
+					<div class="right floated date"><button class="ui red button tiny">edit</button></div>
+					<span class="name">
+						{{user.email | cut:false:50:' ...'}}
+					</span>
+					<div class="right floated date list-column-2">{{user.registerdate}}</div>
+					<span class="right floated list-column-2">
+						<span class="left floated ui label" ng-class="{green: user.permissions == 'User', red: user.permissions == 'Admin', purple: user.permissions == 'Manager'}">
+							{{user.permissions}}
+						</span>
+					</span>
 				</a>
 			</div>
 
@@ -75,27 +76,24 @@
 				<div class=" ui toggle button">Rejected</div>
 				<div  class="ui shaded-bg">
 					<a ng-repeat="edit in edits" href="#/edits/edit" class="item">
-						<div class="right floated date">
-						<div class="ui tiny buttons">
-							<div class="ui green button">APPROVE</div>
-							<div class="or"></div>
-							<div class="ui red button">REJECT</div>
+						<div class="right floated">
+							<div class="ui tiny buttons">
+								<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui green button">APPROVE</div>
+								<div class="or"></div>
+								<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui red button">REJECT</div>
+							</div>
 						</div>
-						</div>
-						<div class="right floated date">{{edit.date}}</div>
-						<div class="name">
-							{{edit.name}}
-						</div>
+						<span class="name">
+							{{edit.edittype}}
+						</span>
+						<div class="right floated date list-column-2">{{edit.editdate}}</div>
+						<span class=" list-column-2 right floated">
+							<span class="left floated ui label" ng-class="{green: edit.editstatus == 'Approved', red: edit.editstatus == 'Denied', purple: edit.editstatus == 'Pending'}">
+								{{edit.editstatus}}
+							</span>
+						</span>
 					</a>
 				</div>
-				
-			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab shaded-bg">
-				<a ng-repeat="edit in edits" href="#/edits/edit" class="item">
-					<div class="right floated date">{{edit.editdate}}</div>
-					<div class="name">
-						{{edit.edittype}}
-					</div>
-				</a>
 			</div>
 
 			<div class="ui divider"></div>

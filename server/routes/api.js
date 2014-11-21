@@ -2,6 +2,7 @@ var users = require('../database/users');
 var products = require('../database/products');
 var editrequests = require('../database/editrequests');
 var favoriteProducts = require('../database/favoriteProducts');
+var categories = require('..//database//categories');
 
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
@@ -314,4 +315,27 @@ exports.favoriteProductsById = function (req, res) {
 
 };
 //Get the category product from DB
+
+
+exports.categories = function(req,res) {
+	categories.getAllCategories(function (err, result) {
+        if (err)
+            res.send(err);
+        else if (result)
+            res.send(result);
+        else
+            res.send(null);
+    });
+}
+
+exports.categoryById = function(req,res) {
+	categories.findById(function (err, result) {
+        if (err)
+            res.send(err);
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+}
 

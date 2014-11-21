@@ -1,3 +1,5 @@
+var util = require('..\\database\\utilities');
+
 var Product = function (id, name, price, link, imageName, category, visible, addedby, dateadded) {
 	this.id = id;
 	this.name = name;
@@ -7,7 +9,7 @@ var Product = function (id, name, price, link, imageName, category, visible, add
 	this.category = category;
 	this.visible = visible;
 	this.addedby = addedby;
-	this.dateadded = dateadded;
+	this.dateadded = util.formatDate(new Date(dateadded));
 }
 
 Product.prototype.id = -1;

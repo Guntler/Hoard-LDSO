@@ -32,6 +32,8 @@ module.exports = function (app, passport) {
         res.render('partials/' + name);
     });
 
+	app.get('/api/categories/all',api.categories);
+	app.get('/api/categories/id/:id',api.categoryById);
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
