@@ -283,7 +283,7 @@ exports.requestsByManagerId = function (req, res) {
 };
 
 exports.approveRequest = function (req, res) {
-    editrequests.findByEditType(req.params.edittype, function (err, result) {
+    editrequests.approveRequest(req.user.id, req.params.id, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -296,10 +296,8 @@ exports.approveRequest = function (req, res) {
 
 //New edit request
 //New product (Default is not visible and also implies an edit request which needs to be approved)
-//Approve edit request (When a new product is approved it needs to be changed to visible)
+//------------------------------------>Approve edit request (When a new product is approved it needs to be changed to visible)
 //Reject edit request
-//Get all FavoriteProducts of a User
-//Get the category product from DB
 //recover password
 
 exports.favoriteProductsById = function (req, res) {

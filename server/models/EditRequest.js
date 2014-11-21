@@ -1,6 +1,6 @@
-var EditRequest = function (id, product, submittedby, approvedby, edittype, editstatus, description, reason, editdate) {
-	this.id = id;
-	this.product = product;
+var EditRequest = function (requestid, productid, submittedby, approvedby, edittype, editstatus, description, reason, editdate) {
+	this.id = requestid;
+	this.productid = productid;
 	this.submittedby = submittedby;
 	this.approvedby = approvedby;
 	this.edittype = edittype;
@@ -10,8 +10,8 @@ var EditRequest = function (id, product, submittedby, approvedby, edittype, edit
 	this.editdate = editdate;
 }
 
-EditRequest.prototype.id = -1;
-EditRequest.prototype.product = null;
+EditRequest.prototype.requestid = -1;
+EditRequest.prototype.productid = null;
 EditRequest.prototype.submittedby = null;
 EditRequest.prototype.approvedby = null;
 EditRequest.prototype.edittype = "";
