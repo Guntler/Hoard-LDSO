@@ -13,7 +13,7 @@ exports.findById = function (id, callback) {
         var query = client.query("SELECT * FROM userAccount WHERE userId = $1", [id]);
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
         });
 
         query.on("end", function (result) {
@@ -135,7 +135,7 @@ exports.getAllUsers = function (callback) {
         var query = client.query("SELECT * FROM userAccount ORDER BY userID");
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
         });
 
         query.on("end", function (result) {
@@ -159,7 +159,7 @@ exports.getUsersFromTo = function (from, to, callback) {
         var query = user.query("SELECT * FROM useraccount OFFSET $1 LIMIT $2", [(from-1)*to, to]);
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
         });
 
         query.on("end", function (result) {
@@ -193,3 +193,24 @@ exports.getUserCount = function (callback) {
         });
     })
 }
+
+exports.updateUserEmail = function(userID, newEmail, callback)
+{
+    pg.connect(conString, function (err, user, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = user.query("UPDATE useraccount SET email = $1 WHERE userid= $2", [newEmail, userID]);
+		
+        query.on("row", function (row) {
+            done();
+            callback(null, row);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};

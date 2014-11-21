@@ -1,9 +1,10 @@
-var UserAccount = function (id, email/*, password*/, permissions, registerdate, favorites, loggedin) {
+util = require('..\\database\\utilities');
+
+var UserAccount = function (id, email, permissions, registerdate, favorites, loggedin) {
 	this.id = id;
 	this.email = email;
-	//this.password = password;
 	this.permissions = permissions;
-	this.registerdate = registerdate;
+	this.registerdate = util.formatDate(new Date(registerdate));
 	this.favorites = favorites;
 	this.loggedin = loggedin;
 }
@@ -12,7 +13,6 @@ var UserAccount = function (id, email/*, password*/, permissions, registerdate, 
 
 UserAccount.prototype.id = -1;
 UserAccount.prototype.name = "";
-//UserAccount.prototype.password = "";
 UserAccount.prototype.permissions = "";
 UserAccount.prototype.registerdate = "";
 UserAccount.prototype.favorites = [];

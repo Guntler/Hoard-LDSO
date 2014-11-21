@@ -1,4 +1,5 @@
 pg  = require("pg");
+util = require("./utilities");
 var EditRequest = require('../models/EditRequest');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
@@ -14,7 +15,7 @@ exports.findByEditType = function(edittype, callback) {
 		var query = editrequest.query("SELECT * FROM editrequest WHERE edittype = $1", [edittype]);
 		
 		query.on("row", function(row, result) {
-			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, row.editdate, [], false));
 		});
 		
 		query.on("end", function(result) {
@@ -41,7 +42,7 @@ exports.getAllById = function(callback) {
 		var query = editrequest.query("SELECT * FROM editrequest ORDER BY requestid");
 		
 		query.on("row", function(row, result) {
-			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, row.editdate, [], false));
 		});
 		
 		query.on("end", function(result) {
@@ -65,7 +66,7 @@ exports.getAllByDate = function(callback) {
 		var query = editrequest.query("SELECT * FROM editrequest ORDER BY editdate asc");
 		
 		query.on("row", function(row, result) {
-			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, row.editdate, [], false));
 		});
 		
 		query.on("end", function(result) {
@@ -89,7 +90,7 @@ exports.getEditsFromTo = function (from, to, callback) {
 		var query = editrequest.query("SELECT * FROM editrequest OFFSET $1 LIMIT $2",  [(from-1)*to, to]);
 
 		query.on("row", function (row, result) {
-			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, row.editdate, [], false));
 		});
 
 		query.on("end", function (result) {
@@ -133,7 +134,7 @@ exports.getManagerEdits = function (managerId, callback) {
 		var query = editrequest.query("SELECT * FROM editrequest WHERE submittedby = $1 ", [managerId]);
 
 		query.on("row", function (row, result) {
-			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, row.editdate, [], false));
 		});
 
 		query.on("end", function (result) {
