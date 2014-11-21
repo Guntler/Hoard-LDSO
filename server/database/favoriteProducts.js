@@ -1,4 +1,4 @@
-pg  = require("pg");
+pg = require("pg");
 var FavoriteProduct = require('../models/FavoriteProduct');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
