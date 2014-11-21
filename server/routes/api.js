@@ -212,6 +212,40 @@ exports.removeProduct = function (req, res) {
     }
 };
 
+exports.removeProductFromFavorites = function (req, res) {
+    if (req.params.productid == undefined || req.user ==  undefined) {
+		res.send({result: false});
+    } else {
+        products.removeProductFromFavorites(req.params.productid, req.user.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+//edit user email
+exports.updateUserEmail = function(req, res)
+{	
+	if (req.params.email == undefined || req.user ==  undefined) {
+		res.send({result: false});
+    } else {
+        users.updateUserEmail(req.user.id, req.params.email, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+
+
 //Get all EditRequest from the DB
 exports.editrequests = function (req, res) {
     editrequests.getAllById(function (err, result) {

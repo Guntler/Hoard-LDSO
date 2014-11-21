@@ -4,15 +4,7 @@
 
 	<div class="ui page grid information" ng-controller="homeController">
 	
-		<div class="row breadcrumb">
-			<div class="sixteen wide column shaded-bg">
-				<div class="ui breadcrumb">
-					<a class="section">Home</a>
-					<i class="right arrow icon divider"></i>
-					<div class="active section">{{currentLocation}}</div>
-				</div>
-			</div>
-		</div>
+		<div data-breadcrumb-directive></div>
 
 		<div class="sixteen wide column">
 
@@ -72,8 +64,8 @@
 
 			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab">
 				<div class=" ui toggle button">Approved</div>
-				<div class=" ui toggle button">Unapproved</div>
-				<div class=" ui toggle button">Rejected</div>
+				<div class=" ui toggle button">Pending</div>
+				<div class=" ui toggle button">Denied</div>
 				<div  class="ui shaded-bg">
 					<a ng-repeat="edit in edits" href="#/edits/edit" class="item">
 						<div class="right floated">
