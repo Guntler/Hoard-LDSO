@@ -1,4 +1,5 @@
-pg = require("pg");
+pg  = require("pg");
+util = require("./utilities");
 var EditRequest = require('../models/EditRequest');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
@@ -9,26 +10,26 @@ exports.findByEditType = function (edittype, callback) {
         if (err) {
             return callback(err, null);
         }
-
-        var query = editrequest.query("SELECT * FROM editrequest WHERE edittype = $1", [edittype]);
-
-        query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
-        });
-
-        query.on("end", function (result) {
-            done();
-            if (result.rows.length < 1)
-                callback(null, null);
-            else
-                callback(null, result.rows[0]);
-        });
-
-        query.on("error", function (err) {
-            done();
-            callback(err, null);
-        });
-    });
+		
+		var query = editrequest.query("SELECT * FROM editrequest WHERE edittype = $1", [edittype]);
+		
+		query.on("row", function(row, result) {
+			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+		});
+		
+		query.on("end", function(result) {
+			done();
+			if(result.rows.length < 1)
+				callback(null, null);
+			else
+				callback(null, result.rows[0]);
+		});
+		
+		query.on("error", function(err) {
+			done();
+			callback(err, null);
+		});
+	});
 };
 
 exports.getAllById = function (callback) {

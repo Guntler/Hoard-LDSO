@@ -1,3 +1,5 @@
+var util = require('..\\database\\utilities');
+
 var EditRequest = function (requestid, productid, submittedby, approvedby, edittype, editstatus, description, reason, editdate) {
 	this.id = requestid;
 	this.productid = productid;
@@ -7,7 +9,7 @@ var EditRequest = function (requestid, productid, submittedby, approvedby, editt
 	this.editstatus = editstatus;
 	this.description = description;
 	this.reason = reason;
-	this.editdate = editdate;
+	this.editdate = util.formatDate(new Date(editdate));
 }
 
 EditRequest.prototype.requestid = -1;

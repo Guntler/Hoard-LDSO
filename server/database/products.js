@@ -183,6 +183,28 @@ exports.removeProduct = function (productid, callback) {
     });
 };
 
+//remove product from the favorites 
+exports.removeProductFromFavorites = function (productid, userID, callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = product.query("UPDATE favoriteproduct SET visible = 'false' WHERE productid = $1 AND userid = $2", [productid, userID]);
+		
+
+        query.on("row", function (row) {
+            done();
+            callback(null, row);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};
+
 exports.getFavorites = function (userid, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {

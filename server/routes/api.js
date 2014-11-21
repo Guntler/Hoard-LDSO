@@ -2,6 +2,7 @@ var users = require('../database/users');
 var products = require('../database/products');
 var editrequests = require('../database/editrequests');
 var favoriteProducts = require('../database/favoriteProducts');
+var categories = require('..//database//categories');
 
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
@@ -211,6 +212,40 @@ exports.removeProduct = function (req, res) {
     }
 };
 
+exports.removeProductFromFavorites = function (req, res) {
+    if (req.params.productid == undefined || req.user ==  undefined) {
+		res.send({result: false});
+    } else {
+        products.removeProductFromFavorites(req.params.productid, req.user.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+//edit user email
+exports.updateUserEmail = function(req, res)
+{	
+	if (req.params.email == undefined || req.user ==  undefined) {
+		res.send({result: false});
+    } else {
+        users.updateUserEmail(req.user.id, req.params.email, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+
+
 //Get all EditRequest from the DB
 exports.editrequests = function (req, res) {
     editrequests.getAllById(function (err, result) {
@@ -312,4 +347,27 @@ exports.favoriteProductsById = function (req, res) {
 
 };
 //Get the category product from DB
+
+
+exports.categories = function(req,res) {
+	categories.getAllCategories(function (err, result) {
+        if (err)
+            res.send(err);
+        else if (result)
+            res.send(result);
+        else
+            res.send(null);
+    });
+}
+
+exports.categoryById = function(req,res) {
+	categories.findById(function (err, result) {
+        if (err)
+            res.send(err);
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+}
 
