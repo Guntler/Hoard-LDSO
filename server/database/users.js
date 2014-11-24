@@ -90,7 +90,49 @@ exports.checkLogin = function (email, password, callback) {
         });
     });
 };
+/*
+exports.changePassword = function (oldPassword, newPassword, email,callback) {
+	
+	pg.connect(conString, function (err, client, done) {
+        if (err) {
+            return callback(err, null);
+        }
 
+
+        bcrypt.genSalt(10, function (err, salt) {
+            if (err) 
+			return callback(err, null);
+			
+            bcrypt.hash(newPassword, salt, function (err, hash) {
+
+                if (err) 
+				return callback(err, null);
+				
+                var query = client.query("UPDATE  userAccount SET password=$1 WHERE email=$2", [hash, email]);
+				
+				query.on("row", function (row, result) {
+					
+					console.log("oiiiiii");
+				   
+                });
+				
+                query.on("end", function (result) {
+                    done();
+                    callback(null, row);
+                    });
+           
+                query.on("error", function (err) {
+                    done();
+                    callback(err, null);
+                });
+            });
+        });
+
+    });
+	
+};
+  
+*/
 exports.registerUser = function (email, password, callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {
@@ -124,6 +166,7 @@ exports.registerUser = function (email, password, callback) {
         });
 
     });
+
 };
 
 exports.getAllUsers = function (callback) {

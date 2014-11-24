@@ -75,6 +75,17 @@ exports.checkLogin = function (req, res) {
     });
 };
 
+exports.changePassword = function (req, res) {
+    users.changePassword(req.params.oldPassword, req.params.newPassword,req.user.email, function (err, result) {
+        if (err)
+            res.send(err);
+        else if (result)
+            res.send({result: true});
+        else
+            res.send({result: false});
+    });
+};
+
 //Check if a user exists
 exports.userExists = function (req, res) {
     users.userByEmail(req.params.email, function (err, result) {
