@@ -9,7 +9,6 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.totalTabItems = 0;
 	$scope.errorMessage = null;
 	
-	console.log("hi");
 	messageService.clearAll();
 	$scope.$watch(function() {
 					return sessionService.getUser();

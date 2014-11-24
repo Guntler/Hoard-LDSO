@@ -15,7 +15,6 @@ hoard.controller('userProfileController',function($scope, $routeParams, $locatio
 				},
 				function() {
 					$scope.user = userService.getUser();
-					console.log($scope.user);
 				});
 	userService.updateUserById($routeParams.id);
 	
