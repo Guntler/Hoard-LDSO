@@ -6,14 +6,14 @@ hoard.service('editService',function($http, messageService) {
 			var Url = "/api/editrequests/fromTo/"+page+"/"+editsPerPage;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No edit requests found." );
 				}
 				else {
 					currEdits = data;
-					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
 			});
 		},
 		getEditById: function(id) {			
@@ -29,14 +29,14 @@ hoard.service('editService',function($http, messageService) {
 			var Url = "/api/editrequests/count/";
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No edit requests found.");
 				}
 				else {
 					editCount = {integer: data.count};
-					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
 			});
 		}
 	};

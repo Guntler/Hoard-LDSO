@@ -1,12 +1,11 @@
 <div ng-mousedown="hideSidebar($event)">
-	<!-- SideBar with Form for Log In-->
 	<div data-header-directive></div>
 
 	<div class="ui page grid information" ng-controller="homeController">
 	
 		<div data-breadcrumb-directive></div>
 
-		<div class="sixteen wide column">
+		<div class="sixteen wide column removepadding">
 
 			<div class="ui divider"></div>
 
@@ -14,10 +13,10 @@
 				<a class="item" ng-class="{active:tab === 'products'}" ng-click="showTab('products')">
 					<i class="archive icon"></i>Products
 				</a>
-				<a class="item" ng-class="{active:tab === 'users'}" ng-click="showTab('users')">
+				<a class="item" ng-class="{active:tab === 'users'}" ng-click="showTab('users')" ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null">
 					<i class="users icon"></i>Users
 				</a>
-				<a class="item" ng-class="{active: tab === 'edits'}" ng-click="showTab('edits')">
+				<a class="item" ng-class="{active: tab === 'edits'}" ng-click="showTab('edits')" ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null">
 					<i class="users icon"></i>Edits
 				</a>
 				<div class="right menu">
@@ -34,6 +33,9 @@
 				<button class="bottom-button select-button">Select None</button>
 				<button class="bottom-button select-button">Invert Selection</button>
 				<div class="shaded-bg">
+					<div class="ui error message" ng-hide="errorMessage == null">
+						{{errorMessage}}
+					</div>
 					<div ng-repeat="product in products" class="item">
 						<div class="left floated"><input type="checkbox" name="selected"></div>
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
@@ -48,10 +50,13 @@
 			</div>
 			
 			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab shaded-bg">
-				<a ng-repeat="user in users" href="#/users/user" class="item">
+				<div class="ui error message" ng-hide="errorMessage == null">
+						{{errorMessage}}
+				</div>
+				<div ng-repeat="user in users" class="item">
 					<div class="right floated date"><button class="ui red button tiny">edit</button></div>
 					<span class="name">
-						{{user.email | cut:false:50:' ...'}}
+						<a href="#/users/{{user.id}}"> {{user.email | cut:false:50:' ...'}}</a>
 					</span>
 					<div class="right floated date list-column-2">{{user.registerdate}}</div>
 					<span class="right floated list-column-2">
@@ -59,15 +64,20 @@
 							{{user.permissions}}
 						</span>
 					</span>
-				</a>
+				</div>
 			</div>
 
 			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab">
-				<div class=" ui toggle button">Approved</div>
-				<div class=" ui toggle button">Pending</div>
-				<div class=" ui toggle button">Denied</div>
+				<div style="margin-bottom: 10px">
+					<div class=" ui toggle button">Approved</div>
+					<div class=" ui toggle button">Pending</div>
+					<div class=" ui toggle button">Denied</div>
+				</div>
 				<div  class="ui shaded-bg">
-					<a ng-repeat="edit in edits" href="#/edits/edit" class="item">
+					<div class="ui error message" ng-hide="errorMessage == null">
+						{{errorMessage}}
+					</div>
+					<div ng-repeat="edit in edits" class="item">
 						<div class="right floated">
 							<div class="ui tiny buttons">
 								<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui green button">APPROVE</div>
@@ -76,7 +86,7 @@
 							</div>
 						</div>
 						<span class="name">
-							{{edit.edittype}}
+							<a href="#/edits/edit">{{edit.edittype}}</a>
 						</span>
 						<div class="right floated date list-column-2">{{edit.editdate}}</div>
 						<span class=" list-column-2 right floated">
@@ -84,7 +94,7 @@
 								{{edit.editstatus}}
 							</span>
 						</span>
-					</a>
+					</div>
 				</div>
 			</div>
 

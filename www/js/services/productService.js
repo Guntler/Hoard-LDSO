@@ -8,14 +8,14 @@ hoard.service('productService',function($http, messageService) {
 		var Url = "/api/categories/all";
 		$http.get(Url).success(function(data){
 			if(data.result == false) {
-				//messageService.setError(data.message[0]);
+				if(messageService.getMessages().errorMessage == null)
+					messageService.setError("No categories found.");
 			}
 			else {
 				pcategories = data;
-				//messageService.setSuccess(data.message[0]);
 			}
 		}).error(function(data,status,headers, config) {
-			//messageService.setError(data.message[0]);
+			messageService.setError("There has been an unexpected error.");
 		});
 	}
 	
@@ -30,14 +30,14 @@ hoard.service('productService',function($http, messageService) {
 			var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No products found.");
 				}
 				else {
 					currProducts = data;
-					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
 			});
 		},
 		getProduct: function() {
@@ -47,14 +47,14 @@ hoard.service('productService',function($http, messageService) {
 			var Url = "/api/products/id/"+id;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("Failed to find product.");
 				}
 				else {
 					product = data;
-					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
 			});
 		},
 		getCurrProducts: function() {
@@ -67,14 +67,14 @@ hoard.service('productService',function($http, messageService) {
 			var Url = "/api/products/count/";
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No products found.");
 				}
 				else {
 					productCount = {integer: data.count};
-					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
 			});
 		},
 		getCategoryById: function(id) {
