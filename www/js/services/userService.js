@@ -1,12 +1,10 @@
 hoard.service('userService',function($http, messageService) {
 	var currUsers = [];
 	var userCount = {integer: 0};
-	var user = null;
 	return {
 		reset: function() {
 			currUsers = [];
 			userCount = {integer: 0};
-			user = null;
 		},
 		updateUsersByPage: function(page, usersPerPage) {
 			var Url = "/api/users/fromTo/"+page+"/"+usersPerPage;
@@ -22,9 +20,6 @@ hoard.service('userService',function($http, messageService) {
 				messageService.setError("There has been an unexpected error.");
 			});
 		},
-		getUser: function() {			
-			return user;
-		},
 		updateUserById: function(id, callback) {
 			var Url = "/api/users/id/"+id;
 			$http.get(Url).success(function(data){
@@ -35,7 +30,6 @@ hoard.service('userService',function($http, messageService) {
 					callback(null);
 				}
 				else {
-					user = data;
 					callback(data);
 				}
 			}).error(function(data,status,headers, config) {

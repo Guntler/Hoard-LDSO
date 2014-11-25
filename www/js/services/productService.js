@@ -1,7 +1,6 @@
 hoard.service('productService',function($http, messageService) {
 	var currProducts = [];
 	var productCount = {integer: 0};
-	var product = null;
 	var pcategories = [];
 	
 	var updateCategories = function() {
@@ -24,7 +23,6 @@ hoard.service('productService',function($http, messageService) {
 		reset: function() {
 			currProducts = [];
 			productCount = {integer: 0};
-			product = null;
 		},
 		updateProductsByPage: function(page, productsPerPage) {
 			var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
@@ -54,7 +52,6 @@ hoard.service('productService',function($http, messageService) {
 				}
 				else {
 					callback(data);
-					product = data;
 				}
 			}).error(function(data,status,headers, config) {
 				callback(null);
