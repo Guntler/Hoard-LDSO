@@ -34,6 +34,13 @@ module.exports = function (app, passport) {
 
 	app.get('/api/categories/all',api.categories);
 	app.get('/api/categories/id/:id',api.categoryById);
+
+    app.get('/api/users/managers/all', adminApiPermissions, api.getAllManagers);
+    app.get('/api/users/managers/add/:id', adminApiPermissions, api.grantManagerPrivileges);
+    app.get('/api/users/managers/remove/:id', adminApiPermissions, api.removeManagerPrivileges);
+    app.get('/api/users/similaremail/:input', adminApiPermissions, api.getSimilarEmailUsers);
+
+
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
@@ -63,6 +70,9 @@ module.exports = function (app, passport) {
     app.get('/api/products/getFavorites', api.getFavorites);
     app.get('/api/products/addToFavorites/:id', api.addToFavorites);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct  );
+    app.get('/api/products/similarname/:input', api.getSimilarProducts);
+    
+    app.get('/api/editrequests/:product', adminApiPermissions, api.getEditsOfProduct);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
 	app.get('/api/editrequests/id/:id', adminApiPermissions, api.editById);
     app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);

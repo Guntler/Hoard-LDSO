@@ -110,6 +110,63 @@ exports.registerUser = function (req, res) {
     });
 };
 
+//Remove Manager Privileges
+exports.removeManagerPrivileges = function (req,res) {
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        users.removeManagerPrivileges(req.params.id, function(err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+//Grant Manager Privileges
+exports.grantManagerPrivileges = function (req,res) {
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        users.grantManagerPrivileges(req.params.id, function(err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+
+//Get All Managers 
+exports.getAllManagers = function (req,res) {
+    users.getAllManagers(function(err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
+
+//Get Users With Similar Emails
+exports.getSimilarEmailUsers = function (req,res) {
+    users.getSimilarEmailUsers(req.params.input, function(err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
+
 //Get all products from the DB
 exports.products = function (req, res) {
     products.getAllProducts(function (err, result) {
@@ -238,6 +295,15 @@ exports.removeProductFromFavorites = function (req, res) {
     }
 };
 
+exports.getSimilarProducts = function (req, res) {
+    products.getSimilarProducts(req.params.input, function (err, result) {
+        if (err)
+            res.send(err);
+        else
+            res.send(result);
+    });
+};
+
 //edit user email
 exports.updateUserEmail = function(req, res)
 {	
@@ -340,6 +406,17 @@ exports.requestsByManagerId = function (req, res) {
 
 exports.approveRequest = function (req, res) {
     editrequests.approveRequest(req.user.id, req.params.id, function (err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
+
+exports.getEditsOfProduct = function (req,res) {
+    editrequests.getEditsOfProduct(req.params.product, function(err, result) {
         if (err)
             res.send({result: false});
         else if (result)
