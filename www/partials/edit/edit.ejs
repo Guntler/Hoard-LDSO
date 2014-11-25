@@ -1,4 +1,4 @@
-<div ng-mousedown="hideSidebar($event)">
+<div ng-mousedown="hideSidebar($event)" ng-controller="editProfileController">
 	
 	<div data-header-directive></div>
 	
@@ -10,56 +10,33 @@
 					<i class="right arrow icon divider"></i>
 					<a class="section">Edits</a>
 					<i class="right arrow icon divider"></i>
-					<div class="active section">Edit</div>
+					<div class="active section">{{submitter.email}} - {{edit.edittype}}</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="row profile-info equal height">
-			<div class="eleven wide column shaded-bg">
-				<table>
-				<td><h2>EDIT 1</h2></td>
-				<td align="right"></td>
-						</table>
-			<div class="ui divider"></div>
-				<table>
-					<td>Product</td><tr>
-					</tr>
-					<td>Description</td> 
-					</tr>
-					<td>Justification</td>
-					</tr>
-					<td>Author</td>
-					</tr>
-					<td>Submission Date</td>
-					<td><b>Yesterday</b></td>
-					</tr>
-					<tr>
-					<td>Status</td>
-					<td><b>Unapproved</b></td>
-					</tr>
-					<td>Approved By</td>
-					</tr>
-					<td>Approval Date</td>
-				  </tr>
-				</table>
+		<div class="row profile-info">
+			<div class="eleven wide column shaded-bg profile-data">
+				<h2>{{submitter.email}} - {{edit.edittype}}</h2>
 				<div class="ui divider"></div>
+					<p><b>Product:</b> <a href="#/products/{{product.id}}">{{product.name | cut:true:50:' ...'}}</a></p>
+					<p><b>Description:</b></p> 
+					<p>{{edit.description}}</p>
+					<p><b>Reason:</b></p>
+					<p>{{edit.reason}}</p>
+					<p><b>Author:</b> <a href="#/users/{{submitter.id}}">{{submitter.email}}</a></p>
+					<p><b>Submission Date:</b> {{edit.editdate}}</p>
+					<p><b>Status:</b> {{edit.editstatus}}</p>
+					<p><b>Approved By:</b> {{approveby}}</p>
+				<div class="ui divider"></div>
+					<div class="ui medium buttons" style="margin-bottom: 15px">
+						<div class="ui green button medium">APPROVE</div>
+						<div class="or"></div>
+						<div class="ui red button medium">REJECT</div>
+					</div>
 			</div>
 			<div class="four wide column shaded-bg profile-image">
-				<table>
-					<tr>
-						<td>IMAGE GOES HERE</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="ui medium buttons">
-								<div class="ui green button medium">APPROVE</div>
-								<div class="or"></div>
-								<div class="ui red button medium">REJECT</div>
-							</div>
-						</td>
-					</tr>
-				</table>
+				<img src="/images/{{product.imageName}}"></img>
 			</div>
 		</div>
 	</div>

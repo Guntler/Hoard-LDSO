@@ -16,8 +16,23 @@ hoard.service('editService',function($http, messageService) {
 				messageService.setError("There has been an unexpected error.");
 			});
 		},
-		getEditById: function(id) {			
-			
+		getEditById: function(id, callback) {
+			var Url = "/api/editrequests/id/"+id;
+			$http.get(Url).success(function(data){
+				if(data.result == false) {
+					if(messageService.getMessages().errorMessage == null) {
+						messageService.setError("Unable to find edit.");
+					}
+					
+					callback(null);
+				}
+				else {
+					callback(data);
+				}
+			}).error(function(data,status,headers, config) {
+				messageService.setError("There has been an unexpected error.");
+				callback(null);
+			});
 		},
 		getCurrEdits: function() {
 			return currEdits;

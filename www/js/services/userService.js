@@ -25,18 +25,22 @@ hoard.service('userService',function($http, messageService) {
 		getUser: function() {			
 			return user;
 		},
-		updateUserById: function(id) {
+		updateUserById: function(id, callback) {
 			var Url = "/api/users/id/"+id;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("Unable to find user.");
+					
+					callback(null);
 				}
 				else {
 					user = data;
+					callback(data);
 				}
 			}).error(function(data,status,headers, config) {
 				messageService.setError("There has been an unexpected error.");
+				callback(null);
 			});
 		},
 		getCurrUsers: function() {

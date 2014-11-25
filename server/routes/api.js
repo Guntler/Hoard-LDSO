@@ -10,7 +10,7 @@ var categories = require('..//database//categories');
 exports.users = function (req, res) {
     users.getAllUsers(function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else
             res.send(result);
     });
@@ -46,7 +46,7 @@ exports.userCount = function (req, res) {
 exports.userById = function (req, res) {
     users.findById(req.params.id, function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else
             res.send(result);
     });
@@ -56,7 +56,7 @@ exports.userById = function (req, res) {
 exports.userByEmail = function (req, res) {
     users.findByEmail(req.params.email, function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else
             res.send(result);
     });
@@ -67,7 +67,7 @@ exports.userByEmail = function (req, res) {
 exports.checkLogin = function (req, res) {
     users.checkLogin(req.params.email, req.params.password, function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else if (result)
             res.send({result: true});
         else
@@ -78,7 +78,7 @@ exports.checkLogin = function (req, res) {
 exports.changePassword = function (req, res) {
     users.changePassword(req.params.oldPassword, req.params.newPassword,req.user.email, function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else if (result)
             res.send({result: true});
         else
@@ -90,7 +90,7 @@ exports.changePassword = function (req, res) {
 exports.userExists = function (req, res) {
     users.userByEmail(req.params.email, function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else if (result)
             res.send({result: true});
         else
@@ -172,7 +172,7 @@ exports.productsFromTo = function (req, res) {
 exports.productById = function (req, res) {
     products.findById(req.params.id, function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else
             res.send(result);
     });
@@ -255,6 +255,16 @@ exports.updateUserEmail = function(req, res)
     }
 };
 
+exports.editById = function (req, res) {
+    editrequests.findById(req.params.id, function (err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
 
 
 //Get all EditRequest from the DB
@@ -350,7 +360,7 @@ exports.favoriteProductsById = function (req, res) {
 
     favoriteProducts.findById(req.params.id, function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else
             res.send(result);
     });
@@ -363,18 +373,18 @@ exports.favoriteProductsById = function (req, res) {
 exports.categories = function(req,res) {
 	categories.getAllCategories(function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else if (result)
             res.send(result);
         else
-            res.send(null);
+            res.send({result: false});
     });
 }
 
 exports.categoryById = function(req,res) {
 	categories.findById(function (err, result) {
         if (err)
-            res.send(err);
+            res.send({result: false});
         else if (result)
             res.send(result);
         else

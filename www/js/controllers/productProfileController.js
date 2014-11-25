@@ -7,27 +7,20 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 	$scope.pageRange = 3;
 	$scope.totalEdits = 0;
 	
+	$scope.addedBy = null;
 	$scope.product = null;
 	$scope.category = null;
-	$scope.$watch(function() {
-					return productService.getProduct();
-				},
-				function() {
-					$scope.product = productService.getProduct();
-					if($scope.product != null) {
-						userService.updateUserById($scope.product.addedby);
+	
+	productService.updateProductById($routeParams.id, function(prod) {
+		$scope.product = prod;
+		
+		if($scope.product != null) {
+						userService.updateUserById($scope.product.addedby, function(data) {
+							$scope.addedBy = data;
+						});
 						$scope.category = productService.getCategoryById($scope.product.category);
 					}
-				});
-	productService.updateProductById($routeParams.id);
-	
-	$scope.addedBy = null;
-	$scope.$watch(function() {
-					return userService.getUser();
-				},
-				function() {
-					$scope.addedBy = userService.getUser();
-				});
+	});
 				
 	//Edits
 	$scope.edits = [];

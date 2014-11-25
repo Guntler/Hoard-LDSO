@@ -18,8 +18,8 @@ hoard.service('productService',function($http, messageService) {
 			messageService.setError("There has been an unexpected error.");
 		});
 	}
-	
 	updateCategories();
+	
 	return {
 		reset: function() {
 			currProducts = [];
@@ -43,17 +43,21 @@ hoard.service('productService',function($http, messageService) {
 		getProduct: function() {
 			return product;
 		},
-		updateProductById: function(id) {			
+		updateProductById: function(id, callback) {			
 			var Url = "/api/products/id/"+id;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("Failed to find product.");
+					
+					callback(null);
 				}
 				else {
+					callback(data);
 					product = data;
 				}
 			}).error(function(data,status,headers, config) {
+				callback(null);
 				messageService.setError("There has been an unexpected error.");
 			});
 		},

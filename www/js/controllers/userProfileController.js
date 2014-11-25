@@ -9,14 +9,10 @@ hoard.controller('userProfileController',function($scope, $routeParams, $locatio
 	$scope.totalEdits = 0;
 	
 	$scope.user = null;
-	
-	$scope.$watch(function() {
-					return userService.getUser();
-				},
-				function() {
-					$scope.user = userService.getUser();
-				});
-	userService.updateUserById($routeParams.id);
+				
+	userService.updateUserById($routeParams.id, function(data) {
+		$scope.user = data;
+	});
 	
 	//Edits
 	$scope.edits = [];

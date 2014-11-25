@@ -64,6 +64,7 @@ module.exports = function (app, passport) {
     app.get('/api/products/addToFavorites/:id', api.addToFavorites);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct  );
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
+	app.get('/api/editrequests/id/:id', adminApiPermissions, api.editById);
     app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);
 	app.get('/api/editrequests/count', adminApiPermissions, api.editCount);
     app.get('/api/editrequests/approve/:id', adminApiPermissions, api.approveRequest)
