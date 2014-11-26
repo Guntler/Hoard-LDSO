@@ -59,11 +59,11 @@ public class HoardAPI {
         }
     }
 
-    public Boolean checkLoginForEmailPassword(String email, String password) {
+    public Boolean getFavorites() {
 
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
-        String url = context.getResources().getString(R.string.checklogin_url)+email+"/"+password;
+        String url = context.getResources().getString(R.string.favorites_url);
 
         try {
             HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
@@ -72,8 +72,8 @@ public class HoardAPI {
 
             Log.d("Request: ", baseUrl);
 
-            User user = request.execute().parseAs(User.class);
-            return user.getResult();
+            HttpResponse response = request.execute();
+            return response.getResult();
         } catch (IOException e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
             Log.e("HoardAPI>checkLoginForUsernamePassword>Exception:", errorMessage);

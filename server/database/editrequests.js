@@ -1,4 +1,4 @@
-pg  = require("pg");
+pg = require("pg");
 util = require("./utilities");
 var EditRequest = require('../models/EditRequest');
 
@@ -10,23 +10,23 @@ exports.findByEditType = function (edittype, callback) {
         if (err) {
             return callback(err, null);
         }
-		
-		var query = editrequest.query("SELECT * FROM editrequest WHERE edittype = $1", [edittype]);
-		
-		query.on("row", function(row, result) {
-			result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
-		});
-		
-		query.on("end", function(result) {
-			done();
-			callback(null, result.rows);
-		});
-		
-		query.on("error", function(err) {
-			done();
-			callback(err, null);
-		});
-	});
+
+        var query = editrequest.query("SELECT * FROM editrequest WHERE edittype = $1", [edittype]);
+
+        query.on("row", function (row, result) {
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+        });
+
+        query.on("end", function (result) {
+            done();
+            callback(null, result.rows);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
 };
 
 exports.findById = function (id, callback) {
@@ -34,27 +34,27 @@ exports.findById = function (id, callback) {
         if (err) {
             return callback(err, null);
         }
-		
-		var query = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1", [id]);
-		
-		query.on("row", function(row, result) {
-			result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
-		});
-		
-		query.on("end", function(result) {
-			done();
-			if(result.rows.length < 1) {
-				callback(null, null);
-			}
-			else
-				callback(null, result.rows[0]);
-		});
-		
-		query.on("error", function(err) {
-			done();
-			callback(err, null);
-		});
-	});
+
+        var query = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1", [id]);
+
+        query.on("row", function (row, result) {
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+        });
+
+        query.on("end", function (result) {
+            done();
+            if (result.rows.length < 1) {
+                callback(null, null);
+            }
+            else
+                callback(null, result.rows[0]);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
 };
 
 exports.getAllById = function (callback) {
@@ -173,13 +173,58 @@ exports.getManagerEdits = function (managerId, callback) {
     });
 }
 
+exports.rejectRequest = function (adminid, editid, callback) {
+    pg.connect(conString, function (err, editrequest, done) {
+            if (err) {
+                return callback(err, null);
+            }
+
+            var query1 = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1 AND editstatus = 'Pending'", [editid]);
+
+            query1.on("row", function (row, result) {
+                result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+            });
+
+            query1.on("error", function (err) {
+                done();
+                callback(err, null);
+            });
+
+            query1.on("end", function (result) {
+                var resultData = result.rows[0];
+
+                if (result.rows.length < 1) {
+                    done();
+                    callback(err, null);
+                } else {
+                    var query2 = editrequest.query("UPDATE editrequest SET approvedby = $1, editstatus = 'Denied' WHERE requestid = $2", [adminid, editid]);
+
+                    query1.on("row", function (row, result2) {
+                        result2.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+                    });
+
+                    query2.on("end", function (result2) {
+                        done();
+                        callback(null, result2);
+                    });
+
+                    query2.on("error", function (err) {
+                        done();
+                        callback(err, null);
+                    });
+                }
+            });
+        }
+    );
+};
+
 exports.approveRequest = function (adminid, editid, callback) {
     pg.connect(conString, function (err, editrequest, done) {
             if (err) {
                 return callback(err, null);
             }
 
-            var query1 = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1", [editid]);
+            var query1 = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1 AND editstatus = 'Pending'", [editid]);
 
             query1.on("row", function (row, result) {
                 result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
@@ -237,27 +282,27 @@ exports.approveRequest = function (adminid, editid, callback) {
     );
 };
 
-exports.getEditsOfProduct = function(product, callback) {
-    pg.connect(conString, function(err, editrequest, done) {
-        if(err) {
+exports.getEditsOfProduct = function (product, callback) {
+    pg.connect(conString, function (err, editrequest, done) {
+        if (err) {
             return callback(err, null);
         }
-        
+
         var query = editrequest.query("SELECT * FROM editrequest WHERE productID = $1", [product]);
-        
-        query.on("row", function(row, result) {
+
+        query.on("row", function (row, result) {
             result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
         });
-        
-        query.on("end", function(result) {
+
+        query.on("end", function (result) {
             done();
-            if(result.rows.length < 1)
+            if (result.rows.length < 1)
                 callback(null, null);
             else
                 callback(null, result.rows[0]);
         });
-        
-        query.on("error", function(err) {
+
+        query.on("error", function (err) {
             done();
             callback(err, null);
         });
