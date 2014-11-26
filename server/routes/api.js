@@ -415,6 +415,17 @@ exports.approveRequest = function (req, res) {
     });
 };
 
+exports.rejectRequest = function (req, res) {
+    editrequests.rejectRequest(req.user.id, req.params.id, function (err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
+
 exports.getEditsOfProduct = function (req,res) {
     editrequests.getEditsOfProduct(req.params.product, function(err, result) {
         if (err)
@@ -425,13 +436,6 @@ exports.getEditsOfProduct = function (req,res) {
             res.send({result: false});
     });
 };
-
-
-//New edit request
-//New product (Default is not visible and also implies an edit request which needs to be approved)
-//Finish approve edit request (edits)
-//Reject edit request
-//recover password
 
 exports.favoriteProductsById = function (req, res) {
 

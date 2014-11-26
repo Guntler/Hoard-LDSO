@@ -13,7 +13,7 @@ exports.findById = function (id, callback) {
         var query = client.query("SELECT * FROM userAccount WHERE userId = $1", [id]);
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
         query.on("end", function (result) {
@@ -40,7 +40,7 @@ exports.findByEmail = function (email, callback) {
         var query = client.query("SELECT * FROM userAccount WHERE email = $1", [email]);
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
         query.on("end", function (result) {
@@ -66,7 +66,7 @@ exports.checkLogin = function (email, password, callback) {
 
         var query = client.query("SELECT * FROM userAccount WHERE email = $1", [email]);
         query.on("row", function (row, result) {
-			result.addRow({user: new User(row.userid, row.email, row.permissions, row.registerdate, [], false), password: row.password});
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
         query.on("end", function (result) {
@@ -111,7 +111,7 @@ exports.changePassword = function (oldPassword, newPassword, email, callback) {
                     var query = client.query("UPDATE  userAccount SET password=$1 WHERE email=$2", [hash, email]);
 
                     query.on("row", function (row, result) {
-                        result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+                        result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
                     });
 
                     query.on("end", function (result) {
@@ -135,6 +135,10 @@ exports.changePassword = function (oldPassword, newPassword, email, callback) {
 
 
 exports.registerUser = function (email, password, callback) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!email.match(re)) {
+        return callback(null, null);
+    }
     pg.connect(conString, function (err, client, done) {
         if (err) return callback(err, null);
 
@@ -147,7 +151,7 @@ exports.registerUser = function (email, password, callback) {
                 var query = client.query("INSERT INTO userAccount(email,password,registerdate) VALUES ($1,$2, Now()) RETURNING *", [email, hash]);
 
                 query.on("row", function (row, result) {
-                    result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+                    result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
                 });
 
                 query.on("end", function (result) {
@@ -178,7 +182,7 @@ exports.getAllUsers = function (callback) {
         var query = client.query("SELECT * FROM userAccount ORDER BY userID");
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
         query.on("end", function (result) {
@@ -202,7 +206,7 @@ exports.getUsersFromTo = function (from, to, callback) {
         var query = user.query("SELECT * FROM useraccount OFFSET $1 LIMIT $2", [(from - 1) * to, to]);
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
         query.on("end", function (result) {
@@ -308,7 +312,7 @@ exports.getAllManagers = function (callback) {
         var query = user.query("SELECT * FROM useraccount WHERE permissions = 'Manager' ORDER BY userID");
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
         query.on("end", function (result) {
@@ -333,7 +337,7 @@ exports.getSimilarEmailUsers = function (input, callback) {
         var query = user.query("SELECT * FROM useraccount WHERE email LIKE '%' || $1 || '%'", [input]);
 
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email/*, row.password*/, row.permissions, row.registerdate, [], false));
+            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
         query.on("end", function (result) {
