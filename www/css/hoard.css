@@ -35,6 +35,13 @@ body {
 	margin: 1.5em 0.5em 1.5em 1em;
 }
 
+.tableHeader {
+	background-color: gray;
+}
+.tableHeader div, .tableHeader span{
+	color: white;
+}
+
 #header a:visited, #header a:hover , #header a:active , #header a:link{
 	color: white;
 	text-decoration: none;
@@ -136,6 +143,11 @@ body {
 .list-column-2 {
 	margin-right: 10% !important;
 	width: 10% !important;
+}
+
+.list-column {
+	margin-right: 5% !important;
+	width: 5% !important;
 }
 
 .profile-info  {

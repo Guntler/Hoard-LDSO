@@ -16,12 +16,12 @@
 		</div>
 
 		<div class="row profile-info">
-			<div class="eleven wide column shaded-bg profile-data">
+			<div class="sixteen wide column shaded-bg profile-data">
 				<h2>Add Product</h2>
 				<div class="ui divider"></div>
 				<div>
 					<form>
-						<div>
+						<div class="field">
 							<label>Product Name</label>
 							<div class="ui left labeled icon input">
 								<input ng-model="pName" type="text" placeholder="Name">
@@ -31,7 +31,7 @@
 							</div>
 						</div>
 						
-						<div>
+						<div class="field">
 							<label>Product Link</label>
 							<div class="ui left labeled icon input">
 								<input ng-model="pLink" type="text" placeholder="Link">
@@ -41,9 +41,9 @@
 							</div>
 						</div>
 						
-						<div>
+						<div class="field">
 							<label>Category</label>
-							<div class="ui selection dropdown">
+							<div class="ui left labeled selection dropdown">
 								<input type="hidden" ng-model="pCategory">
 								<div class="default text">Category</div>
 								<i class="dropdown icon"></i>
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						
-						<div>
+						<div class="field">
 							<label>Image</label>
 							<div class="ui selection dropdown">
 								<input type="file" ng-model="pImage">
@@ -62,51 +62,6 @@
 					</form>
 				</div>
 				<div class="ui divider"></div>
-			</div>
-			<div class="four wide column shaded-bg profile-image">
-				<img src="/images/products/{{product.imageName}}"></img>
-			</div>
-		</div>
-		
-		<div class="row profile-history shaded-bg">
-			<div class="sixteen wide column">
-				<h2>Edit History:</h2>
-				<div class="ui divider"></div>
-				<div class="ui divided selection list tab" data-tab="users">
-					<a class="active item">
-						<div class="right floated date">Sep 14, 2014</div>
-						<div class="name">
-							Edit 1
-						</div>
-					</a>
-					<a class="item">
-						<div class="right floated date">Dec 15, 2014</div>
-						<div class="name">
-							Edit 2
-						</div>
-					</a>
-					<a class="item">
-						<div class="right floated date">Dec 15, 2014</div>
-						<div class="name">
-							Edit 3
-						</div>
-					</a>
-					<a class="item">
-						<div class="right floated date">Dec 15, 2014</div>
-						<div class="name">
-							Edit 4
-						</div>
-					</a>
-				</div>
-				<div class="ui divider"></div>
-
-				<div class="pageshowing">Showing <b>2</b> of 2</div>
-
-				<div class="ui pagination menu">
-					<a class="icon item disabled"><i class="icon left arrow"></i></a>
-					<a class="active item">1</a>
-					<a class="icon item disabled"><i class="icon right arrow"></i></a>
-				</div>
 			</div>
 		</div>
 	</div>

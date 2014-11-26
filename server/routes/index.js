@@ -49,7 +49,6 @@ module.exports = function (app, passport) {
 	app.get('/api/users/count', adminApiPermissions, api.userCount);
     app.get('/api/users/exists/:email', adminApiPermissions, api.userExists);
     app.get('/api/users/productsFromTo/:from/:to', managerApiPermissions, api.productsFromTo);
-    app.get('/api/users/register/:email/:password', api.registerUser);
     app.get('/api/users/:id/favoriteProducts', adminApiPermissions, api.favoriteProductsById);
     app.get('/api/users/signout', function (req, res) {
         req.logout();
@@ -69,6 +68,8 @@ module.exports = function (app, passport) {
     app.get('/api/products/id/:id', api.productById);
     app.get('/api/products/getFavorites', api.getFavorites);
     app.get('/api/products/addToFavorites/:id', api.addToFavorites);
+	app.get('/api/products/favoriteUp/:productid', api.favoriteUp);
+	app.get('/api/products/favoriteDown/:productid', api.favoriteDown);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct  );
     app.get('/api/products/similarname/:input', api.getSimilarProducts);
     
@@ -104,6 +105,9 @@ module.exports = function (app, passport) {
             });
         })(req, res, next);
     });
+	
+	
+    app.post('/api/users/register', api.registerUser);
 }
 
 function isLoggedIn(req) {

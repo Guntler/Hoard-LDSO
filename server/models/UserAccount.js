@@ -1,6 +1,6 @@
 util = require('../database/utilities');
 
-var UserAccount = function (id, email, permissions, registerdate, favorites, loggedin) {
+var UserAccount = function (id, email, permissions, registerdate) {
 	this.id = id;
 	this.email = email;
 	this.permissions = permissions;
