@@ -1,5 +1,6 @@
 pg = require("pg");
 var Product = require('../models/Product');
+var FavoriteProduct = require('../models/FavoriteProduct');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
@@ -59,6 +60,32 @@ exports.getProducts = function (n, callback) {
         });
     });
 };
+
+/*
+exports.registerProduct = function ( oi, userid, callback) {
+    pg.connect(conString, function (err, client, done) {
+        
+		var nquery = favorite.query("INSERT INTO product (productid, userid, position) VALUES ($1, $2, $3)", [productid, userid, result.rows[0].count*1+1]);
+
+            nquery.on("row", function (row, result) {
+                result.addRow(new FavoriteProduct(row.productid, row.userid, row.position, row.visible, row.lastfavorited));
+            });
+
+            nquery.on("end", function (result) {
+                done();
+                callback(null, result);
+            });
+
+            nquery.on("error", function (err) {
+                done();
+                callback(err, null);
+            });
+		
+		
+		
+		});
+
+};*/
 
 exports.getProductsFromTo = function (from, to, callback) {
     pg.connect(conString, function (err, product, done) {
@@ -252,4 +279,140 @@ exports.getSimilarProducts = function (input, callback) {
             callback(err, null);
         });
     });
+};
+
+
+exports.favoriteUp = function (userid, productid, callback)
+{
+   pg.connect(conString, function (err, favoriteproduct, done) {
+            if (err) {
+                return callback(err, null);
+            }
+
+            var query1 = favoriteproduct.query("SELECT * FROM favoriteproduct WHERE productid = $1 AND userid=$2", [productid, userid]);
+
+            query1.on("row", function (row, result) {
+                result.addRow(new FavoriteProduct(row.productid, row.userid, row.position, row.visible, row.lastfavorited));
+			
+			
+            });
+
+            query1.on("end", function (result) {
+                var resultData = result.rows[0];
+
+                if (result.rows.length < 1) {
+                    done();
+                    callback(err, null);
+                } 
+				else if(resultData.position==1)
+				{
+				
+				done();
+				callback(null, {result : 'Already the first position'});
+				}
+				else {
+					var newPosition = resultData.position -1; 
+                    var query2 = favoriteproduct.query("UPDATE favoriteproduct SET position=$1 WHERE position =$2 AND userid=$3", [resultData.position , newPosition,  userid]);
+					
+                    query2.on("end", function (result) {
+								
+							var newPosition1 = resultData.position -1;		
+                            var query3 = favoriteproduct.query("UPDATE favoriteproduct SET position=$1 WHERE userid=$2 AND productid=$3", [newPosition1,  userid, productid]);
+
+                            query3.on("error", function (err) {
+                                done();
+                                callback(err, null);
+							
+                            });
+	
+                            query3.on("end", function (result) {
+                                done();	
+                                callback(null, {result : true});
+                            });
+                       
+					   });
+
+                    query2.on("error", function (err) {
+                        done();
+                        callback(err, null);
+                    });
+                }
+            });
+        }
+    );
+
+
+};
+
+
+exports.favoriteDown = function (userid, productid, callback)
+{
+   pg.connect(conString, function (err, favoriteproduct, done) {
+            if (err) {
+                return callback(err, null);
+            }
+
+            var query1 = favoriteproduct.query("SELECT * FROM favoriteproduct WHERE userid=$1", [userid]);
+
+            query1.on("row", function (row, result) {
+                result.addRow(new FavoriteProduct(row.productid, row.userid, row.position, row.visible, row.lastfavorited));
+			
+			
+            });
+
+            query1.on("end", function (result) {
+                var resultData;
+					for(var i = 0; i < result.rows.length; i++)
+					{
+						if(userid == result.rows[i].user && productid == result.rows[i].product)
+						{
+							resultData = result.rows[i];
+						
+						
+						}
+					}
+				
+                if (result.rows.length < 1) {
+                    done();
+                    callback(err, null);
+                } 
+				
+				else if(resultData.position == result.rows.length )
+				{
+				
+				done();
+				callback(null, {result : 'Already the last position'});
+				}
+				else {
+					var newPosition = resultData.position +1; 
+                    var query2 = favoriteproduct.query("UPDATE favoriteproduct SET position=$1 WHERE position =$2 AND userid=$3", [resultData.position , newPosition,  userid]);
+					
+                    query2.on("end", function (result) {
+								
+							var newPosition1 = resultData.position +1;		
+                            var query3 = favoriteproduct.query("UPDATE favoriteproduct SET position=$1 WHERE userid=$2 AND productid=$3", [newPosition1,  userid, productid]);
+
+                            query3.on("error", function (err) {
+                                done();
+                                callback(err, null);
+							
+                            });
+	
+                            query3.on("end", function (result) {
+                                done();	
+                                callback(null, {result:true});
+                            });
+                       
+					   });
+
+                    query2.on("error", function (err) {
+                        done();
+                        callback(err, null);
+                    });
+                }
+            });
+        }
+    );
+
+
 };
