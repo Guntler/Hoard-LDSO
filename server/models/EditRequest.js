@@ -1,4 +1,4 @@
-var util = require('..\\database\\utilities');
+var util = require('../database/utilities');
 
 var EditRequest = function (requestid, productid, submittedby, approvedby, edittype, editstatus, description, reason, editdate) {
 	this.id = requestid;
