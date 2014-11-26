@@ -69,6 +69,8 @@ module.exports = function (app, passport) {
     app.get('/api/products/id/:id', api.productById);
     app.get('/api/products/getFavorites', api.getFavorites);
     app.get('/api/products/addToFavorites/:id', api.addToFavorites);
+	app.get('/api/products/favoriteUp/:productid', api.favoriteUp);
+	app.get('/api/products/favoriteDown/:productid', api.favoriteDown);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct  );
     app.get('/api/products/similarname/:input', api.getSimilarProducts);
     
