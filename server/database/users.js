@@ -135,6 +135,10 @@ exports.changePassword = function (oldPassword, newPassword, email, callback) {
 
 
 exports.registerUser = function (email, password, callback) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!email.match(re)) {
+        return callback(null, null);
+    }
     pg.connect(conString, function (err, client, done) {
         if (err) return callback(err, null);
 

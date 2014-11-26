@@ -437,13 +437,11 @@ exports.getEditsOfProduct = function (req,res) {
     });
 };
 
-
+//Add error messages
 //New edit request
-//CANNOT APPROVE OR REJECT APPROVED OR REJECTED REQUESTS
 // ENFORCE 2 characters after email '.'
 //New product (Default is not visible and also implies an edit request which needs to be approved)
 //Finish approve edit request (edits)
-//Reject edit request
 //recover password
 
 exports.favoriteProductsById = function (req, res) {
