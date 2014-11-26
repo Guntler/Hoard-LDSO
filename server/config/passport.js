@@ -12,32 +12,6 @@ module.exports = function(passport) {
 		});
 	});
 	
-	passport.use('local-signup', new LocalStrategy(
-		{
-			usernameField: 'email',
-			passwordField: 'password',
-			passReqToCallback : true // allows us to pass back the entire request to the callback
-		},
-		function(req, email, password, done) {
-			Users.findByEmail(email,function(err, user) {
-				if(err)
-					return done(err);
-					
-				if(user) {
-					return done(null, false, req.flash('signupMessage','That email is already registered.'));
-				}
-				else {
-					Users.registerUser(email, password, function(err, user) {
-						if(err)
-							return done(err);
-						
-						return done(null, user);
-					});
-				}
-			});
-		})
-	);
-	
 	passport.use('local-signin', new LocalStrategy(
 		{
 			usernameField : 'email',
