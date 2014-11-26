@@ -49,7 +49,6 @@ module.exports = function (app, passport) {
 	app.get('/api/users/count', adminApiPermissions, api.userCount);
     app.get('/api/users/exists/:email', adminApiPermissions, api.userExists);
     app.get('/api/users/productsFromTo/:from/:to', managerApiPermissions, api.productsFromTo);
-    app.get('/api/users/register/:email/:password', api.registerUser);
     app.get('/api/users/:id/favoriteProducts', adminApiPermissions, api.favoriteProductsById);
     app.get('/api/users/signout', function (req, res) {
         req.logout();
@@ -103,6 +102,9 @@ module.exports = function (app, passport) {
             });
         })(req, res, next);
     });
+	
+	
+    app.post('/api/users/register', api.registerUser);
 }
 
 function isLoggedIn(req) {

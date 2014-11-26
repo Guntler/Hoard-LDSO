@@ -100,7 +100,7 @@ exports.userExists = function (req, res) {
 
 //Register new user
 exports.registerUser = function (req, res) {
-    users.registerUser(req.params.email, req.params.password, function (err, result) {
+    users.registerUser(req.body.email, req.body.password, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
