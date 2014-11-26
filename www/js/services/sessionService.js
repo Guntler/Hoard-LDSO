@@ -1,5 +1,5 @@
 hoard.service('sessionService', function($http, $location, $templateCache, messageService) {
-	var user;
+	var user = null;
 	return {
 		signin: function(email, password, message) {
 			var Url = "/api/users/signin";

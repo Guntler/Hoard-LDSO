@@ -1,4 +1,4 @@
-hoard.controller('homeController',function($scope, $routeParams, $location, productService, editService, userService) {
+hoard.controller('homeController',function($scope, $routeParams, $location, productService, editService, userService, messageService, sessionService) {
 	
 	//State variables
 	$scope.tab = null;
@@ -7,6 +7,25 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.itemsPerPage = 10;
 	$scope.pageRange = 3;
 	$scope.totalTabItems = 0;
+	$scope.errorMessage = null;
+	
+	messageService.clearAll();
+	$scope.$watch(function() {
+					return sessionService.getUser();
+				},
+				function() {
+					if(sessionService.getUser() != null) {
+						if(sessionService.getUser().permissions != 'Admin' && ($routeParams.tab === 'edits' || $routeParams.tab === 'users'))
+							messageService.setError("You don't have the necessary permissions to access this information.");
+					}
+				});
+	
+	$scope.$watch(function() {
+					return messageService.getMessages().errorMessage;
+				},
+				function() {
+					$scope.errorMessage = messageService.getMessages().errorMessage;
+				});
 	
 	//Tab control
 	if($routeParams.tab === 'products' || $routeParams.tab === 'edits' || $routeParams.tab === 'users') {
@@ -30,15 +49,17 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 					$scope.totalTabItems = userService.getUserCount().integer;
 				});
 		userService.updateUserCount();
-	}
 		
-	$scope.$watch(function() {
+		$scope.$watch(function() {
 					return userService.getCurrUsers();
 				},
 				function() {
 					$scope.users = userService.getCurrUsers();
 				});
-	userService.updateUsersByPage($routeParams.page,$scope.itemsPerPage);
+		userService.updateUsersByPage($routeParams.page,$scope.itemsPerPage);
+	}
+		
+	
 	
 	//Products
 	$scope.products = [];
@@ -50,15 +71,15 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 					$scope.totalTabItems = productService.getProductCount().integer;
 				});
 		productService.updateProductCount();
-	}
 		
-	$scope.$watch(function() {
+		$scope.$watch(function() {
 					return productService.getCurrProducts();
 				},
 				function() {
 					$scope.products = productService.getCurrProducts();
 				});
-	productService.updateProductsByPage($routeParams.page,$scope.itemsPerPage);
+		productService.updateProductsByPage($routeParams.page,$scope.itemsPerPage);
+	}
 	
 	//Edits
 	$scope.edits = [];
@@ -71,13 +92,13 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 					$scope.totalTabItems = editService.getEditCount().integer;
 				});
 		editService.updateEditCount();
-	}
-	
-	$scope.$watch(function() {
+		
+		$scope.$watch(function() {
 					return editService.getCurrEdits();
 				},
 				function() {
 					$scope.edits = editService.getCurrEdits();
 				});
-	editService.updateEditsByPage($routeParams.page,$scope.itemsPerPage);
+		editService.updateEditsByPage($routeParams.page,$scope.itemsPerPage);
+	}
 });

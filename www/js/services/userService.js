@@ -1,42 +1,40 @@
 hoard.service('userService',function($http, messageService) {
 	var currUsers = [];
 	var userCount = {integer: 0};
-	var user = null;
 	return {
 		reset: function() {
 			currUsers = [];
 			userCount = {integer: 0};
-			user = null;
 		},
 		updateUsersByPage: function(page, usersPerPage) {
 			var Url = "/api/users/fromTo/"+page+"/"+usersPerPage;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No users were found.");
 				}
 				else {
 					currUsers = data;
-					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
 			});
 		},
-		getUser: function() {			
-			return user;
-		},
-		updateUserById: function(id) {
+		updateUserById: function(id, callback) {
 			var Url = "/api/users/id/"+id;
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("Unable to find user.");
+					
+					callback(null);
 				}
 				else {
-					user = data;
-					//messageService.setSuccess(data.message[0]);
+					callback(data);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
+				callback(null);
 			});
 		},
 		getCurrUsers: function() {
@@ -49,14 +47,14 @@ hoard.service('userService',function($http, messageService) {
 			var Url = "/api/users/count/";
 			$http.get(Url).success(function(data){
 				if(data.result == false) {
-					//messageService.setError(data.message[0]);
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No users were found.");
 				}
 				else {
 					userCount = {integer: data.count};
-					//messageService.setSuccess(data.message[0]);
 				}
 			}).error(function(data,status,headers, config) {
-				//messageService.setError(data.message[0]);
+				messageService.setError("There has been an unexpected error.");
 			});
 		}
 	};

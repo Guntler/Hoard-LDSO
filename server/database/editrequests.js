@@ -14,13 +14,38 @@ exports.findByEditType = function (edittype, callback) {
 		var query = editrequest.query("SELECT * FROM editrequest WHERE edittype = $1", [edittype]);
 		
 		query.on("row", function(row, result) {
-			result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+			result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
 		});
 		
 		query.on("end", function(result) {
 			done();
-			if(result.rows.length < 1)
+			callback(null, result.rows);
+		});
+		
+		query.on("error", function(err) {
+			done();
+			callback(err, null);
+		});
+	});
+};
+
+exports.findById = function (id, callback) {
+    pg.connect(conString, function (err, editrequest, done) {
+        if (err) {
+            return callback(err, null);
+        }
+		
+		var query = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1", [id]);
+		
+		query.on("row", function(row, result) {
+			result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+		});
+		
+		query.on("end", function(result) {
+			done();
+			if(result.rows.length < 1) {
 				callback(null, null);
+			}
 			else
 				callback(null, result.rows[0]);
 		});
@@ -210,4 +235,31 @@ exports.approveRequest = function (adminid, editid, callback) {
             });
         }
     );
+};
+
+exports.getEditsOfProduct = function(product, callback) {
+    pg.connect(conString, function(err, editrequest, done) {
+        if(err) {
+            return callback(err, null);
+        }
+        
+        var query = editrequest.query("SELECT * FROM editrequest WHERE productID = $1", [product]);
+        
+        query.on("row", function(row, result) {
+            result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.reason, Date(row.editdate), [], false));
+        });
+        
+        query.on("end", function(result) {
+            done();
+            if(result.rows.length < 1)
+                callback(null, null);
+            else
+                callback(null, result.rows[0]);
+        });
+        
+        query.on("error", function(err) {
+            done();
+            callback(err, null);
+        });
+    });
 };

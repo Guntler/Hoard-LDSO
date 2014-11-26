@@ -1,4 +1,4 @@
-<div ng-mousedown="hideSidebar($event)">
+<div ng-mousedown="hideSidebar($event)" ng-controller="userProfileController">
 	
 	<div data-header-directive></div>
 	
@@ -10,29 +10,24 @@
 					<i class="right arrow icon divider"></i>
 					<a class="section">Users</a>
 					<i class="right arrow icon divider"></i>
-					<div class="active section">User 1</div>
+					<div class="active section">{{user.email | cut:true:50:' ...'}}</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="row profile-info equal height">
-			<div class="eleven wide column shaded-bg">
-				<h2>USER 1</h2>
+		<div class="row profile-info">
+			<div class="eleven wide column shaded-bg profile-data">
+				<h2>{{user.email | cut:true:50:' ...'}}</h2>
 			<div class="ui divider"></div>
-				<table>
-					<td>E-mail</td> 
-					</tr>
-					<td>Location</td>
-				  </tr>
-				</table>
+				<div>
+					<p><b>E-mail:</b> {{user.email}}</p>
+					<p><b>Register Date:</b> {{user.registerdate}}</p>
+					<p><b>Permissions:</b> {{user.permissions}}</p>
+				</div>
 				<div class="ui divider"></div>
 			</div>
 			<div class="four wide column shaded-bg profile-image">
-				<table>
-				  <tr>
-					<td>IMAGE GOES HERE</td>
-				  </tr>
-				</table>
+				<img src="/images/profile.jpg"></img>
 			</div>
 		</div>
 		

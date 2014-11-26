@@ -1,27 +1,19 @@
-hoard.controller('productProfileController',function($scope, $routeParams, $location, productService, editService, userService) {
-	productService.reset();
+hoard.controller('userProfileController',function($scope, $routeParams, $location, editService, userService) {
 	userService.reset();
+	//editService.reset();
+	
 	//State variables
-	$scope.productId = $routeParams.id;
+	$scope.userId = $routeParams.id;
 	$scope.itemsPerPage = 10;
 	$scope.pageRange = 3;
 	$scope.totalEdits = 0;
 	
-	$scope.addedBy = null;
-	$scope.product = null;
-	$scope.category = null;
-	
-	productService.updateProductById($routeParams.id, function(prod) {
-		$scope.product = prod;
-		
-		if($scope.product != null) {
-						userService.updateUserById($scope.product.addedby, function(data) {
-							$scope.addedBy = data;
-						});
-						$scope.category = productService.getCategoryById($scope.product.category);
-					}
-	});
+	$scope.user = null;
 				
+	userService.updateUserById($routeParams.id, function(data) {
+		$scope.user = data;
+	});
+	
 	//Edits
 	$scope.edits = [];
 	/*
