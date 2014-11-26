@@ -78,6 +78,7 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);
 	app.get('/api/editrequests/count', adminApiPermissions, api.editCount);
     app.get('/api/editrequests/approve/:id', adminApiPermissions, api.approveRequest)
+    app.get('/api/editrequests/reject/:id', adminApiPermissions, api.rejectRequest)
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
@@ -93,7 +94,6 @@ module.exports = function (app, passport) {
             if (err)
                 return next(err);
             if (!user) {
-				console.log("hi");
                 return res.send({message: req.flash('loginMessage'), user: false});
             }
             else req.login(user, function (err) {
