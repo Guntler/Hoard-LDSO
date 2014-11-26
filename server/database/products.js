@@ -237,7 +237,6 @@ exports.getFavorites = function (userid, callback) {
         if (err) {
             return callback(err, null);
         }
-
         var query;
             query = product.query("SELECT * FROM favoriteproduct NATURAL JOIN product WHERE userid = $1 AND visible", [userid]);
 
