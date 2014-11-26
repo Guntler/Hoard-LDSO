@@ -437,13 +437,6 @@ exports.getEditsOfProduct = function (req,res) {
     });
 };
 
-//Add error messages
-//New edit request
-// ENFORCE 2 characters after email '.'
-//New product (Default is not visible and also implies an edit request which needs to be approved)
-//Finish approve edit request (edits)
-//recover password
-
 exports.favoriteProductsById = function (req, res) {
 
     favoriteProducts.findById(req.params.id, function (err, result) {
