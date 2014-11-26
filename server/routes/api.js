@@ -76,7 +76,7 @@ exports.checkLogin = function (req, res) {
 };
 
 exports.changePassword = function (req, res) {
-    users.changePassword(req.params.oldPassword, req.params.newPassword,req.user.email, function (err, result) {
+    users.changePassword(req.params.oldPassword, req.params.newPassword, req.user.email, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -100,7 +100,7 @@ exports.userExists = function (req, res) {
 
 //Register new user
 exports.registerUser = function (req, res) {
-    users.registerUser(req.params.email, req.params.password, function (err, result) {
+    users.registerUser(req.body.email, req.body.password, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -444,6 +444,17 @@ exports.approveRequest = function (req, res) {
     });
 };
 
+exports.rejectRequest = function (req, res) {
+    editrequests.rejectRequest(req.user.id, req.params.id, function (err, result) {
+        if (err)
+            res.send({result: false});
+        else if (result)
+            res.send(result);
+        else
+            res.send({result: false});
+    });
+};
+
 exports.getEditsOfProduct = function (req,res) {
     editrequests.getEditsOfProduct(req.params.product, function(err, result) {
         if (err)
@@ -454,13 +465,6 @@ exports.getEditsOfProduct = function (req,res) {
             res.send({result: false});
     });
 };
-
-
-//New edit request
-//New product (Default is not visible and also implies an edit request which needs to be approved)
-//------------------------------------>Approve edit request (When a new product is approved it needs to be changed to visible)
-//Reject edit request
-//recover password
 
 exports.favoriteProductsById = function (req, res) {
 

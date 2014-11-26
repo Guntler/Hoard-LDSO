@@ -29,6 +29,7 @@ app.use("/css", express.static(full_path + '/css'));
 app.use("/js", express.static(full_path + '/js'));
 app.use("/images", express.static(full_path + '/images'));
 app.use("/jquery", express.static(full_path + '/jquery'));
+app.use("/angular", express.static(full_path + '/angular'));
 
 app.use("/semantic/css", express.static(full_path + '/semantic/css'));
 app.use("/semantic/javascript", express.static(full_path + '/semantic/javascript'));

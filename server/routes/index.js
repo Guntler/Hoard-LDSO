@@ -44,12 +44,11 @@ module.exports = function (app, passport) {
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
-	app.get('/api/users/:oldPassword/:newPassword', api.changePassword);
+	app.get('/api/users/changePassword/:oldPassword/:newPassword', api.changePassword);
     app.get('/api/users/fromTo/:from/:to', adminApiPermissions, api.usersFromTo);
 	app.get('/api/users/count', adminApiPermissions, api.userCount);
     app.get('/api/users/exists/:email', adminApiPermissions, api.userExists);
     app.get('/api/users/productsFromTo/:from/:to', managerApiPermissions, api.productsFromTo);
-    app.get('/api/users/register/:email/:password', api.registerUser);
     app.get('/api/users/:id/favoriteProducts', adminApiPermissions, api.favoriteProductsById);
     app.get('/api/users/signout', function (req, res) {
         req.logout();
@@ -80,6 +79,7 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);
 	app.get('/api/editrequests/count', adminApiPermissions, api.editCount);
     app.get('/api/editrequests/approve/:id', adminApiPermissions, api.approveRequest)
+    app.get('/api/editrequests/reject/:id', adminApiPermissions, api.rejectRequest)
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
@@ -105,6 +105,9 @@ module.exports = function (app, passport) {
             });
         })(req, res, next);
     });
+	
+	
+    app.post('/api/users/register', api.registerUser);
 }
 
 function isLoggedIn(req) {
