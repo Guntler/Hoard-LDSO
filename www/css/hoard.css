@@ -31,6 +31,10 @@ body {
 	margin: 1em 0 0 0;
 }
 
+.filterBox {
+	margin: 1.5em 0.5em 1.5em 1em;
+}
+
 #header a:visited, #header a:hover , #header a:active , #header a:link{
 	color: white;
 	text-decoration: none;

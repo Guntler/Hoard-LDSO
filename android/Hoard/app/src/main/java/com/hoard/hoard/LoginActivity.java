@@ -97,7 +97,7 @@ public class LoginActivity extends Activity {
                     if(validator.isValidPassword(passwordEditText.getText().toString())) {
                         logInButton.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
-                        new CheckLoginAsyncTask().execute();
+                        new SignInAsyncTask().execute();
                     } else {
                         passwordEditText.setError(getResources().getString(R.string.validation_password_error));
                     }
@@ -138,7 +138,7 @@ public class LoginActivity extends Activity {
     }
 
 
-    class CheckLoginAsyncTask extends AsyncTask<String, String, String> {
+    class SignInAsyncTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -147,13 +147,13 @@ public class LoginActivity extends Activity {
 
         protected String doInBackground(String... args) {
             try {
-                Log.i("LoginActivity>CheckLoginAsyncTask: Username - ", emailEditText.getText().toString());
-                Log.i("LoginActivity>CheckLoginAsyncTask: Password - ", passwordEditText.getText().toString());
-                valid = hoardAPI.checkLoginForEmailPassword(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                Log.i("LoginActivity>SignInAsyncTask: Username - ", emailEditText.getText().toString());
+                Log.i("LoginActivity>SignInAsyncTask: Password - ", passwordEditText.getText().toString());
+                valid = hoardAPI.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
 
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("LoginActivity>CheckLoginAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("LoginActivity>SignInAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;
