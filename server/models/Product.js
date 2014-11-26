@@ -1,4 +1,4 @@
-var util = require('..\\database\\utilities');
+var util = require('../database/utilities');
 
 var Product = function (id, name, price, link, imageName, category, visible, addedby, dateadded) {
 	this.id = id;
