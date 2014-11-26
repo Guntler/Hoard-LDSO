@@ -49,31 +49,44 @@
 				<button class="bottom-button remove-button">Remove Selection</button>
 			</div>
 			
-			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab shaded-bg">
-				<div class="ui error message" ng-hide="errorMessage == null">
-						{{errorMessage}}
+			<div ng-class="{active:tab === 'users'}" class="divided selection list tab">
+				<div style="margin-bottom: 10px">
+					<div class="ui shaded-bg">
+					Filter by:
+					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">User</div></label>
+					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Manager</div></label>
+					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Admin</div></label>
+					</div>
 				</div>
-				<div ng-repeat="user in users" class="item">
-					<div class="right floated date"><button class="ui red button tiny">edit</button></div>
-					<span class="name">
-						<a href="#/users/{{user.id}}"> {{user.email | cut:false:50:' ...'}}</a>
-					</span>
-					<div class="right floated date list-column-2">{{user.registerdate}}</div>
-					<span class="right floated list-column-2">
-						<span class="left floated ui label" ng-class="{green: user.permissions == 'User', red: user.permissions == 'Admin', purple: user.permissions == 'Manager'}">
-							{{user.permissions}}
+				<div class="ui shaded-bg">
+					<div class="ui error message" ng-hide="errorMessage == null">
+							{{errorMessage}}
+					</div>
+					<div ng-repeat="user in users" class="item">
+						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
+						<span class="name">
+							<a href="#/users/{{user.id}}"> {{user.email | cut:false:50:' ...'}}</a>
 						</span>
-					</span>
+						<div class="right floated date list-column-2">{{user.registerdate}}</div>
+						<span class="right floated list-column-2">
+							<span class="left floated ui label" ng-class="{green: user.permissions == 'User', red: user.permissions == 'Admin', purple: user.permissions == 'Manager'}">
+								{{user.permissions}}
+							</span>
+						</span>
+					</div>
 				</div>
 			</div>
 
 			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab">
 				<div style="margin-bottom: 10px">
-					<div class=" ui toggle button">Approved</div>
-					<div class=" ui toggle button">Pending</div>
-					<div class=" ui toggle button">Denied</div>
+					<div class="ui shaded-bg">
+					Filter by:
+					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">Approved</div></label>
+					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Pending</div></label>
+					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Denied</div></label>
+					</div>
 				</div>
-				<div  class="ui shaded-bg">
+				<div class="ui shaded-bg">
 					<div class="ui error message" ng-hide="errorMessage == null">
 						{{errorMessage}}
 					</div>
