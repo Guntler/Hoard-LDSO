@@ -28,6 +28,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div ng-class="{active:tab === 'products'}" class="ui divided selection list tab">
 				<button class="bottom-button select-button">Select All</button>
 				<button class="bottom-button select-button">Select None</button>
@@ -36,6 +37,13 @@
 					<div class="ui error message" ng-hide="errorMessage == null">
 						{{errorMessage}}
 					</div>
+					
+					<div class="tableHeader item">
+						<div class="right floated">Actions</div>
+						<span>Name</span>
+						<div class="right floated list-column-2">Creation Date</div>
+					</div>
+					
 					<div ng-repeat="product in products" class="item">
 						<div class="left floated"><input type="checkbox" name="selected"></div>
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
@@ -64,11 +72,11 @@
 							{{errorMessage}}
 					</div>
 					
-					<div class="tableHeader">
-						<span class="name">Email</span>
-						<span class="right floated list-column-2">Privileges</span>
-						<div class="right floated list-column-2">Register Date</div>
+					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
+						<span>Email</span>
+						<div class="right floated list-column-2">Register Date</div>
+						<span class="right floated list-column-2">Privileges</span>
 					</div>
 					
 					<div ng-repeat="user in users" class="item">
@@ -99,6 +107,14 @@
 					<div class="ui error message" ng-hide="errorMessage == null">
 						{{errorMessage}}
 					</div>
+					
+					<div class="tableHeader item">
+						<div class="right floated">Actions</div>
+						<span>Type</span>
+						<div class="right floated list-column-2">Date</div>
+						<span class="list-column-2 right floated">Status</span>
+					</div>
+					
 					<div ng-repeat="edit in edits" class="item">
 						<div class="right floated">
 							<div class="ui tiny buttons">
