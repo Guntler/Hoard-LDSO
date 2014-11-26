@@ -16,9 +16,6 @@ public class User {
     @Key
     String permissions;
 
-    @Key
-    String registerdate;
-
     public Integer getId() {
         return id;
     }
@@ -29,9 +26,5 @@ public class User {
 
     public String getPermissions() {
         return permissions;
-    }
-
-    public String getRegisterdate() {
-        return registerdate;
     }
 }

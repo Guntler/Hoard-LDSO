@@ -2,15 +2,17 @@ package com.hoard.hoard.api;
 
 import com.google.api.client.util.Key;
 
+import java.util.ArrayList;
+
 /**
  * Created by AndreSilva on 26/11/14
  */
 public class Favorites {
 
     @Key
-    Boolean result;
+    ArrayList<Product> result;
 
-    public String getResult() {
-        return " " + result;
+    public ArrayList<Product> getResult() {
+        return result;
     }
 }

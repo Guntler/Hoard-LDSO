@@ -2,26 +2,21 @@ package com.hoard.hoard.api;
 
 import com.google.api.client.util.Key;
 
+import java.util.ArrayList;
+
 /**
  * Created by AndreSilva on 26/11/14
  */
 public class ReturnParser {
 
     @Key
-    String error;
-/*
-    @Key
-    String message;
+    ArrayList<String> message;
 
     @Key
     User user;
-*/
-    public String getError() {
-        return error;
-    }
-/*
+
     public String getMessage() {
-        return message;
+        return message.get(0);
     }
 
     public User getUser() {
@@ -29,7 +24,6 @@ public class ReturnParser {
     }
 
     public String toString() {
-        return user.getId() + " " + user.getEmail() + " " + user.getPermissions() + " " + user.getRegisterdate();
+        return user.getId() + " " + user.getEmail() + " " + user.getPermissions();
     }
-*/
 }
