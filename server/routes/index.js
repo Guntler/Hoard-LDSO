@@ -91,15 +91,15 @@ module.exports = function (app, passport) {
 
     app.post('/api/users/signin', function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {
-            if (err)
+            if (err) {
                 return next(err);
+            }
             if (!user) {
                 return res.send({message: req.flash('loginMessage'), user: false});
             }
             else req.login(user, function (err) {
                 if (err)
                     return next(err);
-
                 res.send({user: user, message: req.flash('loginMessage')});
             });
         })(req, res, next);
