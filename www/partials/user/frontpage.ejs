@@ -58,10 +58,19 @@
 					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Admin</div></label>
 					</div>
 				</div>
+				
 				<div class="ui shaded-bg">
 					<div class="ui error message" ng-hide="errorMessage == null">
 							{{errorMessage}}
 					</div>
+					
+					<div class="tableHeader">
+						<span class="name">Email</span>
+						<span class="right floated list-column-2">Privileges</span>
+						<div class="right floated list-column-2">Register Date</div>
+						<div class="right floated">Actions</div>
+					</div>
+					
 					<div ng-repeat="user in users" class="item">
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
 						<span class="name">
