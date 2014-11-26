@@ -46,6 +46,11 @@ body {
 	color: white;
 	text-decoration: none;
 }
+
+#logo img {
+	min-width: 70%;
+	max-width: 70%;
+}
 	
 .bottom-button:hover {
 	background: #d9d9d9;
