@@ -72,7 +72,7 @@ module.exports = function (app, passport) {
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct  );
     app.get('/api/products/similarname/:input', api.getSimilarProducts);
     
-    app.get('/api/editrequests/:product', adminApiPermissions, api.getEditsOfProduct);
+    app.get('/api/editrequests/byProduct/:product', adminApiPermissions, api.getEditsOfProduct);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
 	app.get('/api/editrequests/id/:id', adminApiPermissions, api.editById);
     app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);
@@ -136,6 +136,5 @@ function adminApiPermissions(req, res, next) {
         if (req.user.permissions === "Admin")
             return next();
     }
-
     res.send({result: false});
 }
