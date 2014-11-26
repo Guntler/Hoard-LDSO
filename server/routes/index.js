@@ -44,7 +44,7 @@ module.exports = function (app, passport) {
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
-	app.get('/api/users/:oldPassword/:newPassword', api.changePassword);
+	app.get('/api/users/changePassword/:oldPassword/:newPassword', api.changePassword);
     app.get('/api/users/fromTo/:from/:to', adminApiPermissions, api.usersFromTo);
 	app.get('/api/users/count', adminApiPermissions, api.userCount);
     app.get('/api/users/exists/:email', adminApiPermissions, api.userExists);

@@ -76,7 +76,7 @@ exports.checkLogin = function (req, res) {
 };
 
 exports.changePassword = function (req, res) {
-    users.changePassword(req.params.oldPassword, req.params.newPassword,req.user.email, function (err, result) {
+    users.changePassword(req.params.oldPassword, req.params.newPassword, req.user.email, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -429,7 +429,7 @@ exports.getEditsOfProduct = function (req,res) {
 
 //New edit request
 //New product (Default is not visible and also implies an edit request which needs to be approved)
-//------------------------------------>Approve edit request (When a new product is approved it needs to be changed to visible)
+//Finish approve edit request (edits)
 //Reject edit request
 //recover password
 
