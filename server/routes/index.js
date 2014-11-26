@@ -78,6 +78,7 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/fromTo/:from/:to', adminApiPermissions, api.editsFromTo);
 	app.get('/api/editrequests/count', adminApiPermissions, api.editCount);
     app.get('/api/editrequests/approve/:id', adminApiPermissions, api.approveRequest)
+    app.get('/api/editrequests/reject/:id', adminApiPermissions, api.rejectRequest)
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
