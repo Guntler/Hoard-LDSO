@@ -10,19 +10,56 @@
 					<i class="right arrow icon divider"></i>
 					<a class="section">Products</a>
 					<i class="right arrow icon divider"></i>
-					<div class="active section">{{product.name | cut:true:50:' ...'}}</div>
+					<div class="active section">Add</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="row profile-info">
 			<div class="eleven wide column shaded-bg profile-data">
-				<h2>{{product.name | cut:true:50:' ...'}}</h2>
+				<h2>Add Product</h2>
 				<div class="ui divider"></div>
 				<div>
-					<p><b>Link:</b> <a href="{{product.link}}">{{product.link}}</a></p>
-					<p><b>Category:</b> {{category.name}}</p>
-					<p><b>Creator:</b> {{addedBy.email}}</p>
+					<form>
+						<div>
+							<label>Product Name</label>
+							<div class="ui left labeled icon input">
+								<input ng-model="pName" type="text" placeholder="Name">
+								<div class="ui corner label">
+									<i class="icon asterisk"></i>
+								</div>
+							</div>
+						</div>
+						
+						<div>
+							<label>Product Link</label>
+							<div class="ui left labeled icon input">
+								<input ng-model="pLink" type="text" placeholder="Link">
+								<div class="ui corner label">
+									<i class="icon asterisk"></i>
+								</div>
+							</div>
+						</div>
+						
+						<div>
+							<label>Category</label>
+							<div class="ui selection dropdown">
+								<input type="hidden" ng-model="pCategory">
+								<div class="default text">Category</div>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</div>
+								</div>
+							</div>
+						</div>
+						
+						<div>
+							<label>Image</label>
+							<div class="ui selection dropdown">
+								<input type="file" ng-model="pImage">
+							</div>
+						</div>
+					</form>
 				</div>
 				<div class="ui divider"></div>
 			</div>

@@ -1,4 +1,4 @@
-util = require('..\\database\\utilities');
+util = require('../database/utilities');
 
 var UserAccount = function (id, email, permissions, registerdate, favorites, loggedin) {
 	this.id = id;
