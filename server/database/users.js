@@ -66,7 +66,10 @@ exports.checkLogin = function (email, password, callback) {
 
         var query = client.query("SELECT * FROM userAccount WHERE email = $1", [email]);
         query.on("row", function (row, result) {
-            result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
+            result.addRow({
+                user: new User(row.userid, row.email, row.permissions, row.registerdate), 
+                password: row.password
+            });
         });
 
         query.on("end", function (result) {
