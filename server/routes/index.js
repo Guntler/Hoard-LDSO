@@ -93,6 +93,7 @@ module.exports = function (app, passport) {
             if (err)
                 return next(err);
             if (!user) {
+				console.log("hi");
                 return res.send({message: req.flash('loginMessage'), user: false});
             }
             else req.login(user, function (err) {
