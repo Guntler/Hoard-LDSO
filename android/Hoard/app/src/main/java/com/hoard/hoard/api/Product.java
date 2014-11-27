@@ -13,6 +13,9 @@ public class Product {
     @Key
     String link;
 
+    @Key
+    String imageName;
+
     public String getName() {
         return name;
     }
@@ -20,4 +23,6 @@ public class Product {
     public String getLink() {
         return link;
     }
+
+    public String getImageName() { return imageName; }
 }

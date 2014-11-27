@@ -159,7 +159,7 @@ public class RegisterActivity extends Activity {
             return null;
         }
 
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String notUsed) {
             if(valid) {
 
                 Intent i = new Intent(RegisterActivity.this, MainActivity.class);

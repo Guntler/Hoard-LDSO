@@ -56,17 +56,16 @@ public class HoardAPI {
 
             HttpResponse response = request.execute();
 
-            ArrayList<String> headerField = (ArrayList<String>) response.getHeaders().get("Set-Cookie");
-
-            String cookie = headerField.get(0).split("; ")[0];
-            Log.d("Cookie: ", cookie);
+            String cookie = getCookieConnectSID(response);
 
             ReturnParser parser = response.parseAs(ReturnParser.class);
 
             Log.d("Response: ", parser.getMessage());
             if(parser.getMessage() != null) {
-                session.logIn(email, cookie);
-                return true;
+                if(cookie != null) {
+                    session.logIn(email, cookie);
+                    return true;
+                }
             }
         } catch (IOException e) {
             String errorMessage = (e.getMessage() == null) ? "Message is empty" : e.getMessage();
@@ -74,6 +73,17 @@ public class HoardAPI {
             return false;
         }
         return false;
+    }
+
+    private String getCookieConnectSID(HttpResponse response) {
+        ArrayList<String> headerField = (ArrayList<String>) response.getHeaders().get("Set-Cookie");
+
+        String[] cookies = headerField.get(0).split("; ");
+        for(String singleCookie : cookies) {
+            if(singleCookie.startsWith("connect.sid="))
+                return singleCookie;
+        }
+        return null;
     }
 
     public Favorites getFavorites() {

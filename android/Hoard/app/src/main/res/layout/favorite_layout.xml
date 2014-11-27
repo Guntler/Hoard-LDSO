@@ -15,4 +15,12 @@
         android:horizontalSpacing="0dp"
         android:stretchMode="columnWidth"
         android:numColumns="2"  />
+
+    <ProgressBar
+        android:id="@+id/favorite_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        style="?android:attr/progressBarStyleLarge" />
 </RelativeLayout>

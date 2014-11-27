@@ -1,15 +1,22 @@
 package com.hoard.hoard;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hoard.hoard.api.Product;
+
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by AndreSilva on 19/11/14
@@ -18,24 +25,24 @@ import java.util.List;
 public class ProductAdapter extends BaseAdapter {
 
     /*
-     * Products List
+     * Context
      */
-    private List<Product> items = new ArrayList<Product>();
+    private Context context;
 
     /*
      * Layout Inflater
      */
     private LayoutInflater inflater;
 
-    public ProductAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
+    /*
+     * Products List
+     */
+    private ArrayList<Product> items = new ArrayList<Product>();
 
-        items.add(new Product("Product_1",       R.drawable.product2));
-        items.add(new Product("Product_2",   R.drawable.product2));
-        items.add(new Product("Product_3", R.drawable.product2));
-        items.add(new Product("Product_4",      R.drawable.product2));
-        items.add(new Product("Product_5",     R.drawable.product2));
-        items.add(new Product("Product_6",      R.drawable.product2));
+    public ProductAdapter(Context context, ArrayList<Product> favorites) {
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+        items = favorites;
     }
 
     @Override
@@ -44,45 +51,58 @@ public class ProductAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Product getItem(int i) {
         return items.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return items.get(i).drawableId;
+        return 0;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = view;
-        ImageView picture;
-        TextView name;
 
-        if(v == null) {
-            v = inflater.inflate(R.layout.favorite_item_layout, viewGroup, false);
-            v.setTag(R.id.grid_item_image, v.findViewById(R.id.grid_item_image));
-            v.setTag(R.id.grid_item_text, v.findViewById(R.id.grid_item_text));
+        if(view == null) {
+            view = inflater.inflate(R.layout.favorite_item_layout, viewGroup, false);
+            view.setTag(R.id.grid_item_image, view.findViewById(R.id.grid_item_image));
+            view.setTag(R.id.grid_item_text, view.findViewById(R.id.grid_item_text));
         }
 
-        picture = (ImageView)v.getTag(R.id.grid_item_image);
-        name = (TextView)v.getTag(R.id.grid_item_text);
+        ImageView picture = (ImageView)view.getTag(R.id.grid_item_image);
+        TextView name = (TextView)view.getTag(R.id.grid_item_text);
 
-        Product item = (Product)getItem(i);
+        Product product = (Product)getItem(i);
 
-        picture.setImageResource(item.drawableId);
-        name.setText(item.productName);
+        DownloadImageTask task = new DownloadImageTask(picture);
+        task.execute(context.getResources().getString(R.string.product_images_url)+product.getImageName());
+        name.setText(product.getName());
 
-        return v;
+        return view;
     }
 
-    private class Product {
-        final String productName;
-        final int drawableId;
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
 
-        Product(String productName, int drawableId) {
-            this.productName = productName;
-            this.drawableId = drawableId;
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urlDisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urlDisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
         }
     }
 }

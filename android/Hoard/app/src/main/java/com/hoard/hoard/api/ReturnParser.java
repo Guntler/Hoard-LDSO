@@ -19,10 +19,6 @@ public class ReturnParser {
         return message.get(0);
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public String toString() {
         return user.getId() + " " + user.getEmail() + " " + user.getPermissions();
     }

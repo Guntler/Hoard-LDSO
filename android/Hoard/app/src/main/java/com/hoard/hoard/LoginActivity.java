@@ -152,7 +152,7 @@ public class LoginActivity extends Activity {
             return null;
         }
 
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String notUsed) {
             if(valid) {
 
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
