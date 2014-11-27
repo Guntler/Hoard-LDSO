@@ -88,7 +88,7 @@ exports.changePassword = function (req, res) {
 
 //Check if a user exists
 exports.userExists = function (req, res) {
-    users.userByEmail(req.params.email, function (err, result) {
+    users.findByEmail(req.params.email, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -239,7 +239,7 @@ exports.addToFavorites = function (req, res) {
     if (req.params.id == undefined || req.user == undefined) {
         res.send({result: false});
     } else {
-        products.addToFavorites(req.params.id, req.user.id, function (err, result) {
+        products.addToFavorites(req.params.id, req.user.userid, function (err, result) {
             if (err)
                 res.send({result: false});
             else if (result)
@@ -254,7 +254,7 @@ exports.getFavorites = function (req, res) {
     if (req.user == undefined) {
         res.send({result: false});
     } else {
-        products.getFavorites(req.user.id, function (err, result) {
+        products.getFavorites(req.user.userid, function (err, result) {
             if (err)
                 res.send({result: false});
             else if (result)
@@ -284,7 +284,7 @@ exports.removeProductFromFavorites = function (req, res) {
     if (req.params.productid == undefined || req.user ==  undefined) {
 		res.send({result: false});
     } else {
-        products.removeProductFromFavorites(req.params.productid, req.user.id, function (err, result) {
+        products.removeProductFromFavorites(req.params.productid, req.user.userid, function (err, result) {
             if (err)
                 res.send({result: false});
             else if (result)
@@ -310,7 +310,7 @@ exports.updateUserEmail = function(req, res)
 	if (req.params.email == undefined || req.user ==  undefined) {
 		res.send({result: false});
     } else {
-        users.updateUserEmail(req.user.id, req.params.email, function (err, result) {
+        users.updateUserEmail(req.user.userid, req.params.email, function (err, result) {
             if (err)
                 res.send({result: false});
             else if (result)
@@ -320,6 +320,23 @@ exports.updateUserEmail = function(req, res)
         });
     }
 };
+
+//send new password to user
+exports.forgotPassword = function(req, res)
+{
+    if(req.params.email == undefined) {
+        res.send({result: false, message: 'Please supply email'});
+    } else {
+        users.forgotPassword(req.params.email, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+}
 
 exports.editById = function (req, res) {
     editrequests.findById(req.params.id, function (err, result) {
@@ -405,7 +422,7 @@ exports.requestsByManagerId = function (req, res) {
 };
 
 exports.approveRequest = function (req, res) {
-    editrequests.approveRequest(req.user.id, req.params.id, function (err, result) {
+    editrequests.approveRequest(req.user.userid, req.params.id, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -416,7 +433,7 @@ exports.approveRequest = function (req, res) {
 };
 
 exports.rejectRequest = function (req, res) {
-    editrequests.rejectRequest(req.user.id, req.params.id, function (err, result) {
+    editrequests.rejectRequest(req.user.userid, req.params.id, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -460,16 +477,14 @@ exports.categories = function(req,res) {
         else
             res.send({result: false});
     });
-}
+};
 
 exports.categoryById = function(req,res) {
-	categories.findById(function (err, result) {
+	categories.findById(req.params.id, function (err, result) {
         if (err)
             res.send({result: false});
-        else if (result)
-            res.send(result);
         else
-            res.send({result: false});
+            res.send(result);
     });
-}
+};
 

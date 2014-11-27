@@ -1,15 +1,15 @@
-pg = require("pg");
+var pg = require("pg");
 var ProductCategory = require('../models/ProductCategory');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
 exports.findById = function (id, callback) {
-    pg.connect(conString, function (err, client, done) {
+    pg.connect(conString, function (err, category, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = client.query("SELECT * FROM productCategory WHERE categoryId = $1", [id]);
+        var query = category.query("SELECT * FROM productCategory WHERE categoryid = $1", [id]);
 
         query.on("row", function (row, result) {
             result.addRow(new ProductCategory(row.categoryid, row.categoryname));
@@ -39,7 +39,7 @@ exports.getAllCategories = function (callback) {
         var query = client.query("SELECT * FROM productCategory");
 
         query.on("row", function (row, result) {
-            result.addRow(new ProductCategory(row.categoryid, row.categoryname));
+            result.addRow(new ProductCategory(row.categoryid, row.name));
         });
 
         query.on("end", function (result) {

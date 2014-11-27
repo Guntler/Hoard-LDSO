@@ -51,6 +51,7 @@ module.exports = function (app, passport) {
     app.get('/api/users/productsFromTo/:from/:to', managerApiPermissions, api.productsFromTo);
     app.get('/api/users/register/:email/:password', api.registerUser);
     app.get('/api/users/:id/favoriteProducts', adminApiPermissions, api.favoriteProductsById);
+    app.get('/api/users/forgotPassword/:email', api.forgotPassword);
     app.get('/api/users/signout', function (req, res) {
         req.logout();
         res.send({result: true});

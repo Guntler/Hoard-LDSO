@@ -74,7 +74,7 @@
 					<div ng-repeat="user in users" class="item">
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
 						<span class="name">
-							<a href="#/users/{{user.id}}"> {{user.email | cut:false:50:' ...'}}</a>
+							<a href="#/users/{{user.userid}}"> {{user.email | cut:false:50:' ...'}}</a>
 						</span>
 						<div class="right floated date list-column-2">{{user.registerdate}}</div>
 						<span class="right floated list-column-2">

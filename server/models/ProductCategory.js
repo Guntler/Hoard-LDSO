@@ -1,9 +1,9 @@
-var ProductCategory = function (id, name) {
-	this.id = id;
-	this.name = name;
+var ProductCategory = function (categoryid, categoryname) {
+	this.categoryid = categoryid;
+	this.name = categoryname;
 }
 
-ProductCategory.prototype.id = -1;
-ProductCategory.prototype.name = "";
+ProductCategory.prototype.categoryid = -1;
+ProductCategory.prototype.categoryname = "";
 
 module.exports = ProductCategory;
