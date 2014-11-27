@@ -54,68 +54,88 @@ exports.userById = function (req, res) {
 
 //Get a user by email
 exports.userByEmail = function (req, res) {
-    users.findByEmail(req.params.email, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else
-            res.send(result);
-    });
+    if (req.params.email == undefined) {
+        res.send({result: false});
+    } else {
+        users.findByEmail(req.params.email, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else
+                res.send(result);
+        });
+    }
 };
 
 //Check if a user with a specific email and pass exists
 //IMPORTANT - Change to use hash instead of password
 exports.checkLogin = function (req, res) {
-    users.checkLogin(req.params.email, req.params.password, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send({result: true});
-        else
-            res.send({result: false});
-    });
+    if (req.params.email == undefined || req.params.password == undefined) {
+        res.send({result: false});
+    } else {
+        users.checkLogin(req.params.email, req.params.password, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send({result: true});
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 exports.changePassword = function (req, res) {
-    users.changePassword(req.params.oldPassword, req.params.newPassword, req.user.email, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send({result: true});
-        else
-            res.send({result: false});
-    });
+    if (req.params.oldPassword == undefined || req.params.newPassword == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        users.changePassword(req.params.oldPassword, req.params.newPassword, req.user.email, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send({result: true});
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 //Check if a user exists
 exports.userExists = function (req, res) {
-    users.findByEmail(req.params.email, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send({result: true});
-        else
-            res.send({result: false});
-    });
+    if (req.params.email == undefined) {
+        res.send({result: false});
+    } else {
+        users.findByEmail(req.params.email, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send({result: true});
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 //Register new user
 exports.registerUser = function (req, res) {
-    users.registerUser(req.body.email, req.body.password, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send({result: true});
-        else
-            res.send({result: false});
-    });
+    if (req.params.email == undefined) {
+        res.send({result: false});
+    } else {
+        users.registerUser(req.body.email, req.body.password, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send({result: true});
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 //Remove Manager Privileges
-exports.removeManagerPrivileges = function (req,res) {
+exports.removeManagerPrivileges = function (req, res) {
     if (req.params.id == undefined) {
         res.send({result: false});
     } else {
-        users.removeManagerPrivileges(req.params.id, function(err, result) {
+        users.removeManagerPrivileges(req.params.id, function (err, result) {
             if (err)
                 res.send({result: false});
             else if (result)
@@ -127,11 +147,11 @@ exports.removeManagerPrivileges = function (req,res) {
 };
 
 //Grant Manager Privileges
-exports.grantManagerPrivileges = function (req,res) {
+exports.grantManagerPrivileges = function (req, res) {
     if (req.params.id == undefined) {
         res.send({result: false});
     } else {
-        users.grantManagerPrivileges(req.params.id, function(err, result) {
+        users.grantManagerPrivileges(req.params.id, function (err, result) {
             if (err)
                 res.send({result: false});
             else if (result)
@@ -144,8 +164,8 @@ exports.grantManagerPrivileges = function (req,res) {
 
 
 //Get All Managers 
-exports.getAllManagers = function (req,res) {
-    users.getAllManagers(function(err, result) {
+exports.getAllManagers = function (req, res) {
+    users.getAllManagers(function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -156,15 +176,19 @@ exports.getAllManagers = function (req,res) {
 };
 
 //Get Users With Similar Emails
-exports.getSimilarEmailUsers = function (req,res) {
-    users.getSimilarEmailUsers(req.params.input, function(err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send(result);
-        else
-            res.send({result: false});
-    });
+exports.getSimilarEmailUsers = function (req, res) {
+    if (req.params.input == undefined) {
+        res.send({result: false});
+    } else {
+        users.getSimilarEmailUsers(req.params.input, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 //Get all products from the DB
@@ -264,6 +288,7 @@ exports.favoriteUp = function (req, res) {
         });
     }
 };
+
 exports.favoriteDown = function (req, res) {
     if (req.params.productid == undefined || req.user == undefined) {
         res.send({result: false});
@@ -310,8 +335,8 @@ exports.removeProduct = function (req, res) {
 };
 
 exports.removeProductFromFavorites = function (req, res) {
-    if (req.params.productid == undefined || req.user ==  undefined) {
-		res.send({result: false});
+    if (req.params.productid == undefined || req.user == undefined) {
+        res.send({result: false});
     } else {
         products.removeProductFromFavorites(req.params.productid, req.user.userid, function (err, result) {
             if (err)
@@ -325,19 +350,22 @@ exports.removeProductFromFavorites = function (req, res) {
 };
 
 exports.getSimilarProducts = function (req, res) {
-    products.getSimilarProducts(req.params.input, function (err, result) {
-        if (err)
-            res.send(err);
-        else
-            res.send(result);
-    });
+    if (req.params.input == undefined) {
+        res.send({result: false});
+    } else {
+        products.getSimilarProducts(req.params.input, function (err, result) {
+            if (err)
+                res.send(err);
+            else
+                res.send(result);
+        });
+    }
 };
 
 //edit user email
-exports.updateUserEmail = function(req, res)
-{	
-	if (req.params.email == undefined || req.user ==  undefined) {
-		res.send({result: false});
+exports.updateUserEmail = function (req, res) {
+    if (req.params.email == undefined || req.user == undefined) {
+        res.send({result: false});
     } else {
         users.updateUserEmail(req.user.userid, req.params.email, function (err, result) {
             if (err)
@@ -351,9 +379,8 @@ exports.updateUserEmail = function(req, res)
 };
 
 //send new password to user
-exports.forgotPassword = function(req, res)
-{
-    if(req.params.email == undefined) {
+exports.forgotPassword = function (req, res) {
+    if (req.params.email == undefined) {
         res.send({result: false, message: 'Please supply email'});
     } else {
         users.forgotPassword(req.params.email, function (err, result) {
@@ -365,17 +392,21 @@ exports.forgotPassword = function(req, res)
                 res.send({result: false});
         });
     }
-}
+};
 
 exports.editById = function (req, res) {
-    editrequests.findById(req.params.id, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send(result);
-        else
-            res.send({result: false});
-    });
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.findById(req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 
@@ -429,76 +460,97 @@ exports.requestsByDate = function (req, res) {
 };
 
 exports.requestsByEditType = function (req, res) {
-    editrequests.findByEditType(req.params.edittype, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send(result);
-        else
-            res.send({result: false});
-    });
+    if (req.params.edittype == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.findByEditType(req.params.edittype, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 exports.requestsByManagerId = function (req, res) {
-    editrequests.getManagerEdits(req.params.id, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send(result);
-        else
-            res.send({result: false});
-    });
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.getManagerEdits(req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 exports.approveRequest = function (req, res) {
-    editrequests.approveRequest(req.user.userid, req.params.id, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send(result);
-        else
-            res.send({result: false});
-    });
+    if (req.params.id == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.approveRequest(req.user.userid, req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 exports.rejectRequest = function (req, res) {
-    editrequests.rejectRequest(req.user.userid, req.params.id, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send(result);
-        else
-            res.send({result: false});
-    });
+    if (req.params.id == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.rejectRequest(req.user.userid, req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
 };
 
-exports.getEditsOfProduct = function (req,res) {
-    editrequests.getEditsOfProduct(req.params.product, function(err, result) {
-        if (err)
-            res.send({result: false});
-        else if (result)
-            res.send(result);
-        else
-            res.send({result: false});
-    });
+exports.getEditsOfProduct = function (req, res) {
+    if (req.params.product == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.getEditsOfProduct(req.params.product, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
 };
 
 exports.favoriteProductsById = function (req, res) {
-
-    favoriteProducts.findById(req.params.id, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else
-            res.send(result);
-    });
-
-
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        favoriteProducts.findById(req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else
+                res.send(result);
+        });
+    }
 };
 //Get the category product from DB
 
 
-exports.categories = function(req,res) {
-	categories.getAllCategories(function (err, result) {
+exports.categories = function (req, res) {
+    categories.getAllCategories(function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -508,12 +560,16 @@ exports.categories = function(req,res) {
     });
 };
 
-exports.categoryById = function(req,res) {
-	categories.findById(req.params.id, function (err, result) {
-        if (err)
-            res.send({result: false});
-        else
-            res.send(result);
-    });
+exports.categoryById = function (req, res) {
+    if (req.params.id == undefined) {
+        res.send({result: false});
+    } else {
+        categories.findById(req.params.id, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else
+                res.send(result);
+        });
+    }
 };
 
