@@ -33,7 +33,7 @@ module.exports = function(passport) {
 			else if (user.permissions === "User")
 				return done(null, false, req.flash('loginMessage', "You don't have the necessary permissions to sign in."));
 			
-			return done(null,user, req.flash('loginMessage', "Welcome " + user.email + "!"));
+			return done(null, user, req.flash('loginMessage', "Welcome " + user.email + "!"));
 		});
 
     }));

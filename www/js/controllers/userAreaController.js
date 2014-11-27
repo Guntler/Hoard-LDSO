@@ -26,7 +26,7 @@ hoard.controller('userAreaController', function($scope, $cookieStore, sessionSer
 	};
 	
 	$scope.hideSidebar = function(e) {
-		if (!$(e.target).parents('.signin.sidebar').length && $('.sidebar.edit-profile').hasClass('beingUsed') && !$(e.target).hasClass('edit-profile')){
+		if (!$(e.target).parents('.sidebar.edit-profile').length && $('.sidebar.edit-profile').hasClass('beingUsed') && !$(e.target).hasClass('edit-profile')){
 				$('.sidebar.edit-profile').removeClass('beingUsed');
 				var transition = $(this).data('transition');
 				$('.sidebar.edit-profile')

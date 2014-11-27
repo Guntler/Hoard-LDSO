@@ -51,19 +51,12 @@ public class RegisterActivity extends Activity {
      */
     private AlertDialog alertDialog;
 
-    /*
-     * Session
-     */
-    private Session session;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         hoardAPI = new HoardAPI(RegisterActivity.this);
-
-        session = new Session(RegisterActivity.this);
 
         emailEditText = (EditText) findViewById(R.id.register_email);
         emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -166,9 +159,8 @@ public class RegisterActivity extends Activity {
             return null;
         }
 
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String notUsed) {
             if(valid) {
-                session.logIn(emailEditText.getText().toString());
 
                 Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();

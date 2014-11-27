@@ -13,6 +13,8 @@ public class Session {
 
     private static final String USER = "HoardUserEmail";
 
+    private static final String COOKIE = "HoardUserCookie";
+
     private SharedPreferences sharedpreferences;
 
     public Session(Context context) {
@@ -23,12 +25,17 @@ public class Session {
         return sharedpreferences.contains(USER);
     }
 
+    public boolean checkSessionForCookie() {return sharedpreferences.contains(COOKIE);}
+
     public String getUserEmail() {return sharedpreferences.getString(USER,null);}
 
-    public void logIn(String userEmail) {
+    public String getCookie() {return sharedpreferences.getString(COOKIE,null);}
+
+    public void logIn(String userEmail, String userCookie) {
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         editor.putString(USER, userEmail);
+        editor.putString(COOKIE, userCookie);
         editor.apply();
     }
 

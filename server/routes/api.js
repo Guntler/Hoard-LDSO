@@ -100,7 +100,7 @@ exports.userExists = function (req, res) {
 
 //Register new user
 exports.registerUser = function (req, res) {
-    users.registerUser(req.params.email, req.params.password, function (err, result) {
+    users.registerUser(req.body.email, req.body.password, function (err, result) {
         if (err)
             res.send({result: false});
         else if (result)
@@ -240,6 +240,35 @@ exports.addToFavorites = function (req, res) {
         res.send({result: false});
     } else {
         products.addToFavorites(req.params.id, req.user.userid, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
+exports.favoriteUp = function (req, res) {
+    if (req.params.productid == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.favoriteUp(req.user.id, req.params.productid, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+exports.favoriteDown = function (req, res) {
+    if (req.params.productid == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.favoriteDown(req.user.id, req.params.productid, function (err, result) {
             if (err)
                 res.send({result: false});
             else if (result)

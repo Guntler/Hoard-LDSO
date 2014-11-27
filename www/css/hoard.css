@@ -15,6 +15,12 @@ body {
 	min-height:100% !important;
 }
 
+.tableHeader.item:hover {
+	color: white!important;
+	background-color: gray!important;
+	cursor:default!important;
+}
+
 .bottom-button {
 	background: #e3e3e3;
 	border: 4px solid #bbb;
@@ -35,9 +41,21 @@ body {
 	margin: 1.5em 0.5em 1.5em 1em;
 }
 
+.tableHeader {
+	background-color: gray;
+}
+.tableHeader div, .tableHeader span{
+	color: white;
+}
+
 #header a:visited, #header a:hover , #header a:active , #header a:link{
 	color: white;
 	text-decoration: none;
+}
+
+#logo img {
+	min-width: 70%;
+	max-width: 70%;
 }
 	
 .bottom-button:hover {
@@ -136,6 +154,11 @@ body {
 .list-column-2 {
 	margin-right: 10% !important;
 	width: 10% !important;
+}
+
+.list-column {
+	margin-right: 5% !important;
+	width: 5% !important;
 }
 
 .profile-info  {

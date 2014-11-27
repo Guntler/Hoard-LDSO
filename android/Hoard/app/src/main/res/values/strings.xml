@@ -40,9 +40,9 @@
 
     <!-- API Request Stuff -->
     <string name="timeout">10000</string>
-    <string name="sigin_url">http://178.62.105.68:8081/api/users/signin</string>
-    <string name="checklogin_url">http://178.62.105.68:8081/api/users/checklogin/</string>
-    <string name="register_url">http://178.62.105.68:8081/api/users/register/</string>
-    <string name="favorites_url">http://178.62.105.68:8081/api/products/getFavorites</string>
+    <string name="sigin_url">http://192.168.1.67:8081/api/users/signin</string>
+    <string name="register_url">http://192.168.1.67:8081/api/users/register/</string>
+    <string name="favorites_url">http://192.168.1.67:8081/api/products/getFavorites</string>
+    <string name="product_images_url">http://192.168.1.67:8081/images/products/</string>
 
 </resources>

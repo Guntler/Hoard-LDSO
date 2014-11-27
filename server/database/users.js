@@ -68,25 +68,27 @@ exports.checkLogin = function (email, password, callback) {
 
         var query = client.query("SELECT * FROM userAccount WHERE email = $1", [email]);
         query.on("row", function (row, result) {
-            result.addRow({user: new User(row.userid, row.email, row.permissions, row.registerdate), password: row.password});
+            result.addRow({
+                user: new User(row.userid, row.email, row.permissions, row.registerdate), 
+                password: row.password
+            });
         });
 
         query.on("end", function (result) {
-
+            done();
+			
             if (result.rows.length < 1)
                 callback(null, null);
             else {
-                bcrypt.compare(password, result.rows[0].password, function (err, res) {
-                    if (res === true) {
-                        done();
-                        return callback(null, result.rows[0].user);
-                    }
-                    else {
-                        done();
-                        return callback(null, null);
-                    }
-                });
-            }
+				bcrypt.compare(password, result.rows[0].password, function (err, res) {
+					if (res === true) {
+						return callback(null, result.rows[0].user);
+					}
+					else {
+						return callback(null, null);
+					}
+				});
+			}
         });
 
         query.on("error", function (err) {

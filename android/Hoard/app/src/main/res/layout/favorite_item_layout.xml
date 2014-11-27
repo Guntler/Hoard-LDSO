@@ -20,6 +20,7 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:textColor="@android:color/white"
+        android:maxLength="22"
         android:background="#55000000" />
 
 </FrameLayout>

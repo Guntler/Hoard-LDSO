@@ -15,7 +15,11 @@ hoard.config(function($routeProvider, $httpProvider) {
 		controller: 'userAreaController',
 		templateUrl: 'partials/user/profile.ejs'
 	}).
-	when('/products/:id', {
+	when('/products/actions/add', {
+		controller: 'userAreaController',
+		templateUrl: 'partials/product/add.ejs'
+	}).
+	when('/products/profile/:id', {
 		controller: 'userAreaController',
 		templateUrl: 'partials/product/profile.ejs'
 	}).

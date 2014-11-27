@@ -8,9 +8,23 @@ import com.google.api.client.util.Key;
 public class User {
 
     @Key
-    Boolean result;
+    Integer id;
 
-    public Boolean getResult() {
-        return result;
+    @Key
+    String email;
+
+    @Key
+    String permissions;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPermissions() {
+        return permissions;
     }
 }

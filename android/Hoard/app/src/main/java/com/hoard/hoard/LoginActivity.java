@@ -52,19 +52,12 @@ public class LoginActivity extends Activity {
      */
     private AlertDialog alertDialog;
 
-    /*
-     * Session
-     */
-    private Session session;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         hoardAPI = new HoardAPI(LoginActivity.this);
-
-        session = new Session(LoginActivity.this);
 
         emailEditText = (EditText) findViewById(R.id.login_email);
         emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -159,9 +152,8 @@ public class LoginActivity extends Activity {
             return null;
         }
 
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String notUsed) {
             if(valid) {
-                session.logIn(emailEditText.getText().toString());
 
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
