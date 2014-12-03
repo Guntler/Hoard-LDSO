@@ -89,11 +89,11 @@ exports.changePassword = function (req, res) {
     } else {
         users.changePassword(req.params.oldPassword, req.params.newPassword, req.user.email, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send({result: true});
+                res.send({result: true, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
@@ -105,11 +105,11 @@ exports.userExists = function (req, res) {
     } else {
         users.findByEmail(req.params.email, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send({result: true});
+                res.send({result: true, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };

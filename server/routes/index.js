@@ -97,11 +97,11 @@ module.exports = function (app, passport) {
                 return next(err);
             }
             if (!user) 
-                return res.send({message: req.flash('loginMessage'), user: false});
+                return res.send({message: req.flash('loginMessage'), user: null, success: true});
             else req.login(user, function (err) {
                 if (err)
                     return next(err);
-                res.send({user: user, message: req.flash('loginMessage')});
+                res.send({user: user, message: req.flash('loginMessage'), success: true});
             });
         })(req, res, next);
     });
@@ -112,11 +112,11 @@ module.exports = function (app, passport) {
                 return next(err);
             }
             if (!user) 
-                return res.send({message: req.flash('loginMessage'), user: false});
+                return res.send({message: req.flash('loginMessage'), user: null, success: true});
             else req.login(user, function (err) {
                 if (err)
                     return next(err);
-                res.send({user: user, message: req.flash('loginMessage')});
+                res.send({message: req.flash('loginMessage'), success: true});
             });
         })(req, res, next);
     });
