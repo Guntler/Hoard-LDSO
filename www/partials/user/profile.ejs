@@ -25,6 +25,38 @@
 					<p><b>Permissions:</b> {{user.permissions}}</p>
 				</div>
 				<div class="ui divider"></div>
+				<div>
+					<div class="ui form">
+					  <div class="user-permissions-radio grouped inline fields">
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="permission" value="user">
+								<label>User</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="permission" value="manager">
+								<label>Manager</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="permission" value="admin">
+								<label>Admin</label>
+							</div>
+						</div>
+						<div class="right floated ui primary button">
+							Save
+						</div>
+						<div class="right floated ui discard button">
+							Discard
+						</div>
+
+					  </div>
+					</div>
+				</div>
+				<div class="ui divider"></div>
 			</div>
 			<div class="four wide column shaded-bg profile-image">
 				<img src="/images/profile.jpg"></img>

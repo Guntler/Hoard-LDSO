@@ -16,6 +16,8 @@ hoard.controller('userProfileController',function($scope, $routeParams, $locatio
 	
 	//Edits
 	$scope.edits = [];
+	
+	$( ".ui.checkbox" ).checkbox();
 	/*
 	if ($scope.tab == 'edits') {
 		$scope.$watch(function() {
