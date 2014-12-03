@@ -39,7 +39,7 @@ CREATE TABLE product (
 	category INTEGER NOT NULL REFERENCES productCategory(categoryID),
 	visible BOOLEAN NOT NULL DEFAULT false,
 	addedBy INTEGER NOT NULL REFERENCES userAccount(userID),
-	dateAdded TIMESTAMP NOT NULL,
+	dateAdded TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CHECK (char_length(name) <= 200),
 	CHECK (char_length(link) <= 500),
 	CHECK (dateAdded <= now())

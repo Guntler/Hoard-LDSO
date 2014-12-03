@@ -212,6 +212,21 @@ exports.productCount = function (req, res) {
     });
 };
 
+exports.newProduct = function (req, res) {
+    if (req.params.name == undefined || req.params.link == undefined || req.params.category == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.newProduct(req.params.name, req.params.link, req.params.category, req.user.userid, function (err, result){
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 exports.viewProducts = function (req, res) {
     if (req.params.n == undefined) {
         products.getProducts(null, function (err, result) {
