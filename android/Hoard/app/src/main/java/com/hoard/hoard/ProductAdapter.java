@@ -67,25 +67,29 @@ public class ProductAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.favorite_item_layout, viewGroup, false);
             view.setTag(R.id.grid_item_image, view.findViewById(R.id.grid_item_image));
             view.setTag(R.id.grid_item_text, view.findViewById(R.id.grid_item_text));
+            view.setTag(R.id.grid_item_progressbar, view.findViewById(R.id.grid_item_progressbar));
         }
 
         ImageView picture = (ImageView)view.getTag(R.id.grid_item_image);
         TextView name = (TextView)view.getTag(R.id.grid_item_text);
+        ProgressBar progressBar = (ProgressBar)view.getTag(R.id.grid_item_progressbar);
 
-        Product product = (Product)getItem(i);
+        Product product = getItem(i);
 
-        DownloadImageTask task = new DownloadImageTask(picture);
-        task.execute(context.getResources().getString(R.string.product_images_url)+product.getImageName());
+        DownloadImageTask task = new DownloadImageTask(picture, progressBar);
+        task.execute(context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.product_images_url)+product.getImageName());
         name.setText(product.getName());
 
         return view;
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
+        ImageView imageView;
+        ProgressBar progressBar;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
+        public DownloadImageTask(ImageView bmImage, ProgressBar progressBar) {
+            this.imageView = bmImage;
+            this.progressBar = progressBar;
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -94,6 +98,7 @@ public class ProductAdapter extends BaseAdapter {
             try {
                 InputStream in = new java.net.URL(urlDisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
+                in.close();
             } catch (Exception e) {
                 Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", e.getMessage());
                 e.printStackTrace();
@@ -102,7 +107,8 @@ public class ProductAdapter extends BaseAdapter {
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            imageView.setImageBitmap(result);
+            progressBar.setVisibility(View.GONE);
         }
     }
 }
