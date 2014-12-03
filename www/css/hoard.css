@@ -57,7 +57,64 @@ body {
 	min-width: 70%;
 	max-width: 70%;
 }
+
+.user-permissions-radio {
+	display:flex!important;
+}
+
+.user-permissions-radio .ui.primary.button{
+	background-color: #3b83c0!important;
+	color:#fff!important;
+	text-shadow:none!important;
+	background-image:none!important;
+}
+.user-permissions-radio .ui.discard.button{
+	background-color: #e8e8e8!important;
+	color:rgba(0,0,0,.8)!important;
+	text-shadow:none!important;
+	background-image:none!important;
+}
+
+.add-item-form {
 	
+}
+
+.add-item-form .product-link.ui.input input{
+	width:auto;
+	border-left:none!important;
+	border-top-left-radius:0!important;
+	border-bottom-left-radius:0!important;
+}
+
+.add-item-form .product-category{
+	border-style: solid;
+    border-width: small;
+	background-color:#f7f7f7!important;
+}
+
+.add-item-form .ui.selection.list.item:hover{
+	background-color:rgba(0,0,0,.06)!important;
+}
+
+.add-item-form .ui.labeled.input>.label{
+	display:table-cell;
+	border-top-right-radius:0!important;
+	border-bottom-right-radius:0!important;
+}
+.ui.label {
+	font-size:0.8em!important;
+	padding:.6em .8em;
+	font-weight:700;
+}
+
+.add-product.product-link {
+	display:table!important;
+}
+
+.add-product.product-link.label{
+	display:table-cell;
+}
+
 .bottom-button:hover {
 	background: #d9d9d9;
 	-webkit-box-shadow: inset 0 0 1px 1px #eaeaea;

@@ -212,6 +212,21 @@ exports.productCount = function (req, res) {
     });
 };
 
+exports.newProduct = function (req, res) {
+    if (req.params.name == undefined || req.params.link == undefined || req.params.category == undefined || req.user == undefined) {
+        res.send({result: false});
+    } else {
+        products.newProduct(req.params.name, req.params.link, req.params.category, req.user.userid, function (err, result){
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 exports.viewProducts = function (req, res) {
     if (req.params.n == undefined) {
         products.getProducts(null, function (err, result) {
@@ -485,6 +500,21 @@ exports.requestsByManagerId = function (req, res) {
                 res.send({result: result, success: true});
             else
                 res.send({result: [], success: true});
+        });
+    }
+};
+
+exports.newRequest = function(req, res) {
+    if (req.params.productid == undefined || req.params.editType == undefined || req.params.description == undefined || req.params.reason == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.newRequest(req.params.productid, req.user.userid, req.params.editType, req.params.description, req.params.reason, req.body, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
         });
     }
 };

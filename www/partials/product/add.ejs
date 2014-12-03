@@ -19,44 +19,63 @@
 			<div class="sixteen wide column shaded-bg profile-data">
 				<h2>Add Product</h2>
 				<div class="ui divider"></div>
-				<div>
+				<div class="add-item-form">
 					<form>
-						<div class="field">
-							<label>Product Name</label>
-							<div class="ui left labeled icon input">
-								<input ng-model="pName" type="text" placeholder="Name">
-								<div class="ui corner label">
-									<i class="icon asterisk"></i>
+						<div class="row">
+							<div class="field">
+								<label>Product Name</label>
+								<div class="row">
+									<div class="ui icon input">
+										<input ng-model="pName" type="text" placeholder="The Amazing....">
+										<div class="ui corner label">
+											<i class="icon asterisk"></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						
-						<div class="field">
-							<label>Product Link</label>
-							<div class="ui left labeled icon input">
-								<input ng-model="pLink" type="text" placeholder="Link">
-								<div class="ui corner label">
-									<i class="icon asterisk"></i>
+						<div class="row">
+							<div class="field">
+								<label>Product Link</label>
+								<div class="row">
+									<div class="ui labeled input add-product product-link">
+										<div class="ui label">
+											http://
+										</div>
+										<input ng-model="pLink" type="text" placeholder="thewebsite.com">
+										<div class="ui corner label">
+											<i class="icon asterisk"></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						
-						<div class="field">
-							<label>Category</label>
-							<div class="ui left labeled selection dropdown">
-								<input type="hidden" ng-model="pCategory">
-								<div class="default text">Category</div>
-								<i class="dropdown icon"></i>
-								<div class="menu">
-									<div ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</div>
+						<div class="row">
+							<div class="field">
+								<label>Pick a category from the following list:</label>
+								<div class="row">
+									<div class="ui left labeled selection dropdown">
+										<input type="hidden" ng-model="pCategory">
+										<div class="default text">Category</div>
+										<i class="dropdown icon"></i>
+										<div class="menu">
+											<div ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						
-						<div class="field">
-							<label>Image</label>
-							<div class="ui selection dropdown">
-								<input type="file" ng-model="pImage">
+						<div class="row">
+							<div class="field">
+								<label>Image</label>
+								<div class="row">
+									<div class="ui selection dropdown">
+										<input type="file" ng-model="pImage">
+									</div>
+								</div>
 							</div>
 						</div>
 					</form>

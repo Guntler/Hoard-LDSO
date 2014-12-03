@@ -1,6 +1,7 @@
 pg = require("pg");
 var Product = require('../models/Product');
 var FavoriteProduct = require('../models/FavoriteProduct');
+var EditRequests = require('../database/editrequests');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
@@ -22,6 +23,36 @@ exports.findById = function (id, callback) {
                 callback(null, null);
             else
                 callback(null, result.rows[0]);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};
+
+exports.newProduct = function (name, link, category, callback, userid) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = ("INSERT INTO product (name, link, category, visible, addedby) VALUES ($1, $2, $3, 'false', $4", [name, link, category, userid]);
+
+        query.on("row", function (row, result) {
+            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+        });
+
+        query.on("end", function (result) {
+            EditRequests.newRequest(result.rows[0].productid, userid, 'Add', "Added Product", "", [], function (res, err){
+                if(err){
+                    return callback(err, null);
+                } else {
+                    done();
+                    callback(null, result.rows);
+                }
+            });
         });
 
         query.on("error", function (err) {
@@ -96,7 +127,7 @@ exports.getProductsFromTo = function (from, to, callback) {
         var query = product.query("SELECT * FROM product OFFSET $1 LIMIT $2", [(from - 1) * to, to]);
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
         });
 
         query.on("end", function (result) {
@@ -121,7 +152,7 @@ exports.getAllProducts = function (callback) {
         var query = product.query("SELECT * FROM product WHERE visible ORDER BY name");
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
         });
 
         query.on("end", function (result) {
@@ -241,7 +272,7 @@ exports.getFavorites = function (userid, callback) {
             query = product.query("SELECT * FROM favoriteproduct NATURAL JOIN product WHERE userid = $1 AND visible", [userid]);
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
         });
 
         query.on("end", function (result) {
@@ -265,7 +296,7 @@ exports.getSimilarProducts = function (input, callback) {
         var query = product.query("SELECT * FROM product WHERE name LIKE '%' || $1 || '%'", [input]);
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
         });
 
         query.on("end", function (result) {

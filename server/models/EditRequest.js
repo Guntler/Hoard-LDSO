@@ -1,6 +1,6 @@
 var util = require('../database/utilities');
 
-var EditRequest = function (requestid, productid, submittedby, approvedby, edittype, editstatus, description, reason, editdate) {
+var EditRequest = function (requestid, productid, submittedby, approvedby, edittype, editstatus, description, name, link, imageName, category, reason, editdate) {
 	this.id = requestid;
 	this.productid = productid;
 	this.submittedby = submittedby;
@@ -8,6 +8,10 @@ var EditRequest = function (requestid, productid, submittedby, approvedby, editt
 	this.edittype = edittype;
 	this.editstatus = editstatus;
 	this.description = description;
+	this.name = name;
+	this.link = link;
+	this.imageName = imageName;
+	this.category = category;
 	this.reason = reason;
 	this.editdate = util.formatDate(new Date(editdate));
 }
@@ -19,6 +23,10 @@ EditRequest.prototype.approvedby = null;
 EditRequest.prototype.edittype = "";
 EditRequest.prototype.editstatus = "";
 EditRequest.prototype.description = "";
+EditRequest.prototype.name = null;
+EditRequest.prototype.link = null;
+EditRequest.prototype.imageName = null;
+EditRequest.prototype.category = null;
 EditRequest.prototype.reason = "";
 EditRequest.prototype.editdate = "";
 
