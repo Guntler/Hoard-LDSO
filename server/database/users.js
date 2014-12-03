@@ -27,7 +27,6 @@ exports.findById = function (id, callback) {
         });
 
         query.on("error", function (err) {
-			console.log("hi");
             done();
             callback(err, null);
         });
@@ -412,10 +411,12 @@ exports.forgotPassword = function (email, callback) {
 
                         transporter.sendMail(mailOptions, function(error, info){
                             if(error){
-                                callback(err, null);
+                                callback(err, false);
                             }else{
                                 done();
-                                callback(null, info);
+								if(info.accepted.length < 1)
+									callback(null, false);
+								else callback(null, true);
                                 console.log('Message sent: ' + info.response);
                             }
                         });

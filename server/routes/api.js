@@ -35,7 +35,7 @@ exports.usersFromTo = function (req, res) {
 exports.userCount = function (req, res) {
     users.getUserCount(function (err, result) {
         if (err || !result)
-            res.send({result: 0, success: false});
+            res.send({result: null, success: false});
         else
             res.send({result: result, success: true});
     });
@@ -121,11 +121,11 @@ exports.registerUser = function (req, res) {
     } else {
         users.registerUser(req.body.email, req.body.password, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send({result: true});
+                res.send({result: true, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
@@ -133,15 +133,15 @@ exports.registerUser = function (req, res) {
 //Remove Manager Privileges
 exports.removeManagerPrivileges = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: false});
+        res.send({result: null, success: false});
     } else {
         users.removeManagerPrivileges(req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: null, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: reuslt, success: true});
             else
-                res.send({result: false});
+                res.send({result: null, success: true});
         });
     }
 };
@@ -149,15 +149,15 @@ exports.removeManagerPrivileges = function (req, res) {
 //Grant Manager Privileges
 exports.grantManagerPrivileges = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: false});
+        res.send({result: null, success: false});
     } else {
         users.grantManagerPrivileges(req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: null, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: null, success: false});
         });
     }
 };
@@ -167,11 +167,11 @@ exports.grantManagerPrivileges = function (req, res) {
 exports.getAllManagers = function (req, res) {
     users.getAllManagers(function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: [], success: false});
         else if (result)
-            res.send(result);
+            res.send({result: result, success: true});
         else
-            res.send({result: false});
+            res.send({result: [], success: true});
     });
 };
 
@@ -182,11 +182,11 @@ exports.getSimilarEmailUsers = function (req, res) {
     } else {
         users.getSimilarEmailUsers(req.params.input, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: reuslt, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     }
 };
@@ -195,20 +195,20 @@ exports.getSimilarEmailUsers = function (req, res) {
 exports.products = function (req, res) {
     products.getAllProducts(function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: [], success: false});
         else if (result)
-            res.send(result);
+            res.send({result: result, success: true});
         else
-            res.send({result: false});
+            res.send({result: [], success: true});
     });
 };
 
 exports.productCount = function (req, res) {
     products.getProductCount(function (err, result) {
         if (err || !result)
-            res.send({result: false});
+            res.send({result: null, success: false});
         else
-            res.send(result);
+            res.send({result: result, success: true});
     });
 };
 
@@ -216,35 +216,35 @@ exports.viewProducts = function (req, res) {
     if (req.params.n == undefined) {
         products.getProducts(null, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     } else {
         products.getProducts(req.params.n, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: reslut, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     }
 };
 
 exports.productsFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         products.getProductsFromTo(req.params.from, req.params.to, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     }
 };
@@ -253,111 +253,111 @@ exports.productsFromTo = function (req, res) {
 exports.productById = function (req, res) {
     products.findById(req.params.id, function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: null, success: false});
         else
-            res.send(result);
+            res.send({result: result, success: true});
     });
 };
 
 exports.addToFavorites = function (req, res) {
     if (req.params.id == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         products.addToFavorites(req.params.id, req.user.userid, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.favoriteUp = function (req, res) {
     if (req.params.productid == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         products.favoriteUp(req.user.id, req.params.productid, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.favoriteDown = function (req, res) {
     if (req.params.productid == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         products.favoriteDown(req.user.id, req.params.productid, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.getFavorites = function (req, res) {
     if (req.user == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         products.getFavorites(req.user.userid, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     }
 };
 
 exports.removeProduct = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: true});
     } else {
         products.removeProduct(req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.removeProductFromFavorites = function (req, res) {
     if (req.params.productid == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         products.removeProductFromFavorites(req.params.productid, req.user.userid, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.getSimilarProducts = function (req, res) {
     if (req.params.input == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         products.getSimilarProducts(req.params.input, function (err, result) {
             if (err)
-                res.send(err);
+                res.send({result: [], success: false});
             else
-                res.send(result);
+                res.send({result: result, success: true});
         });
     }
 };
@@ -365,15 +365,15 @@ exports.getSimilarProducts = function (req, res) {
 //edit user email
 exports.updateUserEmail = function (req, res) {
     if (req.params.email == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         users.updateUserEmail(req.user.userid, req.params.email, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
@@ -381,30 +381,30 @@ exports.updateUserEmail = function (req, res) {
 //send new password to user
 exports.forgotPassword = function (req, res) {
     if (req.params.email == undefined) {
-        res.send({result: false, message: 'Please supply email'});
+        res.send({result: false, message: ['Please supply email'], success: false});
     } else {
         users.forgotPassword(req.params.email, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.editById = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: false});
+        res.send({result: null, success: false});
     } else {
         editrequests.findById(req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: null, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: null, success: true});
         });
     }
 };
@@ -414,26 +414,26 @@ exports.editById = function (req, res) {
 exports.editrequests = function (req, res) {
     editrequests.getAllById(function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: [], success: false});
         else if (result)
-            res.send(result);
+            res.send({result: result, success: true});
         else
-            res.send({result: false});
+            res.send({result: [], success: true});
     });
 };
 
 //Get edit requests paginated
 exports.editsFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         editrequests.getEditsFromTo(req.params.from, req.params.to, function (err, result) {
             if (err)
-                res.send({result: false});
-            else if (result)
-                res.send(result);
-            else
-                res.send({result: false});
+				res.send({result: [], success: false});
+			else if (result)
+				res.send({result: result, success: true});
+			else
+				res.send({result: [], success: true});
         });
     }
 };
@@ -441,9 +441,9 @@ exports.editsFromTo = function (req, res) {
 exports.editCount = function (req, res) {
     editrequests.getEditCount(function (err, result) {
         if (err || !result)
-            res.send({result: false});
+            res.send({result: null, success: false});
         else
-            res.send(result);
+            res.send({result: result, success: true});
     });
 };
 
@@ -451,98 +451,98 @@ exports.editCount = function (req, res) {
 exports.requestsByDate = function (req, res) {
     editrequests.getAllByDate(function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: [], success: false});
         else if (result)
-            res.send(result);
+            res.send({result: result, success: true});
         else
-            res.send({result: false});
+            res.send({result: [], success: true});
     });
 };
 
 exports.requestsByEditType = function (req, res) {
     if (req.params.edittype == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         editrequests.findByEditType(req.params.edittype, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     }
 };
 
 exports.requestsByManagerId = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         editrequests.getManagerEdits(req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     }
 };
 
 exports.approveRequest = function (req, res) {
     if (req.params.id == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         editrequests.approveRequest(req.user.userid, req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.rejectRequest = function (req, res) {
     if (req.params.id == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         editrequests.rejectRequest(req.user.userid, req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
 
 exports.getEditsOfProduct = function (req, res) {
     if (req.params.product == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         editrequests.getEditsOfProduct(req.params.product, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: true});
         });
     }
 };
 
 exports.favoriteProductsById = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: false});
+        res.send({result: [], success: false});
     } else {
         favoriteProducts.findById(req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else
-                res.send(result);
+                res.send({result: result, success: true});
         });
     }
 };
@@ -552,23 +552,23 @@ exports.favoriteProductsById = function (req, res) {
 exports.categories = function (req, res) {
     categories.getAllCategories(function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: [], success: false});
         else if (result)
-            res.send(result);
+            res.send({result: result, success: true});
         else
-            res.send({result: false});
+            res.send({result: [], success: true});
     });
 };
 
 exports.categoryById = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: false});
+        res.send({result: null, success: false});
     } else {
         categories.findById(req.params.id, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: null, success: false});
             else
-                res.send(result);
+                res.send({result: result, success: true});
         });
     }
 };
