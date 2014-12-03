@@ -20,25 +20,19 @@
 				<h2>Add Product</h2>
 				<div class="ui divider"></div>
 				<div class="add-item-form">
-					<form>
-						<div class="row">
+					<div class="ui fluid form segment">
+						<div class="two fields">
 							<div class="field">
 								<label>Product Name</label>
-								<div class="row">
-									<div class="ui icon input">
-										<input ng-model="pName" type="text" placeholder="The Amazing....">
-										<div class="ui corner label">
-											<i class="icon asterisk"></i>
-										</div>
+								<div class="ui icon input">
+									<input ng-model="pName" type="text" placeholder="The Amazing....">
+									<div class="ui corner label">
+										<i class="icon asterisk"></i>
 									</div>
 								</div>
 							</div>
-						</div>
-						
-						<div class="row">
 							<div class="field">
 								<label>Product Link</label>
-								<div class="row">
 									<div class="ui labeled input add-product product-link">
 										<div class="ui label">
 											http://
@@ -48,39 +42,41 @@
 											<i class="icon asterisk"></i>
 										</div>
 									</div>
-								</div>
 							</div>
 						</div>
 						
-						<div class="row">
-							<div class="field">
-								<label>Pick a category from the following list:</label>
-								<div class="row">
-									<div class="ui left labeled selection dropdown">
-										<input type="hidden" ng-model="pCategory">
-										<div class="default text">Category</div>
-										<i class="dropdown icon"></i>
-										<div class="menu">
-											<div ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</div>
-										</div>
-									</div>
+						<div class="field">
+							<label>Pick a category from the following list:</label>
+							<select class="ui dropdown" ng-model="pCategory">
+								<option value="">Category</option>
+								<div class="menu">
+									<div ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</div>
 								</div>
+							</select>
 							</div>
 						</div>
 						
-						<div class="row">
-							<div class="field">
-								<label>Image</label>
-								<div class="row">
-									<div class="ui selection dropdown">
-										<input type="file" ng-model="pImage">
-									</div>
+					
+						<div class="field">
+							<label>Image</label>
+							<div class="row">
+								<div class="ui selection dropdown">
+									<input type="file" ng-model="pImage">
 								</div>
 							</div>
 						</div>
-					</form>
+						<div class="ui divider"></div>
+						<div class="row">
+							<div class="ui primary button">
+								Add product
+							</div>
+							<div class="ui discard button">
+								Discard
+							</div>
+						</div>
+					</div>
+					<div class="ui divider"></div>
 				</div>
-				<div class="ui divider"></div>
 			</div>
 		</div>
 	</div>

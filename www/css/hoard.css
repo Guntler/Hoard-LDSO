@@ -76,24 +76,13 @@ body {
 }
 
 .add-item-form {
-	
+	display:block;
 }
 
-.add-item-form .product-link.ui.input input{
-	width:auto;
+.ui.labeled.input input{
 	border-left:none!important;
 	border-top-left-radius:0!important;
 	border-bottom-left-radius:0!important;
-}
-
-.add-item-form .product-category{
-	border-style: solid;
-    border-width: small;
-	background-color:#f7f7f7!important;
-}
-
-.add-item-form .ui.selection.list.item:hover{
-	background-color:rgba(0,0,0,.06)!important;
 }
 
 .add-item-form .ui.labeled.input>.label{
@@ -101,9 +90,8 @@ body {
 	border-top-right-radius:0!important;
 	border-bottom-right-radius:0!important;
 }
+
 .ui.label {
-	font-size:0.8em!important;
-	padding:.6em .8em;
 	font-weight:700;
 }
 
