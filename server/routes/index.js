@@ -106,6 +106,21 @@ module.exports = function (app, passport) {
         })(req, res, next);
     });
 	
+	app.post('/api/users/signin-app', function (req, res, next) {
+        passport.authenticate("local-signin-app", function (err, user, info) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) 
+                return res.send({message: req.flash('loginMessage'), user: false});
+            else req.login(user, function (err) {
+                if (err)
+                    return next(err);
+                res.send({user: user, message: req.flash('loginMessage')});
+            });
+        })(req, res, next);
+    });
+	
 	
     app.post('/api/users/register', api.registerUser);
 }
@@ -133,7 +148,7 @@ function managerApiPermissions(req, res, next) {
             return next();
     }
 
-    res.send({result: false});
+    res.send({result: null, success: false});
 }
 
 function adminApiPermissions(req, res, next) {
@@ -141,5 +156,5 @@ function adminApiPermissions(req, res, next) {
         if (req.user.permissions === "Admin")
             return next();
     }
-    res.send({result: false});
+    res.send({result: null, success: false});
 }

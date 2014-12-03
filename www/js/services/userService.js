@@ -26,7 +26,6 @@ hoard.service('userService',function($http, messageService) {
 				if(data.result == false) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("Unable to find user.");
-					
 					callback(null);
 				}
 				else {

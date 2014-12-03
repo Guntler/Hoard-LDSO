@@ -80,8 +80,9 @@ hoard.service('productService',function($http, messageService) {
 		},
 		getCategoryById: function(id) {
 			for(var i = 0; i < pcategories.length; i++) {
-				if(pcategories[i].id == id)
+				if(pcategories[i].categoryid == id) {
 					return pcategories[i];
+				}
 			}
 			return null;
 		}

@@ -2,7 +2,7 @@ var users = require('../database/users');
 var products = require('../database/products');
 var editrequests = require('../database/editrequests');
 var favoriteProducts = require('../database/favoriteProducts');
-var categories = require('..//database//categories');
+var categories = require('../database/categories');
 
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
@@ -10,9 +10,9 @@ var categories = require('..//database//categories');
 exports.users = function (req, res) {
     users.getAllUsers(function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: [], success: false});
         else
-            res.send(result);
+            res.send({result: result, success: true});
     });
 };
 
@@ -23,11 +23,11 @@ exports.usersFromTo = function (req, res) {
     } else {
         users.getUsersFromTo(req.params.from, req.params.to, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: [], success: false});
             else if (result)
-                res.send(result);
+                res.send({result: result, success: true});
             else
-                res.send({result: false});
+                res.send({result: [], success: false});
         });
     }
 };
@@ -35,9 +35,9 @@ exports.usersFromTo = function (req, res) {
 exports.userCount = function (req, res) {
     users.getUserCount(function (err, result) {
         if (err || !result)
-            res.send({result: false});
+            res.send({result: 0, success: false});
         else
-            res.send(result);
+            res.send({result: result, success: true});
     });
 };
 
@@ -46,9 +46,9 @@ exports.userCount = function (req, res) {
 exports.userById = function (req, res) {
     users.findById(req.params.id, function (err, result) {
         if (err)
-            res.send({result: false});
+            res.send({result: null, success:false});
         else
-            res.send(result);
+            res.send({result: result, success:true});
     });
 };
 
@@ -59,9 +59,9 @@ exports.userByEmail = function (req, res) {
     } else {
         users.findByEmail(req.params.email, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: null, success: false});
             else
-                res.send(result);
+                res.send({result: result, success: true});
         });
     }
 };
@@ -74,11 +74,11 @@ exports.checkLogin = function (req, res) {
     } else {
         users.checkLogin(req.params.email, req.params.password, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send({result: true});
+                res.send({result: true, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
