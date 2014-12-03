@@ -37,4 +37,28 @@ module.exports = function(passport) {
 		});
 
     }));
+	
+	passport.use('local-signin-app', new LocalStrategy(
+		{
+			usernameField : 'email',
+			passwordField : 'password',
+			passReqToCallback : true 
+		},
+		function(req, email, password, done) { 
+        
+        Users.checkLogin(email, password, function(err, user) {
+            // if there are any errors, return the error before anything else
+            if (err) {
+                return done(err);
+			}
+
+            // if no user is found, return the message
+            if (!user) {
+                return done(null, false, req.flash('loginMessage', "There's no user registered with that email/password."));
+			}
+			
+			return done(null, user, req.flash('loginMessage', "Welcome " + user.email + "!"));
+		});
+
+    }));
 }

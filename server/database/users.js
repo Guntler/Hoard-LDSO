@@ -27,6 +27,7 @@ exports.findById = function (id, callback) {
         });
 
         query.on("error", function (err) {
+			console.log("hi");
             done();
             callback(err, null);
         });

@@ -22,7 +22,7 @@
 				<div>
 					<p><b>Link:</b> <a href="{{product.link}}">{{product.link}}</a></p>
 					<p><b>Category:</b> {{category.name}}</p>
-					<p><b>Creator:</b> {{addedBy.email}}</p>
+					<p ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null"><b>Creator:</b> {{addedBy.email}}</p>
 				</div>
 				<div class="ui divider"></div>
 			</div>

@@ -47,7 +47,7 @@ public class HoardAPI {
 
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
-        String url = context.getResources().getString(R.string.sigin_url);
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.sigin_url);
         String body = "email=" + email + "&password=" + password;
         try {
             HttpRequest request = httpRequestFactory.buildPostRequest(new GenericUrl(url), ByteArrayContent.fromString("application/x-www-form-urlencoded", body));
@@ -90,7 +90,7 @@ public class HoardAPI {
 
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
-        String url = context.getResources().getString(R.string.favorites_url);
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.favorites_url);
 
         try {
             HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
@@ -112,7 +112,7 @@ public class HoardAPI {
     public Boolean registerEmailPassword(String email, String password) {
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
-        String url = context.getResources().getString(R.string.register_url)+email+"/"+password;
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.register_url)+email+"/"+password;
 
         try {
             HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));

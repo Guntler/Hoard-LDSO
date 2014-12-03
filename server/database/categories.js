@@ -39,7 +39,7 @@ exports.getAllCategories = function (callback) {
         var query = client.query("SELECT * FROM productCategory");
 
         query.on("row", function (row, result) {
-            result.addRow(new ProductCategory(row.categoryid, row.name));
+            result.addRow(new ProductCategory(row.categoryid, row.categoryname));
         });
 
         query.on("end", function (result) {
