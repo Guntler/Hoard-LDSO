@@ -40,7 +40,6 @@ module.exports = function (app, passport) {
     app.get('/api/users/managers/remove/:id', adminApiPermissions, api.removeManagerPrivileges);
     app.get('/api/users/similaremail/:input', adminApiPermissions, api.getSimilarEmailUsers);
 
-
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
@@ -84,6 +83,7 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
+    app.get('/api/editrequests/new/:productid/:editType/:description/:reason', managerApiPermissions, api.newRequest);
 
     app.get('*', function (req, res) {
         res.render('index.ejs');

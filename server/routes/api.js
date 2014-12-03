@@ -489,6 +489,21 @@ exports.requestsByManagerId = function (req, res) {
     }
 };
 
+exports.newRequest = function(req, res) {
+    if (req.params.productid == undefined || req.params.editType == undefined || req.params.description == undefined || req.params.reason == undefined) {
+        res.send({result: false});
+    } else {
+        editrequests.newRequest(req.params.productid, req.user.userid, req.params.editType, req.params.description, req.params.reason, req.body, function (err, result) {
+            if (err)
+                res.send({result: false});
+            else if (result)
+                res.send(result);
+            else
+                res.send({result: false});
+        });
+    }
+};
+
 exports.approveRequest = function (req, res) {
     if (req.params.id == undefined || req.user == undefined) {
         res.send({result: false});

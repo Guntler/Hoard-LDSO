@@ -65,8 +65,12 @@ CREATE TABLE editRequest (
 	editType editType NOT NULL,
 	editStatus editStatus NOT NULL DEFAULT 'Pending',
 	description VARCHAR(300),
+	name VARCHAR(200),
+	link VARCHAR(500),
+	imageName VARCHAR(128),
+	category INTEGER REFERENCES productCategory(categoryID),
 	reason VARCHAR(500),
-	editDate TIMESTAMP NOT NULL,
+	editDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CHECK (char_length(description) <= 300),
 	CHECK (char_length(reason) <= 500),
 	CHECK (editdate <= now())
