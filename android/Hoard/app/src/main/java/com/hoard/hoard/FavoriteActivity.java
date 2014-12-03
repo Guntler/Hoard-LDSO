@@ -74,13 +74,13 @@ public class FavoriteActivity extends Activity {
             try {
                 favorites = hoardAPI.getFavorites();
 
-                for(Product prod : favorites.getResult()) {
-                    Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
-                }
+                if(favorites != null)
+                    for(Product prod : favorites.getResult()) {
+                        Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
+                    }
 
             } catch (Exception e) {
-                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", e.toString());
             }
 
             return null;
@@ -88,7 +88,8 @@ public class FavoriteActivity extends Activity {
 
         @Override
         protected void onPostExecute(String notUsed) {
-            gridView.setAdapter(new ProductAdapter(FavoriteActivity.this, favorites.getResult()));
+            if(favorites != null)
+                gridView.setAdapter(new ProductAdapter(FavoriteActivity.this, favorites.getResult()));
             progressBar.setVisibility(View.GONE);
         }
     }
