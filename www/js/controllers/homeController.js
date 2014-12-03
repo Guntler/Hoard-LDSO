@@ -42,63 +42,40 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.users = [];
 	
 	if($scope.tab == 'users') {
-		$scope.$watch(function() {
-					return userService.getUserCount();
-				},
-				function() {
-					$scope.totalTabItems = userService.getUserCount().integer;
-				});
-		userService.updateUserCount();
 		
-		$scope.$watch(function() {
-					return userService.getCurrUsers();
-				},
-				function() {
-					$scope.users = userService.getCurrUsers();
-				});
-		userService.updateUsersByPage($routeParams.page,$scope.itemsPerPage);
+		userService.getUserCount(function(data) {
+			$scope.totalTabItems = data.integer;
+		});
+		
+		userService.getUsersByPage($routeParams.page,$scope.itemsPerPage, function(data) {
+			$scope.users = data;
+		});
 	}
 		
-	
-	
+
 	//Products
 	$scope.products = [];
 	if($scope.tab == 'products') {
-		$scope.$watch(function() {
-					return productService.getProductCount();
-				},
-				function() {
-					$scope.totalTabItems = productService.getProductCount().integer;
-				});
-		productService.updateProductCount();
+		productService.getProductCount(function(data) {
+			$scope.totalTabItems = data.integer;
+		});
 		
-		$scope.$watch(function() {
-					return productService.getCurrProducts();
-				},
-				function() {
-					$scope.products = productService.getCurrProducts();
-				});
-		productService.updateProductsByPage($routeParams.page,$scope.itemsPerPage);
+		productService.getProductsByPage($routeParams.page,$scope.itemsPerPage, function(data) {
+			$scope.products = data;
+		});
 	}
 	
 	//Edits
 	$scope.edits = [];
 	
 	if ($scope.tab == 'edits') {
-		$scope.$watch(function() {
-					return editService.getEditCount();
-				},
-				function() {
-					$scope.totalTabItems = editService.getEditCount().integer;
-				});
-		editService.updateEditCount();
 		
-		$scope.$watch(function() {
-					return editService.getCurrEdits();
-				},
-				function() {
-					$scope.edits = editService.getCurrEdits();
-				});
-		editService.updateEditsByPage($routeParams.page,$scope.itemsPerPage);
+		editService.getEditCount(function(data) {
+			$scope.totalTabItems = data.integer;
+		});
+		
+		editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, function(data) {
+			$scope.edits = data;
+		});
 	}
 });

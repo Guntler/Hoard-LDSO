@@ -1,90 +1,106 @@
 hoard.service('productService',function($http, messageService) {
-	var currProducts = [];
-	var productCount = {integer: 0};
-	var pcategories = [];
 	
-	var updateCategories = function() {
+	var categories = function(callback) {
 		var Url = "/api/categories/all";
 		$http.get(Url).success(function(data){
-			if(data.result == false) {
+			if(data.success == false) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("There has been an unexpected error." );
+						
+					callback(null);
+			}
+			if(data.result.length == 0) {
 				if(messageService.getMessages().errorMessage == null)
 					messageService.setError("No categories found.");
+					
+				callback(null);
 			}
 			else {
-				pcategories = data;
+				callback(data.result);
 			}
 		}).error(function(data,status,headers, config) {
 			messageService.setError("There has been an unexpected error.");
 		});
 	}
-	updateCategories();
 	
 	return {
-		reset: function() {
-			currProducts = [];
-			productCount = {integer: 0};
-		},
-		updateProductsByPage: function(page, productsPerPage) {
-			var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
-			$http.get(Url).success(function(data){
-				if(data.result == false) {
-					if(messageService.getMessages().errorMessage == null)
-						messageService.setError("No products found.");
-				}
-				else {
-					currProducts = data;
-				}
-			}).error(function(data,status,headers, config) {
-				messageService.setError("There has been an unexpected error.");
-			});
-		},
-		getProduct: function() {
-			return product;
-		},
-		updateProductById: function(id, callback) {			
-			var Url = "/api/products/id/"+id;
-			$http.get(Url).success(function(data){
-				if(data.result == false) {
-					if(messageService.getMessages().errorMessage == null)
-						messageService.setError("Failed to find product.");
-					
+			getProductsByPage: function(page, productsPerPage, callback) {
+				var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
+				$http.get(Url).success(function(data){
+					if(data.success == false) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("There has been an unexpected error." );
+						callback(null);
+					}
+					if(data.result.length == 0) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("No products found.");
+						callback(null);
+					}
+					else {
+						callback(data.result);
+					}
+				}).error(function(data,status,headers, config) {
+					messageService.setError("There has been an unexpected error.");
 					callback(null);
-				}
-				else {
-					callback(data);
-				}
-			}).error(function(data,status,headers, config) {
-				callback(null);
-				messageService.setError("There has been an unexpected error.");
-			});
-		},
-		getCurrProducts: function() {
-			return currProducts;
-		},
-		getProductCount: function() {
-			return productCount;
-		},
-		updateProductCount: function() {
-			var Url = "/api/products/count/";
-			$http.get(Url).success(function(data){
-				if(data.result == false) {
-					if(messageService.getMessages().errorMessage == null)
-						messageService.setError("No products found.");
-				}
-				else {
-					productCount = {integer: data.count};
-				}
-			}).error(function(data,status,headers, config) {
-				messageService.setError("There has been an unexpected error.");
-			});
-		},
-		getCategoryById: function(id) {
-			for(var i = 0; i < pcategories.length; i++) {
-				if(pcategories[i].categoryid == id) {
-					return pcategories[i];
-				}
-			}
-			return null;
-		}
+				});
+			},
+			getProductById: function(id, callback) {			
+				var Url = "/api/products/id/"+id;
+				$http.get(Url).success(function(data){
+					if(data.success == false) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("There has been an unexpected error." );
+					}
+					if(data.result == null) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("Failed to find product.");
+						
+						callback(null);
+					}
+					else {
+						callback(data.result);
+					}
+				}).error(function(data,status,headers, config) {
+					callback(null);
+					messageService.setError("There has been an unexpected error.");
+				});
+			},
+			getProductCount: function(callback) {
+				var Url = "/api/products/count/";
+				$http.get(Url).success(function(data){
+					if(data.success == false) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("There has been an unexpected error." );
+						callback(null);
+					}
+					if(data.result == null) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("No products found.");
+						callback(null);
+					}
+					else {
+						callback({integer: data.result.count});
+						
+					}
+				}).error(function(data,status,headers, config) {
+					messageService.setError("There has been an unexpected error.");
+					callback(null);
+				});
+			},
+			getCategoryById: function(id, callback) {
+				categories(function(data) {
+					if(data != null) {
+						for(var i = 0; i < data.length; i++) {
+							if(data[i].categoryid == id) {
+								callback(data[i]);
+								return;
+							}
+						}
+						callback(null);
+					}
+				});
+			},
+			getCategories: categories
 	};
 });

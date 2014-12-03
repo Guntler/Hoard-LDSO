@@ -1,5 +1,4 @@
 hoard.controller('userProfileController',function($scope, $routeParams, $location, editService, userService) {
-	userService.reset();
 	//editService.reset();
 	
 	//State variables
@@ -10,7 +9,7 @@ hoard.controller('userProfileController',function($scope, $routeParams, $locatio
 	
 	$scope.user = null;
 				
-	userService.updateUserById($routeParams.id, function(data) {
+	userService.getUserById($routeParams.id, function(data) {
 		$scope.user = data;
 	});
 	

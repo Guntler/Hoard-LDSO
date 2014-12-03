@@ -1,6 +1,5 @@
 hoard.controller('productProfileController',function($scope, $routeParams, $location, productService, editService, userService) {
-	productService.reset();
-	userService.reset();
+	
 	//State variables
 	$scope.productId = $routeParams.id;
 	$scope.itemsPerPage = 10;
@@ -11,14 +10,16 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 	$scope.product = null;
 	$scope.category = null;
 	
-	productService.updateProductById($routeParams.id, function(prod) {
+	productService.getProductById($routeParams.id, function(prod) {
 		$scope.product = prod;
 		
 		if($scope.product != null) {
-						userService.updateUserById($scope.product.addedby, function(data) {
+						userService.getUserById($scope.product.addedby, function(data) {
 							$scope.addedBy = data;
 						});
-						$scope.category = productService.getCategoryById($scope.product.category);
+						productService.getCategoryById($scope.product.category, function(data) {
+							$scope.category = data;
+						});
 					}
 	});
 				
