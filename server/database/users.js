@@ -333,13 +333,18 @@ exports.getAllManagers = function (callback) {
 };
 
 
-exports.getSimilarEmailUsers = function (input, callback) {
+exports.getSimilarFieldUsers = function (field, input, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = user.query("SELECT * FROM useraccount WHERE email LIKE '%' || $1 || '%'", [input]);
+        //console.log("Field is: " + field); console.log("Input is: " + input);
+
+        if(field == "email")
+            var query = user.query("SELECT * FROM useraccount WHERE similarity(email, $1) > 0.2", [input]);
+        else
+            return callback(err, null);
 
         query.on("row", function (row, result) {
             result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
