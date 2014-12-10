@@ -69,26 +69,26 @@ exports.checkLogin = function (email, password, callback) {
         var query = client.query("SELECT * FROM userAccount WHERE email = $1", [email]);
         query.on("row", function (row, result) {
             result.addRow({
-                user: new User(row.userid, row.email, row.permissions, row.registerdate), 
+                user: new User(row.userid, row.email, row.permissions, row.registerdate),
                 password: row.password
             });
         });
 
         query.on("end", function (result) {
             done();
-			
+
             if (result.rows.length < 1)
                 callback(null, null);
             else {
-				bcrypt.compare(password, result.rows[0].password, function (err, res) {
-					if (res === true) {
-						return callback(null, result.rows[0].user);
-					}
-					else {
-						return callback(null, null);
-					}
-				});
-			}
+                bcrypt.compare(password, result.rows[0].password, function (err, res) {
+                    if (res === true) {
+                        return callback(null, result.rows[0].user);
+                    }
+                    else {
+                        return callback(null, null);
+                    }
+                });
+            }
         });
 
         query.on("error", function (err) {
@@ -369,27 +369,27 @@ exports.forgotPassword = function (email, callback) {
             result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
         });
 
+
         query.on("end", function (result) {
-            var userMail = result[0].email
-            var newPassword = crypto.randomBytes(Math.ceil(10 * 3 / 4))
-                .toString("base64")
-                .slice(10)
-                .replace(/\+/g, '0')
-                .replace(/\//g, '0');
+            if (result.rows.length == 0)
+                callback(null, null);
+            var userMail = result.rows[0].email;
+            var newPassword = Math.random().toString(36).slice(-10);
+
             bcrypt.genSalt(10, function (err, salt) {
                 if (err) return callback(err, null);
 
                 bcrypt.hash(newPassword, salt, function (err, hash) {
                     if (err) return callback(err, null);
-                    var query2 = user.query("UPDATE useraccount SET password = $1", [hash]);
+                    var query2 = user.query("UPDATE useraccount SET password = $1 WHERE email = $2", [hash, userMail]);
 
                     query2.on("error", function (err) {
+                        console.log("Erro: " + err);
                         done();
                         callback(err, null);
                     });
 
                     query2.on("end", function (result) {
-
                         var transporter = nodemailer.createTransport({
                             service: 'Gmail',
                             auth: {
@@ -405,19 +405,18 @@ exports.forgotPassword = function (email, callback) {
                             text: 'Hello!\n\nYou seem to have forgotten your password, so we reset it and sent you a new one!\nHere it is:' + newPassword + '\n\nThe Hoard Team',
                             html: '<b>Hello!</b><br><br>' +
                             '<p>You seem to have forgotten your password, so we reset it and sent you a new one!</p>' +
-                            '<p>Here it is:' + newPassword +
+                            '<p>Here it is: ' + newPassword +
                             '<br><br>The Hoard Team' // html body
                         };
 
-                        transporter.sendMail(mailOptions, function(error, info){
-                            if(error){
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            if (error) {
                                 callback(err, false);
-                            }else{
+                            } else {
                                 done();
-								if(info.accepted.length < 1)
-									callback(null, false);
-								else callback(null, true);
-                                console.log('Message sent: ' + info.response);
+                                if (info.accepted.length < 1)
+                                    callback(null, false);
+                                else callback(null, info.accepted);
                             }
                         });
                     });

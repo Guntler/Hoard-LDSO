@@ -62,6 +62,25 @@ hoard.service('userService',function($http, messageService) {
 				messageService.setError("There has been an unexpected error.");
 				callback(null);
 			});
+		},
+		recoverPassword: function(email) {
+			var Url = "/api/users/forgotPassword/" + email;
+			$http.get(Url).success(function(data){
+				if(data.success == false) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No account associated with that email.");
+				}
+				if(data.result == null) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No account associated with that email.");
+				}
+				else {
+					messageService.setSuccess("A new password was sent to your email!");
+				}
+			}).error(function(data,status,headers, config) {
+				messageService.setError("There has been an unexpected error.");
+				callback(null);
+			});
 		}
 	};
 });

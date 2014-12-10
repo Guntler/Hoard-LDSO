@@ -116,7 +116,7 @@ exports.userExists = function (req, res) {
 
 //Register new user
 exports.registerUser = function (req, res) {
-    if (req.params.email == undefined) {
+    if (req.body.email == undefined) {
         res.send({result: false});
     } else {
         users.registerUser(req.body.email, req.body.password, function (err, result) {
@@ -402,7 +402,7 @@ exports.forgotPassword = function (req, res) {
             if (err)
                 res.send({result: false, success: false});
             else if (result)
-                res.send({result: result, success: true});
+                res.send({result: true, success: true});
             else
                 res.send({result: false, success: true});
         });
