@@ -293,12 +293,12 @@ exports.getSimilarFieldProducts = function (field, input, callback) {
             return callback(err, null);
         }
 
-        console.log("Field is: " + field); console.log("Input is: " + input);
+        //console.log("Field is: " + field); console.log("Input is: " + input);
 
         if(field == "name")
             var query = product.query("SELECT * FROM product WHERE similarity(name, $1) > 0.1", [input]);
-        /* else if (field == "category")
-            var query = product.query("SELECT * FROM product WHERE similarity(category, $1) > 0.1", [input]);*/
+        else if (field == "category")
+            var query = product.query("SELECT * FROM product, productcategory WHERE similarity(productcategory.categoryname, $1) > 0.2 AND productcategory.categoryid = product.category", [input]);
         else
             return callback(err, null);
 

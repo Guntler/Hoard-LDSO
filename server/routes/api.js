@@ -566,6 +566,21 @@ exports.getEditsOfProduct = function (req, res) {
     }
 };
 
+exports.getSimilarFieldEdits = function (req, res) {
+    if (req.params.field == undefined || req.params.input == undefined) {
+        res.send({result: [], success: false});
+    } else {
+        editrequests.getSimilarFieldEdits(req.params.field, req.params.input, function (err, result) {
+            if (err)
+                res.send({result: false, success: false});
+            else if (result)
+                res.send({result: result, success: true});
+            else
+                res.send({result: false, success: true});
+        });
+    }
+};
+
 exports.favoriteProductsById = function (req, res) {
     if (req.params.id == undefined) {
         res.send({result: [], success: false});
