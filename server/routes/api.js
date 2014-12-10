@@ -139,7 +139,7 @@ exports.removeManagerPrivileges = function (req, res) {
             if (err)
                 res.send({result: null, success: false});
             else if (result)
-                res.send({result: reuslt, success: true});
+                res.send({result: result, success: true});
             else
                 res.send({result: null, success: true});
         });
@@ -176,15 +176,15 @@ exports.getAllManagers = function (req, res) {
 };
 
 //Get Users With Similar Emails
-exports.getSimilarEmailUsers = function (req, res) {
-    if (req.params.input == undefined) {
+exports.getSimilarFieldUsers = function (req, res) {
+    if (req.params.field == undefined || req.params.input == undefined) {
         res.send({result: false});
     } else {
-        users.getSimilarEmailUsers(req.params.input, function (err, result) {
+        users.getSimilarFieldUsers(req.params.field, req.params.input, function (err, result) {
             if (err)
                 res.send({result: [], success: false});
             else if (result)
-                res.send({result: reuslt, success: true});
+                res.send({result: result, success: true});
             else
                 res.send({result: [], success: true});
         });
@@ -364,15 +364,17 @@ exports.removeProductFromFavorites = function (req, res) {
     }
 };
 
-exports.getSimilarProducts = function (req, res) {
-    if (req.params.input == undefined) {
+exports.getSimilarFieldProducts = function (req, res) {
+    if (req.params.field == undefined || req.params.input == undefined) {
         res.send({result: [], success: false});
     } else {
-        products.getSimilarProducts(req.params.input, function (err, result) {
+        products.getSimilarFieldProducts(req.params.field, req.params.input, function (err, result) {
             if (err)
-                res.send({result: [], success: false});
-            else
+                res.send({result: false, success: false});
+            else if (result)
                 res.send({result: result, success: true});
+            else
+                res.send({result: false, success: true});
         });
     }
 };
