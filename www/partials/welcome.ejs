@@ -1,73 +1,116 @@
 <!-- SideBar with Form for Sign In-->
 <div ng-mousedown="hideSidebar($event)">
-	<div class="ui right red sidebar signin">
-		<form ng-class='{error:errorMessage != null}' class="ui form segment">
-			<div ng-class="{error: emailError}" class="field">
-				<label>Email</label>
-				<div class="ui left labeled icon input">
-					<input ng-model="email" class="signin defaultFocus" type="text" placeholder="Email" name="email">
-					<i class="user icon"></i>
-					<div class="ui corner label">
-						<i class="icon asterisk"></i>
-					</div>
-				</div>
-			</div>
-			
-			<div ng-class="{error: passwordError}" class="field">
-				<label>Password</label>
-				<div class="ui left labeled icon input">
-					<input ng-model="password" type="password" placeholder="Password" name="password">
-					<i class="lock icon"></i>
-					<div class="ui corner label">
-						<i class="icon asterisk"></i>
-					</div>
-				</div>
-			</div>
-			
-			<div class="ui error message">
-				{{errorMessage}}
-			</div>
-			<div class="ui center aligned grid">
-					<button ng-click="signin(email,password)" type="submit" class="ui red submit button">
-						Sign In
-					</button>
-			</div>
-			<div class="ui divider"></div>
-			
-			<div class="ui center aligned grid">
-				<div class="ui button facebook">
-					<i class="facebook icon"></i>
-					Facebook Sign In
-				</div>
-			</div>
-			<div class="ui divider"></div>
-		</form>
-	</div>
+    <div class="ui right red sidebar signin">
+        <form ng-class='{error:errorMessage != null}' class="ui form segment" ng-hide="hidSignIn == true">
+            <div ng-class="{error: emailError}" class="field">
+                <label>Email</label>
 
-	
-	<div class="top ui page grid">
-		<div id="logo" class="removepadding two wide column">
-			<a href="#"><img src="/images/hoardlogo.png"></img></a>
-		</div>
-		<div id="header" class="removepadding ten wide column">
-			<a style="font-size: 120%;" href="#"><h1>hoard</h1></a>
-		</div>
-		<div class="four wide column">
-	
-			<div ng-click="showSigninSidebar()" class="hoard red toggle button signin shift-down">
-				Sign In
-			</div>
-		</div>
-	</div>
-	
-	<div class="information">
-		<div class="infotext">
-		</div>
-		<div class="bottom ui center aligned grid">
-			<br>
-			<h4 class="ui header">
-				All rights reserved, Hoard Lda
-			</h4>
-		</div>
-	</div>
+                <div class="ui left labeled icon input">
+                    <input ng-model="email" class="signin defaultFocus" type="text" placeholder="Email" name="email">
+                    <i class="user icon"></i>
+
+                    <div class="ui corner label">
+                        <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-class="{error: passwordError}" class="field">
+                <label>Password</label>
+
+                <div class="ui left labeled icon input">
+                    <input ng-model="password" type="password" placeholder="Password" name="password">
+                    <i class="lock icon"></i>
+
+                    <div class="ui corner label">
+                        <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui error message">
+                {{errorMessage}}
+            </div>
+            <div class="ui center aligned grid">
+                <button ng-click="signin(email,password)" type="submit" class="ui green submit button">
+                    Sign In
+                </button>
+            </div>
+
+            <div class="ui center aligned grid">
+                <a href="" ng-click="toggleRecoverPassword()" class="ui label" style="margin-top: 10px">Forgot
+                    Password</a>
+            </div>
+
+            <div class="ui divider"></div>
+
+            <div class="ui center aligned grid">
+                <div class="ui button facebook">
+                    <i class="facebook icon"></i>
+                    Facebook Sign In
+                </div>
+            </div>
+            <div class="ui divider"></div>
+        </form>
+
+        <form ng-class='{error:errorMessage != null}' class="ui form segment"
+              ng-hide="hidRecover == true">
+            <div ng-class="{error: emailError}" class="field">
+                <label>Email</label>
+
+                <div class="ui left labeled icon input">
+                    <input ng-model="email" class="signin defaultFocus" type="text" placeholder="Email" name="email">
+                    <i class="user icon"></i>
+
+                    <div class="ui corner label">
+                        <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui error message">
+                {{errorMessage}}
+            </div>
+
+            <div ng-hide="successMessage == null" class="ui success message">
+                {{successMessage}}
+            </div>
+
+            <div class="ui center aligned grid">
+                <button ng-click="recoverPassword(email)" type="submit" class="ui green submit button">
+                    Recover Password
+                </button>
+            </div>
+
+            <div class="ui center aligned grid">
+                <a href="" ng-click="toggleRecoverPassword()" class="ui label" style="margin-top: 10px">Go Back</a>
+            </div>
+
+            <div class="ui divider"></div>
+        </form>
+    </div>
+
+    <div class="top ui page grid">
+        <div id="logo" class="removepadding two wide column">
+            <a href="#"><img src="/images/hoardlogo.png"></img></a>
+        </div>
+        <div id="header" class="removepadding ten wide column">
+            <a style="font-size: 120%;" href="#"><h1>hoard</h1></a>
+        </div>
+        <div class="four wide column">
+
+            <div ng-click="showSigninSidebar()" class="hoard red toggle button signin shift-down">
+                Sign In
+            </div>
+        </div>
+    </div>
+
+    <div class="information">
+        <div class="infotext"></div>
+        <div class="bottom ui center aligned grid">
+            <br>
+            <h4 class="ui header">
+                All rights reserved, Hoard Lda </h4>
+        </div>
+    </div>
 </div>

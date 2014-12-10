@@ -448,3 +448,34 @@ exports.getEditsOfProduct = function (product, callback) {
         });
     });
 };
+
+exports.getSimilarFieldEdits = function (field, input, callback) {
+    pg.connect(conString, function (err, editrequest, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        //console.log("Field is: " + field); console.log("Input is: " + input);
+
+        if(field == "product")
+            var query = editrequest.query("SELECT * FROM editrequest, product WHERE product.productid = editrequest.productid AND similarity(product.name, $1) > 0.2", [input]);
+        else if (field == "user")
+            var query = editrequest.query("SELECT * FROM editrequest, useraccount WHERE useraccount.userid = editrequest.submittedby AND similarity(useraccount.email, $1) > 0.2", [input]);
+        else
+            return callback(err, null);
+
+        query.on("row", function (row, result) {
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+        });
+
+        query.on("end", function (result) {
+            done();
+            callback(null, result.rows);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};
