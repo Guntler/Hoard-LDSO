@@ -105,13 +105,28 @@ exports.getAllByDate = function (callback) {
     });
 };
 
-exports.getEditsFromTo = function (from, to, callback) {
+exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
             return callback(err, null);
         }
-
-        var query = editrequest.query("SELECT * FROM editrequest OFFSET $1 LIMIT $2", [(from - 1) * to, to]);
+		
+		var queryStr = "SELECT * FROM editrequest ";
+		var query;
+		
+		if(filterBy == "User") {
+			queryStr += "WHERE submittedby = $1 OFFSET $2 LIMIT $3";
+			query = editrequest.query(queryStr, [value, (from - 1) * to, to]);
+		}
+		else if (filterBy == "Status") {
+			queryStr += "WHERE editstatus = $1 OFFSET $2 LIMIT $3";
+			query = editrequest.query(queryStr, [value, (from - 1) * to, to]);
+		}
+		else {
+			queryStr += "OFFSET $1 LIMIT $2";
+			query = editrequest.query(queryStr, [(from - 1) * to, to]);
+		}
+         
 
         query.on("row", function (row, result) {
             result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
@@ -129,13 +144,26 @@ exports.getEditsFromTo = function (from, to, callback) {
     });
 };
 
-exports.getEditCount = function (callback) {
+exports.getEditCount = function (filterBy, value, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
             return callback(err, null);
         }
-
-        var query = editrequest.query("SELECT COUNT (*) FROM editrequest");
+		
+		var queryStr = "SELECT COUNT (*) FROM editrequest ";
+		var query;
+		
+		if(filterBy == "User") {
+			queryStr += "WHERE submittedby = $1";
+			query = editrequest.query(queryStr, [value]);
+		}
+		else if (filterBy == "Status") {
+			queryStr += "WHERE editstatus = $1";
+			query = editrequest.query(queryStr, [value]);
+		}
+		else {
+			query = editrequest.query(queryStr);
+		}
 
         query.on("row", function (row, result) {
             done();

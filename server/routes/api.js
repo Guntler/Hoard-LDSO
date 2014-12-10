@@ -442,19 +442,20 @@ exports.editsFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
         res.send({result: [], success: false});
     } else {
-        editrequests.getEditsFromTo(req.params.from, req.params.to, function (err, result) {
-            if (err)
-				res.send({result: [], success: false});
-			else if (result)
-				res.send({result: result, success: true});
-			else
-				res.send({result: [], success: true});
-        });
+        editrequests.getEditsFromTo(req.params.from, req.params.to, req.query.filterBy, req.query.value, 
+			function (err, result) {
+				if (err)
+					res.send({result: [], success: false});
+				else if (result)
+					res.send({result: result, success: true});
+				else
+					res.send({result: [], success: true});
+			});
     }
 };
 
 exports.editCount = function (req, res) {
-    editrequests.getEditCount(function (err, result) {
+    editrequests.getEditCount(req.query.filterBy, req.query.value, function (err, result) {
         if (err || !result)
             res.send({result: null, success: false});
         else
