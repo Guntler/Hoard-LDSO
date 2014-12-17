@@ -12,7 +12,6 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 	
 	productService.getProductById($routeParams.id, function(prod) {
 		$scope.product = prod;
-		
 		if($scope.product != null) {
 						userService.getUserById($scope.product.addedby, function(data) {
 							$scope.addedBy = data;

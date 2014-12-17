@@ -14,7 +14,7 @@ exports.findById = function (id, callback) {
         var query = product.query("SELECT * FROM product WHERE productId = $1", [id]);
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
         });
 
         query.on("end", function (result) {
@@ -41,7 +41,7 @@ exports.newProduct = function (name, link, category, callback, userid) {
         var query = ("INSERT INTO product (name, link, category, visible, addedby) VALUES ($1, $2, $3, 'false', $4", [name, link, category, userid]);
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
         });
 
         query.on("end", function (result) {
@@ -77,7 +77,7 @@ exports.getProducts = function (n, callback) {
         }
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.price, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
         });
 
         query.on("end", function (result) {
@@ -92,32 +92,6 @@ exports.getProducts = function (n, callback) {
     });
 };
 
-/*
-exports.registerProduct = function ( oi, userid, callback) {
-    pg.connect(conString, function (err, client, done) {
-        
-		var nquery = favorite.query("INSERT INTO product (productid, userid, position) VALUES ($1, $2, $3)", [productid, userid, result.rows[0].count*1+1]);
-
-            nquery.on("row", function (row, result) {
-                result.addRow(new FavoriteProduct(row.productid, row.userid, row.position, row.visible, row.lastfavorited));
-            });
-
-            nquery.on("end", function (result) {
-                done();
-                callback(null, result);
-            });
-
-            nquery.on("error", function (err) {
-                done();
-                callback(err, null);
-            });
-		
-		
-		
-		});
-
-};*/
-
 exports.getProductsFromTo = function (from, to, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -127,7 +101,7 @@ exports.getProductsFromTo = function (from, to, callback) {
         var query = product.query("SELECT * FROM product OFFSET $1 LIMIT $2", [(from - 1) * to, to]);
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
         });
 
         query.on("end", function (result) {
@@ -152,7 +126,7 @@ exports.getAllProducts = function (callback) {
         var query = product.query("SELECT * FROM product WHERE visible ORDER BY name");
 
         query.on("row", function (row, result) {
-            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
         });
 
         query.on("end", function (result) {
