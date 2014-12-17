@@ -8,6 +8,8 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.pageRange = 3;
 	$scope.totalTabItems = 0;
 	$scope.errorMessage = null;
+	$scope.filterBy = $routeParams.filterBy;
+	$scope.filterVal = $routeParams.value;
 	
 	messageService.clearAll();
 	$scope.$watch(function() {
@@ -26,6 +28,7 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 				function() {
 					$scope.errorMessage = messageService.getMessages().errorMessage;
 				});
+				
 	
 	//Tab control
 	if($routeParams.tab === 'products' || $routeParams.tab === 'edits' || $routeParams.tab === 'users') {
@@ -70,12 +73,22 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	
 	if ($scope.tab == 'edits') {
 		
-		editService.getEditCount(function(data) {
+		editService.getEditCount($scope.filterBy, $scope.filterVal, function(data) {
 			$scope.totalTabItems = data.integer;
 		});
 		
-		editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, function(data) {
-			$scope.edits = data;
-		});
+		editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, $scope.filterBy, $scope.filterVal, 
+			function(data) {
+				$scope.edits = data;
+			});
+			
+		$scope.$watch(function() {
+					return $scope.filterVal;
+				},
+				function() {
+					$location.search('filterBy','Status');
+					$location.search('filterVal',$scope.filterVal);
+					$location.path('/home/edits/1');
+				});
 	}
 });

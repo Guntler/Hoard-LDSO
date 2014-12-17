@@ -38,7 +38,7 @@ module.exports = function (app, passport) {
     app.get('/api/users/managers/all', adminApiPermissions, api.getAllManagers);
     app.get('/api/users/managers/add/:id', adminApiPermissions, api.grantManagerPrivileges);
     app.get('/api/users/managers/remove/:id', adminApiPermissions, api.removeManagerPrivileges);
-    app.get('/api/users/similaremail/:input', adminApiPermissions, api.getSimilarEmailUsers);
+    app.get('/api/users/similar/:field/:input', adminApiPermissions, api.getSimilarFieldUsers);
 
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
@@ -71,7 +71,7 @@ module.exports = function (app, passport) {
 	app.get('/api/products/favoriteUp/:productid', api.favoriteUp);
 	app.get('/api/products/favoriteDown/:productid', api.favoriteDown);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct);
-    app.get('/api/products/similarname/:input', api.getSimilarProducts);
+    app.get('/api/products/similar/:field/:input', api.getSimilarFieldProducts);
     app.get('/api/products/new/:name/:link/:category', managerApiPermissions, api.newProduct);
     
     app.get('/api/editrequests/byProduct/:product', adminApiPermissions, api.getEditsOfProduct);
@@ -85,6 +85,8 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
     app.get('/api/editrequests/new/:productid/:editType/:description/:reason', managerApiPermissions, api.newRequest);
+
+    app.get('/api/editrequests/similar/:field/:input', api.getSimilarFieldEdits);
 
     app.get('*', function (req, res) {
         res.render('index.ejs');

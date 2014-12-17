@@ -261,13 +261,20 @@ exports.getFavorites = function (userid, callback) {
     });
 };
 
-exports.getSimilarProducts = function (input, callback) {
+exports.getSimilarFieldProducts = function (field, input, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product WHERE name LIKE '%' || $1 || '%'", [input]);
+        //console.log("Field is: " + field); console.log("Input is: " + input);
+
+        if(field == "name")
+            var query = product.query("SELECT * FROM product WHERE similarity(name, $1) > 0.1", [input]);
+        else if (field == "category")
+            var query = product.query("SELECT * FROM product, productcategory WHERE similarity(productcategory.categoryname, $1) > 0.2 AND productcategory.categoryid = product.category", [input]);
+        else
+            return callback(err, null);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));

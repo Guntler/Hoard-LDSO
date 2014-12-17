@@ -96,11 +96,11 @@
 
 			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab">
 				<div style="margin-bottom: 10px;">
-					<div class="ui shaded-bg" style="padding-left: 20px;">
-					Filter by:
-					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">Approved</div></label>
-					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Pending</div></label>
-					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Denied</div></label>
+					<div ngIf="tab === 'edits'" class="ui shaded-bg" style="padding-left: 20px;">
+						Filter by:
+						<label><input ng-model="filterVal" class="filterBox" type="checkbox" name="selected" value="Approved"><div class="ui tiny green button">Approved</div></label>
+						<label><input ng-model="filterVal" class="filterBox" type="checkbox" name="selected" value="Pending"><div class="ui tiny purple button">Pending</div></label>
+						<label><input ng-model="filterVal" class="filterBox" type="checkbox" name="selected" value="Denied"><div class="ui tiny red button">Denied</div></label>
 					</div>
 				</div>
 				<div class="ui shaded-bg">

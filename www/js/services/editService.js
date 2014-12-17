@@ -1,7 +1,9 @@
 hoard.service('editService',function($http, messageService) {
 	return {
-		getEditsByPage: function(page, editsPerPage, callback) {
+		getEditsByPage: function(page, editsPerPage, filterBy, filterVal, callback) {
 			var Url = "/api/editrequests/fromTo/"+page+"/"+editsPerPage;
+			if(filterBy != undefined && filterVal != undefined)
+				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
@@ -43,8 +45,10 @@ hoard.service('editService',function($http, messageService) {
 				callback(null);
 			});
 		},
-		getEditCount: function(callback) {
-			var Url = "/api/editrequests/count/";
+		getEditCount: function(filterBy, filterVal, callback) {
+			var Url = "/api/editrequests/count";
+			if(filterBy != undefined && filterVal != undefined)
+				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
