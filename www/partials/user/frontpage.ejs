@@ -98,21 +98,21 @@
 				<div style="margin-bottom: 10px;">
 					<div ngIf="tab === 'edits'" class="ui shaded-bg" style="padding-left: 20px;">
 						Filter by:
-						<label><input ng-model="filterVal" class="filterBox" type="checkbox" name="selected" value="Approved"><div class="ui tiny green button">Approved</div></label>
-						<label><input ng-model="filterVal" class="filterBox" type="checkbox" name="selected" value="Pending"><div class="ui tiny purple button">Pending</div></label>
-						<label><input ng-model="filterVal" class="filterBox" type="checkbox" name="selected" value="Denied"><div class="ui tiny red button">Denied</div></label>
+						<label><input ng-model="approved" class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">Approved</div></label>
+						<label><input ng-model="pending" class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Pending</div></label>
+						<label><input ng-model="denied" class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Denied</div></label>
 					</div>
 				</div>
 				<div class="ui shaded-bg">
-					<div class="ui error message" ng-hide="errorMessage == null">
-						{{errorMessage}}
-					</div>
-					
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
 						<span>Type</span>
 						<div class="right floated list-column-2">Date</div>
 						<span class="list-column-2 right floated">Status</span>
+					</div>
+					
+					<div class="ui error message" ng-hide="errorMessage == null">
+						{{errorMessage}}
 					</div>
 					
 					<div ng-repeat="edit in edits" class="item">

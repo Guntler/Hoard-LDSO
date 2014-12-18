@@ -114,13 +114,36 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
 		var queryStr = "SELECT * FROM editrequest ";
 		var query;
 		
+		var filterVals = [];
+		if(value != undefined && value != null) {
+			filterVals = value.split("|");
+		}
+		var i = 0;
+		
 		if(filterBy == "User") {
-			queryStr += "WHERE submittedby = $1 OFFSET $2 LIMIT $3";
-			query = editrequest.query(queryStr, [value, (from - 1) * to, to]);
+		
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "submittedby = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			queryStr += " OFFSET $" + (i+1) + " LIMIT $" + (i+2);
+			var arr = filterVals.concat([(from - 1) * to, to]);
+			query = editrequest.query(queryStr, arr);
 		}
 		else if (filterBy == "Status") {
-			queryStr += "WHERE editstatus = $1 OFFSET $2 LIMIT $3";
-			query = editrequest.query(queryStr, [value, (from - 1) * to, to]);
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "editstatus = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			queryStr += " OFFSET $" + (i+1) + " LIMIT $" + (i+2);
+			var arr = filterVals.concat([(from - 1) * to, to]);
+			query = editrequest.query(queryStr, arr);
 		}
 		else {
 			queryStr += "OFFSET $1 LIMIT $2";
@@ -153,13 +176,34 @@ exports.getEditCount = function (filterBy, value, callback) {
 		var queryStr = "SELECT COUNT (*) FROM editrequest ";
 		var query;
 		
+		var filterVals = [];
+		if(value != undefined && value != null) {
+			filterVals = value.split("|");
+		}
+		var i = 0;
+		
 		if(filterBy == "User") {
-			queryStr += "WHERE submittedby = $1";
-			query = editrequest.query(queryStr, [value]);
+		
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "submittedby = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			
+			query = editrequest.query(queryStr, filterVals);
 		}
 		else if (filterBy == "Status") {
-			queryStr += "WHERE editstatus = $1";
-			query = editrequest.query(queryStr, [value]);
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "editstatus = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			
+			query = editrequest.query(queryStr, filterVals);
 		}
 		else {
 			query = editrequest.query(queryStr);

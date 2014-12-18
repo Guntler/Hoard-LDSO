@@ -79,11 +79,11 @@ body {
 	display:block;
 }
 
-.ui.labeled.input input{
+/*.ui.labeled.input input{
 	border-left:none!important;
 	border-top-left-radius:0!important;
 	border-bottom-left-radius:0!important;
-}
+}*/
 
 .add-item-form .ui.labeled.input>.label{
 	display:table-cell;
@@ -172,6 +172,10 @@ body {
 
 .removepadding {
 	padding: 0 !important;
+}
+
+.removemargin {
+	margin: 0 !important;
 }
 
 .shift-down {

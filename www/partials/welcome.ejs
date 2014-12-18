@@ -1,7 +1,7 @@
 <!-- SideBar with Form for Sign In-->
 <div ng-mousedown="hideSidebar($event)">
     <div class="ui right red sidebar signin">
-        <form ng-class='{error:errorMessage != null}' class="ui form segment" ng-hide="hidSignIn == true">
+        <form ng-class='{error:errorMessage != null}' ng-hide="hidSignIn == true" class="ui form segment removemargin">
             <div ng-class="{error: emailError}" class="field">
                 <label>Email</label>
 
@@ -53,8 +53,7 @@
             <div class="ui divider"></div>
         </form>
 
-        <form ng-class='{error:errorMessage != null}' class="ui form segment"
-              ng-hide="hidRecover == true">
+        <form ng-class='{error:errorMessage != null}' ng-hide="hidRecover == true" class="ui form segment removemargin">
             <div ng-class="{error: emailError}" class="field">
                 <label>Email</label>
 

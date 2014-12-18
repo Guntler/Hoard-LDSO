@@ -9,7 +9,27 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.totalTabItems = 0;
 	$scope.errorMessage = null;
 	$scope.filterBy = $routeParams.filterBy;
-	$scope.filterVal = $routeParams.value;
+	$scope.filterVal = $routeParams.filterVal;
+	$scope.approved = false;
+	$scope.denied = false;
+	$scope.pending = false;
+	
+	var filterVals = [];
+	if($scope.filterVals != undefined)
+		filterVals = $scope.filterVal.split("|");
+	for(val in filterVals) {
+		console.log(val);
+		if(val == "Approved") {
+			$scope.approved = true;
+			console.log("approved: " +  $scope.approved);
+		}
+		else if (val == "Denied")
+			$scope.denied = true;
+		else if (val == "Pending")
+			$scope.pending = true;
+	}
+	
+	console.log($scope.approved);
 	
 	messageService.clearAll();
 	$scope.$watch(function() {
@@ -38,7 +58,11 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	else $location.path('/home/products/1');
 	
 	$scope.showTab = function(tab) {
-		$location.path('/home/'+tab+'/1');
+		if(tab == "edits") {
+			$location.url('/home/'+ tab+ '/1' + '?filterBy=Status&filterVal=Approved|Denied|Pending');
+		}
+		else
+			$location.url('/home/'+tab+'/1');
 	}
 	
 	//Users
@@ -83,12 +107,91 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 			});
 			
 		$scope.$watch(function() {
+					return $scope.approved;
+				},
+				function(newValue, oldValue) {
+					if(newValue !== oldValue) {
+						var first = true;
+						var newFilter = "";
+						if($scope.approved) {
+							newFilter += "Approved";
+							first = false;
+						}
+						if($scope.denied) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Denied";
+							first = false;
+						}
+						if($scope.pending) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Pending";
+						}
+						
+						$scope.filterVal = newFilter;
+					}
+				});
+				
+		$scope.$watch(function() {
+					return $scope.denied;
+				},
+				function(newValue, oldValue) {
+					if(newValue !== oldValue) {
+						var first = true;
+						var newFilter = "";
+						if($scope.approved) {
+							newFilter += "Approved";
+							first = false;
+						}
+						if($scope.denied) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Denied";
+							first = false;
+						}
+						if($scope.pending) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Pending";
+						}
+						
+						$scope.filterVal = newFilter;
+					}
+				});
+				
+		$scope.$watch(function() {
+					return $scope.pending;
+				},
+				function(newValue, oldValue) {
+					if(newValue !== oldValue) {
+						var first = true;
+						var newFilter = "";
+						if($scope.approved) {
+							newFilter += "Approved";
+							first = false;
+						}
+						if($scope.denied) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Denied";
+							first = false;
+						}
+						if($scope.pending) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Pending";
+						}
+						
+						$scope.filterVal = newFilter;
+					}
+				});
+			
+		$scope.$watch(function() {
 					return $scope.filterVal;
 				},
 				function() {
-					$location.search('filterBy','Status');
-					$location.search('filterVal',$scope.filterVal);
-					$location.path('/home/edits/1');
+					$location.url('/home/edits/1?filterBy=Status&filterVal=' + $scope.filterVal);
 				});
 	}
 });
