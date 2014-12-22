@@ -10,32 +10,24 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'/*, 'requirejs'*/],
+    frameworks: ['ng-scenario', 'jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
-		'../angular/angular.min.js',
+		//'../angular/angular.min.js',
 		'../angular/angular-*.js',
 		'angular-mocks.js',
 		'../js/*.js',
 		'../js/**/*.js',
 		'welcome/*.test.js'
-		//'test-main.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-		//'../js/main.js',
 		'test-main.js'
     ],
-
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    },
 
 
     // test results reporter to use
@@ -54,16 +46,30 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
 
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
+	
+	proxies: {
+		'/': 'http://localhost:8081/'
+	},
 
+	
+	urlRoot: '/_karma_/',
+	
+	
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Firefox'],
+	
+	/*plugins: [
+		'karma-ng-scenario',
+		'karma-firefox-launcher',
+		'karma-ie-launcher'
+	],*/
 
 
     // Continuous Integration mode

@@ -1,27 +1,24 @@
 'use strict';
  
-describe('welcomeController', function(){
-    var scope, $httpBackend;//we'll use these in our tests
+describe('Welcome Page Tests', function(){
  
     //mock Application to allow us to inject our own dependencies
     beforeEach(angular.mock.module('hoard'));
-    //mock the controller for the same reason and include $rootScope and $controller
-    beforeEach(angular.mock.inject(function($rootScope, $controller, _$httpBackend_){
-        $httpBackend = _$httpBackend_;
-        $httpBackend.when('GET', 'Users/users.json').respond([{id: 1, name: 'Bob'}, {id:2, name: 'Jane'}]);
- 
-        //create an empty scope
-        scope = $rootScope.$new();
-        //declare the controller and inject our empty scope
-        $controller('welcomeController', {$scope: scope});
-    }));
-    // tests start here
-    it('should have variable text = "Hello World!"', function(){
-        expect(scope.text).toBe('Hello World!');
-    });
-    it('should fetch list of users', function(){
-        $httpBackend.flush();
-        expect(scope.users.length).toBe(2);
-        expect(scope.users[0].name).toBe('Bob');
-    });
+	
+	// start at root before every test is run
+	beforeEach(function() {
+		browser().navigateTo('/');
+	});
+	
+	it('ensures user can log in', function() {
+		expect(browser().location().path()).toBe("/");
+
+		element('#hoard-signin').click();
+		input('email').enter('a1@a.com');
+		input('password').enter('a1');
+		element('#signin-submit').click();
+
+		// logged in route
+		expect(browser().location().path()).toBe("/home/products/1");
+	});
 });
