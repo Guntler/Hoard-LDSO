@@ -101,7 +101,7 @@ exports.changePassword = function (req, res) {
 //Check if a user exists
 exports.userExists = function (req, res) {
     if (req.params.email == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         users.findByEmail(req.params.email, function (err, result) {
             if (err)
@@ -117,15 +117,19 @@ exports.userExists = function (req, res) {
 //Register new user
 exports.registerUser = function (req, res) {
     if (req.body.email == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         users.registerUser(req.body.email, req.body.password, function (err, result) {
             if (err)
-                res.send({result: false, success: false});
-            else if (result)
-                res.send({result: true, success: true});
-            else
-                res.send({result: false, success: true});
+                if (err.code == "23505")
+                    res.send({result: false, message: "That email is already in use.", success: true});
+                else
+                    res.send({result: false, message: "Something went wrong.", success: false});
+            else 
+                if (result)
+                    res.send({result: true, message: "You've successfully registered.", success: true});
+                else
+                    res.send({result: false, message: "Something went wrong.", success: false});
         });
     }
 };

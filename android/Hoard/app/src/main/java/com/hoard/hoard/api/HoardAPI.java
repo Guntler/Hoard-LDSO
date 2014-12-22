@@ -2,6 +2,7 @@ package com.hoard.hoard.api;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.GenericUrl;
@@ -43,9 +44,10 @@ public class HoardAPI {
         session = new Session(context);
     }
 
-    public Boolean signInUser(String email, String password) {
+    public Pair<Boolean, String> signInUser(String email, String password) {
 
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+        ReturnParser parser;
 
         String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.sigin_url);
         String body = "email=" + email + "&password=" + password;
@@ -58,21 +60,24 @@ public class HoardAPI {
 
             String cookie = getCookieConnectSID(response);
 
-            ReturnParser parser = response.parseAs(ReturnParser.class);
+            parser = response.parseAs(ReturnParser.class);
 
-            Log.d("Response: ", parser.getMessage());
-            if(parser.getMessage() != null) {
-                if(cookie != null) {
-                    session.logIn(email, cookie);
-                    return true;
-                }
+            if(parser != null) {
+                if(!parser.getMessage().isEmpty())
+                    Log.d("Response: ", parser.getMessage());
+                if (parser.getSuccess())
+                    if (parser.getUser() != null)
+                        if (cookie != null) {
+                            session.logIn(email, cookie);
+                            return new Pair<Boolean, String>(true, parser.getMessage());
+                        }
             }
-        } catch (IOException e) {
-            String errorMessage = (e.getMessage() == null) ? "Message is empty" : e.getMessage();
+        } catch (Exception e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
             Log.e("HoardAPI>signInUser>Exception:", errorMessage);
-            return false;
+            return new Pair<Boolean, String>(false, "Something went wrong.");
         }
-        return false;
+        return new Pair<Boolean, String>(false, "Something went wrong.");
     }
 
     private String getCookieConnectSID(HttpResponse response) {
@@ -103,39 +108,48 @@ public class HoardAPI {
                 return request.execute().parseAs(Favorites.class);
             }
         } catch (IOException e) {
-            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-            Log.e("HoardAPI>checkLoginForUsernamePassword>Exception:", errorMessage);
+            Log.e("HoardAPI>checkLoginForUsernamePassword>Exception:", e.getMessage());
         }
         return null;
     }
 
-    public Boolean registerEmailPassword(String email, String password) {
+    public Pair<Boolean, String> registerEmailPassword(String email, String password) {
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+        RegisterReturnParser parser;
 
-        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.register_url)+email+"/"+password;
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.register_url);
+        String body = "email=" + email + "&password=" + password;
 
         try {
-            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            HttpRequest request = httpRequestFactory.buildPostRequest(new GenericUrl(url), ByteArrayContent.fromString("application/x-www-form-urlencoded", body));
             request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
-            String baseUrl = request.getUrl().toString();
-
-            Log.d("Request: ", baseUrl);
+            request.getHeaders().setContentType("application/x-www-form-urlencoded");
 
             HttpResponse response = request.execute();
 
-            ArrayList<String> headerField = (ArrayList<String>) response.getHeaders().get("Set-Cookie");
+            String cookie = getCookieConnectSID(response);
 
-            String cookie = headerField.get(0).split("; ")[0];
-            Log.d("Cookie: ", cookie);
+            parser = response.parseAs(RegisterReturnParser.class);
 
-            session.logIn(email, cookie);
-
-            return true;
-        } catch (IOException e) {
+            if(parser != null) {
+                if(parser.getSuccess()) {
+                    if (parser.getResult()) {
+                        if (cookie != null) {
+                            session.logIn(email, cookie);
+                            return new Pair<Boolean, String>(true, parser.getMessage());
+                        }
+                    } else {
+                        return new Pair<Boolean, String>(false, parser.getMessage());
+                    }
+                }
+            }
+        } catch (Exception e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
             Log.e("HoardAPI>registerEmailPassword>Exception:", errorMessage);
-            return false;
+            return new Pair<Boolean, String>(false, "Something went wrong.");
         }
+
+        return new Pair<Boolean, String>(false, "Something went wrong.");
     }
 
     public static HttpRequestFactory createRequestFactory(final HttpTransport transport) {

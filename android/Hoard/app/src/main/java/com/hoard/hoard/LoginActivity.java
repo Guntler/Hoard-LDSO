@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +46,7 @@ public class LoginActivity extends Activity {
      * API Class and Handler Valid
      */
     private HoardAPI hoardAPI;
-    private Boolean valid = false;
+    private Pair<Boolean, String> valid;
 
     /*
      * Alert Dialog
@@ -145,15 +146,14 @@ public class LoginActivity extends Activity {
                 valid = hoardAPI.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
 
             } catch (Exception e) {
-                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("LoginActivity>SignInAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("LoginActivity>SignInAsyncTask>doInBackground>Exception:", e.toString());
             }
 
             return null;
         }
 
         protected void onPostExecute(String notUsed) {
-            if(valid) {
+            if(valid.first) {
 
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
@@ -165,6 +165,7 @@ public class LoginActivity extends Activity {
             } else {
                 progressBar.setVisibility(View.GONE);
                 logInButton.setVisibility(View.VISIBLE);
+                alertDialog.setMessage(valid.second);
                 alertDialog.show();
             }
         }

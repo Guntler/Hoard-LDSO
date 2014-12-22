@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -44,7 +45,7 @@ public class RegisterActivity extends Activity {
      * API Class
      */
     private HoardAPI hoardAPI;
-    private Boolean valid = false;
+    private Pair<Boolean, String> valid;
 
     /*
      * Alert Dialog
@@ -150,21 +151,19 @@ public class RegisterActivity extends Activity {
                 Log.i("RegisterActivity>RegisterAsyncTask: Username - ", emailEditText.getText().toString());
                 Log.i("RegisterActivity>RegisterAsyncTask: Password - ", passwordEditText.getText().toString());
                 valid = hoardAPI.registerEmailPassword(emailEditText.getText().toString(), passwordEditText.getText().toString());
-
             } catch (Exception e) {
-                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("RegisterActivity>RegisterAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("RegisterActivity>RegisterAsyncTask>doInBackground>Exception:", e.getMessage());
             }
 
             return null;
         }
 
         protected void onPostExecute(String notUsed) {
-            if(valid) {
+            if(valid.first) {
 
                 Intent i = new Intent(RegisterActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("notification", getResources().getString(R.string.notification_register));
+                bundle.putString("notification", valid.second);
                 i.putExtras(bundle);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
@@ -173,7 +172,7 @@ public class RegisterActivity extends Activity {
             } else {
                 progressBar.setVisibility(View.GONE);
                 registerButton.setVisibility(View.VISIBLE);
-
+                alertDialog.setMessage(valid.second);
                 alertDialog.show();
             }
         }

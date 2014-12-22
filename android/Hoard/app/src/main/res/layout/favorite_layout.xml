@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/red"
@@ -11,6 +12,7 @@
         android:id="@+id/favorite_grid"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:paddingTop="24dp"
         android:verticalSpacing="0dp"
         android:horizontalSpacing="0dp"
         android:stretchMode="columnWidth"
@@ -23,4 +25,43 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         style="?android:attr/progressBarStyleLarge" />
+
+    <RelativeLayout
+        android:id="@+id/top_layout_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/red">
+
+        <ImageButton
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_action_favorite"
+            android:contentDescription="@string/app_name"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_action_settings"
+            android:contentDescription="@string/app_name"
+            tools:ignore="RtlHardcoded" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

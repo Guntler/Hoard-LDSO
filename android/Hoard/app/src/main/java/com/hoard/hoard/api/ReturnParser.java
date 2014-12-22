@@ -15,11 +15,20 @@ public class ReturnParser {
     @Key
     User user;
 
+    @Key
+    Boolean success;
+
     public String getMessage() {
         return message.get(0);
     }
 
+    public Boolean getSuccess() { return success; }
+
+    public User getUser() { return user; }
+
     public String toString() {
-        return user.getId() + " " + user.getEmail() + " " + user.getPermissions();
+        if(user != null)
+            return user.getId() + " " + user.getEmail() + " " + user.getPermissions();
+        return message.get(0);
     }
 }
