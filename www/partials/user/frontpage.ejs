@@ -10,13 +10,13 @@
 			<div class="ui divider"></div>
 
 			<div class="ui filter menu">
-				<a class="item" ng-class="{active:tab === 'products'}" ng-click="showTab('products')">
+				<a id="products-tab" class="item" ng-class="{active:tab === 'products'}" ng-click="showTab('products')">
 					<i class="archive icon"></i>Products
 				</a>
-				<a class="item" ng-class="{active:tab === 'users'}" ng-click="showTab('users')" ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null">
+				<a id="users-tab" class="item" ng-class="{active:tab === 'users'}" ng-click="showTab('users')" ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null">
 					<i class="users icon"></i>Users
 				</a>
-				<a class="item" ng-class="{active: tab === 'edits'}" ng-click="showTab('edits')" ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null">
+				<a id="edits-tab" class="item" ng-class="{active: tab === 'edits'}" ng-click="showTab('edits')" ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null">
 					<i class="users icon"></i>Edits
 				</a>
 				<div class="right menu">

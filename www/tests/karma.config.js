@@ -10,7 +10,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['ng-scenario', 'jasmine'],
+    frameworks: ['ng-scenario'],
 
 
     // list of files / patterns to load in the browser
@@ -20,7 +20,8 @@ module.exports = function(config) {
 		'angular-mocks.js',
 		'../js/*.js',
 		'../js/**/*.js',
-		'welcome/*.test.js'
+		'welcome/*.test.js',
+		'frontpage/*.test.js'
     ],
 
 
@@ -65,15 +66,15 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Firefox'],
 	
-	/*plugins: [
+	plugins: [
+		//'karma-jasmine',
 		'karma-ng-scenario',
-		'karma-firefox-launcher',
-		'karma-ie-launcher'
-	],*/
+		'karma-firefox-launcher'
+	],
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: true
   });
 };

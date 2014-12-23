@@ -3,7 +3,7 @@
 describe('Welcome Page Tests', function(){
  
     //mock Application to allow us to inject our own dependencies
-    beforeEach(angular.mock.module('hoard'));
+    //beforeEach(angular.mock.module('hoard'));
 	
 	// start at root before every test is run
 	beforeEach(function() {
@@ -17,9 +17,8 @@ describe('Welcome Page Tests', function(){
 		input('email').enter('a1@a.com');
 		input('password').enter('a1');
 		element('#signin-submit').click();
-
-		// logged in route
 		expect(browser().location().path()).toBe("/home/products/1");
+		
 	});
 	
 	it('ensures manager can log in', function() {

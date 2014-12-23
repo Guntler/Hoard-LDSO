@@ -53,14 +53,14 @@
 	</div>
 	<div class="four wide column">
 		<div class="ui compact menu">
-			<div class="ui simple dropdown icon right labeled button">
+			<div id="options-dropdown" class="ui simple dropdown icon right labeled button">
 					{{user.email}}
 				<i class="user icon"></i>
 				<div class="menu">
 					<div class="item edit-profile selection" ng-click="showSidebar()">
 						<i class="edit icon"></i>Edit Profile
 					</div>
-					<div ng-click="logout()" class="item">
+					<div id="signout-button" ng-click="logout()" class="item">
 						<i class="sign out icon"></i>
 						Log out
 					</div>
