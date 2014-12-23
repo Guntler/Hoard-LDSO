@@ -20,24 +20,38 @@ device.startActivity(component=runComponent)
 
 ViewClient.sleep(1)
 
-device.takeSnapshot(reconnect=True).save('./screenshots/login/login-pre.png','png')
+device.takeSnapshot(reconnect=True).save('./screenshots/register/login-to-register.png','png')
 
 vc = ViewClient(*ViewClient.connectToDeviceOrExit())
 vc.dump()
 
-email = vc.findViewById('com.hoard.hoard:id/login_email')
-email.type('u1@u.com')
+button = vc.findViewByIdOrRaise('com.hoard.hoard:id/login_register_button')
+button.touch()
 
 vc.dump()
 
-password = vc.findViewById('com.hoard.hoard:id/login_password')
+ViewClient.sleep(3)
+
+device.takeSnapshot(reconnect=True).save('./screenshots/register/register-pre.png','png')
+
+email = vc.findViewById('com.hoard.hoard:id/register_email')
+email.type('u1@u1.com')
+
+vc.dump()
+
+password = vc.findViewById('com.hoard.hoard:id/register_password')
 password.type('u1')
 
-button = vc.findViewByIdOrRaise('com.hoard.hoard:id/login_button')
-button.touch()
+vc.dump()
 
-device.takeSnapshot(reconnect=True).save('./screenshots/login/login-pos.png','png')
+password = vc.findViewById('com.hoard.hoard:id/register_password_confirmation')
+password.type('u1')
+
+device.takeSnapshot(reconnect=True).save('./screenshots/register/register-pos.png','png')
+
+button = vc.findViewByIdOrRaise('com.hoard.hoard:id/register_button')
+button.touch()
 
 ViewClient.sleep(3)
 
-device.takeSnapshot(reconnect=True).save('./screenshots/login/login-redirect.png','png')
+device.takeSnapshot(reconnect=True).save('./screenshots/register/register-redirect.png','png')
