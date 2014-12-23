@@ -7,12 +7,18 @@ import java.util.ArrayList;
 /**
  * Created by AndreSilva on 26/11/14
  */
+
 public class Favorites {
 
     @Key
     ArrayList<Product> result;
 
+    @Key
+    boolean success;
+
     public ArrayList<Product> getResult() {
         return result;
     }
+
+    public boolean getSuccess() {return success; }
 }
