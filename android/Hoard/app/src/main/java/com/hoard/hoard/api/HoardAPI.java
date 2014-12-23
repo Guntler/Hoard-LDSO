@@ -105,10 +105,14 @@ public class HoardAPI {
                 request.getHeaders().setCookie(session.getCookie());
                 Log.d("Cookie: ", session.getCookie());
 
-                return request.execute().parseAs(Favorites.class);
+                Favorites favs = request.execute().parseAs(Favorites.class);
+
+                if(favs.getSuccess())
+                    return favs;
             }
         } catch (IOException e) {
-            Log.e("HoardAPI>checkLoginForUsernamePassword>Exception:", e.getMessage());
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>getFavorites>Exception:", errorMessage);
         }
         return null;
     }

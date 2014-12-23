@@ -80,7 +80,8 @@ public class FavoriteActivity extends Activity {
                     }
 
             } catch (Exception e) {
-                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", e.toString());
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;

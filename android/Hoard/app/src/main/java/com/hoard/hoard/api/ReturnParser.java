@@ -7,6 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by AndreSilva on 26/11/14
  */
+
 public class ReturnParser {
 
     @Key
