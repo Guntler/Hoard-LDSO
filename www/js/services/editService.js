@@ -66,6 +66,32 @@ hoard.service('editService',function($http, messageService) {
 				messageService.setError("There has been an unexpected error.");
 				callback(null);
 			});
+		},
+		resolveEdit: function(editID, approved) {
+			if(approved) {
+				var Url = "/api/editrequests/approve/" + editID;
+				$http.get(Url).success(function(data){
+					if(data.success == false) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("There has been an unexpected error." );
+						callback(null);
+					}
+					else if(data.result == null) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("Unable to resolve edit request.");
+						callback(null);
+					}
+					else {
+						callback({integer: data.result.count});
+					}
+				}).error(function(data,status,headers, config) {
+					messageService.setError("There has been an unexpected error.");
+					callback(null);
+				});
+			}
+			else {
+			}
+			
 		}
 	};
 });

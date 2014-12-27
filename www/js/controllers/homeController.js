@@ -288,4 +288,8 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 						$location.url('/home/edits/1?filterBy=Status&filterVal=' + $scope.filterVal);
 				});
 	}
+	
+	$scope.approveEdit = function(editID) {
+		
+	}
 });
