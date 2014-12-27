@@ -129,7 +129,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
 				if(i < filterVals.length-1)
 					queryStr += " OR ";
 			}
-			queryStr += " OFFSET $" + (i+1) + " LIMIT $" + (i+2);
+			queryStr += " ORDER BY editdate asc OFFSET $" + (i+1) + " LIMIT $" + (i+2);
 			var arr = filterVals.concat([(from - 1) * to, to]);
 			query = editrequest.query(queryStr, arr);
 		}
@@ -141,12 +141,24 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
 				if(i < filterVals.length-1)
 					queryStr += " OR ";
 			}
-			queryStr += " OFFSET $" + (i+1) + " LIMIT $" + (i+2);
+			queryStr += " ORDER BY editdate asc OFFSET $" + (i+1) + " LIMIT $" + (i+2);
+			var arr = filterVals.concat([(from - 1) * to, to]);
+			query = editrequest.query(queryStr, arr);
+		}
+		else if (filterBy == "Product") {
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "productid = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			queryStr += " ORDER BY editdate asc OFFSET $" + (i+1) + " LIMIT $" + (i+2);
 			var arr = filterVals.concat([(from - 1) * to, to]);
 			query = editrequest.query(queryStr, arr);
 		}
 		else {
-			queryStr += "OFFSET $1 LIMIT $2";
+			queryStr += " ORDER BY editdate asc OFFSET $1 LIMIT $2";
 			query = editrequest.query(queryStr, [(from - 1) * to, to]);
 		}
          
@@ -199,6 +211,17 @@ exports.getEditCount = function (filterBy, value, callback) {
 			
 			for(i = 0; i < filterVals.length; i++) {
 				queryStr += "editstatus = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			
+			query = editrequest.query(queryStr, filterVals);
+		}
+		else if (filterBy == "Product") {
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "productid = $" + (i+1);
 				if(i < filterVals.length-1)
 					queryStr += " OR ";
 			}

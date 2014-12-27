@@ -3,36 +3,23 @@ hoard.controller('userProfileController',function($scope, $routeParams, $locatio
 	
 	//State variables
 	$scope.userId = $routeParams.id;
+	$scope.currentPage = $routeParams.page;
 	$scope.itemsPerPage = 10;
 	$scope.pageRange = 3;
 	$scope.totalEdits = 0;
-	
-	$scope.user = null;
-				
-	userService.getUserById($routeParams.id, function(data) {
-		$scope.user = data;
-	});
-	
-	//Edits
 	$scope.edits = [];
 	
-	$( ".ui.checkbox" ).checkbox();
-	/*
-	if ($scope.tab == 'edits') {
-		$scope.$watch(function() {
-					return editService.getEditCount();
-				},
-				function() {
-					$scope.totalTabItems = editService.getEditCount().integer;
-				});
-		editService.updateEditCount();
-	}
-	
-	$scope.$watch(function() {
-					return editService.getCurrEdits();
-				},
-				function() {
-					$scope.edits = editService.getCurrEdits();
-				});
-	editService.updateEditsByPage($routeParams.page,$scope.itemsPerPage);*/
+	$scope.userProfile = null;
+				
+	userService.getUserById($routeParams.id, function(data) {
+		$scope.userProfile = data;
+		if($scope.userProfile != null) {
+						editService.getEditCount("User", $scope.userId, function(data) {
+							$scope.totalEdits = data.integer;
+						});
+						editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, "User", $scope.userId, function(data) {
+							$scope.edits = data;
+						});
+					}
+	});
 });

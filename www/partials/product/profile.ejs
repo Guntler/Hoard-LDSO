@@ -31,45 +31,42 @@
 			</div>
 		</div>
 		
-		<div class="row profile-history shaded-bg">
+		<div class="row profile-history shaded-bg" ng-If="user != null && user.permissions == 'Admin'">
 			<div class="sixteen wide column">
 				<h2>Edit History:</h2>
 				<div class="ui divider"></div>
-				<div class="ui divided selection list tab" data-tab="users">
-					<a class="active item">
-						<div class="right floated date">Sep 14, 2014</div>
-						<div class="name">
-							Edit 1
+				
+				<div class="ui divided selection list">
+					<div class="tableHeader item">
+						<div class="right floated">Actions</div>
+						<span>Email</span>
+						<div class="right floated list-column-2">Register Date</div>
+						<span class="right floated list-column-2">Privileges</span>
+					</div>
+					
+					<div ng-repeat="edit in edits" class="item">
+						<div class="right floated">
+							<div class="ui tiny buttons">
+								<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui green button">APPROVE</div>
+								<div class="or"></div>
+								<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui red button">REJECT</div>
+							</div>
 						</div>
-					</a>
-					<a class="item">
-						<div class="right floated date">Dec 15, 2014</div>
-						<div class="name">
-							Edit 2
-						</div>
-					</a>
-					<a class="item">
-						<div class="right floated date">Dec 15, 2014</div>
-						<div class="name">
-							Edit 3
-						</div>
-					</a>
-					<a class="item">
-						<div class="right floated date">Dec 15, 2014</div>
-						<div class="name">
-							Edit 4
-						</div>
-					</a>
+						<span class="name">
+							<a href="#/edits/{{edit.id}}">{{edit.edittype}}</a>
+						</span>
+						<div class="right floated date list-column-2">{{edit.editdate}}</div>
+						<span class=" list-column-2 right floated">
+							<span class="left floated ui label" ng-class="{green: edit.editstatus == 'Approved', red: edit.editstatus == 'Denied', purple: edit.editstatus == 'Pending'}">
+								{{edit.editstatus}}
+							</span>
+						</span>
+					</div>
 				</div>
 				<div class="ui divider"></div>
 
-				<div class="pageshowing">Showing <b>2</b> of 2</div>
-
-				<div class="ui pagination menu">
-					<a class="icon item disabled"><i class="icon left arrow"></i></a>
-					<a class="active item">1</a>
-					<a class="icon item disabled"><i class="icon right arrow"></i></a>
-				</div>
+				<div data-pagination-directive total-items="totalEdits" current-page="currentPage"
+					page-range="pageRange" items-per-page="itemsPerPage" item-type="productId" redirect-url="/product/profile"></div>
 			</div>
 		</div>
 	</div>
