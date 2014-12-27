@@ -202,13 +202,37 @@ exports.getAllUsers = function (callback) {
     });
 };
 
-exports.getUsersFromTo = function (from, to, callback) {
+exports.getUsersFromTo = function (from, to, filterBy, value, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
             return callback(err, null);
         }
-
-        var query = user.query("SELECT * FROM useraccount OFFSET $1 LIMIT $2", [(from - 1) * to, to]);
+		
+		var queryStr = "SELECT * FROM useraccount ";
+		var query;
+		
+		var filterVals = [];
+		if(value != undefined && value != null) {
+			filterVals = value.split("|");
+		}
+		var i = 0;
+		
+		if(filterBy == "Permissions") {
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "permissions = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			queryStr += " ORDER BY userID OFFSET $" + (i+1) + " LIMIT $" + (i+2);
+			var arr = filterVals.concat([(from - 1) * to, to]);
+			query = user.query(queryStr, arr);
+		}
+		else {
+			queryStr += " ORDER BY userID OFFSET $1 LIMIT $2";
+			query = user.query(queryStr, [(from - 1) * to, to]);
+		}
 
         query.on("row", function (row, result) {
             result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
@@ -226,13 +250,34 @@ exports.getUsersFromTo = function (from, to, callback) {
     });
 };
 
-exports.getUserCount = function (callback) {
+exports.getUserCount = function (filterBy, value, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
             return callback(err, null);
         }
+		
+		var queryStr = "SELECT COUNT (*) FROM useraccount ";
+		var query;
 
-        var query = user.query("SELECT COUNT (*) FROM useraccount");
+		var filterVals = [];
+		if(value != undefined && value != null) {
+			filterVals = value.split("|");
+		}
+		var i = 0;
+		
+		if(filterBy == "Permissions") {
+			queryStr += "WHERE ";
+			
+			for(i = 0; i < filterVals.length; i++) {
+				queryStr += "permissions = $" + (i+1);
+				if(i < filterVals.length-1)
+					queryStr += " OR ";
+			}
+			query = user.query(queryStr, filterVals);
+		}
+		else {
+			query = user.query(queryStr);
+		}
 
         query.on("row", function (row, result) {
             done();

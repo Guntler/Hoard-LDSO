@@ -13,7 +13,7 @@ hoard.service('editService',function($http, messageService) {
 				else if(data.result.length == 0) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("Couldn't find requests." );
-					calback(null);
+					callback(null);
 				}
 				else {
 					callback(data.result);
@@ -29,12 +29,11 @@ hoard.service('editService',function($http, messageService) {
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("There has been an unexpected error." );
+					callback(null);
 				}
 				else if(data.result == null) {
-					if(messageService.getMessages().errorMessage == null) {
+					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("Unable to find edit.");
-					}
-					
 					callback(null);
 				}
 				else {
@@ -55,7 +54,7 @@ hoard.service('editService',function($http, messageService) {
 						messageService.setError("There has been an unexpected error." );
 					callback(null);
 				}
-				if(data.result == null) {
+				else if(data.result == null) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("No edit requests found.");
 					callback(null);

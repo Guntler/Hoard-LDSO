@@ -33,11 +33,12 @@
 				<button class="bottom-button select-button">Select All</button>
 				<button class="bottom-button select-button">Select None</button>
 				<button class="bottom-button select-button">Invert Selection</button>
-				<div class="shaded-bg">
-					<div class="ui error message" ng-hide="errorMessage == null">
+				
+				<div class="ui error message" ng-hide="errorMessage == null">
 						{{errorMessage}}
-					</div>
-					
+				</div>
+				
+				<div class="shaded-bg">
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
 						<span>Name</span>
@@ -49,7 +50,7 @@
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
 						<div class="right floated date list-column-2">{{product.dateadded}}</div>
 						<div class="name" >
-							<a href="#/products/profile/{{product.id}}">{{product.name | cut:true:30:' ...'}}</a>
+							<a href="#/products/profile/{{product.id}}/1">{{product.name | cut:true:30:' ...'}}</a>
 						</div>
 					</div>
 				</div>
@@ -59,19 +60,19 @@
 			
 			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab">
 				<div style="margin-bottom: 10px">
-					<div class="ui shaded-bg" style="padding-left: 20px;">
+					<div ngIf="tab === 'users'" class="ui shaded-bg" style="padding-left: 20px;">
 					Filter by:
-					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">User</div></label>
-					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Manager</div></label>
-					<label><input class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Admin</div></label>
+					<label><input ng-model="userFilter" class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">User</div></label>
+					<label><input ng-model="managerFilter" class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Manager</div></label>
+					<label><input ng-model="adminFilter" class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Admin</div></label>
 					</div>
 				</div>
 				
-				<div class="ui shaded-bg">
-					<div class="ui error message" ng-hide="errorMessage == null">
+				<div class="ui error message" ng-hide="errorMessage == null">
 							{{errorMessage}}
-					</div>
-					
+				</div>
+				
+				<div class="ui shaded-bg">
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
 						<span>Email</span>
@@ -82,7 +83,7 @@
 					<div ng-repeat="user in users" class="item">
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
 						<span class="name">
-							<a href="#/users/{{user.userid}}"> {{user.email | cut:false:50:' ...'}}</a>
+							<a href="#/users/profile/{{user.userid}}/1"> {{user.email | cut:false:50:' ...'}}</a>
 						</span>
 						<div class="right floated date list-column-2">{{user.registerdate}}</div>
 						<span class="right floated list-column-2">
@@ -103,16 +104,17 @@
 						<label><input ng-model="denied" class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Denied</div></label>
 					</div>
 				</div>
+				
+				<div class="ui error message" ng-hide="errorMessage == null">
+						{{errorMessage}}
+				</div>
+				
 				<div class="ui shaded-bg">
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
 						<span>Type</span>
 						<div class="right floated list-column-2">Date</div>
 						<span class="list-column-2 right floated">Status</span>
-					</div>
-					
-					<div class="ui error message" ng-hide="errorMessage == null">
-						{{errorMessage}}
 					</div>
 					
 					<div ng-repeat="edit in edits" class="item">

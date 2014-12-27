@@ -13,23 +13,29 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.approved = false;
 	$scope.denied = false;
 	$scope.pending = false;
+	$scope.userFilter = false;
+	$scope.adminFilter = false;
+	$scope.managerFilter = false;
 	
 	var filterVals = [];
-	if($scope.filterVals != undefined)
+	if($scope.filterVal != undefined)
 		filterVals = $scope.filterVal.split("|");
-	for(val in filterVals) {
-		console.log(val);
-		if(val == "Approved") {
+	
+	for(var i = 0; i < filterVals.length; i++) {
+		var val = filterVals[i];
+		if(val == "Approved")
 			$scope.approved = true;
-			console.log("approved: " +  $scope.approved);
-		}
 		else if (val == "Denied")
 			$scope.denied = true;
 		else if (val == "Pending")
 			$scope.pending = true;
+		else if (val == "User")
+			$scope.userFilter = true;
+		else if (val == "Admin")
+			$scope.adminFilter = true;
+		else if (val == "Manager")
+			$scope.managerFilter = true;
 	}
-	
-	console.log($scope.approved);
 	
 	messageService.clearAll();
 	$scope.$watch(function() {
@@ -58,25 +64,114 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	else $location.path('/home/products/1');
 	
 	$scope.showTab = function(tab) {
-		if(tab == "edits") {
+		if(tab == "edits")
 			$location.url('/home/'+ tab+ '/1' + '?filterBy=Status&filterVal=Approved|Denied|Pending');
-		}
+		else if(tab == "users")
+			$location.url('/home/'+ tab+ '/1' + '?filterBy=Permissions&filterVal=User|Admin|Manager');
 		else
 			$location.url('/home/'+tab+'/1');
 	}
 	
 	//Users
 	$scope.users = [];
-	
 	if($scope.tab == 'users') {
 		
-		userService.getUserCount(function(data) {
+		userService.getUserCount($scope.filterBy, $scope.filterVal, function(data) {
 			$scope.totalTabItems = data.integer;
 		});
 		
-		userService.getUsersByPage($routeParams.page,$scope.itemsPerPage, function(data) {
+		userService.getUsersByPage($routeParams.page,$scope.itemsPerPage, $scope.filterBy, $scope.filterVal, function(data) {
 			$scope.users = data;
 		});
+		
+		$scope.$watch(function() {
+					return $scope.userFilter;
+				},
+				function(newValue, oldValue) {
+					if(newValue !== oldValue) {
+						var first = true;
+						var newFilter = "";
+						if($scope.userFilter) {
+							newFilter += "User";
+							first = false;
+						}
+						if($scope.adminFilter) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Admin";
+							first = false;
+						}
+						if($scope.managerFilter) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Manager";
+						}
+						
+						$scope.filterVal = newFilter;
+					}
+				});
+				
+		$scope.$watch(function() {
+					return $scope.adminFilter;
+				},
+				function(newValue, oldValue) {
+					if(newValue !== oldValue) {
+						var first = true;
+						var newFilter = "";
+						if($scope.adminFilter) {
+							newFilter += "Admin";
+							first = false;
+						}
+						if($scope.userFilter) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "User";
+							first = false;
+						}
+						if($scope.managerFilter) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Manager";
+						}
+						
+						$scope.filterVal = newFilter;
+					}
+				});
+				
+		$scope.$watch(function() {
+					return $scope.managerFilter;
+				},
+				function(newValue, oldValue) {
+					if(newValue !== oldValue) {
+						var first = true;
+						var newFilter = "";
+						if($scope.managerFilter) {
+							newFilter += "Manager";
+							first = false;
+						}
+						if($scope.adminFilter) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "Admin";
+							first = false;
+						}
+						if($scope.userFilter) {
+							if(!first)
+								newFilter += "|";
+							newFilter += "User";
+						}
+						
+						$scope.filterVal = newFilter;
+					}
+				});
+			
+		$scope.$watch(function() {
+					return $scope.filterVal;
+				},
+				function(newValue, oldValue) {
+					if(newValue != oldValue)
+						$location.url('/home/users/1?filterBy=Permissions&filterVal=' + $scope.filterVal);
+				});
 	}
 		
 
@@ -94,17 +189,15 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	
 	//Edits
 	$scope.edits = [];
-	
 	if ($scope.tab == 'edits') {
 		
 		editService.getEditCount($scope.filterBy, $scope.filterVal, function(data) {
 			$scope.totalTabItems = data.integer;
 		});
 		
-		editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, $scope.filterBy, $scope.filterVal, 
-			function(data) {
-				$scope.edits = data;
-			});
+		editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, $scope.filterBy, $scope.filterVal, function(data) {
+			$scope.edits = data;
+		});
 			
 		$scope.$watch(function() {
 					return $scope.approved;
@@ -190,8 +283,9 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 		$scope.$watch(function() {
 					return $scope.filterVal;
 				},
-				function() {
-					$location.url('/home/edits/1?filterBy=Status&filterVal=' + $scope.filterVal);
+				function(newValue, oldValue) {
+					if(newValue != oldValue)
+						$location.url('/home/edits/1?filterBy=Status&filterVal=' + $scope.filterVal);
 				});
 	}
 });

@@ -21,7 +21,7 @@ exports.usersFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
         res.send({result: false});
     } else {
-        users.getUsersFromTo(req.params.from, req.params.to, function (err, result) {
+        users.getUsersFromTo(req.params.from, req.params.to, req.query.filterBy, req.query.value, function (err, result) {
             if (err)
                 res.send({result: [], success: false});
             else if (result)
@@ -33,7 +33,7 @@ exports.usersFromTo = function (req, res) {
 };
 
 exports.userCount = function (req, res) {
-    users.getUserCount(function (err, result) {
+    users.getUserCount(req.query.filterBy, req.query.value, function (err, result) {
         if (err || !result)
             res.send({result: null, success: false});
         else
@@ -450,8 +450,10 @@ exports.editsFromTo = function (req, res) {
     } else {
         editrequests.getEditsFromTo(req.params.from, req.params.to, req.query.filterBy, req.query.value, 
 			function (err, result) {
-				if (err)
+				if (err) {
+					console.log(err);
 					res.send({result: [], success: false});
+				}
 				else if (result)
 					res.send({result: result, success: true});
 				else
