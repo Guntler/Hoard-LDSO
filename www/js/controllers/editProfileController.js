@@ -25,4 +25,20 @@ hoard.controller('editProfileController',function($scope, $routeParams, $locatio
 						});
 					}
 				});
+				
+	$scope.approveEdit = function(edit) {
+		if(edit.editstatus == "Pending")
+		editService.resolveEdit(edit.id, true, function(result) {
+			if(result)
+				edit.editstatus = "Approved";
+		});
+	}
+	
+	$scope.rejectEdit = function(edit) {
+		if(edit.editstatus == "Pending")
+		editService.resolveEdit(edit.id, false, function(result) {
+			if(result)
+				edit.editstatus = "Denied";
+		});
+	}
 });

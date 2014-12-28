@@ -67,29 +67,48 @@ hoard.service('editService',function($http, messageService) {
 				callback(null);
 			});
 		},
-		resolveEdit: function(editID, approved) {
+		resolveEdit: function(editID, approved, callback) {
 			if(approved) {
 				var Url = "/api/editrequests/approve/" + editID;
 				$http.get(Url).success(function(data){
 					if(data.success == false) {
 						if(messageService.getMessages().errorMessage == null)
 							messageService.setError("There has been an unexpected error." );
-						callback(null);
+						callback(false);
 					}
 					else if(data.result == null) {
 						if(messageService.getMessages().errorMessage == null)
 							messageService.setError("Unable to resolve edit request.");
-						callback(null);
+						callback(false);
 					}
 					else {
-						callback({integer: data.result.count});
+						callback(true);
 					}
 				}).error(function(data,status,headers, config) {
 					messageService.setError("There has been an unexpected error.");
-					callback(null);
+					callback(false);
 				});
 			}
 			else {
+				var Url = "/api/editrequests/reject/" + editID;
+				$http.get(Url).success(function(data){
+					if(data.success == false) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("There has been an unexpected error." );
+						callback(false);
+					}
+					else if(data.result == null) {
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("Unable to resolve edit request.");
+						callback(false);
+					}
+					else {
+						callback(true);
+					}
+				}).error(function(data,status,headers, config) {
+					messageService.setError("There has been an unexpected error.");
+					callback(false);
+				});
 			}
 			
 		}

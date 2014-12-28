@@ -19,20 +19,20 @@
 			<div class="eleven wide column shaded-bg profile-data">
 				<h2>{{submitter.email}} - {{edit.edittype}}</h2>
 				<div class="ui divider"></div>
-					<p><b>Product:</b> <a href="#/products/{{product.id}}">{{product.name | cut:true:50:' ...'}}</a></p>
+					<p><b>Product:</b> <a href="#/products/profile/{{product.id}}/1">{{product.name | cut:true:50:' ...'}}</a></p>
 					<p><b>Description:</b></p> 
 					<p>{{edit.description}}</p>
 					<p><b>Reason:</b></p>
 					<p>{{edit.reason}}</p>
-					<p><b>Author:</b> <a href="#/users/{{submitter.id}}">{{submitter.email}}</a></p>
+					<p><b>Author:</b> <a href="#/users/profile/{{submitter.userid}}/1">{{submitter.email}}</a></p>
 					<p><b>Submission Date:</b> {{edit.editdate}}</p>
 					<p><b>Status:</b> {{edit.editstatus}}</p>
 					<p><b>Approved By:</b> {{approveby}}</p>
 				<div class="ui divider"></div>
 					<div class="ui medium buttons" style="margin-bottom: 15px">
-						<div class="ui green button medium">APPROVE</div>
+						<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui green button medium" ng-click="approveEdit(edit)">APPROVE</div>
 						<div class="or"></div>
-						<div class="ui red button medium">REJECT</div>
+						<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui red button medium"ng-click="rejectEdit(edit)">REJECT</div>
 					</div>
 			</div>
 			<div class="four wide column shaded-bg profile-image">
