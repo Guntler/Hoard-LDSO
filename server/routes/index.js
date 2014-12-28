@@ -7,9 +7,12 @@ module.exports = function (app, passport) {
         res.render('index.ejs');
     });
 
-    app.get('/partials/user/:name', managerPermissions, function (req, res) {
-        var name = req.params.name;
-        res.render('partials/user/' + name, {user: req.user});
+    app.get('/partials/user/frontpage.ejs', managerPermissions, function (req, res) {
+        res.render('partials/user/frontpage.ejs', {user: req.user});
+    });
+	
+	app.get('/partials/user/profile.ejs', adminPermissions, function (req, res) {
+        res.render('partials/user/profile.ejs', {user: req.user});
     });
 
     app.get('/partials/product/:name', managerPermissions, function (req, res) {
@@ -17,9 +20,8 @@ module.exports = function (app, passport) {
         res.render('partials/product/' + name, {user: req.user});
     });
 	
-	app.get('/partials/edit/:name', managerPermissions, function (req, res) {
-        var name = req.params.name;
-        res.render('partials/edit/' + name, {user: req.user});
+	app.get('/partials/edit/edit.ejs', adminPermissions, function (req, res) {
+        res.render('partials/edit/edit.ejs', {user: req.user});
     });
 
     app.get('/partials/common/:name', managerPermissions, function (req, res) {
@@ -36,8 +38,7 @@ module.exports = function (app, passport) {
 	app.get('/api/categories/id/:id',api.categoryById);
 
     app.get('/api/users/managers/all', adminApiPermissions, api.getAllManagers);
-    app.get('/api/users/managers/add/:id', adminApiPermissions, api.grantManagerPrivileges);
-    app.get('/api/users/managers/remove/:id', adminApiPermissions, api.removeManagerPrivileges);
+    app.get('/api/users/changePermissions/:id', adminApiPermissions, api.changePrivileges);
     app.get('/api/users/similar/:field/:input', adminApiPermissions, api.getSimilarFieldUsers);
 
     app.get('/api/users/all', adminApiPermissions, api.users);
@@ -139,6 +140,15 @@ function isLoggedIn(req) {
 function managerPermissions(req, res, next) {
     if (isLoggedIn(req)) {
         if (req.user.permissions === "Manager" || req.user.permissions === "Admin")
+            return next();
+    }
+
+    res.sendStatus(401);
+}
+
+function adminPermissions(req, res, next) {
+    if (isLoggedIn(req)) {
+        if (req.user.permissions === "Admin")
             return next();
     }
 

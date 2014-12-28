@@ -313,35 +313,21 @@ exports.updateUserEmail = function (userID, newEmail, callback) {
 
 //-------------------------------------------------------------------------------------------------------------
 
-exports.removeManagerPrivileges = function (userID, callback) {
+exports.changePrivileges = function (userID, permission, callback) {
+	console.log("db function is called");
     pg.connect(conString, function (err, user, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = user.query("UPDATE useraccount SET permissions = 'User' WHERE userid= $1", [userID]);
+        var query = user.query("UPDATE useraccount SET permissions = $1 WHERE userid= $2", [permission, userID]);
 
         query.on("row", function (row) {
             done();
             callback(null, row);
         });
-
-        query.on("error", function (err) {
-            done();
-            callback(err, null);
-        });
-    });
-};
-
-exports.grantManagerPrivileges = function (userID, callback) {
-    pg.connect(conString, function (err, user, done) {
-        if (err) {
-            return callback(err, null);
-        }
-
-        var query = user.query("UPDATE useraccount SET permissions = 'Manager' WHERE userid= $1", [userID]);
-
-        query.on("row", function (row) {
+		
+		query.on("end", function (row) {
             done();
             callback(null, row);
         });

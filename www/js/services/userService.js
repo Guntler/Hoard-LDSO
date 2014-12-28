@@ -85,6 +85,28 @@ hoard.service('userService',function($http, messageService) {
 				messageService.setError("There has been an unexpected error.");
 				callback(null);
 			});
+		},
+		changePermissions: function(userID, permission, callback) {
+			var Url = "/api/users/changePermissions/" + userID + "?permission=" + permission;
+			$http.get(Url).success(function(data){
+				if(data.success == false) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("There has been an unexpected error.");
+					callback(false);
+				}
+				else if(data.result == false) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("Unable to change user permissions.");
+					callback(false);
+				}
+				else {
+					messageService.setSuccess("User permissions successfully changed!");
+					callback(true);
+				}
+			}).error(function(data,status,headers, config) {
+				messageService.setError("There has been an unexpected error.");
+				callback(false);
+			});
 		}
 	};
 });

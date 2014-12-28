@@ -8,19 +8,22 @@ hoard.controller('userProfileController',function($scope, $routeParams, $locatio
 	$scope.pageRange = 3;
 	$scope.totalEdits = 0;
 	$scope.edits = [];
+	$scope.permissionSelected = null;
 	
 	$scope.userProfile = null;
 				
 	userService.getUserById($routeParams.id, function(data) {
 		$scope.userProfile = data;
 		if($scope.userProfile != null) {
-						editService.getEditCount("User", $scope.userId, function(data) {
-							$scope.totalEdits = data.integer;
-						});
-						editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, "User", $scope.userId, function(data) {
-							$scope.edits = data;
-						});
-					}
+			$scope.permissionSelected = $scope.userProfile.permissions;
+		
+			editService.getEditCount("User", $scope.userId, function(data) {
+				$scope.totalEdits = data.integer;
+			});
+			editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, "User", $scope.userId, function(data) {
+				$scope.edits = data;
+			});
+		}
 	});
 	
 	$scope.approveEdit = function(edit) {
@@ -37,5 +40,17 @@ hoard.controller('userProfileController',function($scope, $routeParams, $locatio
 			if(result)
 				edit.editstatus = "Denied";
 		});
+	}
+	
+	$scope.setSelectedPermission = function(permission) {
+		$scope.permissionSelected = permission;
+	}
+	
+	$scope.changePermissions = function() {
+		if($scope.permissionSelected != $scope.userProfile.permissions) {
+			userService.changePermissions($scope.userId, $scope.permissionSelected, function(result) {
+				$scope.userProfile.permissions = $scope.permissionSelected;
+			});
+		}
 	}
 });

@@ -135,18 +135,23 @@ exports.registerUser = function (req, res) {
 };
 
 //Remove Manager Privileges
-exports.removeManagerPrivileges = function (req, res) {
+exports.changePrivileges = function (req, res) {
     if (req.params.id == undefined) {
-        res.send({result: null, success: false});
+        res.send({result: false, success: false});
     } else {
-        users.removeManagerPrivileges(req.params.id, function (err, result) {
-            if (err)
-                res.send({result: null, success: false});
-            else if (result)
-                res.send({result: result, success: true});
-            else
-                res.send({result: null, success: true});
-        });
+		if(req.query.permission != "User" && req.query.permission != "Manager" && req.query.permission != "Admin")
+			res.send({result: false, success: false});
+		else {
+			users.changePrivileges(req.params.id, req.query.permission, function (err, result) {
+				console.log("callback is called");
+				if (err)
+					res.send({result: false, success: false});
+				else if (result)
+					res.send({result: true, success: true});
+				else
+					res.send({result: false, success: true});
+			});
+		}
     }
 };
 
