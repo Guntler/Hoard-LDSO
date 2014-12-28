@@ -16,6 +16,7 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.userFilter = false;
 	$scope.adminFilter = false;
 	$scope.managerFilter = false;
+	$scope.search = $routeParams.search;
 	
 	var filterVals = [];
 	if($scope.filterVal != undefined)
@@ -76,11 +77,11 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.users = [];
 	if($scope.tab == 'users') {
 		
-		userService.getUserCount($scope.filterBy, $scope.filterVal, function(data) {
+		userService.getUserCount($scope.filterBy, $scope.filterVal, $scope.search, function(data) {
 			$scope.totalTabItems = data.integer;
 		});
 		
-		userService.getUsersByPage($routeParams.page,$scope.itemsPerPage, $scope.filterBy, $scope.filterVal, function(data) {
+		userService.getUsersByPage($routeParams.page,$scope.itemsPerPage, $scope.filterBy, $scope.filterVal, $scope.search, function(data) {
 			$scope.users = data;
 		});
 		
@@ -303,5 +304,10 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 			if(result)
 				edit.editstatus = "Denied";
 		});
+	}
+	
+	$scope.executeSearch = function() {
+		if($scope.tab == "users")
+			$location.url('/home/users/1?filterBy=Permissions&filterVal=' + $scope.filterVal + '&search=' + $scope.search);
 	}
 });

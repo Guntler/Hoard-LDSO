@@ -21,7 +21,7 @@ exports.usersFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
         res.send({result: false});
     } else {
-        users.getUsersFromTo(req.params.from, req.params.to, req.query.filterBy, req.query.value, function (err, result) {
+        users.getUsersFromTo(req.params.from, req.params.to, req.query.filterBy, req.query.value, req.query.search, function (err, result) {
             if (err)
                 res.send({result: [], success: false});
             else if (result)
@@ -33,9 +33,11 @@ exports.usersFromTo = function (req, res) {
 };
 
 exports.userCount = function (req, res) {
-    users.getUserCount(req.query.filterBy, req.query.value, function (err, result) {
-        if (err || !result)
+    users.getUserCount(req.query.filterBy, req.query.value, req.query.search, function (err, result) {
+        if (err || !result) {
+			console.log(err);
             res.send({result: null, success: false});
+		}
         else
             res.send({result: result, success: true});
     });
@@ -45,7 +47,7 @@ exports.userCount = function (req, res) {
 //Get a user by id
 exports.userById = function (req, res) {
     users.findById(req.params.id, function (err, result) {
-        if (err)
+        if (err) 
             res.send({result: null, success:false});
         else
             res.send({result: result, success:true});
@@ -143,7 +145,6 @@ exports.changePrivileges = function (req, res) {
 			res.send({result: false, success: false});
 		else {
 			users.changePrivileges(req.params.id, req.query.permission, function (err, result) {
-				console.log("callback is called");
 				if (err)
 					res.send({result: false, success: false});
 				else if (result)
@@ -152,22 +153,6 @@ exports.changePrivileges = function (req, res) {
 					res.send({result: false, success: true});
 			});
 		}
-    }
-};
-
-//Grant Manager Privileges
-exports.grantManagerPrivileges = function (req, res) {
-    if (req.params.id == undefined) {
-        res.send({result: null, success: false});
-    } else {
-        users.grantManagerPrivileges(req.params.id, function (err, result) {
-            if (err)
-                res.send({result: null, success: false});
-            else if (result)
-                res.send({result: result, success: true});
-            else
-                res.send({result: null, success: false});
-        });
     }
 };
 
@@ -456,7 +441,6 @@ exports.editsFromTo = function (req, res) {
         editrequests.getEditsFromTo(req.params.from, req.params.to, req.query.filterBy, req.query.value, 
 			function (err, result) {
 				if (err) {
-					console.log(err);
 					res.send({result: [], success: false});
 				}
 				else if (result)

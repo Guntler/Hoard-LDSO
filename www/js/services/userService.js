@@ -1,9 +1,19 @@
 hoard.service('userService',function($http, messageService) {
 	return {
-		getUsersByPage: function(page, usersPerPage, filterBy, filterVal, callback) {
+		getUsersByPage: function(page, usersPerPage, filterBy, filterVal, search, callback) {
+			var first = true;
 			var Url = "/api/users/fromTo/"+page+"/"+usersPerPage;
-			if(filterBy != undefined && filterVal != undefined)
+			if(filterBy != undefined && filterBy != null && filterVal != undefined && filterVal != null) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
+				first = false;
+			}
+			if(search != null && search != null) {
+				if(first)
+					Url += "?";
+				else Url += "&";
+				Url += "search=" + search;
+			}
+			console.log(Url);
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
@@ -44,10 +54,18 @@ hoard.service('userService',function($http, messageService) {
 				callback(null);
 			});
 		},
-		getUserCount: function(filterBy, filterVal, callback) {
+		getUserCount: function(filterBy, filterVal, search, callback) {
 			var Url = "/api/users/count";
-			if(filterBy != undefined && filterVal != undefined)
+			if(filterBy != undefined && filterBy != null && filterVal != undefined && filterVal != null) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
+				first = false;
+			}
+			if(search != null && search != null) {
+				if(first)
+					Url += "?";
+				else Url += "&";
+				Url += "search=" + search;
+			}
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
