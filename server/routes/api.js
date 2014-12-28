@@ -198,7 +198,7 @@ exports.products = function (req, res) {
 };
 
 exports.productCount = function (req, res) {
-    products.getProductCount(function (err, result) {
+    products.getProductCount(req.query.search, function (err, result) {
         if (err || !result)
             res.send({result: null, success: false});
         else
@@ -247,7 +247,7 @@ exports.productsFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
         res.send({result: [], success: false});
     } else {
-        products.getProductsFromTo(req.params.from, req.params.to, function (err, result) {
+        products.getProductsFromTo(req.params.from, req.params.to, req.query.search, function (err, result) {
             if (err)
                 res.send({result: [], success: false});
             else if (result)

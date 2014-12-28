@@ -92,13 +92,26 @@ exports.getProducts = function (n, callback) {
     });
 };
 
-exports.getProductsFromTo = function (from, to, callback) {
+exports.getProductsFromTo = function (from, to, search, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product OFFSET $1 LIMIT $2", [(from - 1) * to, to]);
+		var queryStr = "SELECT * FROM product WHERE";
+		var currArg = 1;
+		var arr = [];
+		
+		if(search != undefined && search != null) {
+			queryStr += " similarity(name, $1) > 0.2 AND"
+			currArg++;
+			arr = [search];
+		}
+	
+		queryStr +=  " visible = true OFFSET $" + currArg + " LIMIT $" + (currArg+1);
+		
+		arr = arr.concat([(from - 1) * to, to]);
+        var query = product.query(queryStr, arr);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
@@ -141,13 +154,29 @@ exports.getAllProducts = function (callback) {
     });
 };
 
-exports.getProductCount = function (callback) {
+exports.getProductCount = function (search, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
-
-        var query = product.query("SELECT COUNT (*) FROM product WHERE visible");
+		
+		var queryStr = "SELECT COUNT(*) FROM product WHERE";
+		var currArg = 1;
+		var arr = [];
+		
+		if(search != undefined && search != null) {
+			queryStr += " similarity(name, $1) > 0.2 AND"
+			currArg++;
+			arr = [search];
+		}
+			
+		queryStr +=  " visible = true";
+		var query;
+		
+		if(arr != [])
+			query = product.query(queryStr, arr);
+		else
+			query = product.query(queryStr);
 
         query.on("row", function (row) {
             done();

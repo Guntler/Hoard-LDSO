@@ -7,7 +7,7 @@ hoard.service('userService',function($http, messageService) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 				first = false;
 			}
-			if(search != null && search != null) {
+			if(search != undefined && search != null) {
 				if(first)
 					Url += "?";
 				else Url += "&";
@@ -60,7 +60,7 @@ hoard.service('userService',function($http, messageService) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 				first = false;
 			}
-			if(search != null && search != null) {
+			if(search != undefined && search != null) {
 				if(first)
 					Url += "?";
 				else Url += "&";

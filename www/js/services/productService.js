@@ -24,8 +24,12 @@ hoard.service('productService',function($http, messageService) {
 	}
 	
 	return {
-			getProductsByPage: function(page, productsPerPage, callback) {
+			getProductsByPage: function(page, productsPerPage, search, callback) {
 				var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
+				if(search != undefined && search != null) {
+					Url += "?search=" + search;
+				}
+				
 				$http.get(Url).success(function(data){
 					if(data.success == false) {
 						if(messageService.getMessages().errorMessage == null)
@@ -66,8 +70,11 @@ hoard.service('productService',function($http, messageService) {
 					messageService.setError("There has been an unexpected error.");
 				});
 			},
-			getProductCount: function(callback) {
+			getProductCount: function(search, callback) {
 				var Url = "/api/products/count/";
+				if(search != undefined && search != null) {
+					Url += "?search=" + search;
+				}
 				$http.get(Url).success(function(data){
 					if(data.success == false) {
 						if(messageService.getMessages().errorMessage == null)
