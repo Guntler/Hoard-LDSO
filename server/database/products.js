@@ -32,13 +32,13 @@ exports.findById = function (id, callback) {
     });
 };
 
-exports.newProduct = function (name, link, category, callback, userid) {
+exports.newProduct = function (name, link, category, userid, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = ("INSERT INTO product (name, link, category, visible, addedby) VALUES ($1, $2, $3, 'false', $4", [name, link, category, userid]);
+        var query = product.query("INSERT INTO product (name, link, category, visible, addedby) VALUES ($1, $2, $3, 'false', $4", [name, link, category, userid]);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
