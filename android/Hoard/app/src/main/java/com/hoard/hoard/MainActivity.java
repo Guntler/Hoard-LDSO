@@ -109,7 +109,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        Session session = new Session(MainActivity.this);
         if(session.checkSessionForUser()) {
             TextView menuProfileTextView = (TextView) findViewById(R.id.top_layout_menu_profile);
             menuProfileTextView.setText(session.getUserEmail());
@@ -231,9 +230,9 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        ImageButton favorites = (ImageButton) findViewById(R.id.favorite_button);
+        ImageButton favoritesButton = (ImageButton) findViewById(R.id.favorite_button);
 
-        favorites.setOnClickListener(new View.OnClickListener() {
+        favoritesButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -323,7 +322,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.interrupted();
                 e.printStackTrace();

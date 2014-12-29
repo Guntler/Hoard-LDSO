@@ -26,6 +26,41 @@
         android:layout_centerHorizontal="true"
         style="?android:attr/progressBarStyleLarge" />
 
+
+    <RelativeLayout
+        android:id="@+id/top_layout_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@color/red">
+
+        <TextView
+            android:id="@+id/top_layout_menu_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/menu_item_profile"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:maxLength="10"
+            android:gravity="end"
+            android:background="@color/red"/>
+
+        <TextView
+            android:id="@+id/top_layout_menu_logout"
+            android:layout_below="@+id/top_layout_menu_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/menu_item_logout"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:gravity="end"
+            android:background="@color/red"/>
+
+    </RelativeLayout>
+
+
     <RelativeLayout
         android:id="@+id/top_layout_bar"
         android:layout_width="fill_parent"
