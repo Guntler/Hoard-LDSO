@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,6 +63,11 @@ public class MainActivity extends FragmentActivity {
     private ProgressBar urlLoadProgressBar;
     private boolean visibility = false;
 
+    /**
+     * Internet Checker
+     */
+    private boolean isConnected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +78,23 @@ public class MainActivity extends FragmentActivity {
         notificationBar = (RelativeLayout) findViewById(R.id.top_layout_notification_bar);
         TextView notificationTextView = (TextView) findViewById(R.id.notification_bar_text_edit);
 
+        menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
+        menuView.setVisibility(View.GONE);
+
+        isConnected = isNetworkConnected();
+        if(!isConnected) {
+            notificationTextView.setText(getResources().getString(R.string.notification_no_connection));
+
+            new NotificationShowDelayAsyncTask(this).execute();
+            return;
+        }
+
         if(getIntent().hasExtra("notification")) {
             notificationTextView.setText(getIntent().getStringExtra("notification"));
 
-            new NotificationShowDelayAsyncTask().execute();
+            new NotificationShowDelayAsyncTask(this).execute();
         }
 
-        menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
-        menuView.setVisibility(View.GONE);
         TextView menuLogOutTextView = (TextView) findViewById(R.id.top_layout_menu_logout);
         menuLogOutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,9 +244,23 @@ public class MainActivity extends FragmentActivity {
     }
 
     /**
+     * Checks if the application has internet connection
+     */
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        return (cm.getActiveNetworkInfo() != null);
+    }
+
+    /**
      * AsyncTask Class for delaying show notification
      */
     class NotificationShowDelayAsyncTask extends AsyncTask<String, String, String> {
+
+        MainActivity mainActivity;
+
+        public NotificationShowDelayAsyncTask(MainActivity mainActivity){
+            this.mainActivity = mainActivity;
+        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -254,7 +283,7 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    new NotificationHideDelayAsyncTask().execute();
+                    new NotificationHideDelayAsyncTask(mainActivity).execute();
                 }
 
                 @Override
@@ -269,6 +298,12 @@ public class MainActivity extends FragmentActivity {
      * AsyncTask Class for delaying hide notification
      */
     class NotificationHideDelayAsyncTask extends AsyncTask<String, String, String> {
+
+        MainActivity mainActivity;
+
+        public NotificationHideDelayAsyncTask(MainActivity mainActivity){
+            this.mainActivity = mainActivity;
+        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -285,6 +320,40 @@ public class MainActivity extends FragmentActivity {
         protected void onPostExecute(String string) {
             Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.notification_up);
             notificationBar.startAnimation(anim);
+
+            if(!isConnected) {
+                new CloseApplicationAsyncTask(mainActivity).execute();
+            }
+        }
+    }
+
+    /**
+     * AsyncTask Class for closing the application.
+     */
+    class CloseApplicationAsyncTask extends AsyncTask<String, String, String> {
+
+        MainActivity mainActivity;
+
+        public CloseApplicationAsyncTask(MainActivity mainActivity){
+            this.mainActivity = mainActivity;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            mainActivity.moveTaskToBack(true);
+            mainActivity.finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 

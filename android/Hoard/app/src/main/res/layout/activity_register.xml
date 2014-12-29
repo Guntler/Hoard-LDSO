@@ -47,7 +47,8 @@
         android:textColor="@color/black"
         android:textCursorDrawable="@null"
         android:hint="@string/hint_confirm_password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:imeOptions="actionDone" />
 
     <ImageButton
         android:id="@+id/register_button"
