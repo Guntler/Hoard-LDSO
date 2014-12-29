@@ -210,7 +210,7 @@ exports.newProduct = function (req, res) {
     if (req.body.name == undefined || req.body.link == undefined || req.body.category == undefined || req.body.imagename == undefined || req.user == undefined) {
         res.send({result: false, success: false});
     } else {
-        products.newProduct(req.body.name, req.body.link, req.body.category, req.body.imagename, req.user.userid, function (err, result){
+        products.newProduct(req.body.name, req.body.link, req.body.imagename, req.body.category, req.user.userid, function (err, result){
             if (err) {
 			console.log(err);
                 res.send({result: false, success: false});
