@@ -208,15 +208,15 @@ exports.productCount = function (req, res) {
 
 exports.newProduct = function (req, res) {
     if (req.params.name == undefined || req.params.link == undefined || req.params.category == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         products.newProduct(req.params.name, req.params.link, req.params.category, req.user.userid, function (err, result){
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: true, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
