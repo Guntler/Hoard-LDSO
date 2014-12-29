@@ -39,11 +39,11 @@ exports.newProduct = function (name, link, imagename, category, userid,callback)
         }
 
 		var query = product.query("INSERT INTO product (name, link, imagename, category, visible, addedby) VALUES ($1, $2, $3, $4, 'false', $5)", [name, link, imagename, category, userid]);
-		console.log(query);
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
+			console.log(result);
         });
-
+		
         query.on("end", function (result) {
             EditRequests.newRequest(result.rows[0].productid, userid, 'Add', "Added Product", "", [], function (res, err){
                 if(err){

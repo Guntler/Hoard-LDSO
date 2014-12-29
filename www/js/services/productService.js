@@ -26,7 +26,7 @@ hoard.service('productService',function($http, $location, messageService) {
 	return {
 			addProduct: function(name,link,category,image) {
 				var Url = "/api/products/new/";
-				var info = {name: name, link: link, category:category, imagename:"bottle-opener-fedora-300x250.jpg"};
+				var info = {name: name, link: link, imagename:"bottle-opener-fedora-300x250.jpg", category:category};
 				$http.post(Url,info).success(function(data){
 					if(data.success == false) {
 						alert("Something happened");
