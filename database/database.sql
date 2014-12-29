@@ -64,7 +64,6 @@ CREATE TABLE editRequest (
 	approvedBy INTEGER REFERENCES userAccount(userID),
 	editType editType NOT NULL,
 	editStatus editStatus NOT NULL DEFAULT 'Pending',
-	description VARCHAR(300),
 	name VARCHAR(200),
 	link VARCHAR(500),
 	imageName VARCHAR(128),

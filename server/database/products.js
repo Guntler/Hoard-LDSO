@@ -103,7 +103,7 @@ exports.getProductsFromTo = function (from, to, search, callback) {
 		var arr = [];
 		
 		if(search != undefined && search != null) {
-			queryStr += " similarity(name, $1) > 0.2 AND"
+			queryStr += " similarity(name, $1) > 0.1 AND"
 			currArg++;
 			arr = [search];
 		}
