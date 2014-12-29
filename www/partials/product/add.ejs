@@ -25,7 +25,7 @@
 							<div class="field">
 								<label>Product Name</label>
 								<div class="ui icon input">
-									<input ng-model="pName" type="text" placeholder="The Amazing....">
+									<input ng-model="pName" name="pName" type="text" placeholder="The Amazing....">
 									<div class="ui corner label">
 										<i class="icon asterisk"></i>
 									</div>
@@ -37,7 +37,7 @@
 										<div class="ui label">
 											http://
 										</div>
-										<input ng-model="pLink" type="text" placeholder="thewebsite.com">
+										<input ng-model="pLink" name="pLink" type="text" placeholder="thewebsite.com">
 										<div class="ui corner label">
 											<i class="icon asterisk"></i>
 										</div>
@@ -47,8 +47,7 @@
 						
 						<div class="field">
 							<label>Pick a category from the following list:</label>
-							<select class="ui dropdown" ng-model="pCategory">
-								<option ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</option>
+							<select ng-options="category.categoryid as category.name for category in categories" ng-model="pCategory" name="pCategory" class="ui dropdown">
 							</select>
 							</div>
 						</div>
@@ -58,7 +57,7 @@
 							<label>Image</label>
 							<div class="row">
 								<div class="ui selection dropdown">
-									<input type="file" ng-model="pImage">
+									<input type="file" ng-model="pImage" name="pImage">
 								</div>
 							</div>
 						</div>

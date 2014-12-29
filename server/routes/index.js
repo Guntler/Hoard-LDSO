@@ -73,7 +73,7 @@ module.exports = function (app, passport) {
 	app.get('/api/products/favoriteDown/:productid', api.favoriteDown);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct);
     app.get('/api/products/similar/:field/:input', api.getSimilarFieldProducts);
-    app.get('/api/products/new/:name/:link/:category', managerApiPermissions, api.newProduct);
+    //app.get('/api/products/new/:name/:link/:category', managerApiPermissions, api.newProduct);
     
     app.get('/api/editrequests/byProduct/:product', adminApiPermissions, api.getEditsOfProduct);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
@@ -95,6 +95,8 @@ module.exports = function (app, passport) {
 
     //----------- POSTS -----------//
 
+	app.post('/api/products/new', api.newProduct);
+	
     app.post('/api/users/signin', function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {
             if (err) {
