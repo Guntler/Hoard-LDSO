@@ -181,20 +181,14 @@ INSERT INTO favoriteProduct (productID, userID, position, visible, lastFavorited
 INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate)
 VALUES (1, 7, NULL, 'Delete', 'Pending', 'Crappy product. May cause Ebola epidemic.', '2014-09-15 20:38:40');
 
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate) 
-VALUES (2, 7, 9, 'Delete', 'Denied', 'Caused Legionella epidemic.', '2014-08-15 21:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, editDate)
+VALUES (2, 7, NULL, 'Delete', 'Pending', 'Caused Legionella epidemic.', '2014-08-15 21:38:40');
 
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) 
-VALUES (3, 8, NULL, 'Edit', 'Pending', 'Price, Category', 'Product was inserted in the wrong category with the wrong price', '2014-09-11 20:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, category, editDate)
+VALUES (3, 8, NULL, 'Edit', 'Pending', 'Product was inserted in the wrong category.', 2, '2014-09-11 20:38:40');
 
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) 
-VALUES (4, 8, 9, 'Edit', 'Approved', 'Name', 'Name product was missing.', '2014-10-16 20:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, name, editDate)
+VALUES (4, 8, NULL, 'Edit', 'Pending', 'Product name was missing.', 'Lost: The Game', '2014-10-16 20:38:40');
 
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) 
-VALUES (5, 8, NULL, 'Edit', 'Pending', 'Link', 'Product number was missing.', '2014-11-17 20:38:40');
-
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) 
-VALUES (5, 8, 10, 'Edit', 'Approved', 'Name', 'Typo in the products name', '2014-02-17 20:38:40');
-
-INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, description, reason, editDate) 
-VALUES (6, 8, 10, 'Edit', 'Pending', 'Category', 'Product inserted in the wrong category', '2014-10-17 20:38:40');
+INSERT INTO editRequest (productID, submittedBy, approvedBy, editType, editStatus, reason, name, editDate)
+VALUES (5, 8, 9, 'Edit', 'Approved', 'Typo in the products name', 'Banana Split', '2014-02-17 20:38:40');
