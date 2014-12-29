@@ -505,7 +505,7 @@ exports.requestsByManagerId = function (req, res) {
 };
 
 exports.newRequest = function(req, res) {
-    if (req.body.productid == undefined || req.body.editType == undefined || req.body.description == undefined || req.body.reason == undefined) {
+    if (req.body.productid == undefined || req.body.editType == undefined || req.body.description == undefined || req.body.reason == undefined || req.body.edittype != "Add" || req.body.edittype != "Edit" || req.body.edittype != "Delete") {
         res.send({result: false, success: false});
     } else {
         editrequests.newRequest(req.body.productid, req.user.userid, req.body.editType, req.body.description, req.body.reason, req.body, function (err, result) {
