@@ -56,7 +56,7 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 		registerUser: function(email,password) {
 			var Url = "/api/users/register";
 			var info = {email: email, password: password};
-			$http.post(Url).success(function(data){
+			$http.post(Url,info).success(function(data){
 				if(data.success == false) {
 					alert("User could not be created.");
 				}
