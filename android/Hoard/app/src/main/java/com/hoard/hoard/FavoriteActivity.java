@@ -1,5 +1,8 @@
 package com.hoard.hoard;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hoard.hoard.api.Favorites;
 import com.hoard.hoard.api.HoardAPI;
@@ -20,6 +26,11 @@ import com.hoard.hoard.api.Product;
  */
 
 public class FavoriteActivity extends Activity {
+
+    /**
+     * Session
+     */
+    private Session session;
 
     /*
      * Hoard Api
@@ -40,6 +51,12 @@ public class FavoriteActivity extends Activity {
      * ProgressBar
      */
     private ProgressBar progressBar;
+
+    /*
+     * Menu View
+     */
+    private RelativeLayout menuView;
+    private boolean menuDown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +80,104 @@ public class FavoriteActivity extends Activity {
 
         progressBar = (ProgressBar)findViewById(R.id.favorite_progressbar);
         progressBar.setVisibility(View.VISIBLE);
+
+        session = new Session(FavoriteActivity.this);
+
+        TextView menuLogOutTextView = (TextView) findViewById(R.id.top_layout_menu_logout);
+        menuLogOutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (menuDown) {
+                    session.logOut();
+
+                    Intent i = new Intent(FavoriteActivity.this, LoginActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                }
+            }
+        });
+
+        if(session.checkSessionForUser()) {
+            TextView menuProfileTextView = (TextView) findViewById(R.id.top_layout_menu_profile);
+            menuProfileTextView.setText(session.getUserEmail());
+        }
+
+        menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
+        menuView.setVisibility(View.GONE);
+
+        /*
+         Instantiate the buttons from the view.
+         */
+        ImageButton settings = (ImageButton) findViewById(R.id.settings_button);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (menuDown) {
+                    AnimatorSet menuUp = (AnimatorSet) AnimatorInflater.loadAnimator(FavoriteActivity.this, R.animator.menu_up);
+                    menuUp.setTarget(menuView);
+                    menuUp.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animator) {
+
+                        }
+                    });
+                    menuUp.start();
+                } else {
+                    AnimatorSet menuDown = (AnimatorSet) AnimatorInflater.loadAnimator(FavoriteActivity.this, R.animator.menu_down);
+                    menuDown.setTarget(menuView);
+                    menuDown.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) {
+                            menuView.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animator) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animator) {
+
+                        }
+                    });
+                    menuDown.start();
+                }
+
+                menuDown = !menuDown;
+            }
+        });
+
+        ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                FavoriteActivity.this.finish();
+            }
+        });
 
         new FavoritesAsyncTask().execute();
     }
