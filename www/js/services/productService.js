@@ -1,4 +1,4 @@
-hoard.service('productService',function($http, messageService) {
+hoard.service('productService',function($http, $location, messageService) {
 	
 	var categories = function(callback) {
 		var Url = "/api/categories/all";
@@ -24,8 +24,27 @@ hoard.service('productService',function($http, messageService) {
 	}
 	
 	return {
-			getProductsByPage: function(page, productsPerPage, callback) {
+			addProduct: function(name,link,category,image) {
+				var Url = "/api/products/new/";
+				var info = {name: name, link: link, category:category, imagename:"bottle-opener-fedora-300x250.jpg"};
+				$http.post(Url,info).success(function(data){
+					if(data.success == false) {
+						alert("Something happened");
+					}
+					else {
+						alert(data);
+						$location.url('/home/products/1');
+					}
+				}).error(function(data,status,headers, config) {
+					messageService.setError("There has been an unexpected error. The product could not be added.");
+				});
+			},
+			getProductsByPage: function(page, productsPerPage, search, callback) {
 				var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
+				if(search != undefined && search != null) {
+					Url += "?search=" + search;
+				}
+				
 				$http.get(Url).success(function(data){
 					if(data.success == false) {
 						if(messageService.getMessages().errorMessage == null)
@@ -66,8 +85,11 @@ hoard.service('productService',function($http, messageService) {
 					messageService.setError("There has been an unexpected error.");
 				});
 			},
-			getProductCount: function(callback) {
+			getProductCount: function(search, callback) {
 				var Url = "/api/products/count/";
+				if(search != undefined && search != null) {
+					Url += "?search=" + search;
+				}
 				$http.get(Url).success(function(data){
 					if(data.success == false) {
 						if(messageService.getMessages().errorMessage == null)

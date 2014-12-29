@@ -17,7 +17,9 @@
         android:id="@+id/top_layout_notification_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp">
 
         <TextView
             android:id="@+id/notification_bar_text_edit"
@@ -49,6 +51,7 @@
             android:text="@string/menu_item_profile"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:maxLength="10"
             android:gravity="end"
             android:background="@color/red"/>
 

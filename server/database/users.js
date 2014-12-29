@@ -202,7 +202,7 @@ exports.getAllUsers = function (callback) {
     });
 };
 
-exports.getUsersFromTo = function (from, to, filterBy, value, callback) {
+exports.getUsersFromTo = function (from, to, filterBy, value, search, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
             return callback(err, null);
@@ -216,17 +216,30 @@ exports.getUsersFromTo = function (from, to, filterBy, value, callback) {
 			filterVals = value.split("|");
 		}
 		var i = 0;
+		var currArg = 1;
+		var arr = [];
 		
 		if(filterBy == "Permissions") {
 			queryStr += "WHERE ";
 			
+			if(search != undefined && search != null) {
+				queryStr += "similarity(email, $1) > 0.5"
+				currArg++;
+				arr = [search];
+			}
+			
 			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "permissions = $" + (i+1);
+				if(i == 0 && currArg > 1)
+					queryStr += " AND ( ";
+				queryStr += "permissions = $" + (i+currArg);
 				if(i < filterVals.length-1)
 					queryStr += " OR ";
+				else if(currArg > 1)
+					queryStr += ")";
 			}
-			queryStr += " ORDER BY userID OFFSET $" + (i+1) + " LIMIT $" + (i+2);
-			var arr = filterVals.concat([(from - 1) * to, to]);
+			queryStr += " ORDER BY userID OFFSET $" + (i+currArg) + " LIMIT $" + (i+currArg+1);
+			arr = arr.concat(filterVals);
+			arr = arr.concat([(from - 1) * to, to]);
 			query = user.query(queryStr, arr);
 		}
 		else {
@@ -250,7 +263,7 @@ exports.getUsersFromTo = function (from, to, filterBy, value, callback) {
     });
 };
 
-exports.getUserCount = function (filterBy, value, callback) {
+exports.getUserCount = function (filterBy, value, search, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
             return callback(err, null);
@@ -264,16 +277,31 @@ exports.getUserCount = function (filterBy, value, callback) {
 			filterVals = value.split("|");
 		}
 		var i = 0;
+		var currArg = 1;
+		var arr = [];
 		
 		if(filterBy == "Permissions") {
 			queryStr += "WHERE ";
 			
+			if(search != undefined && search != null) {
+				queryStr += "similarity(email, $1) > 0.5"
+				currArg++;
+				arr = [search];
+			}
+			
 			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "permissions = $" + (i+1);
+				if(i == 0 && currArg > 1)
+					queryStr += " AND ( ";
+				queryStr += "permissions = $" + (i+currArg);
 				if(i < filterVals.length-1)
 					queryStr += " OR ";
+				else if(currArg > 1)
+					queryStr += ")";
 			}
-			query = user.query(queryStr, filterVals);
+			
+			
+			arr = arr.concat(filterVals);
+			query = user.query(queryStr, arr);
 		}
 		else {
 			query = user.query(queryStr);
@@ -313,35 +341,20 @@ exports.updateUserEmail = function (userID, newEmail, callback) {
 
 //-------------------------------------------------------------------------------------------------------------
 
-exports.removeManagerPrivileges = function (userID, callback) {
+exports.changePrivileges = function (userID, permission, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = user.query("UPDATE useraccount SET permissions = 'User' WHERE userid= $1", [userID]);
+        var query = user.query("UPDATE useraccount SET permissions = $1 WHERE userid= $2", [permission, userID]);
 
         query.on("row", function (row) {
             done();
             callback(null, row);
         });
-
-        query.on("error", function (err) {
-            done();
-            callback(err, null);
-        });
-    });
-};
-
-exports.grantManagerPrivileges = function (userID, callback) {
-    pg.connect(conString, function (err, user, done) {
-        if (err) {
-            return callback(err, null);
-        }
-
-        var query = user.query("UPDATE useraccount SET permissions = 'Manager' WHERE userid= $1", [userID]);
-
-        query.on("row", function (row) {
+		
+		query.on("end", function (row) {
             done();
             callback(null, row);
         });
