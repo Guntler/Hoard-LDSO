@@ -48,10 +48,7 @@
 						<div class="field">
 							<label>Pick a category from the following list:</label>
 							<select class="ui dropdown" ng-model="pCategory">
-								<option value="">Category</option>
-								<div class="menu">
-									<div ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</div>
-								</div>
+								<option ng-repeat="category in categories" class="item" data-value="{{category.id}}">{{category.name}}</option>
 							</select>
 							</div>
 						</div>
@@ -67,11 +64,11 @@
 						</div>
 						<div class="ui divider"></div>
 						<div class="row">
-							<div class="ui primary button">
+							<div id="product-submit" ng-click="addProduct(pName,pLink,pCategory,pImage)" type="submit" class="ui primary button">
 								Add product
 							</div>
-							<div class="ui discard button">
-								Discard
+							<div class="ui error message">
+								{{errorMessage}}
 							</div>
 						</div>
 					</div>

@@ -1,4 +1,4 @@
-hoard.service('productService',function($http, messageService) {
+hoard.service('productService',function($http, $location, messageService) {
 	
 	var categories = function(callback) {
 		var Url = "/api/categories/all";
@@ -24,6 +24,20 @@ hoard.service('productService',function($http, messageService) {
 	}
 	
 	return {
+			addProduct: function(email,link,category,image) {
+				var Url = "/api/products/new/"+name+"/"+link+"/"+category;
+				$http.get(Url).success(function(data){
+					if(data.success == false) {
+						alert("Something happened");
+					}
+					else {
+						alert(data);
+						$location.url('/home/products/1');
+					}
+				}).error(function(data,status,headers, config) {
+					messageService.setError("There has been an unexpected error. The product could not be added.");
+				});
+			},
 			getProductsByPage: function(page, productsPerPage, callback) {
 				var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
 				$http.get(Url).success(function(data){
