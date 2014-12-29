@@ -3,7 +3,7 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 	return {
 		checkUserExists: function(email) {
 			var Url = "/api/users/email/"+email;
-			$http.post(Url).success(function(data){
+			$http.get(Url).success(function(data){
 				if(data.user != false)
 				{
 					return true;
