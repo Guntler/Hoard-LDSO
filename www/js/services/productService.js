@@ -39,6 +39,21 @@ hoard.service('productService',function($http, $location, messageService) {
 					messageService.setError("There has been an unexpected error. The product could not be added.");
 				});
 			},
+			deleteProduct: function(id, reason, ) {
+				var Url = "/api/editrequests/new/";
+				var info = {productid: name, link: link, imagename:"bottle-opener-fedora-300x250.jpg", category:category};
+				$http.post(Url,info).success(function(data){
+					if(data.success == false) {
+						alert("Something happened");
+					}
+					else {
+						alert(data);
+						$location.url('/home/products/1');
+					}
+				}).error(function(data,status,headers, config) {
+					messageService.setError("There has been an unexpected error. The product could not be added.");
+				});
+			},
 			getProductsByPage: function(page, productsPerPage, search, callback) {
 				var Url = "/api/products/fromTo/"+page+"/"+productsPerPage;
 				if(search != undefined && search != null) {

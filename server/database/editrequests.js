@@ -273,6 +273,8 @@ exports.newRequest = function (productid, userid, editType, description, reason,
         if (err) {
             return callback(err, null);
         }
+		
+		var productExists = false;
 
         if (fields.name == undefined) fields.name = null;
         if (fields.link == undefined) fields.link = null;
@@ -282,25 +284,26 @@ exports.newRequest = function (productid, userid, editType, description, reason,
         var query1 = editrequest.query("SELECT * FROM product WHERE productid = $1", [productid]);
 
         query1.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            //result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+			productExists = true;
         });
 
         query1.on("end", function (result) {
-            var resultData = result.rows[0];
 
-            if (result.rows.length < 1) {
+            if (!productExists) {
                 done();
                 callback(err, null);
             } else {
-                var query2 = editrequest.query("INSERT INTO product (productid, submittedby, edittype, description, name, link, imageName, category, reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [productid, userid, editType, description, fields.name, fields.link, fields.imageName, fields.category, reason]);
+                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, description, name, link, imageName, category, reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [productid, userid, editType, description, fields.name, fields.link, fields.imageName, fields.category, reason]);
 
-                query2.on("row", function (row, result2) {
+                /*query2.on("row", function (row, result2) {
                     result2.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
-                });
+                });*/
 
                 query2.on("end", function (result2) {
+					
                     done();
-                    callback(null, result2);
+                    callback(null, new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
                 });
 
                 query2.on("error", function (err) {

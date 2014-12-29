@@ -505,16 +505,16 @@ exports.requestsByManagerId = function (req, res) {
 };
 
 exports.newRequest = function(req, res) {
-    if (req.params.productid == undefined || req.params.editType == undefined || req.params.description == undefined || req.params.reason == undefined) {
-        res.send({result: false});
+    if (req.body.productid == undefined || req.body.editType == undefined || req.body.description == undefined || req.body.reason == undefined) {
+        res.send({result: false, success: false});
     } else {
-        editrequests.newRequest(req.params.productid, req.user.userid, req.params.editType, req.params.description, req.params.reason, req.body, function (err, result) {
+        editrequests.newRequest(req.body.productid, req.user.userid, req.body.editType, req.body.description, req.body.reason, req.body, function (err, result) {
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: true, success: false});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };

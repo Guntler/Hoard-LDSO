@@ -85,7 +85,7 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
-    app.get('/api/editrequests/new/:productid/:editType/:description/:reason', managerApiPermissions, api.newRequest);
+    //app.get('/api/editrequests/new/:productid/:editType/:description/:reason', managerApiPermissions, api.newRequest);
 
     app.get('/api/editrequests/similar/:field/:input', api.getSimilarFieldEdits);
 
@@ -95,7 +95,8 @@ module.exports = function (app, passport) {
 
     //----------- POSTS -----------//
 
-	app.post('/api/products/new', api.newProduct);
+	app.post('/api/products/new', managerApiPermissions, api.newProduct);
+	app.post('/api/editrequests/new', managerApiPermissions, api.newRequest);
 	
     app.post('/api/users/signin', function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {

@@ -177,6 +177,8 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 		
 
 	//Products
+	$scope.productToDelete = null;
+	$scope.reasonToDelete = "";
 	$scope.products = [];
 	if($scope.tab == 'products') {
 		productService.getProductCount($scope.search, function(data) {
@@ -186,6 +188,16 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 		productService.getProductsByPage($routeParams.page,$scope.itemsPerPage, $scope.search, function(data) {
 			$scope.products = data;
 		});
+	}
+	
+	$scope.showDeleteModal =  function(id) {
+		console.log(id);
+		$scope.productToDelete = id;
+		$('.modal').modal('show');
+	}
+	
+	$scope.deleteProduct = function() {
+		
 	}
 	
 	//Edits

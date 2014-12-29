@@ -42,12 +42,13 @@
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
 						<span>Name</span>
-						<div class="right floated list-column-2">Creation Date</div>
+						<div class="right floated list-column-2" style="margin-right: 18% !important">Creation Date</div>
 					</div>
 					
 					<div ng-repeat="product in products" class="item">
 						<div class="left floated"><input type="checkbox" name="selected"></div>
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
+						<div class="right floated date"><button class="ui red button tiny" ng-click="showDeleteModal(product.id)">delete</button></div>
 						<div class="right floated date list-column-2">{{product.dateadded}}</div>
 						<div class="name" >
 							<a href="#/products/profile/{{product.id}}/1">{{product.name | cut:true:30:' ...'}}</a>
@@ -142,6 +143,28 @@
 
 			<div data-pagination-directive total-items="totalTabItems" current-page="currentPage"
 					page-range="pageRange" items-per-page="itemsPerPage" item-type="tab" redirect-url="/home"></div>
+					
+			<div class="ui modal">
+			  <i class="close icon"></i>
+			  <div class="header">
+				Deleting Product
+			  </div>
+			  <div class="content">
+				<div class="description" style="text-align: center">
+				  <p>In a short text, explain your reasoning for deleting this product.</p>
+				  <textarea rows="4" cols="70" ng-model="reasonToDelete"></textarea>
+				</div>
+			  </div>
+			  <div class="actions">
+				<div class="ui red button">
+				  Cancel
+				</div>
+				<div class="ui positive right labeled icon button">
+				  Accept
+				  <i class="checkmark icon"></i>
+				</div>
+			  </div>
+			</div>
 		</div>
 	</div>
 </div>
