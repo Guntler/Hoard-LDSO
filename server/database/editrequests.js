@@ -164,7 +164,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
          
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, row.editdate));
         });
 
         query.on("end", function (result) {
@@ -301,9 +301,8 @@ exports.newRequest = function (productid, userid, editType, description, reason,
                 });*/
 
                 query2.on("end", function (result2) {
-					
                     done();
-                    callback(null, new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+                    callback(null, true);
                 });
 
                 query2.on("error", function (err) {

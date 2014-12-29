@@ -144,7 +144,7 @@
 			<div data-pagination-directive total-items="totalTabItems" current-page="currentPage"
 					page-range="pageRange" items-per-page="itemsPerPage" item-type="tab" redirect-url="/home"></div>
 					
-			<div class="ui modal">
+			<div class="ui modal delete-modal">
 			  <i class="close icon"></i>
 			  <div class="header">
 				Deleting Product
@@ -159,7 +159,7 @@
 				<div class="ui red button">
 				  Cancel
 				</div>
-				<div class="ui positive right labeled icon button">
+				<div class="ui positive right labeled icon button" ng-click="deleteProduct()">
 				  Accept
 				  <i class="checkmark icon"></i>
 				</div>

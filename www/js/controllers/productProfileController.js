@@ -7,6 +7,7 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 	$scope.pageRange = 3;
 	$scope.totalEdits = 0;
 	$scope.edits = [];
+	$scope.reasonToDelete = "";
 	
 	$scope.addedBy = null;
 	$scope.product = null;
@@ -36,6 +37,14 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 			if(result)
 				edit.editstatus = "Approved";
 		});
+	}
+	
+	$scope.showDeleteModal =  function() {
+		$('.modal.delete-modal').modal('show');
+	}
+	
+	$scope.deleteProduct = function() {
+		productService.deleteProduct($scope.productId, $scope.reasonToDelete);
 	}
 	
 	$scope.rejectEdit = function(edit) {
