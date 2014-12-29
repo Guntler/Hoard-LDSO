@@ -1,4 +1,4 @@
-hoard.controller('WelcomeController', function ($scope, sessionService, messageService, userService ) {
+hoard.controller('WelcomeController', function ($scope, sessionService, messageService, userService) {
 
     $scope.password = "";
     $scope.email = "";
@@ -23,17 +23,36 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
             $scope.successMessage = messageService.getMessages().successMessage;
         });
 
-	$scope.fblogin = function () {
-		checkLoginState();
-		
-		//check if user exists
-		
-		//if not exists, fetch data and call
-			//sessionService.registerUser(email,password);
-		//if exists
-			//sessionService.signin(email,password);
-	};
-	
+    $scope.fblogin = function () {
+        var user;
+        checkLoginState(function (err, result) {
+            if (result) {
+                console.log("pintou");
+
+                FB.api('/me', function (response) {
+                    console.log(JSON.stringify(response));
+                    sessionService.signin(response.email, response.id);
+                });
+
+            } else {
+                FB.login(function (response) {
+
+                    FB.api('/me', function (response) {
+                        console.log(JSON.stringify(response));
+
+                        if(sessionService.checkUserExists(response.email)){
+                            sessionService.signin(response.email, response.id);
+                        } else {
+                            sessionService.registerUser(response.email, response.id);
+                        }
+                    });
+
+                }, {scope: 'public_profile,email'});
+            }
+        })
+        console.log(user);
+    };
+
     $scope.signin = function () {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.email.match(re)) {

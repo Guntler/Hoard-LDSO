@@ -1,5 +1,5 @@
 // This is called with the results from from FB.getLoginStatus().
-function statusChangeCallback(response) {
+function statusChangeCallback(response, callback) {
     console.log('statusChangeCallback');
     console.log(response);
     // The response object is returned with a status field that lets the
@@ -9,29 +9,30 @@ function statusChangeCallback(response) {
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
         console.log("CONNECTED!\n");
-        loginToSite();
+        callback(null, true);
     } else if (response.status === 'not_authorized') {
-        console.log("NOT AUTHORIZED!\n");
         // The person is logged into Facebook, but not your app.
-        FB.login(function(response) {
-            loginToSite();
-        }, {scope: 'public_profile,email'});
+        callback(null, false);
     } else {
         console.log("NOT LOGGED TO FACEBOOK!\n");
         // The person is not logged into Facebook, so we're not sure if
         // they are logged into this app or not.
-        FB.login(function(response) {
-            loginToSite();
-        }, {scope: 'public_profile,email'});
+        callback(null, false);
     }
 }
 
 // This function is called when someone finishes with the Login
 // Button.  See the onlogin handler attached to it in the sample
 // code below.
-function checkLoginState() {
+var checkLoginState = function(callback) {
     FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
+        statusChangeCallback(response, function(err, result){
+            if(result) {
+                callback(null, true);
+            } else {
+                callback(null, false);
+            }
+        });
     });
 }
 

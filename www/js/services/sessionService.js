@@ -1,6 +1,17 @@
 hoard.service('sessionService', function($http, $location, $templateCache, messageService) {
 	var user = null;
 	return {
+		checkUserExists: function(email) {
+			var Url = "/api/users/email"+email;
+			$http.post(Url).success(function(data){
+				if(data.user != false)
+				{
+					return true;
+				}
+				else
+					return false;
+			});
+		},
 		signin: function(email, password, message) {
 			var Url = "/api/users/signin";
 			var info = {email: email, password: password};
