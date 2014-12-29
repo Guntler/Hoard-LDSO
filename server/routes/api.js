@@ -198,7 +198,7 @@ exports.products = function (req, res) {
 };
 
 exports.productCount = function (req, res) {
-    products.getProductCount(function (err, result) {
+    products.getProductCount(req.query.search, function (err, result) {
         if (err || !result)
             res.send({result: null, success: false});
         else
@@ -208,15 +208,15 @@ exports.productCount = function (req, res) {
 
 exports.newProduct = function (req, res) {
     if (req.params.name == undefined || req.params.link == undefined || req.params.category == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         products.newProduct(req.params.name, req.params.link, req.params.category, req.user.userid, function (err, result){
             if (err)
-                res.send({result: false});
+                res.send({result: false, success: false});
             else if (result)
-                res.send(result);
+                res.send({result: true, success: true});
             else
-                res.send({result: false});
+                res.send({result: false, success: true});
         });
     }
 };
@@ -247,7 +247,7 @@ exports.productsFromTo = function (req, res) {
     if (req.params.from == undefined || req.params.to == undefined) {
         res.send({result: [], success: false});
     } else {
-        products.getProductsFromTo(req.params.from, req.params.to, function (err, result) {
+        products.getProductsFromTo(req.params.from, req.params.to, req.query.search, function (err, result) {
             if (err)
                 res.send({result: [], success: false});
             else if (result)

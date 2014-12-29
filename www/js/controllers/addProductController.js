@@ -6,6 +6,7 @@ hoard.controller('addProductController', function($scope, productService) {
 	$scope.categories = [];
 	
 	productService.getCategories(function(data) {
+		console.log(data);
 		$scope.categories = data;
 	});
 	$('select.dropdown')
