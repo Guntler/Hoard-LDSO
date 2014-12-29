@@ -85,14 +85,14 @@ public class MainActivity extends FragmentActivity {
         if(!isConnected) {
             notificationTextView.setText(getResources().getString(R.string.notification_no_connection));
 
-            new NotificationShowDelayAsyncTask(this).execute();
+            new NotificationShowDelayAsyncTask().execute();
             return;
         }
 
         if(getIntent().hasExtra("notification")) {
             notificationTextView.setText(getIntent().getStringExtra("notification"));
 
-            new NotificationShowDelayAsyncTask(this).execute();
+            new NotificationShowDelayAsyncTask().execute();
         }
 
         TextView menuLogOutTextView = (TextView) findViewById(R.id.top_layout_menu_logout);
@@ -256,12 +256,6 @@ public class MainActivity extends FragmentActivity {
      */
     class NotificationShowDelayAsyncTask extends AsyncTask<String, String, String> {
 
-        MainActivity mainActivity;
-
-        public NotificationShowDelayAsyncTask(MainActivity mainActivity){
-            this.mainActivity = mainActivity;
-        }
-
         @Override
         protected String doInBackground(String... strings) {
             try {
@@ -283,7 +277,7 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    new NotificationHideDelayAsyncTask(mainActivity).execute();
+                    new NotificationHideDelayAsyncTask().execute();
                 }
 
                 @Override
@@ -298,12 +292,6 @@ public class MainActivity extends FragmentActivity {
      * AsyncTask Class for delaying hide notification
      */
     class NotificationHideDelayAsyncTask extends AsyncTask<String, String, String> {
-
-        MainActivity mainActivity;
-
-        public NotificationHideDelayAsyncTask(MainActivity mainActivity){
-            this.mainActivity = mainActivity;
-        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -322,7 +310,7 @@ public class MainActivity extends FragmentActivity {
             notificationBar.startAnimation(anim);
 
             if(!isConnected) {
-                new CloseApplicationAsyncTask(mainActivity).execute();
+                new CloseApplicationAsyncTask().execute();
             }
         }
     }
@@ -331,12 +319,6 @@ public class MainActivity extends FragmentActivity {
      * AsyncTask Class for closing the application.
      */
     class CloseApplicationAsyncTask extends AsyncTask<String, String, String> {
-
-        MainActivity mainActivity;
-
-        public CloseApplicationAsyncTask(MainActivity mainActivity){
-            this.mainActivity = mainActivity;
-        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -351,9 +333,11 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         protected void onPostExecute(String string) {
-            mainActivity.moveTaskToBack(true);
-            mainActivity.finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
+            session.logOut();
+
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
         }
     }
 
