@@ -24,9 +24,8 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
         });
 
     $scope.fblogin = function () {
-        var user;
         checkLoginState(function (err, result) {
-            /*if (result) {
+            if (result) {
                 console.log("pintou");
 
                 FB.api('/me', function (response) {
@@ -34,7 +33,7 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
                     sessionService.signin(response.email, response.id);
                 });
 
-            } else {*/
+            } else {
                 FB.login(function (response) {
 
                     FB.api('/me', function (response) {
@@ -49,9 +48,8 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
                     });
 
                 }, {scope: 'public_profile,email'});
-            //}
+            }
         })
-        console.log(user);
     };
 
     $scope.signin = function () {
