@@ -23,6 +23,17 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
             $scope.successMessage = messageService.getMessages().successMessage;
         });
 
+	$scope.fblogin = function () {
+		checkLoginState();
+		
+		//check if user exists
+		
+		//if not exists, fetch data and call
+			//sessionService.registerUser(email,password);
+		//if exists
+			//sessionService.signin(email,password);
+	};
+	
     $scope.signin = function () {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.email.match(re)) {

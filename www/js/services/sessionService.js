@@ -42,6 +42,21 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 				user = null;
 			});
 		},
+		registerUser: function(email,password) {
+			var Url = "/api/users/register";
+			var info = {email: email, password: password};
+			$http.post(Url).success(function(data){
+				if(data.success == false) {
+					alert("User could not be created.");
+				}
+				else {
+					alert("User created successfully.");
+					$location.url('/');
+				}
+			}).error(function(data, status, headers, config) {
+				user = null;
+			});
+		},
 		getUser: function() {
 			return user;
 		}
