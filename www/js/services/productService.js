@@ -24,9 +24,10 @@ hoard.service('productService',function($http, $location, messageService) {
 	}
 	
 	return {
-			addProduct: function(email,link,category,image) {
-				var Url = "/api/products/new/"+name+"/"+link+"/"+category;
-				$http.get(Url).success(function(data){
+			addProduct: function(name,link,category,image) {
+				var Url = "/api/products/new/";
+				var info = {name: name, link: link, category:category, imagename:"bottle-opener-fedora-300x250.jpg"};
+				$http.post(Url,info).success(function(data){
 					if(data.success == false) {
 						alert("Something happened");
 					}

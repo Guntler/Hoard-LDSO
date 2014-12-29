@@ -34,14 +34,16 @@
         android:background="@color/red">
 
         <ImageButton
-            android:id="@+id/favorite_button"
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_action_favorite"
+            android:src="@drawable/ic_action_arrow"
             android:contentDescription="@string/app_name"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -33,6 +33,7 @@
     <string name="notification_already">You\'re already signed in</string>
     <string name="notification_signin">You\'ve successfully signed in</string>
     <string name="notification_register">You\'ve successfully registered</string>
+    <string name="notification_no_connection">No internet connection, no hoarding</string>
 
     <!-- Main Menu -->
     <string name="menu_item_profile">Profile</string>
