@@ -56,7 +56,7 @@ hoard.service('productService', function ($http, $location, messageService) {
         },
         deleteProduct: function (id, reason) {
             var Url = "/api/editrequests/new/";
-            var info = {productid: id, edittype: "Delete", description: "Delete product.", reason: reason};
+            var info = {productid: id, edittype: "Delete", reason: reason};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
