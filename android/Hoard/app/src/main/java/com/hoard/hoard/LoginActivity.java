@@ -160,7 +160,8 @@ public class LoginActivity extends Activity {
                 valid = hoardAPI.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
 
             } catch (Exception e) {
-                Log.e("LoginActivity>SignInAsyncTask>doInBackground>Exception:", e.toString());
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("LoginActivity>SignInAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;

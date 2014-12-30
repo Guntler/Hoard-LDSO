@@ -181,6 +181,8 @@ public class ProfileActivity extends Activity {
         protected void onPostExecute(String notUsed) {
             if(valid.first)
                 alertDialog.setTitle("Success");
+            else
+                alertDialog.setTitle("Failed");
             passwordOldEditText.setText("");
             passwordNewEditText.setText("");
             passwordConfirmationEditText.setText("");
