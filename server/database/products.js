@@ -45,12 +45,14 @@ exports.newProduct = function (name, link, imagename, category, userid,callback)
         });
 		
         query.on("end", function (result) {
-            EditRequests.newRequest(result.rows[0].productid, userid, 'Add', "Added Product", "", [], function (res, err){
+			console.log(result.rows[0]);
+            EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", "", [], function (res, err){
                 if(err){
                     return callback(err, null);
                 } else {
+					console.log("Hi");
                     done();
-                    callback(null, result.rows);
+                    callback(null, res);
                 }
             });
         });

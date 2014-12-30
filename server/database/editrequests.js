@@ -296,10 +296,6 @@ exports.newRequest = function (productid, userid, editType, description, reason,
             } else {
                 var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, description, name, link, imageName, category, reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [productid, userid, editType, description, fields.name, fields.link, fields.imageName, fields.category, reason]);
 
-                /*query2.on("row", function (row, result2) {
-                    result2.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
-                });*/
-
                 query2.on("end", function (result2) {
                     done();
                     callback(null, true);
