@@ -281,10 +281,10 @@ exports.newRequest = function (productid, userid, editType, description, reason,
         if (fields.imageName == undefined) fields.imageName = null;
         if (fields.category == undefined) fields.category = null;
 
+		console.log(productid);
         var query1 = editrequest.query("SELECT * FROM product WHERE productid = $1", [productid]);
-
+		
         query1.on("row", function (row, result) {
-            //result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
 			productExists = true;
         });
 

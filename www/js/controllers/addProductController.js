@@ -1,4 +1,4 @@
-hoard.controller('addProductController', function($scope, productService) {
+hoard.controller('addProductController', function($scope, $location, productService) {
 	$scope.pName = "";
 	$scope.pLink = "";
 	$scope.pCategory = "";
@@ -13,9 +13,16 @@ hoard.controller('addProductController', function($scope, productService) {
 		.dropdown()
 	;
 	
+	$scope.fileChanged = function(files) {
+		$scope.pImage=files[0];
+		//console.log($scope.pImage);
+	}
+	
 	$scope.addProduct = function() {
 		if($scope.pLink.indexOf("http://") == -1 && $scope.pLink.indexOf("https://") == -1)
 			$scope.pLink = "http://" + $scope.pLink;
+			
 		productService.addProduct($scope.pName,$scope.pLink,$scope.pCategory,$scope.pImage);
+		$location.url('/home/products/1');
 	}
 });

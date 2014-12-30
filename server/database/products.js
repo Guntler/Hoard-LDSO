@@ -41,16 +41,13 @@ exports.newProduct = function (name, link, imagename, category, userid,callback)
 		var query = product.query("INSERT INTO product (name, link, imagename, category, visible, addedby) VALUES ($1, $2, $3, $4, 'false', $5) RETURNING *", [name, link, imagename, category, userid]);
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
-			console.log(result);
         });
 		
         query.on("end", function (result) {
-			console.log(result.rows[0]);
             EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", "", [], function (res, err){
                 if(err){
                     return callback(err, null);
                 } else {
-					console.log("Hi");
                     done();
                     callback(null, res);
                 }
