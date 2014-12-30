@@ -26,10 +26,8 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
     $scope.fblogin = function () {
         checkLoginState(function (err, result) {
             if (result) {
-                console.log("pintou");
 
                 FB.api('/me', function (response) {
-                    console.log(JSON.stringify(response));
                     sessionService.signin(response.email, response.id);
                 });
 
@@ -37,12 +35,10 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
                 FB.login(function (response) {
 
                     FB.api('/me', function (response) {
-                        console.log(JSON.stringify(response));
 
-                        if(sessionService.checkUserExists(response.email)){
+                        if (sessionService.checkUserExists(response.email)) {
                             sessionService.signin(response.email, response.id);
                         } else {
-                            console.log("Não existe");
                             sessionService.registerUser(response.email, response.id);
                         }
                     });

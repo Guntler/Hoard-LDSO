@@ -2,7 +2,7 @@
 	<div data-header-directive></div>
 
 	<div class="ui page grid information" ng-controller="homeController">
-	
+
 		<div data-breadcrumb-directive></div>
 
 		<div class="sixteen wide column removepadding">
@@ -28,26 +28,28 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div ng-class="{active:tab === 'products'}" class="ui divided selection list tab">
 				<button class="bottom-button select-button">Select All</button>
 				<button class="bottom-button select-button">Select None</button>
 				<button class="bottom-button select-button">Invert Selection</button>
-				
+
 				<div class="ui error message" ng-hide="errorMessage == null">
 						{{errorMessage}}
 				</div>
-				
+
 				<div class="shaded-bg">
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
 						<span>Name</span>
 						<div class="right floated list-column-2" style="margin-right: 18% !important">Creation Date</div>
 					</div>
-					
+
 					<div ng-repeat="product in products" class="item">
 						<div class="left floated"><input type="checkbox" name="selected"></div>
-						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
+						<div class="right floated date"><a href="#/products/actions/edit/{{product.id}}"><button
+                                        class="ui red button
+						tiny">edit</button></a></div>
 						<div class="right floated date"><button class="ui red button tiny" ng-click="showDeleteModal(product.id)">delete</button></div>
 						<div class="right floated date list-column-2">{{product.dateadded}}</div>
 						<div class="name" >
@@ -58,7 +60,7 @@
 				<a href="#/products/actions/add"><button class="bottom-button add-button">Add Product</button></a>
 				<button class="bottom-button remove-button">Remove Selection</button>
 			</div>
-			
+
 			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab">
 				<div style="margin-bottom: 10px">
 					<div ngIf="tab === 'users'" class="ui shaded-bg" style="padding-left: 20px;">
@@ -68,11 +70,11 @@
 					<label><input ng-model="adminFilter" class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Admin</div></label>
 					</div>
 				</div>
-				
+
 				<div class="ui error message" ng-hide="errorMessage == null">
 							{{errorMessage}}
 				</div>
-				
+
 				<div class="ui shaded-bg">
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
@@ -80,7 +82,7 @@
 						<div class="right floated list-column-2">Register Date</div>
 						<span class="right floated list-column-2">Privileges</span>
 					</div>
-					
+
 					<div ng-repeat="user in users" class="item">
 						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
 						<span class="name">
@@ -105,11 +107,11 @@
 						<label><input ng-model="denied" class="filterBox" type="checkbox" name="selected"><div class="ui tiny red button">Denied</div></label>
 					</div>
 				</div>
-				
+
 				<div class="ui error message" ng-hide="errorMessage == null">
 						{{errorMessage}}
 				</div>
-				
+
 				<div class="ui shaded-bg">
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
@@ -117,7 +119,7 @@
 						<div class="right floated list-column-2">Date</div>
 						<span class="list-column-2 right floated">Status</span>
 					</div>
-					
+
 					<div ng-repeat="edit in edits" class="item">
 						<div class="right floated">
 							<div class="ui tiny buttons">
@@ -143,7 +145,7 @@
 
 			<div data-pagination-directive total-items="totalTabItems" current-page="currentPage"
 					page-range="pageRange" items-per-page="itemsPerPage" item-type="tab" redirect-url="/home"></div>
-					
+
 			<div class="ui modal delete-modal">
 			  <i class="close icon"></i>
 			  <div class="header">
