@@ -15,12 +15,17 @@
     <string name="dialog_fail_register_message">We were not able to register you. Please try again.</string>
     <string name="dialog_fail_login_message">We were not able to log you in. Please try again.</string>
 
+    <string name="dialog_fail_change_password_title">Failed to Change Password</string>
+    <string name="dialog_fail_change_password_message">We were not able to change your password. Please try again.</string>
+
     <string name="login">Sign In</string>
     <string name="register">Register</string>
 
     <!-- Hints -->
     <string name="hint_username">Username</string>
     <string name="hint_email">Email</string>
+    <string name="hint_old_password">Old Password</string>
+    <string name="hint_new_password">New Password</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
 
@@ -39,12 +44,16 @@
     <string name="menu_item_profile">Profile</string>
     <string name="menu_item_logout">Log Out</string>
 
+    <!-- Profile -->
+    <string name="profile_name">Settings</string>
+
     <!-- API Request Stuff -->
     <string name="timeout">10000</string>
     <string name="server_url">http://178.62.105.68:8081/</string>
     <string name="sigin_url">api/users/signin-app</string>
     <string name="register_url">api/users/register</string>
     <string name="favorites_url">api/products/getFavorites</string>
+    <string name="change_password_url">api/users/changePassword/</string>
     <string name="product_images_url">images/products/</string>
 
 </resources>

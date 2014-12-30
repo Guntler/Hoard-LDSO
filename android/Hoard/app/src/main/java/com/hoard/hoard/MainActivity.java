@@ -112,6 +112,13 @@ public class MainActivity extends FragmentActivity {
         if(session.checkSessionForUser()) {
             TextView menuProfileTextView = (TextView) findViewById(R.id.top_layout_menu_profile);
             menuProfileTextView.setText(session.getUserEmail());
+            menuProfileTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(i);
+                }
+            });
         }
 
         /*

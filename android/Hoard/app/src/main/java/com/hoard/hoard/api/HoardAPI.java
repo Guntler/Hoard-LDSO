@@ -47,7 +47,6 @@ public class HoardAPI {
     public Pair<Boolean, String> signInUser(String email, String password) {
 
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
-        ReturnParser parser;
 
         String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.sigin_url);
         String body = "email=" + email + "&password=" + password;
@@ -60,17 +59,20 @@ public class HoardAPI {
 
             String cookie = getCookieConnectSID(response);
 
-            parser = response.parseAs(ReturnParser.class);
+            ReturnParser parser = response.parseAs(ReturnParser.class);
 
             if(parser != null) {
                 if(!parser.getMessage().isEmpty())
                     Log.d("Response: ", parser.getMessage());
-                if (parser.getSuccess())
-                    if (parser.getUser() != null)
+                if (parser.getSuccess()) {
+                    if (parser.getUser().getEmail() != null) {
                         if (cookie != null) {
                             session.logIn(email, cookie);
                             return new Pair<Boolean, String>(true, parser.getMessage());
                         }
+                    }
+                    return new Pair<Boolean, String>(false, parser.getMessage());
+                }
             }
         } catch (Exception e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
@@ -78,6 +80,33 @@ public class HoardAPI {
             return new Pair<Boolean, String>(false, "Something went wrong.");
         }
         return new Pair<Boolean, String>(false, "Something went wrong.");
+    }
+
+    public Pair<Boolean, String> changePassword(String oldPassword, String newPassword) {
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.change_password_url)+oldPassword+"/"+newPassword;
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+
+            if(session.checkSessionForCookie()) {
+                request.getHeaders().setCookie(session.getCookie());
+                Log.d("Cookie: ", session.getCookie());
+
+                ChangePasswordReturnParser result = request.execute().parseAs(ChangePasswordReturnParser.class);
+
+                if(result.getSuccess()){
+                    if(result.getResult())
+                        return new Pair<Boolean, String>(true, "Password changed successfully.");
+                }
+            }
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>changePassword>Exception:", errorMessage);
+        }
+        return new Pair<Boolean, String>(false, "Password wasn't changed successfully.");
     }
 
     private String getCookieConnectSID(HttpResponse response) {
