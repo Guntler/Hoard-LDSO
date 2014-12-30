@@ -1,7 +1,7 @@
 <div ng-mousedown="hideSidebar($event)" ng-controller="productEditController">
-	
+
 	<div data-header-directive></div>
-	
+
 	<div class="ui page grid information">
 		<div class="row breadcrumb">
 			<div class="sixteen wide column shaded-bg">
@@ -17,25 +17,48 @@
 
 		<div class="row profile-info">
 			<div class="eleven wide column shaded-bg profile-data">
-				<h2>{{product.name | cut:true:50:' ...'}}</h2>
-				<div class="ui divider"></div>
 				<div>
+					<p><b>Name: </b>{{product.name}}</p>
 					<p><b>Link:</b> <a href="{{product.link}}">{{product.link}}</a></p>
 					<p><b>Category:</b> {{category.name}}</p>
+
 					<p ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null"><b>Creator:</b> {{addedBy.email}}</p>
 				</div>
+
 				<div class="ui divider"></div>
+
+				<p><b>New Name:</b> <input type="text" ng-model="newName"></p>
+				<p><b>New Link:</b> <input type="text" ng-model="newLink"></p>
+				<p><b>New Category:</b>
+					<select ng-model="newCategory"
+                            ng-options="category as category.name for category in categories">
+                    </select>
+                </p>
+
+                <div class="ui divider"></div>
+                <div class="row">
+                    <div id="product-submit" ng-click="editProduct(pName,pLink,pCategory,pImage)" type="submit"
+                         class="ui primary button">
+                        Edit product
+                    </div>
+                </div>
+
 			</div>
 			<div class="four wide column shaded-bg profile-image">
-				<img src="/images/products/{{product.imageName}}"></img>
+				<img src="/images/products/{{product.imageName}}">
 			</div>
+
+
+
+        </div>
+    </div>
 		</div>
-		
+
 		<div class="row profile-history shaded-bg" ng-If="user != null && user.permissions == 'Admin'">
 			<div class="sixteen wide column">
 				<h2>Edit History:</h2>
 				<div class="ui divider"></div>
-				
+
 				<div class="ui divided selection list">
 					<div class="tableHeader item">
 						<div class="right floated">Actions</div>
@@ -43,7 +66,7 @@
 						<div class="right floated list-column-2">Date</div>
 						<span class="list-column-2 right floated">Status</span>
 					</div>
-					
+
 					<div ng-repeat="edit in edits" class="item">
 						<div class="right floated">
 							<div class="ui tiny buttons">

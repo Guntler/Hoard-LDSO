@@ -268,7 +268,7 @@ exports.getManagerEdits = function (managerId, callback) {
     });
 };
 
-exports.newRequest = function (productid, userid, editType, description, reason, fields, callback) {
+exports.newRequest = function (productid, userid, editType, reason, name, link, imageName, category, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
             return callback(err, null);
@@ -276,10 +276,10 @@ exports.newRequest = function (productid, userid, editType, description, reason,
 		
 		var productExists = false;
 
-        if (fields.name == undefined) fields.name = null;
-        if (fields.link == undefined) fields.link = null;
-        if (fields.imageName == undefined) fields.imageName = null;
-        if (fields.category == undefined) fields.category = null;
+        if (name == undefined) name = null;
+        if (link == undefined) link = null;
+        if (imageName == undefined) imageName = null;
+        if (category == undefined) category = null;
 
 		console.log(productid);
         var query1 = editrequest.query("SELECT * FROM product WHERE productid = $1", [productid]);
@@ -294,7 +294,7 @@ exports.newRequest = function (productid, userid, editType, description, reason,
                 done();
                 callback(err, null);
             } else {
-                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, description, name, link, imageName, category, reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [productid, userid, editType, description, fields.name, fields.link, fields.imageName, fields.category, reason]);
+                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, reason, name, link, imageName, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [productid, userid, editType, reason, name, link, imageName, category]);
 
                 query2.on("end", function (result2) {
                     done();

@@ -11,9 +11,14 @@ hoard.controller('productEditController',function($scope, $routeParams, $locatio
 	$scope.addedBy = null;
 	$scope.product = null;
 	$scope.category = null;
+
+	$scope.newName = null;
+	$scope.newLink = null;
+	$scope.newImageName = null;
 	
 	productService.getProductById($routeParams.id, function(prod) {
 		$scope.product = prod;
+
 		if($scope.product != null) {
 						userService.getUserById($scope.product.addedby, function(data) {
 							$scope.addedBy = data;
@@ -21,13 +26,12 @@ hoard.controller('productEditController',function($scope, $routeParams, $locatio
 						productService.getCategoryById($scope.product.category, function(data) {
 							$scope.category = data;
 						});
-						editService.getEditCount("Product", $scope.productId, function(data) {
-							$scope.totalEdits = data.integer;
-						});
-						editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, "Product", $scope.productId, function(data) {
-							$scope.edits = data;
-						});
 					}
+	});
+
+	productService.getCategories(function(result) {
+		$scope.categories = result;
+		$scope.newCategory = "";
 	});
 	
 	$scope.approveEdit = function(edit) {

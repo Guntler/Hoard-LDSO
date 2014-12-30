@@ -70,7 +70,6 @@ CREATE TABLE editRequest (
 	category INTEGER REFERENCES productCategory(categoryID),
 	reason VARCHAR(500),
 	editDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CHECK (char_length(description) <= 300),
 	CHECK (char_length(reason) <= 500),
 	CHECK (editdate <= now())
 );
