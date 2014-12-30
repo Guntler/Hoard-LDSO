@@ -87,7 +87,7 @@ exports.checkLogin = function (req, res) {
 
 exports.changePassword = function (req, res) {
     if (req.params.oldPassword == undefined || req.params.newPassword == undefined || req.user == undefined) {
-        res.send({result: false});
+        res.send({result: false, success: false});
     } else {
         users.changePassword(req.params.oldPassword, req.params.newPassword, req.user.email, function (err, result) {
             if (err)
