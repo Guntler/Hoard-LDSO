@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/profile_old_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="@drawable/textedit"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null"
+        android:hint="@string/hint_old_password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/profile_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_old_password"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="@drawable/textedit"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null"
+        android:hint="@string/hint_new_password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/profile_password_confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_password"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="@drawable/textedit"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null"
+        android:hint="@string/hint_confirm_password"
+        android:inputType="textPassword"
+        android:imeOptions="actionDone" />
+
+    <ImageButton
+        android:id="@+id/profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_password_confirmation"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_action_accept"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/app_name" />
+
+    <ProgressBar
+        android:id="@+id/profile_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_password_confirmation"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp"
+        android:text="@string/profile_name"
+        android:layout_above="@+id/profile_old_password"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
