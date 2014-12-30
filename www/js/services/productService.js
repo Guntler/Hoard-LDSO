@@ -45,10 +45,10 @@ hoard.service('productService',function($http, $location, messageService) {
 				var info = {productid: id, edittype: "Delete", description:"Delete product.", reason: reason};
 				$http.post(Url,info).success(function(data){
 					if(data.success == false) {
-						alert("Something happened");
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("There has been an unexpected error." );
 					}
 					else {
-						alert(data);
 						$location.url('/home/products/1');
 					}
 				}).error(function(data,status,headers, config) {

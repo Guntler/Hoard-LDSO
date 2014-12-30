@@ -191,13 +191,12 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	}
 	
 	$scope.showDeleteModal =  function(id) {
-		console.log(id);
 		$scope.productToDelete = id;
-		$('.modal').modal('show');
+		$('.modal.delete-modal').modal('show');
 	}
 	
 	$scope.deleteProduct = function() {
-		
+		productService.deleteProduct($scope.productToDelete, $scope.reasonToDelete);
 	}
 	
 	//Edits

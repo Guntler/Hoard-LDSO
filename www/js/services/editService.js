@@ -16,6 +16,7 @@ hoard.service('editService',function($http, messageService) {
 					callback(null);
 				}
 				else {
+					console.log(data.result);
 					callback(data.result);
 				}
 			}).error(function(data,status,headers, config) {
