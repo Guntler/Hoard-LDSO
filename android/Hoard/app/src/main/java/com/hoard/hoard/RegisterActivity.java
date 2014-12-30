@@ -166,7 +166,8 @@ public class RegisterActivity extends Activity {
                 Log.i("RegisterActivity>RegisterAsyncTask: Password - ", passwordEditText.getText().toString());
                 valid = hoardAPI.registerEmailPassword(emailEditText.getText().toString(), passwordEditText.getText().toString());
             } catch (Exception e) {
-                Log.e("RegisterActivity>RegisterAsyncTask>doInBackground>Exception:", e.getMessage());
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("RegisterActivity>RegisterAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;

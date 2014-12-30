@@ -1,0 +1,99 @@
+<div ng-mousedown="hideSidebar($event)" ng-controller="productEditController">
+
+	<div data-header-directive></div>
+
+	<div class="ui page grid information">
+		<div class="row breadcrumb">
+			<div class="sixteen wide column shaded-bg">
+				<div class="ui breadcrumb">
+					<a class="section">Home</a>
+					<i class="right arrow icon divider"></i>
+					<a class="section">Products</a>
+					<i class="right arrow icon divider"></i>
+					<div class="active section">{{product.name | cut:true:50:' ...'}}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row profile-info">
+			<div class="eleven wide column shaded-bg profile-data">
+				<div>
+					<p><b>Name: </b>{{product.name}}</p>
+					<p><b>Link:</b> <a href="{{product.link}}">{{product.link}}</a></p>
+					<p><b>Category:</b> {{category.name}}</p>
+
+					<p ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null"><b>Creator:</b> {{addedBy.email}}</p>
+				</div>
+
+				<div class="ui divider"></div>
+
+				<p><b>New Name:</b> <input type="text" ng-model="newName"></p>
+				<p><b>New Link:</b> <input type="text" ng-model="newLink"></p>
+				<p><b>New Category:</b>
+					<select ng-model="newCategory"
+                            ng-options="category as category.name for category in categories">
+                    </select>
+                </p>
+                <p><b>Reason:</b></p> <textarea ng-model="reason" required></textarea>
+
+                <div class="ui divider"></div>
+                <div class="row">
+                    <div id="product-submit" ng-click="editProduct(productId, reason, newName, newLink,
+                    newImageName, newCategory.categoryid)"
+                         type="submit"
+                         class="ui primary button" ng>
+                        Edit product
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+			</div>
+			<div class="four wide column shaded-bg profile-image">
+				<img src="/images/products/{{product.imageName}}">
+			</div>
+
+
+
+        </div>
+    </div>
+		</div>
+
+		<div class="row profile-history shaded-bg" ng-If="user != null && user.permissions == 'Admin'">
+			<div class="sixteen wide column">
+				<h2>Edit History:</h2>
+				<div class="ui divider"></div>
+
+				<div class="ui divided selection list">
+					<div class="tableHeader item">
+						<div class="right floated">Actions</div>
+						<span>Type</span>
+						<div class="right floated list-column-2">Date</div>
+						<span class="list-column-2 right floated">Status</span>
+					</div>
+
+					<div ng-repeat="edit in edits" class="item">
+						<div class="right floated">
+							<div class="ui tiny buttons">
+								<div ng-class="{disabled: edit.editstatus != 'Pending'}" ng-click="approveEdit(edit)" class="ui green button">APPROVE</div>
+								<div class="or"></div>
+								<div ng-class="{disabled: edit.editstatus != 'Pending'}" ng-click="rejectEdit(edit)" class="ui red button">REJECT</div>
+							</div>
+						</div>
+						<span class="name">
+							<a href="#/edits/{{edit.id}}">{{edit.edittype}}</a>
+						</span>
+						<div class="right floated date list-column-2">{{edit.editdate}}</div>
+						<span class=" list-column-2 right floated">
+							<span class="left floated ui label" ng-class="{green: edit.editstatus == 'Approved', red: edit.editstatus == 'Denied', purple: edit.editstatus == 'Pending'}">
+								{{edit.editstatus}}
+							</span>
+						</span>
+					</div>
+				</div>
+				<div class="ui divider"></div>
+
+				<div data-pagination-directive total-items="totalEdits" current-page="currentPage"
+					page-range="pageRange" items-per-page="itemsPerPage" item-type="productId" redirect-url="/product/profile"></div>
+			</div>
+		</div>
+	</div>
+</div>

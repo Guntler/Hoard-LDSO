@@ -1,6 +1,7 @@
 pg = require("pg");
 util = require("./utilities");
 var EditRequest = require('../models/EditRequest');
+var Product = require('../models/Product');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
@@ -110,58 +111,58 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
         if (err) {
             return callback(err, null);
         }
-		
-		var queryStr = "SELECT * FROM editrequest ";
-		var query;
-		
-		var filterVals = [];
-		if(value != undefined && value != null) {
-			filterVals = value.split("|");
-		}
-		var i = 0;
-		
-		if(filterBy == "User") {
-		
-			queryStr += "WHERE ";
-			
-			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "submittedby = $" + (i+1);
-				if(i < filterVals.length-1)
-					queryStr += " OR ";
-			}
-			queryStr += " ORDER BY editdate asc OFFSET $" + (i+1) + " LIMIT $" + (i+2);
-			var arr = filterVals.concat([(from - 1) * to, to]);
-			query = editrequest.query(queryStr, arr);
-		}
-		else if (filterBy == "Status") {
-			queryStr += "WHERE ";
-			
-			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "editstatus = $" + (i+1);
-				if(i < filterVals.length-1)
-					queryStr += " OR ";
-			}
-			queryStr += " ORDER BY editdate asc OFFSET $" + (i+1) + " LIMIT $" + (i+2);
-			var arr = filterVals.concat([(from - 1) * to, to]);
-			query = editrequest.query(queryStr, arr);
-		}
-		else if (filterBy == "Product") {
-			queryStr += "WHERE ";
-			
-			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "productid = $" + (i+1);
-				if(i < filterVals.length-1)
-					queryStr += " OR ";
-			}
-			queryStr += " ORDER BY editdate asc OFFSET $" + (i+1) + " LIMIT $" + (i+2);
-			var arr = filterVals.concat([(from - 1) * to, to]);
-			query = editrequest.query(queryStr, arr);
-		}
-		else {
-			queryStr += " ORDER BY editdate asc OFFSET $1 LIMIT $2";
-			query = editrequest.query(queryStr, [(from - 1) * to, to]);
-		}
-         
+
+        var queryStr = "SELECT * FROM editrequest ";
+        var query;
+
+        var filterVals = [];
+        if (value != undefined && value != null) {
+            filterVals = value.split("|");
+        }
+        var i = 0;
+
+        if (filterBy == "User") {
+
+            queryStr += "WHERE ";
+
+            for (i = 0; i < filterVals.length; i++) {
+                queryStr += "submittedby = $" + (i + 1);
+                if (i < filterVals.length - 1)
+                    queryStr += " OR ";
+            }
+            queryStr += " ORDER BY editdate asc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
+            var arr = filterVals.concat([(from - 1) * to, to]);
+            query = editrequest.query(queryStr, arr);
+        }
+        else if (filterBy == "Status") {
+            queryStr += "WHERE ";
+
+            for (i = 0; i < filterVals.length; i++) {
+                queryStr += "editstatus = $" + (i + 1);
+                if (i < filterVals.length - 1)
+                    queryStr += " OR ";
+            }
+            queryStr += " ORDER BY editdate asc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
+            var arr = filterVals.concat([(from - 1) * to, to]);
+            query = editrequest.query(queryStr, arr);
+        }
+        else if (filterBy == "Product") {
+            queryStr += "WHERE ";
+
+            for (i = 0; i < filterVals.length; i++) {
+                queryStr += "productid = $" + (i + 1);
+                if (i < filterVals.length - 1)
+                    queryStr += " OR ";
+            }
+            queryStr += " ORDER BY editdate asc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
+            var arr = filterVals.concat([(from - 1) * to, to]);
+            query = editrequest.query(queryStr, arr);
+        }
+        else {
+            queryStr += " ORDER BY editdate asc OFFSET $1 LIMIT $2";
+            query = editrequest.query(queryStr, [(from - 1) * to, to]);
+        }
+
 
         query.on("row", function (row, result) {
             result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, row.editdate));
@@ -184,53 +185,53 @@ exports.getEditCount = function (filterBy, value, callback) {
         if (err) {
             return callback(err, null);
         }
-		
-		var queryStr = "SELECT COUNT (*) FROM editrequest ";
-		var query;
-		
-		var filterVals = [];
-		if(value != undefined && value != null) {
-			filterVals = value.split("|");
-		}
-		var i = 0;
-		
-		if(filterBy == "User") {
-		
-			queryStr += "WHERE ";
-			
-			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "submittedby = $" + (i+1);
-				if(i < filterVals.length-1)
-					queryStr += " OR ";
-			}
-			
-			query = editrequest.query(queryStr, filterVals);
-		}
-		else if (filterBy == "Status") {
-			queryStr += "WHERE ";
-			
-			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "editstatus = $" + (i+1);
-				if(i < filterVals.length-1)
-					queryStr += " OR ";
-			}
-			
-			query = editrequest.query(queryStr, filterVals);
-		}
-		else if (filterBy == "Product") {
-			queryStr += "WHERE ";
-			
-			for(i = 0; i < filterVals.length; i++) {
-				queryStr += "productid = $" + (i+1);
-				if(i < filterVals.length-1)
-					queryStr += " OR ";
-			}
-			
-			query = editrequest.query(queryStr, filterVals);
-		}
-		else {
-			query = editrequest.query(queryStr);
-		}
+
+        var queryStr = "SELECT COUNT (*) FROM editrequest ";
+        var query;
+
+        var filterVals = [];
+        if (value != undefined && value != null) {
+            filterVals = value.split("|");
+        }
+        var i = 0;
+
+        if (filterBy == "User") {
+
+            queryStr += "WHERE ";
+
+            for (i = 0; i < filterVals.length; i++) {
+                queryStr += "submittedby = $" + (i + 1);
+                if (i < filterVals.length - 1)
+                    queryStr += " OR ";
+            }
+
+            query = editrequest.query(queryStr, filterVals);
+        }
+        else if (filterBy == "Status") {
+            queryStr += "WHERE ";
+
+            for (i = 0; i < filterVals.length; i++) {
+                queryStr += "editstatus = $" + (i + 1);
+                if (i < filterVals.length - 1)
+                    queryStr += " OR ";
+            }
+
+            query = editrequest.query(queryStr, filterVals);
+        }
+        else if (filterBy == "Product") {
+            queryStr += "WHERE ";
+
+            for (i = 0; i < filterVals.length; i++) {
+                queryStr += "productid = $" + (i + 1);
+                if (i < filterVals.length - 1)
+                    queryStr += " OR ";
+            }
+
+            query = editrequest.query(queryStr, filterVals);
+        }
+        else {
+            query = editrequest.query(queryStr);
+        }
 
         query.on("row", function (row, result) {
             done();
@@ -268,24 +269,24 @@ exports.getManagerEdits = function (managerId, callback) {
     });
 };
 
-exports.newRequest = function (productid, userid, editType, description, reason, fields, callback) {
+exports.newRequest = function (productid, userid, editType, reason, name, link, imageName, category, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
             return callback(err, null);
         }
-		
-		var productExists = false;
 
-        if (fields.name == undefined) fields.name = null;
-        if (fields.link == undefined) fields.link = null;
-        if (fields.imageName == undefined) fields.imageName = null;
-        if (fields.category == undefined) fields.category = null;
+        var productExists = false;
 
-		console.log(productid);
+        if (name == undefined) name = null;
+        if (link == undefined) link = null;
+        if (imageName == undefined) imageName = null;
+        if (category == undefined) category = null;
+
+        console.log(productid);
         var query1 = editrequest.query("SELECT * FROM product WHERE productid = $1", [productid]);
-		
+
         query1.on("row", function (row, result) {
-			productExists = true;
+            productExists = true;
         });
 
         query1.on("end", function (result) {
@@ -294,7 +295,7 @@ exports.newRequest = function (productid, userid, editType, description, reason,
                 done();
                 callback(err, null);
             } else {
-                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, description, name, link, imageName, category, reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [productid, userid, editType, description, fields.name, fields.link, fields.imageName, fields.category, reason]);
+                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, reason, name, link, imageName, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [productid, userid, editType, reason, name, link, imageName, category]);
 
                 query2.on("end", function (result2) {
                     done();
@@ -375,6 +376,7 @@ exports.approveRequest = function (adminid, editid, callback) {
 
             query1.on("end", function (result) {
                 var resultData = result.rows[0];
+                console.log(resultData);
 
                 if (result.rows.length < 1) {
                     done();
@@ -411,24 +413,33 @@ exports.approveRequest = function (adminid, editid, callback) {
                             });
                         } else if (resultData.edittype == 'Edit') {
 
-                            if(resultData.name != undefined)
-                            {
-                                var query3 = editrequest.query("UPDATE product SET name = $1 WHERE productid = $2", [resultData.name, resultData.productid]);
+                            var query3 = editrequest.query("SELECT * FROM product WHERE productid = $1", [resultData.productid]);
 
-                                query3.on("error", function (err) {
-                                    done();
-                                    callback(err, null);
-                                });
+                            query3.on("row", function (row, result) {
+                                result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded))
+                            });
 
-                                query3.on("end", function (result) {
-                                    done();
-                                    callback(null, result);
-                                });
-                            }
+                            query3.on("error", function (err) {
+                                done();
+                                callback(err, null);
+                            });
 
-                            if(resultData.link != undefined)
-                            {
-                                var query4 = editrequest.query("UPDATE product SET link = $1 WHERE productid = $2", [resultData.link, resultData.productid]);
+                            query3.on("end", function (result) {
+                                product = result.rows[0];
+                                if (resultData.name != undefined) {
+                                    product.name = resultData.name;
+                                }
+                                if (resultData.link != undefined) {
+                                    product.link = resultData.link;
+                                }
+                                if (resultData.imageName != undefined) {
+                                    product.imageName = resultData.imageName;
+                                }
+                                if (resultData.category != undefined) {
+                                    product.category = resultData.category;
+                                }
+
+                                var query4 = editrequest.query("UPDATE product SET name = $1, link = $2, imagename = $3, category = $4 WHERE productid = $5", [product.name, product.link, product.imageName, product.category, resultData.productid]);
 
                                 query4.on("error", function (err) {
                                     done();
@@ -439,38 +450,7 @@ exports.approveRequest = function (adminid, editid, callback) {
                                     done();
                                     callback(null, result);
                                 });
-                            }
-
-                            if(resultData.imageName != undefined)
-                            {
-                                var query5 = editrequest.query("UPDATE product SET imageName = $1 WHERE productid = $2", [resultData.imageName, resultData.productid]);
-
-                                query5.on("error", function (err) {
-                                    done();
-                                    callback(err, null);
-                                });
-
-                                query5.on("end", function (result) {
-                                    done();
-                                    callback(null, result);
-                                });
-                            }
-
-                            if(resultData.category != undefined)
-                            {
-                                var query6 = editrequest.query("UPDATE product SET category = $1 WHERE productid = $2", [resultData.category, resultData.productid]);
-
-                                query6.on("error", function (err) {
-                                    done();
-                                    callback(err, null);
-                                });
-
-                                query6.on("end", function (result) {
-                                    done();
-                                    callback(null, result);
-                                });
-                            }
-
+                            });
                         } else {
                             done();
                             callback(null, null);
@@ -522,7 +502,7 @@ exports.getSimilarFieldEdits = function (field, input, callback) {
 
         //console.log("Field is: " + field); console.log("Input is: " + input);
 
-        if(field == "product")
+        if (field == "product")
             var query = editrequest.query("SELECT * FROM editrequest, product WHERE product.productid = editrequest.productid AND similarity(product.name, $1) > 0.2", [input]);
         else if (field == "user")
             var query = editrequest.query("SELECT * FROM editrequest, useraccount WHERE useraccount.userid = editrequest.submittedby AND similarity(useraccount.email, $1) > 0.2", [input]);

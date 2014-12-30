@@ -5,6 +5,7 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -63,6 +64,11 @@ public class FavoriteActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favorite_layout);
 
+        if(!isNetworkConnected()) {
+            finish();
+            return;
+        }
+
         hoardAPI = new HoardAPI(this);
 
         gridView = (GridView)findViewById(R.id.favorite_grid);
@@ -100,6 +106,13 @@ public class FavoriteActivity extends Activity {
         if(session.checkSessionForUser()) {
             TextView menuProfileTextView = (TextView) findViewById(R.id.top_layout_menu_profile);
             menuProfileTextView.setText(session.getUserEmail());
+            menuProfileTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(FavoriteActivity.this, ProfileActivity.class);
+                    startActivity(i);
+                }
+            });
         }
 
         menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
@@ -180,6 +193,14 @@ public class FavoriteActivity extends Activity {
         });
 
         new FavoritesAsyncTask().execute();
+    }
+
+    /**
+     * Checks if the application has internet connection
+     */
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        return (cm.getActiveNetworkInfo() != null);
     }
 
     class FavoritesAsyncTask extends AsyncTask<String, String, String> {
