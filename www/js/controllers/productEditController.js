@@ -13,9 +13,17 @@ hoard.controller('productEditController',function($scope, $routeParams, $locatio
 	$scope.category = null;
 
 	$scope.newName = null;
+	$scope.reason = null;
 	$scope.newLink = null;
 	$scope.newImageName = null;
-	
+
+	$scope.editProduct = function(productid, reason, name, link, imageName, category) {
+		productService.editProduct(productid, reason, name, link, imageName, category, function(result){
+			if(result)
+				$location.path('home/products/1');
+		})
+	};
+
 	productService.getProductById($routeParams.id, function(prod) {
 		$scope.product = prod;
 
@@ -40,7 +48,7 @@ hoard.controller('productEditController',function($scope, $routeParams, $locatio
 			if(result)
 				edit.editstatus = "Approved";
 		});
-	}
+	};
 	
 	$scope.rejectEdit = function(edit) {
 		if(edit.editstatus == "Pending")

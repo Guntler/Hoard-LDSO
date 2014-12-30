@@ -85,7 +85,6 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/date', adminApiPermissions, api.requestsByDate);
     app.get('/api/editrequests/type/:edittype', adminApiPermissions, api.requestsByEditType);
     app.get('/api/editrequests/manager/:id', adminApiPermissions, api.requestsByManagerId);
-    //app.get('/api/editrequests/new/:productid/:editType/:description/:reason', managerApiPermissions, api.newRequest);
 
     app.get('/api/editrequests/similar/:field/:input', api.getSimilarFieldEdits);
 

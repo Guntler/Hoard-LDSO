@@ -34,15 +34,18 @@
                             ng-options="category as category.name for category in categories">
                     </select>
                 </p>
+                <p><b>Reason:</b></p> <textarea ng-model="reason" required></textarea>
 
                 <div class="ui divider"></div>
                 <div class="row">
-                    <div id="product-submit" ng-click="editProduct(pName,pLink,pCategory,pImage)" type="submit"
-                         class="ui primary button">
+                    <div id="product-submit" ng-click="editProduct(productId, reason, newName, newLink,
+                    newImageName, newCategory.categoryid)"
+                         type="submit"
+                         class="ui primary button" ng>
                         Edit product
                     </div>
                 </div>
-
+                <div class="ui divider"></div>
 			</div>
 			<div class="four wide column shaded-bg profile-image">
 				<img src="/images/products/{{product.imageName}}">

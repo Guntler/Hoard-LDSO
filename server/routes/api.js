@@ -505,11 +505,12 @@ exports.requestsByManagerId = function (req, res) {
 };
 
 exports.newRequest = function(req, res) {
-    if (req.body.productid == undefined || req.body.edittype == undefined || req.body.description == undefined || req.body.reason == undefined || (req.body.edittype != "Add" && req.body.edittype != "Edit" && req.body.edittype != "Delete")) {
-		console.log(req.body.editType);
+    if (req.body.productid == undefined || req.user.userid == undefined || req.body.edittype == undefined || req.body.reason == undefined || (req.body.edittype != "Add" && req.body.edittype != "Edit" && req.body.edittype != "Delete")) {
         res.send({result: false, success: false});
+        console.log("Não chegou tudo");
     } else {
-        editrequests.newRequest(req.body.productid, req.user.userid, req.body.edittype, req.body.description, req.body.reason, req.body, function (err, result) {
+        console.log("Chegou tudo");
+        editrequests.newRequest(req.body.productid, req.user.userid, req.body.edittype, req.body.reason, req.body.name, req.body.link, req.body.imageName, req.body.category, function (err, result) {
             if (err) {
 				console.log(err);
                 res.send({result: false, success: false});
