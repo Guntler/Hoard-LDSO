@@ -212,9 +212,9 @@ exports.newProduct = function (req, res) {
     } else {
         products.newProduct(req.body.name, req.body.link, req.body.imagename, req.body.category, req.user.userid, function (err, result){
             if (err) {
-			console.log(err);
+				console.log(err);
                 res.send({result: false, success: false});
-				}
+			}
             else if (result)
                 res.send({result: true, success: true});
             else

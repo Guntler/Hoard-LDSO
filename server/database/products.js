@@ -44,8 +44,6 @@ exports.newProduct = function (name, link, imagename, category, userid,callback)
         });
 		
         query.on("end", function (result) {
-			console.log(result.rows[0]);
-			console.log(result.rows[0].id);
             EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", "", [], function (res, err){
                 if(err){
                     return callback(err, null);

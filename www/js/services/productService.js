@@ -24,17 +24,16 @@ hoard.service('productService',function($http, $location, messageService) {
 	}
 	
 	return {
-			addProduct: function(name,link,category,imagename) {
+			addProduct: function(name,link,category,imagename,callback) {
 				var Url = "/api/products/new/";
-				//var info = {name: name, link: link, imagename:"bottle-opener-fedora-300x250.jpg", category:category};
 				var info = {name: name, link: link, imagename: imagename, category:category};
 				$http.post(Url,info).success(function(data){
 					if(data.success == false) {
-					
+						if(messageService.getMessages().errorMessage == null)
+							messageService.setError("There has been an unexpected error." );
 					}
 					else {
-						console.log(data);
-						$location.url('/home/products/1');
+						callback(data.result);
 					}
 				}).error(function(data,status,headers, config) {
 					messageService.setError("There has been an unexpected error. The product could not be added.");
@@ -49,7 +48,7 @@ hoard.service('productService',function($http, $location, messageService) {
 							messageService.setError("There has been an unexpected error." );
 					}
 					else {
-						$location.url('/home/products/1');
+						callback(data.result);
 					}
 				}).error(function(data,status,headers, config) {
 					messageService.setError("There has been an unexpected error. The product could not be deleted.");
