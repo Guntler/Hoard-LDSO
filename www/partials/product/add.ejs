@@ -52,15 +52,18 @@
 							</div>
 						</div>
 						
-					
-						<div class="field">
-							<label>Image</label>
-							<div class="row">
-								<div class="ui selection dropdown">
-									<input type="file" ng-model="pImage" name="pImage">
+					<div class="ui fluid form segment">
+						<div class="one field">
+							<div class="field">
+								<label>Image</label>
+								<div class="row">
+									<div class="ui selection">
+										<input id="file" type="file" ng-model="pImage" onchange="angular.element(this).scope().fileChanged(this.files)" name="pImage">
+									</div>
 								</div>
 							</div>
 						</div>
+					</div>
 						<div class="ui divider"></div>
 						<div class="row">
 							<div id="product-submit" ng-click="addProduct(pName,pLink,pCategory,pImage)" type="submit" class="ui primary button">

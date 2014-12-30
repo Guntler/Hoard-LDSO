@@ -281,9 +281,11 @@ exports.newRequest = function (productid, userid, editType, description, reason,
         if (fields.imageName == undefined) fields.imageName = null;
         if (fields.category == undefined) fields.category = null;
 
+		console.log(productid);
         var query1 = editrequest.query("SELECT * FROM product WHERE productid = $1", [productid]);
-
+		console.log(query1);
         query1.on("row", function (row, result) {
+			console.log("ROW");
             //result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
 			productExists = true;
         });
@@ -291,11 +293,15 @@ exports.newRequest = function (productid, userid, editType, description, reason,
         query1.on("end", function (result) {
 
             if (!productExists) {
+				console.log("PRODUCT NOT EXIST");
                 done();
                 callback(err, null);
             } else {
+				console.log(productid);
+				console.log(reason);
+				console.log("BEFORE EDIT REQUEST");
                 var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, description, name, link, imageName, category, reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [productid, userid, editType, description, fields.name, fields.link, fields.imageName, fields.category, reason]);
-
+				console.log("AFTER EDIT REQUEST");
                 /*query2.on("row", function (row, result2) {
                     result2.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.description, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
                 });*/

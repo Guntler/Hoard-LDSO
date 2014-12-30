@@ -24,15 +24,16 @@ hoard.service('productService',function($http, $location, messageService) {
 	}
 	
 	return {
-			addProduct: function(name,link,category,image) {
+			addProduct: function(name,link,category,imagename) {
 				var Url = "/api/products/new/";
-				var info = {name: name, link: link, imagename:"bottle-opener-fedora-300x250.jpg", category:category};
+				//var info = {name: name, link: link, imagename:"bottle-opener-fedora-300x250.jpg", category:category};
+				var info = {name: name, link: link, imagename: imagename, category:category};
 				$http.post(Url,info).success(function(data){
 					if(data.success == false) {
-						alert("Something happened");
+					
 					}
 					else {
-						alert(data);
+						console.log(data);
 						$location.url('/home/products/1');
 					}
 				}).error(function(data,status,headers, config) {
