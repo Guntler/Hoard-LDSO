@@ -32,20 +32,47 @@ exports.findById = function (id, callback) {
     });
 };
 
-exports.newProduct = function (name, link, imagename, category, userid,callback) {
+exports.newProduct = function (name, link, image, category, imagecontents, userid,callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
-
+		
+		var fs = require('fs');
+		var valid = false;
+		var index = 0;
+		var imagename = image.name;
+		while(!valid) {
+			if(fs.exists("../www/images/products/"+imagename)) {
+				index++;
+				console.log("INSIDE " + imagename);
+				var extensionAt = imagename.indexOf(".");
+				imagename=imagename.substr(0, extensionAt) +" (" + index + ")" + imagename.substr(extensionAt);
+				imagename = imagename+" (" + index + ")";
+				console.log(imagename);
+			}
+			else {
+				valid = true;
+			}
+		}
+		
 		var query = product.query("INSERT INTO product (name, link, imagename, category, visible, addedby) VALUES ($1, $2, $3, $4, 'false', $5) RETURNING *", [name, link, imagename, category, userid]);
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
+			
+			fs.writeFile("../www/images/products/"+imagename, imagecontents, function(err) {
+				if(err) {
+					console.log(err);
+				} else {
+					console.log("The file was saved!");
+				}
+			});
         });
 		
         query.on("end", function (result) {
             EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", "", [], function (res, err){
                 if(err){
+					console.log(err);
                     return callback(err, null);
                 } else {
                     done();

@@ -24,9 +24,9 @@ hoard.service('productService', function ($http, $location, messageService) {
     }
 
     return {
-        addProduct: function (name, link, category, imagename, callback) {
+        addProduct: function (name, link, category, imagename, imagecontents, callback) {
             var Url = "/api/products/new/";
-            var info = {name: name, link: link, imagename: imagename, category: category};
+            var info = {name: name, link: link, imagename: imagename, category: category, imagecontents: imagecontents};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)

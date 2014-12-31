@@ -15,8 +15,8 @@ var app = express();
 require('./config/passport')(passport);
 
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '10mb'}));
 app.use(session( {secret: 'hoardingisfun', saveUninitialized: true, resave: true} ));
 app.use(passport.initialize());
 app.use(passport.session());
