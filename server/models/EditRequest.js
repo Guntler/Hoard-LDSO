@@ -1,13 +1,12 @@
 var util = require('../database/utilities');
 
-var EditRequest = function (requestid, productid, submittedby, approvedby, edittype, editstatus, description, name, link, imageName, category, reason, editdate) {
+var EditRequest = function (requestid, productid, submittedby, approvedby, edittype, editstatus, name, link, imageName, category, reason, editdate) {
 	this.id = requestid;
 	this.productid = productid;
 	this.submittedby = submittedby;
 	this.approvedby = approvedby;
 	this.edittype = edittype;
 	this.editstatus = editstatus;
-	this.description = description;
 	this.name = name;
 	this.link = link;
 	this.imageName = imageName;
@@ -22,7 +21,6 @@ EditRequest.prototype.submittedby = null;
 EditRequest.prototype.approvedby = null;
 EditRequest.prototype.edittype = "";
 EditRequest.prototype.editstatus = "";
-EditRequest.prototype.description = "";
 EditRequest.prototype.name = null;
 EditRequest.prototype.link = null;
 EditRequest.prototype.imageName = null;

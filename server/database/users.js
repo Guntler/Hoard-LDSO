@@ -106,9 +106,6 @@ exports.changePassword = function (oldPassword, newPassword, email, callback) {
         exports.checkLogin(email, oldPassword, function (err, result) {
             if (err)
                 return callback(err, null);
-            if(!result)
-                return callback(null, null);
-
             bcrypt.genSalt(10, function (err, salt) {
                 if (err) return callback(err, null);
 
