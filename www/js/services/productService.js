@@ -24,28 +24,33 @@ hoard.service('productService', function ($http, $location, messageService) {
     }
 
     return {
-        addProduct: function (name, link, category, imagename, imagecontents, callback) {
+        addProduct: function (name, link, category, image, imagecontents, callback) {
+			console.log("image:");
+			console.log(image);
             var Url = "/api/products/new/";
-            var info = {name: name, link: link, imagename: imagename, category: category, imagecontents: imagecontents};
+            var info = {name: name, link: link, image: image, category: category, imagecontents: imagecontents};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
+					callback(null);
                 }
                 else {
                     callback(data.result);
                 }
             }).error(function (data, status, headers, config) {
                 messageService.setError("There has been an unexpected error. The product could not be added.");
+				callback(null);
             });
         },
-        editProduct: function (productid, reason, name, link, imageName, category, callback) {
+        editProduct: function (productid, reason, name, link, image, category, callback) {
             var Url = "/api/editrequests/new/";
-            var info = {productid: productid, edittype: 'Edit', reason: reason, name: name, link: link, imageName: imageName, category: category};
+            var info = {productid: productid, edittype: 'Edit', reason: reason, name: name, link: link, image: image, category: category};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
+					callback(null);
                 }
                 else {
                     callback(data.result);
@@ -54,19 +59,21 @@ hoard.service('productService', function ($http, $location, messageService) {
                 messageService.setError("There has been an unexpected error. The product could not be added.");
             });
         },
-        deleteProduct: function (id, reason) {
+        deleteProduct: function (id, reason, callback) {
             var Url = "/api/editrequests/new/";
             var info = {productid: id, edittype: "Delete", reason: reason};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
+					callback(null);
                 }
                 else {
                     callback(data.result);
                 }
             }).error(function (data, status, headers, config) {
                 messageService.setError("There has been an unexpected error. The product could not be deleted.");
+				callback(null);
             });
         },
         getProductsByPage: function (page, productsPerPage, search, callback) {

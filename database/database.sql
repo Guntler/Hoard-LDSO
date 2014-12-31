@@ -33,8 +33,8 @@ CREATE TABLE productCategory (
 
 CREATE TABLE product (
 	productID SERIAL PRIMARY KEY,
-	name VARCHAR(200) UNIQUE NOT NULL,
-	link VARCHAR(500) UNIQUE NOT NULL,
+	name VARCHAR(200) NOT NULL,
+	link VARCHAR(500) NOT NULL,
 	imageName VARCHAR(128) NOT NULL, -- Images will be placed in folders with this structure: productImages/<productID>/<imageNameAsInsertedByUser>
 	category INTEGER NOT NULL REFERENCES productCategory(categoryID),
 	visible BOOLEAN NOT NULL DEFAULT false,

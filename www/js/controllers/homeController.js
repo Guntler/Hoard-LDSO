@@ -196,7 +196,7 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	}
 	
 	$scope.deleteProduct = function() {
-		productService.deleteProduct($scope.productToDelete, $scope.reasonToDelete);
+		productService.deleteProduct($scope.productToDelete, $scope.reasonToDelete, function() {});
 	}
 	
 	//Edits

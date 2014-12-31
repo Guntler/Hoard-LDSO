@@ -207,11 +207,13 @@ exports.productCount = function (req, res) {
 };
 
 exports.newProduct = function (req, res) {
-    if (req.body.name == undefined || req.body.link == undefined || req.body.category == undefined || req.body.imagename == undefined || req.body.imagecontents == undefined || req.user == undefined) {
+    if (req.body.name == undefined || req.body.link == undefined || req.body.category == undefined || req.body.image == undefined || req.body.imagecontents == undefined || req.user == undefined) {
+		console.log("oops");
         res.send({result: false, success: false});
     } else {
-        products.newProduct(req.body.name, req.body.link, req.body.imagename, req.body.category, req.body.imagecontents, req.user.userid, function (err, result){
+        products.newProduct(req.body.name, req.body.link, req.body.image, req.body.category, req.body.imagecontents, req.user.userid, function (err, result){
             if (err) {
+				console.log("err is:");
 				console.log(err);
                 res.send({result: false, success: false});
 			}
@@ -508,7 +510,7 @@ exports.newRequest = function(req, res) {
     if (req.body.productid == undefined || req.user.userid == undefined || req.body.edittype == undefined || (req.body.edittype != "Add" && req.body.edittype != "Edit" && req.body.edittype != "Delete")) {
         res.send({result: false, success: false});
     } else {
-        editrequests.newRequest(req.body.productid, req.user.userid, req.body.edittype, req.body.reason, req.body.name, req.body.link, req.body.imageName, req.body.category, function (err, result) {
+        editrequests.newRequest(req.body.productid, req.user.userid, req.body.edittype, req.body.reason, req.body.name, req.body.link, req.body.image, req.body.category, function (err, result) {
             if (err) {
 				console.log(err);
                 res.send({result: false, success: false});

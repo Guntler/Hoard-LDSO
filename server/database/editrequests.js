@@ -269,7 +269,7 @@ exports.getManagerEdits = function (managerId, callback) {
     });
 };
 
-exports.newRequest = function (productid, userid, editType, reason, name, link, imageName, category, callback) {
+exports.newRequest = function (productid, userid, editType, reason, name, link, image, category, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
             return callback(err, null);
@@ -279,10 +279,9 @@ exports.newRequest = function (productid, userid, editType, reason, name, link, 
 
         if (name == undefined) name = null;
         if (link == undefined) link = null;
-        if (imageName == undefined) imageName = null;
+        if (image == undefined) image = null;
         if (category == undefined) category = null;
 
-        console.log(productid);
         var query1 = editrequest.query("SELECT * FROM product WHERE productid = $1", [productid]);
 
         query1.on("row", function (row, result) {
@@ -293,26 +292,26 @@ exports.newRequest = function (productid, userid, editType, reason, name, link, 
 
             if (!productExists) {
                 done();
-                callback(err, null);
+                callback(null, null);
             } else {
-                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, reason, name, link, imageName, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [productid, userid, editType, reason, name, link, imageName, category]);
+                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, reason, name, link, imageName, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [productid, userid, editType, reason, name, link, image, category]);
 
                 query2.on("end", function (result2) {
                     done();
                     callback(null, true);
                 });
 
-                query2.on("error", function (err) {
-					console.log(err);
+                query2.on("error", function (err2) {
+					console.log(err2);
                     done();
-                    callback(err, null);
+                    callback(err2, null);
                 });
             }
         });
 
-        query1.on("error", function (err) {
+        query1.on("error", function (err3) {
             done();
-            callback(err, null);
+            callback(err3, null);
         });
 
     });

@@ -41,16 +41,13 @@ exports.newProduct = function (name, link, image, category, imagecontents, useri
 		var fs = require('fs');
 		var valid = false;
 		var index = 0;
-		var imagename = image.name;
+		var imagename = image;
 		while(!valid) {
-			console.log("Check directory " + "../www/images/products/"+imagename);
 			if(fs.exists("../www/images/products/"+imagename)) {
 				index++;
-				console.log("File exists!! " + imagename);
 				var extensionAt = imagename.indexOf(".");
 				imagename=imagename.substr(0, extensionAt) +" (" + index + ")" + imagename.substr(extensionAt);
 				imagename = imagename+" (" + index + ")";
-				console.log(imagename);
 			}
 			else {
 				valid = true;
@@ -63,29 +60,22 @@ exports.newProduct = function (name, link, image, category, imagecontents, useri
         });
 		
         query.on("end", function (result) {
-            EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", null, null,null,null, function (res, err){
-                if(err){
-					console.log(err);
-                    return callback(err, null);
+            EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", null, null,null,null, function (err2, res){
+                if(err2){
+                    return callback(err2, null);
                 } else {
                     done();
                     callback(null, res);
                 }
             });
 			
-			fs.writeFile("../www/images/products/"+imagename, imagecontents, function(err) {
-				if(err) {
-					console.log(err);
-				} else {
-					console.log("The file was saved!");
-				}
+			fs.writeFile("../www/images/products/"+imagename, imagecontents, {encoding:"binary"}, function(err3) {
 			});
         });
 
-        query.on("error", function (err) {
-			console.log(err);
+        query.on("error", function (err4) {
             done();
-            callback(err, null);
+            callback(err4, null);
         });
     });
 };
