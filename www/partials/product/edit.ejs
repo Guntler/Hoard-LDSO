@@ -18,19 +18,15 @@
 		<div class="row profile-info">
 			<div class="eleven wide column shaded-bg profile-data">
 				<div>
-					<p><b>Name: </b>{{product.name}}</p>
-					<p><b>Link:</b> <a href="{{product.link}}">{{product.link}}</a></p>
-					<p><b>Category:</b> {{category.name}}</p>
-
 					<p ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null"><b>Creator:</b> {{addedBy.email}}</p>
 				</div>
 
 				<div class="ui divider"></div>
 
-				<p><b>New Name:</b> <input type="text" ng-model="newName"></p>
-				<p><b>New Link:</b> <input type="text" ng-model="newLink"></p>
+				<p><b>New Name:</b> <input type="text" ng-model="product.name"></p>
+				<p><b>New Link:</b> <input type="text" ng-model="product.link"></p>
 				<p><b>New Category:</b>
-					<select ng-model="newCategory"
+					<select ng-model="category"
                             ng-options="category as category.name for category in categories">
                     </select>
                 </p>
@@ -38,8 +34,8 @@
 
                 <div class="ui divider"></div>
                 <div class="row">
-                    <div id="product-submit" ng-click="editProduct(productId, reason, newName, newLink,
-                    newImageName, newCategory.categoryid)"
+                    <div id="product-submit" ng-click="editProduct(productId, reason, product.name, product.link,
+                    product.imageName, category.categoryid)"
                          type="submit"
                          class="ui primary button" ng>
                         Edit product

@@ -376,7 +376,6 @@ exports.approveRequest = function (adminid, editid, callback) {
 
             query1.on("end", function (result) {
                 var resultData = result.rows[0];
-                console.log(resultData);
 
                 if (result.rows.length < 1) {
                     done();
@@ -499,8 +498,6 @@ exports.getSimilarFieldEdits = function (field, input, callback) {
         if (err) {
             return callback(err, null);
         }
-
-        //console.log("Field is: " + field); console.log("Input is: " + input);
 
         if (field == "product")
             var query = editrequest.query("SELECT * FROM editrequest, product WHERE product.productid = editrequest.productid AND similarity(product.name, $1) > 0.2", [input]);

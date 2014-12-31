@@ -505,11 +505,9 @@ exports.requestsByManagerId = function (req, res) {
 };
 
 exports.newRequest = function(req, res) {
-    if (req.body.productid == undefined || req.user.userid == undefined || req.body.edittype == undefined || req.body.reason == undefined || (req.body.edittype != "Add" && req.body.edittype != "Edit" && req.body.edittype != "Delete")) {
+    if (req.body.productid == undefined || req.user.userid == undefined || req.body.edittype == undefined || (req.body.edittype != "Add" && req.body.edittype != "Edit" && req.body.edittype != "Delete")) {
         res.send({result: false, success: false});
-        console.log("Não chegou tudo");
     } else {
-        console.log("Chegou tudo");
         editrequests.newRequest(req.body.productid, req.user.userid, req.body.edittype, req.body.reason, req.body.name, req.body.link, req.body.imageName, req.body.category, function (err, result) {
             if (err) {
 				console.log(err);
