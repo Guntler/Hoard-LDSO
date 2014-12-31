@@ -32,7 +32,7 @@ exports.findById = function (id, callback) {
     });
 };
 
-exports.newProduct = function (name, link, imagename, category, userid,callback) {
+exports.newProduct = function (name, link, imagename, category, userid, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
