@@ -303,6 +303,7 @@ exports.newRequest = function (productid, userid, editType, reason, name, link, 
                 });
 
                 query2.on("error", function (err) {
+					console.log(err);
                     done();
                     callback(err, null);
                 });

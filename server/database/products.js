@@ -43,9 +43,10 @@ exports.newProduct = function (name, link, image, category, imagecontents, useri
 		var index = 0;
 		var imagename = image.name;
 		while(!valid) {
+			console.log("Check directory " + "../www/images/products/"+imagename);
 			if(fs.exists("../www/images/products/"+imagename)) {
 				index++;
-				console.log("INSIDE " + imagename);
+				console.log("File exists!! " + imagename);
 				var extensionAt = imagename.indexOf(".");
 				imagename=imagename.substr(0, extensionAt) +" (" + index + ")" + imagename.substr(extensionAt);
 				imagename = imagename+" (" + index + ")";
@@ -59,6 +60,18 @@ exports.newProduct = function (name, link, image, category, imagecontents, useri
 		var query = product.query("INSERT INTO product (name, link, imagename, category, visible, addedby) VALUES ($1, $2, $3, $4, 'false', $5) RETURNING *", [name, link, imagename, category, userid]);
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
+        });
+		
+        query.on("end", function (result) {
+            EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", null, null,null,null, function (res, err){
+                if(err){
+					console.log(err);
+                    return callback(err, null);
+                } else {
+                    done();
+                    callback(null, res);
+                }
+            });
 			
 			fs.writeFile("../www/images/products/"+imagename, imagecontents, function(err) {
 				if(err) {
@@ -68,20 +81,9 @@ exports.newProduct = function (name, link, image, category, imagecontents, useri
 				}
 			});
         });
-		
-        query.on("end", function (result) {
-            EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", "", [], function (res, err){
-                if(err){
-					console.log(err);
-                    return callback(err, null);
-                } else {
-                    done();
-                    callback(null, res);
-                }
-            });
-        });
 
         query.on("error", function (err) {
+			console.log(err);
             done();
             callback(err, null);
         });
