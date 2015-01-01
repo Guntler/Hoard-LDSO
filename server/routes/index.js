@@ -44,7 +44,6 @@ module.exports = function (app, passport) {
     app.get('/api/users/all', adminApiPermissions, api.users);
     app.get('/api/users/id/:id', adminApiPermissions, api.userById);
     app.get('/api/users/email/:email', adminApiPermissions, api.userByEmail);
-	app.get('/api/users/changePassword/:oldPassword/:newPassword', api.changePassword);
     app.get('/api/users/fromTo/:from/:to', adminApiPermissions, api.usersFromTo);
 	app.get('/api/users/count', adminApiPermissions, api.userCount);
     app.get('/api/users/exists/:email', adminApiPermissions, api.userExists);
@@ -73,7 +72,6 @@ module.exports = function (app, passport) {
 	app.get('/api/products/favoriteDown/:productid', api.favoriteDown);
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct);
     app.get('/api/products/similar/:field/:input', api.getSimilarFieldProducts);
-    //app.get('/api/products/new/:name/:link/:category', managerApiPermissions, api.newProduct);
     
     app.get('/api/editrequests/byProduct/:product', adminApiPermissions, api.getEditsOfProduct);
     app.get('/api/editrequests/all', adminApiPermissions, api.editrequests);
@@ -96,6 +94,7 @@ module.exports = function (app, passport) {
 
 	app.post('/api/products/new', managerApiPermissions, api.newProduct);
 	app.post('/api/editrequests/new', managerApiPermissions, api.newRequest);
+	app.post('/api/users/changePassword', api.changePassword);
 	
     app.post('/api/users/signin', function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {

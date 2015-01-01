@@ -1,5 +1,8 @@
-hoard.controller('userAreaController', function($scope, $cookieStore, sessionService) {
+hoard.controller('userAreaController', function($scope, $cookieStore, sessionService, userService) {
 	$scope.user = null;
+	$scope.currPassword = null;
+	$scope.newPassword = null;
+	$scope.newPassword2 = null;
 	
 	$scope.$watch(function() {
 					return sessionService.getUser();
@@ -35,6 +38,15 @@ hoard.controller('userAreaController', function($scope, $cookieStore, sessionSer
 						mobileTransition : transition
 					})
 				.sidebar('hide');
+		}
+	}
+	
+	$scope.changePassword = function() {
+		if($scope.newPassword == $scope.newPassword2) {
+			userService.changePassword($scope.currPassword, $scope.newPassword, function(data) {
+				if(data)
+					console.log("success");
+			});
 		}
 	}
 	

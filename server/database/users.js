@@ -106,30 +106,34 @@ exports.changePassword = function (oldPassword, newPassword, email, callback) {
         exports.checkLogin(email, oldPassword, function (err, result) {
             if (err)
                 return callback(err, null);
-            bcrypt.genSalt(10, function (err, salt) {
-                if (err) return callback(err, null);
+			else if(result) {
+				bcrypt.genSalt(10, function (err, salt) {
+					if (err) return callback(err, null);
 
-                bcrypt.hash(newPassword, salt, function (err, hash) {
-                    if (err) return callback(err, null);
+					bcrypt.hash(newPassword, salt, function (err, hash) {
+						if (err) return callback(err, null);
 
-                    var query = client.query("UPDATE  userAccount SET password=$1 WHERE email=$2", [hash, email]);
+						var query = client.query("UPDATE  userAccount SET password=$1 WHERE email=$2", [hash, email]);
 
-                    query.on("row", function (row, result) {
-                        result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
-                    });
+						query.on("row", function (row, result) {
+							result.addRow(new User(row.userid, row.email, row.permissions, row.registerdate));
+						});
 
-                    query.on("end", function (result) {
-                        done();
-                        callback(null, result);
-                    });
+						query.on("end", function (result) {
+							done();
+							callback(null, result);
+						});
 
-                    query.on("error", function (err) {
-                        done();
-                        callback(err, null);
-                    });
+						query.on("error", function (err) {
+							done();
+							callback(err, null);
+						});
 
-                });
-            });
+					});
+				});
+			}
+			else
+				return callback(null, null);
         });
 
 

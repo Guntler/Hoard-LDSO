@@ -31,6 +31,10 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 					}
 	});
 	
+	$scope.goToEdit = function() {
+		$location.url("/products/actions/edit/"+$scope.productId);
+	}
+	
 	$scope.approveEdit = function(edit) {
 		if(edit.editstatus == "Pending")
 		editService.resolveEdit(edit.id, true, function(result) {

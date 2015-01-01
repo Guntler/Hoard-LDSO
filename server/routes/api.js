@@ -86,12 +86,13 @@ exports.checkLogin = function (req, res) {
 };
 
 exports.changePassword = function (req, res) {
-    if (req.params.oldPassword == undefined || req.params.newPassword == undefined || req.user == undefined) {
+    if (req.body.oldPassword == undefined || req.body.newPassword == undefined || req.user == undefined) {
         res.send({result: false, success: false});
     } else {
-        users.changePassword(req.params.oldPassword, req.params.newPassword, req.user.email, function (err, result) {
-            if (err)
+        users.changePassword(req.body.oldPassword, req.body.newPassword, req.user.email, function (err, result) {
+            if (err) {
                 res.send({result: false, success: false});
+			}
             else if (result)
                 res.send({result: true, success: true});
             else

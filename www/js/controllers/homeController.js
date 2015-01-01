@@ -76,7 +76,6 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	//Users
 	$scope.users = [];
 	if($scope.tab == 'users') {
-		
 		userService.getUserCount($scope.filterBy, $scope.filterVal, $scope.search, function(data) {
 			$scope.totalTabItems = data.integer;
 		});
@@ -202,7 +201,6 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	//Edits
 	$scope.edits = [];
 	if ($scope.tab == 'edits') {
-		
 		editService.getEditCount($scope.filterBy, $scope.filterVal, function(data) {
 			$scope.totalTabItems = data.integer;
 		});

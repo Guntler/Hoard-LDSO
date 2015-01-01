@@ -21,8 +21,8 @@
 				</a>
 				<div class="right menu">
 					<div class="item">
-						<div class="ui icon input">
-							<input type="text" placeholder="Search..." ng-model="search">
+						<div class="ui icon input" ng-hide="tab == 'edits'">
+							<input id="search-bar" type="text" placeholder="Search..." ng-model="search">
 							<i class="search link icon" ng-click="executeSearch()"></i>
 						</div>
 					</div>
@@ -30,9 +30,6 @@
 			</div>
 
 			<div ng-class="{active:tab === 'products'}" class="ui divided selection list tab">
-				<button class="bottom-button select-button">Select All</button>
-				<button class="bottom-button select-button">Select None</button>
-				<button class="bottom-button select-button">Invert Selection</button>
 
 				<div class="ui error message" ng-hide="errorMessage == null">
 						{{errorMessage}}
@@ -46,10 +43,9 @@
 					</div>
 
 					<div ng-repeat="product in products" class="item">
-						<div class="left floated"><input type="checkbox" name="selected"></div>
-						<div class="right floated date"><a href="#/products/actions/edit/{{product.id}}"><button
-                                        class="ui red button
-						tiny">edit</button></a></div>
+						<div class="right floated date"><a href="#/products/actions/edit/{{product.id}}">
+							<button class="ui red button tiny">edit</button>
+						</a></div>
 						<div class="right floated date"><button class="ui red button tiny" ng-click="showDeleteModal(product.id)">delete</button></div>
 						<div class="right floated date list-column-2">{{product.dateadded}}</div>
 						<div class="name" >
@@ -58,7 +54,6 @@
 					</div>
 				</div>
 				<a href="#/products/actions/add"><button class="bottom-button add-button">Add Product</button></a>
-				<button class="bottom-button remove-button">Remove Selection</button>
 			</div>
 
 			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab">

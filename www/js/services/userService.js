@@ -13,7 +13,6 @@ hoard.service('userService',function($http, messageService) {
 				else Url += "&";
 				Url += "search=" + search;
 			}
-			console.log(Url);
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
@@ -125,6 +124,23 @@ hoard.service('userService',function($http, messageService) {
 				messageService.setError("There has been an unexpected error.");
 				callback(false);
 			});
+		},
+		changePassword: function(oldPassword, newPassword, callback) {
+			var Url = "/api/users/changePassword";
+            var info = {oldPassword: oldPassword, newPassword: newPassword};
+			$http.post(Url, info).success(function (data) {
+                if (data.success == false) {
+                    if (messageService.getMessages().errorMessage == null)
+                        messageService.setError("There has been an unexpected error.");
+					callback(null);
+                }
+                else {
+                    callback(data.result);
+                }
+            }).error(function (data, status, headers, config) {
+                messageService.setError("There has been an unexpected error.");
+				callback(null);
+            });
 		}
 	};
 });

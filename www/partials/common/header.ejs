@@ -1,44 +1,30 @@
 <div class="ui right red sidebar edit-profile">
 	<div class="ui form segment" href="#">
 		<div class="field">
-			<label>Change Email</label>
-			<div class="ui left labeled icon input">
-				<input class="defaultFocus" type="text" placeholder="Email">
-				<i class="user icon"></i>
-				<div class="ui corner label">
-					<i class="icon asterisk"></i>
-				</div>
-			</div>
-		</div>
-		<div class="field">
 			<label>Current Password</label>
 			<div class="ui left labeled icon input">
-				<input type="password" placeholder="Password">
+				<input type="password" ng-model="currPassword" placeholder="Password">
 				<i class="lock icon"></i>
-				<div class="ui corner label">
-					<i class="icon asterisk"></i>
-				</div>
 			</div>
 		</div>
 		<div class="field">
 			<label>New Password</label>
 			<div class="ui left labeled icon input">
-				<input type="password" placeholder="Password">
-				<i class="lock icon"></i>
-				<div class="ui corner label">
-					<i class="icon asterisk"></i>
-				</div>
+				<input class="defaultFocus" type="password" ng-model="newPassword" placeholder="Password">
+				<i class="user icon"></i>
+			</div>
+			<div class="ui left labeled icon input" style="margin-top: 10px">
+				<input class="defaultFocus" type="password" ng-model="newPassword2" placeholder="Confirm Password">
+				<i class="user icon"></i>
 			</div>
 		</div>
 		<div class="ui error message">
 			<div class="header">We noticed some issues</div>
 		</div>
 		<div class="ui center aligned grid">
-			<a href="#/user/frontpage">
-				<div class="ui red submit button">
-					Confirm Changes
-				</div>
-			</a>
+			<div class="ui red submit button" ng-click="changePassword()">
+				Change Password
+			</div>
 		</div>
 	</div>
 </div>
