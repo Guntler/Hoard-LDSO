@@ -31,9 +31,8 @@
 
 			<div ng-class="{active:tab === 'products'}" class="ui divided selection list tab">
 
-				<div class="ui error message" ng-hide="errorMessage == null">
-						{{errorMessage}}
-				</div>
+				<div data-message-directive message-type="success"></div>
+				<div data-message-directive message-type="error"></div>
 
 				<div class="shaded-bg">
 					<div class="tableHeader item">
@@ -58,7 +57,7 @@
 
 			<div ng-class="{active:tab === 'users'}" class="ui divided selection list tab">
 				<div style="margin-bottom: 10px">
-					<div ngIf="tab === 'users'" class="ui shaded-bg" style="padding-left: 20px;">
+					<div ngif="tab === 'users'" class="ui shaded-bg" style="padding-left: 20px;">
 					Filter by:
 					<label><input ng-model="userFilter" class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">User</div></label>
 					<label><input ng-model="managerFilter" class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Manager</div></label>
@@ -66,9 +65,8 @@
 					</div>
 				</div>
 
-				<div class="ui error message" ng-hide="errorMessage == null">
-							{{errorMessage}}
-				</div>
+				<div data-message-directive message-type="success"></div>
+				<div data-message-directive message-type="error"></div>
 
 				<div class="ui shaded-bg">
 					<div class="tableHeader item">
@@ -95,7 +93,7 @@
 
 			<div ng-class="{active: tab === 'edits'}" class="ui divided selection list tab">
 				<div style="margin-bottom: 10px;">
-					<div ngIf="tab === 'edits'" class="ui shaded-bg" style="padding-left: 20px;">
+					<div ngif="tab === 'edits'" class="ui shaded-bg" style="padding-left: 20px;">
 						Filter by:
 						<label><input ng-model="approved" class="filterBox" type="checkbox" name="selected"><div class="ui tiny green button">Approved</div></label>
 						<label><input ng-model="pending" class="filterBox" type="checkbox" name="selected"><div class="ui tiny purple button">Pending</div></label>
@@ -103,9 +101,8 @@
 					</div>
 				</div>
 
-				<div class="ui error message" ng-hide="errorMessage == null">
-						{{errorMessage}}
-				</div>
+				<div data-message-directive message-type="success"></div>
+				<div data-message-directive message-type="error"></div>
 
 				<div class="ui shaded-bg">
 					<div class="tableHeader item">

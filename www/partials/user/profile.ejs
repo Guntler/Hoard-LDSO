@@ -19,6 +19,8 @@
 			<div class="eleven wide column shaded-bg profile-data">
 				<h2>{{userProfile.email | cut:true:50:' ...'}}</h2>
 			<div class="ui divider"></div>
+				<div data-message-directive message-type="success"></div>
+				<div data-message-directive message-type="error"></div>
 				<div>
 					<p><b>E-mail:</b> {{userProfile.email}}</p>
 					<p><b>Register Date:</b> {{userProfile.registerdate}}</p>

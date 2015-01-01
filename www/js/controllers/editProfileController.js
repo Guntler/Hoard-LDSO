@@ -17,6 +17,8 @@ hoard.controller('editProfileController',function($scope, $routeParams, $locatio
 						});
 						
 						userService.getUserById($scope.edit.approvedby, function(appr){
+								console.log($scope.edit);
+								console.log(appr);
 								$scope.approvedby = appr;
 						});
 						

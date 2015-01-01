@@ -7,7 +7,6 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.itemsPerPage = 10;
 	$scope.pageRange = 3;
 	$scope.totalTabItems = 0;
-	$scope.errorMessage = null;
 	$scope.filterBy = $routeParams.filterBy;
 	$scope.filterVal = $routeParams.filterVal;
 	$scope.approved = false;
@@ -38,7 +37,7 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 			$scope.managerFilter = true;
 	}
 	
-	messageService.clearAll();
+	messageService.setError(null);
 	$scope.$watch(function() {
 					return sessionService.getUser();
 				},
@@ -47,13 +46,6 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 						if(sessionService.getUser().permissions != 'Admin' && ($routeParams.tab === 'edits' || $routeParams.tab === 'users'))
 							messageService.setError("You don't have the necessary permissions to access this information.");
 					}
-				});
-	
-	$scope.$watch(function() {
-					return messageService.getMessages().errorMessage;
-				},
-				function() {
-					$scope.errorMessage = messageService.getMessages().errorMessage;
 				});
 				
 	

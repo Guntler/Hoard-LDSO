@@ -6,13 +6,17 @@ hoard.service('editService',function($http, messageService) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
-					if(messageService.getMessages().errorMessage == null)
-						messageService.setError("There has been an unexpected error." );
+					if(messageService.getMessages().errorMessage == null) {
+						if(data.err != null && data.err.code == "22P02")
+							messageService.setError("No edit requests were found." );
+						else
+							messageService.setError("There has been an unexpected error." );
+					}
 					callback(null);
 				}
 				else if(data.result.length == 0) {
 					if(messageService.getMessages().errorMessage == null)
-						messageService.setError("Couldn't find requests." );
+						messageService.setError("No edit requests were found." );
 					callback(null);
 				}
 				else {
@@ -51,13 +55,17 @@ hoard.service('editService',function($http, messageService) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
-					if(messageService.getMessages().errorMessage == null)
-						messageService.setError("There has been an unexpected error." );
+					if(messageService.getMessages().errorMessage == null) {
+						if(data.err != null && data.err.code == "22P02")
+							messageService.setError("No edit requests were found." );
+						else
+							messageService.setError("There has been an unexpected error." );
+					}
 					callback(null);
 				}
 				else if(data.result == null) {
 					if(messageService.getMessages().errorMessage == null)
-						messageService.setError("No edit requests found.");
+						messageService.setError("No edit requests were found.");
 					callback(null);
 				}
 				else {
@@ -83,6 +91,7 @@ hoard.service('editService',function($http, messageService) {
 						callback(false);
 					}
 					else {
+						messageService.setSuccess("Request has been approved successfully.");
 						callback(true);
 					}
 				}).error(function(data,status,headers, config) {
@@ -104,6 +113,7 @@ hoard.service('editService',function($http, messageService) {
 						callback(false);
 					}
 					else {
+						messageService.setSuccess("Request has been rejected successfully.");
 						callback(true);
 					}
 				}).error(function(data,status,headers, config) {

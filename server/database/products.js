@@ -11,7 +11,7 @@ exports.findById = function (id, callback) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product WHERE productId = $1 AND visible = true", [id]);
+        var query = product.query("SELECT * FROM product WHERE productId = $1", [id]);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));

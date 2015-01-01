@@ -400,8 +400,6 @@ exports.getSimilarFieldUsers = function (field, input, callback) {
             return callback(err, null);
         }
 
-        //console.log("Field is: " + field); console.log("Input is: " + input);
-
         if(field == "email")
             var query = user.query("SELECT * FROM useraccount WHERE similarity(email, $1) > 0.2", [input]);
         else
@@ -450,7 +448,6 @@ exports.forgotPassword = function (email, callback) {
                     var query2 = user.query("UPDATE useraccount SET password = $1 WHERE email = $2", [hash, userMail]);
 
                     query2.on("error", function (err) {
-                        console.log("Erro: " + err);
                         done();
                         callback(err, null);
                     });

@@ -19,6 +19,8 @@
 			<div class="eleven wide column shaded-bg profile-data">
 				<h2>{{submitter.email}} - {{edit.edittype}}</h2>
 				<div class="ui divider"></div>
+					<div data-message-directive message-type="success"></div>
+					<div data-message-directive message-type="error"></div>
 					<p><b>Product:</b> <a href="#/products/profile/{{product.id}}/1">{{product.name | cut:true:50:' ...'}}</a></p>
 					<p ng-show="edit.name != undefined"><b>New Name:</b> {{edit.name}}</p>
                     <p ng-show="edit.link != undefined"><b>New Link:</b> {{edit.link}}</p>
@@ -28,7 +30,7 @@
 					<p><b>Author:</b> <a href="#/users/profile/{{submitter.userid}}/1">{{submitter.email}}</a></p>
 					<p><b>Submission Date:</b> {{edit.editdate}}</p>
 					<p><b>Status:</b> {{edit.editstatus}}</p>
-					<p><b>Approved By:</b> {{approveby}}</p>
+					<p><b>Approved By:</b> <a href="#/users/profile/{{approvedby.userid}}/1">{{approvedby.email}}</a></p>
 				<div class="ui divider"></div>
 					<div class="ui medium buttons" style="margin-bottom: 15px">
 						<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui green button medium" ng-click="approveEdit(edit)">APPROVE</div>

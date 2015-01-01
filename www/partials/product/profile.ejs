@@ -19,10 +19,12 @@
 			<div class="eleven wide column shaded-bg profile-data">
 				<h2>{{product.name | cut:true:50:' ...'}}</h2>
 				<div class="ui divider"></div>
+				<div data-message-directive message-type="success"></div>
+				<div data-message-directive message-type="error"></div>
 				<div>
 					<p><b>Link:</b> <a href="{{product.link}}">{{product.link}}</a></p>
 					<p><b>Category:</b> {{category.name}}</p>
-					<p ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null"><b>Creator:</b> {{addedBy.email}}</p>
+					<p ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null"><b>Creator: </b><a href="#/users/profile/{{addedBy.userid}}/1">{{addedBy.email}}</a></p>
 				</div>
 				<div class="ui divider"></div>
 				<div class="ui red button medium" ng-click="showDeleteModal()">Delete</div>

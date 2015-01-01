@@ -1,0 +1,8 @@
+<div ng-if="messageType == 'success'" class="ui success message" ng-hide="successMessage == null" style="margin-bottom: 10px">
+	<i class="close icon" ng-click="close('success')"></i>
+	{{successMessage}}
+</div>
+<div ng-if="messageType == 'error'" class="ui error message" ng-hide="errorMessage == null || messageType != 'error'" style="margin-bottom: 10px">
+	<i class="close icon" ng-click="close('error')"></i>
+	{{errorMessage}}
+</div>
