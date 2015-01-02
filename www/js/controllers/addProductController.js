@@ -18,9 +18,18 @@ hoard.controller('addProductController', function($scope, $location, productServ
 		$scope.pImage=files[0];
 		var read=new FileReader();
 		read.readAsBinaryString($scope.pImage);
+		$scope.pImageName = $scope.pImage.name;
 		read.onloadend=function(){
 			$scope.pImageContents = read.result;
+			
 		};
+		
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#productImage')
+				.attr('src', e.target.result);
+		};
+		reader.readAsDataURL($scope.pImage);
 		console.log($scope.pImage);
 	}
 	

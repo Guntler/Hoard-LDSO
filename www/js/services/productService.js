@@ -25,8 +25,6 @@ hoard.service('productService', function ($http, $location, messageService) {
 
     return {
         addProduct: function (name, link, category, image, imagecontents, callback) {
-			console.log("image:");
-			console.log(image);
             var Url = "/api/products/new/";
             var info = {name: name, link: link, image: image, category: category, imagecontents: imagecontents};
             $http.post(Url, info).success(function (data) {
@@ -44,9 +42,10 @@ hoard.service('productService', function ($http, $location, messageService) {
 				callback(null);
             });
         },
-        editProduct: function (productid, reason, name, link, image, category, callback) {
+        editProduct: function (productid, reason, name, link, image, imagecontents, category, callback) {
             var Url = "/api/editrequests/new/";
-            var info = {productid: productid, edittype: 'Edit', reason: reason, name: name, link: link, image: image, category: category};
+			console.log("Image name: " + image);
+            var info = {productid: productid, edittype: 'Edit', reason: reason, name: name, link: link, image: image, imagename: image, imagecontents: imagecontents, category: category};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
