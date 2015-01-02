@@ -38,29 +38,13 @@ exports.newProduct = function (name, link, image, category, imagecontents, useri
             return callback(err, null);
         }
 		
-		var fs = require('fs');
-		var valid = false;
-		var index = 0;
-		var imagename = image;
-		while(!valid) {
-			if(fs.exists("../www/images/products/"+imagename)) {
-				index++;
-				var extensionAt = imagename.indexOf(".");
-				imagename=imagename.substr(0, extensionAt) +" (" + index + ")" + imagename.substr(extensionAt);
-				imagename = imagename+" (" + index + ")";
-			}
-			else {
-				valid = true;
-			}
-		}
-		
 		var query = product.query("INSERT INTO product (name, link, imagename, category, visible, addedby) VALUES ($1, $2, $3, $4, 'false', $5) RETURNING *", [name, link, imagename, category, userid]);
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
         });
 		
         query.on("end", function (result) {
-            EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", null, null,null,null, function (err2, res){
+            EditRequests.newRequest(result.rows[0].id, userid, 'Add', "Added Product", null, null,null,imagename,imagecontents,null, function (err2, res){
                 if(err2){
                     return callback(err2, null);
                 } else {
@@ -68,9 +52,6 @@ exports.newProduct = function (name, link, image, category, imagecontents, useri
                     callback(null, res);
                 }
             });
-			
-			fs.writeFile("../www/images/products/"+imagename, imagecontents, {encoding:"binary"}, function(err3) {
-			});
         });
 
         query.on("error", function (err4) {

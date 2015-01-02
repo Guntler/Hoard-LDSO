@@ -7,6 +7,8 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
     $scope.pageRange = 3;
     $scope.totalEdits = 0;
     $scope.edits = [];
+	$scope.pImageContents = null;
+	$scope.pImageName = "";
 
     $scope.addedBy = null;
     $scope.product = null;
@@ -14,11 +16,36 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
     $scope.reason = null;
 
     $scope.editProduct = function (productid, reason, name, link, imageName, category) {
-        productService.editProduct(productid, reason, name, link, imageName, category, function (result) {
-            if (result)
-                $location.path('home/products/1');
-        })
+		if($scope.pImageName != "") {
+			productService.editProduct(productid, reason, name, link, $scope.pImage.name, $scope.pImageContents, category, function (result) {
+				if (result)
+					$location.path('home/products/1');
+			})
+		}
+		else {
+			productService.editProduct(productid, reason, name, link, imageName, null, category, function (result) {
+				if (result)
+					$location.path('home/products/1');
+			})
+		}
     };
+	
+	$scope.fileChanged = function(files) {
+		$scope.pImage=files[0];
+		var read=new FileReader();
+		read.readAsBinaryString($scope.pImage);
+		$scope.pImageName = $scope.pImage.name;
+		read.onloadend=function(){
+			$scope.pImageContents = read.result;
+		};
+		
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#productImage')
+				.attr('src', e.target.result);
+		};
+		reader.readAsDataURL($scope.pImage);
+	}
 
     productService.getProductById($routeParams.id, function (prod) {
         $scope.product = prod;

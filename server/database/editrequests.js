@@ -15,7 +15,7 @@ exports.findByEditType = function (edittype, callback) {
         var query = editrequest.query("SELECT * FROM editrequest WHERE edittype = $1", [edittype]);
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
         });
 
         query.on("end", function (result) {
@@ -39,7 +39,7 @@ exports.findById = function (id, callback) {
         var query = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1", [id]);
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
         });
 
         query.on("end", function (result) {
@@ -67,7 +67,7 @@ exports.getAllById = function (callback) {
         var query = editrequest.query("SELECT * FROM editrequest ORDER BY requestid");
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
         });
 
         query.on("end", function (result) {
@@ -91,7 +91,7 @@ exports.getAllByDate = function (callback) {
         var query = editrequest.query("SELECT * FROM editrequest ORDER BY editdate asc");
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
         });
 
         query.on("end", function (result) {
@@ -165,7 +165,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
 
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, row.editdate));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, row.editdate));
         });
 
         query.on("end", function (result) {
@@ -254,7 +254,7 @@ exports.getManagerEdits = function (managerId, callback) {
         var query = editrequest.query("SELECT * FROM editrequest WHERE submittedby = $1 ", [managerId]);
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
         });
 
         query.on("end", function (result) {
@@ -269,11 +269,28 @@ exports.getManagerEdits = function (managerId, callback) {
     });
 };
 
-exports.newRequest = function (productid, userid, editType, reason, name, link, image, category, callback) {
+exports.newRequest = function (productid, userid, editType, reason, name, link, image, imagename, imagecontents, category, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
             return callback(err, null);
         }
+		
+		var fs = require('fs');
+		var valid = false;
+		var index = 0;
+		
+		if(imagecontents != undefined && imagecontents != null) {
+			while(!valid) {
+				if(fs.existsSync("../www/images/products/"+imagename)) {
+					index++;
+					var extensionAt = imagename.indexOf(".");
+					imagename = imagename.substr(0, extensionAt) +" (" + index + ")" + imagename.substr(extensionAt);
+				}
+				else {
+					valid = true;
+				}
+			}
+		}
 
         var productExists = false;
 
@@ -294,9 +311,13 @@ exports.newRequest = function (productid, userid, editType, reason, name, link, 
                 done();
                 callback(null, null);
             } else {
-                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, reason, name, link, imageName, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [productid, userid, editType, reason, name, link, image, category]);
+                var query2 = editrequest.query("INSERT INTO editrequest (productid, submittedby, edittype, reason, name, link, imageName, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [productid, userid, editType, reason, name, link, imagename, category]);
 
                 query2.on("end", function (result2) {
+					if(imagecontents != undefined && imagecontents != null) {
+						var fs = require('fs');
+						fs.writeFile("../www/images/products/"+imagename, imagecontents, {encoding:"binary"}, function(err3) {console.log(err3);});
+					}
                     done();
                     callback(null, true);
                 });
@@ -326,7 +347,7 @@ exports.rejectRequest = function (adminid, editid, callback) {
             var query1 = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1 AND editstatus = 'Pending'", [editid]);
 
             query1.on("row", function (row, result) {
-                result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+                result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
             });
 
             query1.on("error", function (err) {
@@ -344,7 +365,7 @@ exports.rejectRequest = function (adminid, editid, callback) {
                     var query2 = editrequest.query("UPDATE editrequest SET approvedby = $1, editstatus = 'Denied' WHERE requestid = $2", [adminid, editid]);
 
                     query2.on("row", function (row, result2) {
-                        result2.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+                        result2.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
                     });
 
                     query2.on("end", function (result2) {
@@ -371,7 +392,7 @@ exports.approveRequest = function (adminid, editid, callback) {
             var query1 = editrequest.query("SELECT * FROM editrequest WHERE requestid = $1 AND editstatus = 'Pending'", [editid]);
 
             query1.on("row", function (row, result) {
-                result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+                result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
             });
 
             query1.on("end", function (result) {
@@ -475,7 +496,7 @@ exports.getEditsOfProduct = function (product, callback) {
         var query = editrequest.query("SELECT * FROM editrequest WHERE productID = $1", [product]);
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.product, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
         });
 
         query.on("end", function (result) {
@@ -507,7 +528,7 @@ exports.getSimilarFieldEdits = function (field, input, callback) {
             return callback(err, null);
 
         query.on("row", function (row, result) {
-            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imageName, row.category, row.reason, Date(row.editdate)));
+            result.addRow(new EditRequest(row.requestid, row.productid, row.submittedby, row.approvedby, row.edittype, row.editstatus, row.name, row.link, row.imagename, row.category, row.reason, Date(row.editdate)));
         });
 
         query.on("end", function (result) {
