@@ -53,7 +53,7 @@
     <string name="sigin_url">api/users/signin-app</string>
     <string name="register_url">api/users/register</string>
     <string name="favorites_url">api/products/getFavorites</string>
-    <string name="change_password_url">api/users/changePassword/</string>
+    <string name="change_password_url">api/users/changePassword</string>
     <string name="product_images_url">images/products/</string>
 
 </resources>

@@ -70,7 +70,8 @@ exports.getProducts = function (n, callback) {
         var query;
 
         if (n == null) {
-            query = product.query("SELECT * FROM product WHERE visible OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT 5");
+            //query = product.query("SELECT * FROM product WHERE visible OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT 5");
+            query = product.query("SELECT * FROM PRODUCT WHERE visible ORDER BY random() LIMIT 5");
         } else {
             query = product.query("SELECT * FROM product WHERE visible OFFSET random() * (SELECT COUNT(*) FROM product) LIMIT $1", [n]);
         }

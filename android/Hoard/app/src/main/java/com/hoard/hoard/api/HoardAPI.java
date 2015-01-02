@@ -85,11 +85,13 @@ public class HoardAPI {
     public Pair<Boolean, String> changePassword(String oldPassword, String newPassword) {
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
-        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.change_password_url)+oldPassword+"/"+newPassword;
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.change_password_url);
+        String body = "oldPassword=" + oldPassword + "&newPassword=" + newPassword;
 
         try {
-            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            HttpRequest request = httpRequestFactory.buildPostRequest(new GenericUrl(url), ByteArrayContent.fromString("application/x-www-form-urlencoded", body));
             request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+            request.getHeaders().setContentType("application/x-www-form-urlencoded");
 
             if(session.checkSessionForCookie()) {
                 request.getHeaders().setCookie(session.getCookie());
