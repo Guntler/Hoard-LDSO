@@ -18,21 +18,21 @@ hoard.controller('paginationController',function($scope,$location) {
 			$scope.currPage = $scope.currentPage;
 		
 		var ellipsisAtStart = false;
-		if((currentPage - pageRange) > 2)
+		if((parseInt(currentPage) - pageRange) > 2)
 			ellipsisAtStart = true;
 			
 		var ellipsisAtEnd = false;
-		if((currentPage + pageRange) < $scope.totalPages-1)
+		if((parseInt(currentPage) + pageRange) < $scope.totalPages-1)
 			ellipsisAtEnd = true;
 			
 		$scope.pages.push("1");
 		if(ellipsisAtStart)
 			$scope.pages.push("...");
 		
-		var i = currentPage - pageRange;
+		var i = parseInt(currentPage) - pageRange;
 		if(i <= 1)
 			var i = 2;
-		for(; i <= currentPage + pageRange && i < $scope.totalPages; i++) {
+		for(; i <= parseInt(currentPage) + pageRange && i < $scope.totalPages; i++) {
 			$scope.pages.push(""+i);
 		};
 		
