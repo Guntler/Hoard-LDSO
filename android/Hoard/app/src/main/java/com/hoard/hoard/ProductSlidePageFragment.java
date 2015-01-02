@@ -9,9 +9,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ProductSlidePageFragment extends Fragment {
+
+    /**
+     * Image View
+     */
+    ImageView productImageView;
+
+    /**
+     * Text View
+     */
+    TextView productNameTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -19,9 +30,11 @@ public class ProductSlidePageFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.single_product_pageviewer_item_layout, container, false);
 
-        TextView productTextView = (TextView)rootView.findViewById(R.id.product_id);
+        productNameTextView = (TextView)rootView.findViewById(R.id.product_id);
 
-        productTextView.setText("Product");
+        productNameTextView.setText("Product");
+
+        productImageView = (ImageView)rootView.findViewById(R.id.product_image_view);
 
         return rootView;
     }

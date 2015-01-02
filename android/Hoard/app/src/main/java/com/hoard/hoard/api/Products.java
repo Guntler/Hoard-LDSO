@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by AndreSilva on 26/11/14
  */
 
-public class Favorites {
+public class Products {
 
     @Key
     ArrayList<Product> result;
