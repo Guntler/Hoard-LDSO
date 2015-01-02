@@ -181,13 +181,13 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 		});
 	}
 	
-	$scope.showDeleteModal =  function(id) {
+	/*$scope.showDeleteModal =  function(id) {
 		$scope.productToDelete = id;
 		$('.modal.delete-modal').modal('show');
-	}
+	}*/
 	
-	$scope.deleteProduct = function() {
-		productService.deleteProduct($scope.productToDelete, $scope.reasonToDelete, function() {});
+	$scope.deleteProduct = function(id) {
+		productService.deleteProduct(id, "Delete product.", function() {});
 	}
 	
 	//Edits

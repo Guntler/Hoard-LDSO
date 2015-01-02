@@ -45,7 +45,7 @@
 						<div class="right floated date"><a href="#/products/actions/edit/{{product.id}}">
 							<button class="ui red button tiny">edit</button>
 						</a></div>
-						<div class="right floated date"><button class="ui red button tiny" ng-click="showDeleteModal(product.id)">delete</button></div>
+						<div class="right floated date"><button class="ui red button tiny" ng-click="deleteProduct(product.id)">delete</button></div>
 						<div class="right floated date list-column-2">{{product.dateadded}}</div>
 						<div class="name" >
 							<a href="#/products/profile/{{product.id}}/1">{{product.name | cut:true:30:' ...'}}</a>
@@ -138,7 +138,7 @@
 			<div data-pagination-directive total-items="totalTabItems" current-page="currentPage"
 					page-range="pageRange" items-per-page="itemsPerPage" item-type="tab" redirect-url="/home"></div>
 
-			<div class="ui modal delete-modal">
+			<!--<div class="ui modal delete-modal">
 			  <i class="close icon"></i>
 			  <div class="header">
 				Deleting Product
@@ -158,7 +158,7 @@
 				  <i class="checkmark icon"></i>
 				</div>
 			  </div>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </div>

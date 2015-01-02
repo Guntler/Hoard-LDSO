@@ -1,6 +1,7 @@
 hoard.controller('paginationController',function($scope,$location) {
 	$scope.pages = [];
 	$scope.totalPages = 0;
+	$scope.currPage = 0;
 	
 	$scope.$watch(function() {
 					return $scope.totalItems;
@@ -12,6 +13,9 @@ hoard.controller('paginationController',function($scope,$location) {
 	function getPages(currentPage,totalItems,itemsPerPage,pageRange) {
 		$scope.pages = [];
 		$scope.totalPages = Math.ceil(totalItems/itemsPerPage);
+		
+		if($scope.totalPages != 0)
+			$scope.currPage = $scope.currentPage;
 		
 		var ellipsisAtStart = false;
 		if((currentPage - pageRange) > 2)

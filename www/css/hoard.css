@@ -211,7 +211,7 @@ body {
 }
 
 .profile-info  {
-	max-height: 310px;
+	/*max-height: 310px;*/
 	min-height: 310px;
 }
 

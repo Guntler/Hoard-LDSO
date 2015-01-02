@@ -30,7 +30,7 @@
 					<p><b>Author:</b> <a href="#/users/profile/{{submitter.userid}}/1">{{submitter.email}}</a></p>
 					<p><b>Submission Date:</b> {{edit.editdate}}</p>
 					<p><b>Status:</b> {{edit.editstatus}}</p>
-					<p><b>Approved By:</b> <a href="#/users/profile/{{approvedby.userid}}/1">{{approvedby.email}}</a></p>
+					<p><b>Resolved By:</b> <a href="#/users/profile/{{approvedby.userid}}/1">{{approvedby.email}}</a></p>
 				<div class="ui divider"></div>
 					<div class="ui medium buttons" style="margin-bottom: 15px">
 						<div ng-class="{disabled: edit.editstatus != 'Pending'}" class="ui green button medium" ng-click="approveEdit(edit)">APPROVE</div>

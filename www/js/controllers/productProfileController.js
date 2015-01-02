@@ -7,7 +7,7 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 	$scope.pageRange = 3;
 	$scope.totalEdits = 0;
 	$scope.edits = [];
-	$scope.reasonToDelete = "";
+	//$scope.reasonToDelete = "";
 	
 	$scope.addedBy = null;
 	$scope.product = null;
@@ -43,12 +43,12 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 		});
 	}
 	
-	$scope.showDeleteModal =  function() {
+	/*$scope.showDeleteModal =  function() {
 		$('.modal.delete-modal').modal('show');
-	}
+	}*/
 	
 	$scope.deleteProduct = function() {
-		productService.deleteProduct($scope.productId, $scope.reasonToDelete, function() {});
+		productService.deleteProduct($scope.productId, "Delete product.", function() {});
 	}
 	
 	$scope.rejectEdit = function(edit) {

@@ -16,11 +16,13 @@ hoard.controller('editProfileController',function($scope, $routeParams, $locatio
 							$scope.submitter = sub;
 						});
 						
-						userService.getUserById($scope.edit.approvedby, function(appr){
-								console.log($scope.edit);
-								console.log(appr);
-								$scope.approvedby = appr;
-						});
+						if($scope.edit.approvedby != undefined && $scope.edit.approvedby != null) {
+							userService.getUserById($scope.edit.approvedby, function(appr){
+									console.log($scope.edit);
+									console.log(appr);
+									$scope.approvedby = appr;
+							});
+						}
 						
 						productService.getProductById($scope.edit.productid, function(prod) {
 							$scope.product = prod;

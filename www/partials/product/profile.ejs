@@ -27,8 +27,8 @@
 					<p ng-hide="user.permissions == 'Manager' || user.permissions == 'User' || user == null"><b>Creator: </b><a href="#/users/profile/{{addedBy.userid}}/1">{{addedBy.email}}</a></p>
 				</div>
 				<div class="ui divider"></div>
-				<div class="ui red button medium" ng-click="showDeleteModal()">Delete</div>
-				<div class="ui red button medium" ng-click="goToEdit()">Edit</div>
+				<div class="ui red button medium" ng-click="deleteProduct()" style="margin-bottom: 10px">Delete</div>
+				<div class="ui red button medium" ng-click="goToEdit()" style="margin-bottom: 10px">Edit</div>
 			</div>
 			<div class="four wide column shaded-bg profile-image">
 				<img src="/images/products/{{product.imageName}}"></img>
@@ -70,11 +70,11 @@
 				<div class="ui divider"></div>
 
 				<div data-pagination-directive total-items="totalEdits" current-page="currentPage"
-					page-range="pageRange" items-per-page="itemsPerPage" item-type="productId" redirect-url="/product/profile"></div>
+					page-range="pageRange" items-per-page="itemsPerPage" item-type="productId" redirect-url="/products/profile"></div>
 			</div>
 		</div>
 		
-		<div class="ui modal delete-modal">
+		<!--<div class="ui modal delete-modal">
 		  <i class="close icon"></i>
 		  <div class="header">
 			Deleting Product
@@ -94,6 +94,6 @@
 			  <i class="checkmark icon"></i>
 			</div>
 		  </div>
-		</div>
+		</div>-->
 	</div>
 </div>
