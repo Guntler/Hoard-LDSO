@@ -48,7 +48,10 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 	}*/
 	
 	$scope.deleteProduct = function() {
-		productService.deleteProduct($scope.productId, "Delete product.", function() {});
+		productService.deleteProduct($scope.productId, "Delete product.", function(data) {
+			if(data)
+				messageService.setSuccess("Your delete request has been submitted successfully.");
+		});
 	}
 	
 	$scope.rejectEdit = function(edit) {

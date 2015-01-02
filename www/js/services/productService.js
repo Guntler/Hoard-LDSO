@@ -34,7 +34,6 @@ hoard.service('productService', function ($http, $location, messageService) {
 					callback(null);
                 }
                 else {
-					messageService.setSuccess("Your add request has been submitted successfully.");
                     callback(data.result);
                 }
             }).error(function (data, status, headers, config) {
@@ -53,7 +52,6 @@ hoard.service('productService', function ($http, $location, messageService) {
 					callback(null);
                 }
                 else {
-					messageService.setSuccess("Your edit request has been submitted successfully.");
                     callback(data.result);
                 }
             }).error(function (data, status, headers, config) {
@@ -70,7 +68,6 @@ hoard.service('productService', function ($http, $location, messageService) {
 					callback(null);
                 }
                 else {
-					messageService.setSuccess("Your delete request has been submitted successfully.");
                     callback(data.result);
                 }
             }).error(function (data, status, headers, config) {

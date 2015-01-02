@@ -1,8 +1,11 @@
-hoard.controller('userAreaController', function($scope, $cookieStore, sessionService, userService) {
+hoard.controller('userAreaController', function($scope, $cookieStore, sessionService, userService, messageService) {
 	$scope.user = null;
 	$scope.currPassword = null;
 	$scope.newPassword = null;
 	$scope.newPassword2 = null;
+	
+    $scope.passwordError = false;
+	$scope.newPasswordError = false;
 	
 	$scope.$watch(function() {
 					return sessionService.getUser();
@@ -43,10 +46,28 @@ hoard.controller('userAreaController', function($scope, $cookieStore, sessionSer
 	
 	$scope.changePassword = function() {
 		if($scope.newPassword == $scope.newPassword2) {
-			userService.changePassword($scope.currPassword, $scope.newPassword, function(data) {
-				if(data)
-					console.log("success");
-			});
+			if($scope.newPassword.length < 6) {
+				$scope.newPasswordError = true;
+				messageService.setError("New password length must be at least 6 characters.");
+			}
+			else {
+				userService.changePassword($scope.currPassword, $scope.newPassword, function(data) {
+					if(data) {
+						messageService.setSuccess("Your password has been changed successfully.");
+						$scope.passwordError = false;
+						$scope.newPasswordError = false;
+					}
+					else {
+						$scope.passwordError = true;
+						$scope.newPasswordError = true;
+						messageService.setError("Wrong information provided. Check to make sure you've inputed your password correctly.");
+					}
+						
+				});
+			}
+		} else {
+			$scope.newPasswordError = true;
+			messageService.setError("Passwords don't match.");
 		}
 	}
 	

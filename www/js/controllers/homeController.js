@@ -187,7 +187,10 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	}*/
 	
 	$scope.deleteProduct = function(id) {
-		productService.deleteProduct(id, "Delete product.", function() {});
+		productService.deleteProduct(id, "Delete product.", function(data) {
+			if(data)
+				messageService.setSuccess("Your delete request has been submitted successfully.");
+		});
 	}
 	
 	//Edits

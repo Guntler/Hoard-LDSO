@@ -1,4 +1,4 @@
-hoard.controller('addProductController', function($scope, $location, productService) {
+hoard.controller('addProductController', function($scope, $location, productService, messageService) {
 	$scope.pName = "";
 	$scope.pLink = "";
 	$scope.pCategory = "";
@@ -38,8 +38,10 @@ hoard.controller('addProductController', function($scope, $location, productServ
 			$scope.pLink = "http://" + $scope.pLink;
 		console.log($scope.pImage);
 		productService.addProduct($scope.pName, $scope.pLink, $scope.pCategory, $scope.pImage.name, $scope.pImageContents, function(data) {
-			if(data)
+			if(data) {
+				messageService.setSuccess("Your add request has been submitted successfully.");
 				$location.url('/home/products/1');
+			}
 		});
 	}
 });

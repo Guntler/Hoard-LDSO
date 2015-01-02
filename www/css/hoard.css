@@ -226,6 +226,13 @@ body {
 	max-height: 310px;
 }
 
+.profile-image > img {
+	max-height: 260px;
+	min-height: 260px;
+	max-width: 245px;
+	min-width: 245px;
+}
+
 /*******************************
           Hoard Button
 *******************************/

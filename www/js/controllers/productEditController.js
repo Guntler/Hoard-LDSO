@@ -1,4 +1,4 @@
-hoard.controller('productEditController', function ($scope, $routeParams, $location, productService, editService, userService) {
+hoard.controller('productEditController', function ($scope, $routeParams, $location, productService, editService, userService, messageService) {
 
     //State variables
     $scope.productId = $routeParams.id;
@@ -18,14 +18,18 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
     $scope.editProduct = function (productid, reason, name, link, imageName, category) {
 		if($scope.pImageName != "") {
 			productService.editProduct(productid, reason, name, link, $scope.pImage.name, $scope.pImageContents, category, function (result) {
-				if (result)
+				if (result) {
+					messageService.setSuccess("Your edit request has been submitted successfully.");
 					$location.path('home/products/1');
+				}
 			})
 		}
 		else {
 			productService.editProduct(productid, reason, name, link, imageName, null, category, function (result) {
-				if (result)
+				if (result) {
+					messageService.setSuccess("Your edit request has been submitted successfully.");
 					$location.path('home/products/1');
+				}
 			})
 		}
     };

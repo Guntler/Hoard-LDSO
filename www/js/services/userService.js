@@ -143,7 +143,6 @@ hoard.service('userService',function($http, messageService) {
 					callback(null);
                 }
                 else {
-					messageService.setSuccess("Your password has been changed successfully.");
                     callback(data.result);
                 }
             }).error(function (data, status, headers, config) {

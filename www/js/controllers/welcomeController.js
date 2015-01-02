@@ -52,7 +52,7 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.email.match(re)) {
             $scope.emailError = false;
-            if ($scope.password.length > 0) {
+            if ($scope.password.length > 5) {
                 sessionService.signin($scope.email, $scope.password, $scope.errorMessage);
                 $scope.passwordError = false;
             }
