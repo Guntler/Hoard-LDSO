@@ -52,7 +52,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('login', {
       url: '/login',
       templateUrl: 'templates/pages-login.html',
-	  controller: 'NavCtrl'
+	  controller: 'LoginController'
     })
 	
 	.state('register', {
@@ -62,6 +62,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/main');
+  $urlRouterProvider.otherwise('/login');
 
 });

@@ -1,4 +1,6 @@
-hoard.service('sessionService', function($http, $location, $templateCache, messageService) {
+angular.module('starter.sessionService', ['ngResource'])
+
+app.factory('sessionService', function($http, $location, $templateCache, messageService) {
 	var user = null;
 	return {
 		checkUserExists: function(email) {
@@ -13,7 +15,8 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 			});
 		},
 		signin: function(email, password, message) {
-			var Url = "/api/users/signin";
+			console.log("HERE");
+			var Url = "http://178.62.105.68:8081/api/users/signin";
 			var info = {email: email, password: password};
 			$http.post(Url, info).success(function(data){
 				if(data.user) {

@@ -1,4 +1,6 @@
-hoard.service('userService',function($http, messageService, sessionService) {
+angular.module('starter.userService', ['ngResource'])
+
+app.service('userService',function($http, messageService, sessionService) {
 	return {
 		getUsersByPage: function(page, usersPerPage, filterBy, filterVal, search, callback) {
 			var first = true;
