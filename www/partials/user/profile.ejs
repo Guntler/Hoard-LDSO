@@ -6,9 +6,9 @@
 		<div class="row breadcrumb">
 			<div class="sixteen wide column shaded-bg">
 				<div class="ui breadcrumb">
-					<a class="section">Home</a>
+					<a class="section" href="#/home/products/1">Home</a>
 					<i class="right arrow icon divider"></i>
-					<a class="section">Users</a>
+					<a class="section" href="#/home/users/1">Users</a>
 					<i class="right arrow icon divider"></i>
 					<div class="active section">{{userProfile.email | cut:true:50:' ...'}}</div>
 				</div>
@@ -30,19 +30,19 @@
 				<div>
 					<div class="ui form">
 						<div class="user-permissions-radio grouped inline fields">
-							<div class="field">
+							<div class="field" style="margin-right: 5%">
 								<div class="ui radio checkbox" ng-click="setSelectedPermission('User')">
 									<input type="radio" name="permission" ng-model="permissionSelected" value="User">
 									<label>User</label>
 								</div>
 							</div>
-							<div class="field">
+							<div class="field" style="margin-right: 5%">
 								<div class="ui radio checkbox" ng-click="setSelectedPermission('Manager')">
 									<input type="radio" name="permission" ng-model="permissionSelected" value="Manager">
 									<label>Manager</label>
 								</div>
 							</div>
-							<div class="field">
+							<div class="field" style="margin-right: 5%">
 								<div class="ui radio checkbox" ng-click="setSelectedPermission('Admin')">
 									<input type="radio" name="permission" ng-model="permissionSelected" value="Admin">
 									<label>Admin</label>

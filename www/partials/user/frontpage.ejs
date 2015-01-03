@@ -70,14 +70,12 @@
 
 				<div class="ui shaded-bg">
 					<div class="tableHeader item">
-						<div class="right floated">Actions</div>
 						<span>Email</span>
 						<div class="right floated list-column-2">Register Date</div>
 						<span class="right floated list-column-2">Privileges</span>
 					</div>
 
 					<div ng-repeat="user in users" class="item">
-						<div class="right floated date"><button class="ui red button tiny">edit</button></div>
 						<span class="name">
 							<a href="#/users/profile/{{user.userid}}/1"> {{user.email | cut:false:50:' ...'}}</a>
 						</span>
