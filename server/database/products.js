@@ -32,7 +32,7 @@ exports.findById = function (id, callback) {
     });
 };
 
-exports.newProduct = function (name, link, image, category, imagecontents, userid,callback) {
+exports.newProduct = function (name, link, imagename, category, imagecontents, userid,callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
@@ -295,8 +295,6 @@ exports.getSimilarFieldProducts = function (field, input, callback) {
         if (err) {
             return callback(err, null);
         }
-
-        //console.log("Field is: " + field); console.log("Input is: " + input);
 
         if(field == "name")
             var query = product.query("SELECT * FROM product WHERE similarity(name, $1) > 0.1", [input]);
