@@ -15,6 +15,7 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
     $scope.product = null;
     $scope.category = null;
     $scope.reason = null;
+	$scope.defaultName = "";
 
     $scope.editProduct = function (productid, reason, name, link, imageName, category) {
 		var re = /^http\:\/\/www\.|https\:\/\/www\.|www\../i;
@@ -23,6 +24,10 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
             $scope.linkError = false;
 			
 			if(name.length > 3 || name == "" || name == null || name == undefined) {
+				if(name == "" || name == null || name == undefined) {
+					name = $scope.defaultName;
+				}
+				
 				if($scope.pImageName != "") {
 					productService.editProduct(productid, reason, name, link, $scope.pImage.name, $scope.pImageContents, category, function (result) {
 						if (result) {
@@ -81,6 +86,7 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
                     $scope.category = $scope.categories[category];
                 });
             });
+			$scope.defaultName = $scope.product.name;
         }
     });
 
