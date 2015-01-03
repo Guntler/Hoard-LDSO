@@ -1,4 +1,4 @@
-hoard.service('editService',function($http, messageService) {
+hoard.service('editService',function($http, messageService, sessionService) {
 	return {
 		getEditsByPage: function(page, editsPerPage, filterBy, filterVal, callback) {
 			var Url = "/api/editrequests/fromTo/"+page+"/"+editsPerPage;
@@ -9,7 +9,7 @@ hoard.service('editService',function($http, messageService) {
 					if(messageService.getMessages().errorMessage == null) {
 						if(data.err != null && data.err.code == "22P02")
 							messageService.setError("No edit requests were found." );
-						else
+						else if(sessionService.getUser().permissions != "Manager")
 							messageService.setError("There has been an unexpected error." );
 					}
 					callback(null);
@@ -58,7 +58,7 @@ hoard.service('editService',function($http, messageService) {
 					if(messageService.getMessages().errorMessage == null) {
 						if(data.err != null && data.err.code == "22P02")
 							messageService.setError("No edit requests were found." );
-						else
+						else if(sessionService.getUser().permissions != "Manager")
 							messageService.setError("There has been an unexpected error." );
 					}
 					callback(null);

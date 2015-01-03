@@ -1,8 +1,8 @@
-<div ng-mousedown="hideSidebar($event)" ng-controller="addProductController">
+<div ng-mousedown="hideSidebar($event)">
 	
 	<div data-header-directive></div>
 	
-	<div class="ui page grid information">
+	<div class="ui page grid information" ng-controller="addProductController">
 		<div class="row breadcrumb">
 			<div class="sixteen wide column shaded-bg">
 				<div class="ui breadcrumb">
@@ -78,6 +78,7 @@
 							</div>
 						</div>
 					</div>
+					<div>
 						<div class="ui divider"></div>
 						<div class="row">
 							<div id="product-submit" ng-click="addProduct(pName,pLink,pCategory,pImage)" type="submit" class="ui primary button">

@@ -227,10 +227,11 @@ body {
 }
 
 .profile-image > img {
+	position: relative;
 	max-height: 260px;
 	min-height: 260px;
-	max-width: 245px;
-	min-width: 245px;
+	max-width: 100%;
+	min-width: 100%;
 }
 
 /*******************************

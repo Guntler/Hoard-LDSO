@@ -23,7 +23,8 @@ hoard.controller('productProfileController',function($scope, $routeParams, $loca
 							$scope.category = data;
 						});
 						editService.getEditCount("Product", $scope.productId, function(data) {
-							$scope.totalEdits = data.integer;
+							if(data != null)
+								$scope.totalEdits = data.integer;
 						});
 						editService.getEditsByPage($routeParams.page,$scope.itemsPerPage, "Product", $scope.productId, function(data) {
 							$scope.edits = data;

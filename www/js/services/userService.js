@@ -1,4 +1,4 @@
-hoard.service('userService',function($http, messageService) {
+hoard.service('userService',function($http, messageService, sessionService) {
 	return {
 		getUsersByPage: function(page, usersPerPage, filterBy, filterVal, search, callback) {
 			var first = true;
@@ -40,7 +40,7 @@ hoard.service('userService',function($http, messageService) {
 			var Url = "/api/users/id/"+id;
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
-					if(messageService.getMessages().errorMessage == null)
+					if(messageService.getMessages().errorMessage == null && sessionService.getUser().permissions != "Manager")
 						messageService.setError("There has been an unexpected error." );
 					callback(null);
 				}

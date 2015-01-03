@@ -1,8 +1,8 @@
-<div ng-mousedown="hideSidebar($event)" ng-controller="userProfileController">
+<div ng-mousedown="hideSidebar($event)">
 	
 	<div data-header-directive></div>
 	
-	<div class="ui page grid information">
+	<div class="ui page grid information"  ng-controller="userProfileController">
 		<div class="row breadcrumb">
 			<div class="sixteen wide column shaded-bg">
 				<div class="ui breadcrumb">
@@ -72,7 +72,7 @@
 				
 				<div class="ui divided selection list">
 					<div class="tableHeader item">
-						<div class="right floated">Actions</div>
+						<div class="right floated" style="margin-right: 5%; margin-left: 5%">Actions</div>
 						<span>Type</span>
 						<div class="right floated list-column-2">Date</div>
 						<span class="list-column-2 right floated">Status</span>

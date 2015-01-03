@@ -130,7 +130,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
                 if (i < filterVals.length - 1)
                     queryStr += " OR ";
             }
-            queryStr += " ORDER BY editdate asc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
+            queryStr += " ORDER BY editdate desc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
             var arr = filterVals.concat([(from - 1) * to, to]);
             query = editrequest.query(queryStr, arr);
         }
@@ -142,7 +142,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
                 if (i < filterVals.length - 1)
                     queryStr += " OR ";
             }
-            queryStr += " ORDER BY editdate asc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
+            queryStr += " ORDER BY editdate desc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
             var arr = filterVals.concat([(from - 1) * to, to]);
             query = editrequest.query(queryStr, arr);
         }
@@ -154,12 +154,12 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
                 if (i < filterVals.length - 1)
                     queryStr += " OR ";
             }
-            queryStr += " ORDER BY editdate asc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
+            queryStr += " ORDER BY editdate desc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
             var arr = filterVals.concat([(from - 1) * to, to]);
             query = editrequest.query(queryStr, arr);
         }
         else {
-            queryStr += " ORDER BY editdate asc OFFSET $1 LIMIT $2";
+            queryStr += " ORDER BY editdate desc OFFSET $1 LIMIT $2";
             query = editrequest.query(queryStr, [(from - 1) * to, to]);
         }
 
