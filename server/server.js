@@ -5,9 +5,16 @@ var path 			= require("path"),
 	session 		= require('express-session'),
 	bodyParser 		= require('body-parser'),
 	cookieParser 	= require('cookie-parser'),
-	flash			= require('connect-flash');
+	flash			= require('connect-flash'),
+	http			= require('http'),
+	https			= require('https'),
+	fs				= require('fs');
 
 var full_path = path.join(process.cwd(),'../www/');
+
+var privateKey  = fs.readFileSync('ssl/key.key', 'utf8');
+var certificate = fs.readFileSync('ssl/cert.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
 
@@ -39,7 +46,18 @@ app.use("/semantic/images", express.static(full_path + '/semantic/images'));
 //define routes
 require('./routes')(app, passport);
 
-app.listen('8081',  function(){ //8081 porque é o jenkins no 8080
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+
+/*app.listen('8081',  function(){ //8081 porque é o jenkins no 8080
 	console.log('Ready on port 8081');
+});*/
+
+
+httpServer.listen(8081, function() {
+	console.log('Ready on port 8081');
+});
+httpsServer.listen(443, function() {
+	console.log('Ready on port 443');
 });
 
