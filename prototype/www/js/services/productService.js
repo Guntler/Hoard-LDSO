@@ -1,4 +1,6 @@
-hoard.service('productService', function ($http, $location, messageService) {
+angular.module('starter.productService', ['ngResource'])
+
+app.service('productService', function ($http, $location, messageService) {
 
     var categories = function (callback) {
         var Url = "/api/categories/all";

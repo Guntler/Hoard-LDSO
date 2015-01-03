@@ -1,3 +1,5 @@
+angular.module('starter.services', ['ngResource'])
+
 app.controller('NavCtrl', function($scope, $state, $ionicSideMenuDelegate) {//, User) {
 	$scope.submitInfo = function() {
 		/*TODO*/

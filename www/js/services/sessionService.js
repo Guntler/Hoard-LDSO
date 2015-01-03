@@ -58,10 +58,9 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 			var info = {email: email, password: password};
 			$http.post(Url,info).success(function(data){
 				if(data.success == false) {
-					alert("User could not be created.");
+					//TODO Error message
 				}
 				else {
-					alert("User created successfully.");
 					$location.url('/');
 				}
 			}).error(function(data, status, headers, config) {
