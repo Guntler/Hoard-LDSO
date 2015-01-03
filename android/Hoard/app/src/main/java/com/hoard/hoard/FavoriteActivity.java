@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hoard.hoard.api.Favorites;
+import com.hoard.hoard.api.Products;
 import com.hoard.hoard.api.HoardAPI;
 import com.hoard.hoard.api.Product;
 
@@ -41,7 +41,7 @@ public class FavoriteActivity extends Activity {
     /*
      * Favorites
      */
-    private Favorites favorites;
+    private Products favorites;
 
     /*
      * Grid

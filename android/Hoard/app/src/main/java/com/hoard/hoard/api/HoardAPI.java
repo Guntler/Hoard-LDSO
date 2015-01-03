@@ -122,7 +122,7 @@ public class HoardAPI {
         return null;
     }
 
-    public Favorites getFavorites() {
+    public Products getFavorites() {
 
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
@@ -136,7 +136,7 @@ public class HoardAPI {
                 request.getHeaders().setCookie(session.getCookie());
                 Log.d("Cookie: ", session.getCookie());
 
-                Favorites favs = request.execute().parseAs(Favorites.class);
+                Products favs = request.execute().parseAs(Products.class);
 
                 if(favs.getSuccess())
                     return favs;
@@ -144,6 +144,32 @@ public class HoardAPI {
         } catch (IOException e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
             Log.e("HoardAPI>getFavorites>Exception:", errorMessage);
+        }
+        return null;
+    }
+
+    public Products getProducts() {
+
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.products_url);
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+
+            if(session.checkSessionForCookie()) {
+                request.getHeaders().setCookie(session.getCookie());
+                Log.d("Cookie: ", session.getCookie());
+
+                Products products = request.execute().parseAs(Products.class);
+
+                if(products.getSuccess())
+                    return products;
+            }
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>getProducts>Exception:", errorMessage);
         }
         return null;
     }

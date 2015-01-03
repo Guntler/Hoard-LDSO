@@ -5,6 +5,7 @@ import com.google.api.client.util.Key;
 /**
  * Created by AndreSilva on 26/11/14
  */
+
 public class Product {
 
     @Key
