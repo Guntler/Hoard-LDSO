@@ -15,19 +15,25 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.hoard.hoard.api.Products;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends FragmentActivity {
 
@@ -132,11 +138,13 @@ public class MainActivity extends FragmentActivity {
          */
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mPagerAdapter);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setOnPageChangeListener(new ProductOnPageChangeListener());
 
-        gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.thisiswhyimbroke.com/new/"));
+                Products products = ((ProductSlidePageFragment)((ScreenSlidePagerAdapter)viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getProducts();
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(products.getResult().get(0).getLink()));
                 startActivity(browserIntent);
                 urlLoadProgressBar.setVisibility(View.GONE);
             }
@@ -151,19 +159,19 @@ public class MainActivity extends FragmentActivity {
 
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
-                        Log.i("MainActivty>OnTouch: ", "DOWN");
+                        //Log.i("MainActivty>OnTouch: ", "DOWN");
                         visibility = true;
                         urlLoadProgressBar.setX(x-30);
                         urlLoadProgressBar.setY(y-30);
                         new ShowProgressBarAsyncTask().execute();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        Log.i("MainActivty>OnTouch: ", "MOVE");
+                        //Log.i("MainActivty>OnTouch: ", "MOVE");
                         visibility = false;
                         urlLoadProgressBar.setVisibility(View.GONE);
                         break;
                     case MotionEvent.ACTION_UP:
-                        Log.i("MainActivty>OnTouch: ", "UP");
+                        //Log.i("MainActivty>OnTouch: ", "UP");
                         visibility = false;
                         urlLoadProgressBar.setVisibility(View.GONE);
                         break;
@@ -387,9 +395,14 @@ public class MainActivity extends FragmentActivity {
     /**
      * A simple pager adapter that represents ScreenSlidePageFragment objects, in sequence.
      */
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+        private Map<Integer, String> mFragmentTags;
+        private FragmentManager mFragmentManager;
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragmentManager = fm;
+            mFragmentTags = new HashMap<Integer, String>();
         }
 
         @Override
@@ -399,8 +412,27 @@ public class MainActivity extends FragmentActivity {
         }
 
         @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Object obj = super.instantiateItem(container, position);
+            if (obj instanceof Fragment) {
+                // record the fragment tag here.
+                Fragment f = (Fragment) obj;
+                String tag = f.getTag();
+                mFragmentTags.put(position, tag);
+            }
+            return obj;
+        }
+
+        @Override
         public int getCount() {
             return Integer.MAX_VALUE;
+        }
+
+        public Fragment getFragment(int position) {
+            String tag = mFragmentTags.get(position);
+            if (tag == null)
+                return null;
+            return mFragmentManager.findFragmentByTag(tag);
         }
     }
 

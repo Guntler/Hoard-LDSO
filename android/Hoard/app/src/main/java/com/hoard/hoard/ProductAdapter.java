@@ -100,13 +100,15 @@ public class ProductAdapter extends BaseAdapter {
                 mIcon11 = BitmapFactory.decodeStream(in);
                 in.close();
             } catch (Exception e) {
-                Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", e.getMessage());
-                e.printStackTrace();
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", errorMessage);
             }
             return mIcon11;
         }
 
         protected void onPostExecute(Bitmap result) {
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setAdjustViewBounds(true);
             imageView.setImageBitmap(result);
             progressBar.setVisibility(View.GONE);
         }
