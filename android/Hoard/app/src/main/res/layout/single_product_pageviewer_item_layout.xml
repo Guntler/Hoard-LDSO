@@ -11,9 +11,11 @@
         android:id="@+id/product_image_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="40dp"
         android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/product2" />
+        android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/product_id"
