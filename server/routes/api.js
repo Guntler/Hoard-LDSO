@@ -207,10 +207,10 @@ exports.productCount = function (req, res) {
 };
 
 exports.newProduct = function (req, res) {
-    if (req.body.name == undefined || req.body.link == undefined || req.body.category == undefined || req.body.image == undefined || req.body.imagecontents == undefined || req.user == undefined) {
+    if (req.body.name == undefined || req.body.link == undefined || req.body.category == undefined || req.body.imagename == undefined || req.body.imagecontents == undefined || req.user == undefined) {
         res.send({result: false, success: false});
     } else {
-        products.newProduct(req.body.name, req.body.link, req.body.image, req.body.category, req.body.imagecontents, req.user.userid, function (err, result){
+        products.newProduct(req.body.name, req.body.link, req.body.imagename, req.body.category, req.body.imagecontents, req.user.userid, function (err, result){
             if (err) {
                 res.send({result: false, success: false, err: err});
 			}

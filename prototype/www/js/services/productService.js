@@ -1,4 +1,6 @@
-hoard.service('productService', function ($http, $location, messageService) {
+angular.module('starter.productService', ['ngResource'])
+
+app.service('productService', function ($http, $location, messageService) {
 
     var categories = function (callback) {
         var Url = "/api/categories/all";
@@ -86,7 +88,7 @@ hoard.service('productService', function ($http, $location, messageService) {
                         messageService.setError("There has been an unexpected error.");
                     callback(null);
                 }
-                if ( data.result != null && data.result.length == 0) {
+                if (data.result.length == 0) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("No products found.");
                     callback(null);

@@ -1,6 +1,6 @@
-<link href="css/dropdown.css" rel="stylesheet">
+<link href="css/main.css" rel="stylesheet">
 
-<ion-view ng-cloak title="products" ng-controller="NavCtrl">
+<ion-view ng-cloak title="products" ng-controller="MainController">
 	<ion-header-bar class="bar-assertive">
 		<button class="button button-clear" ng-click="viewFavorites()">
 			<i class="icon ion-heart"></i>
@@ -9,8 +9,7 @@
 		<li class="settings button button-clear icon ion-gear-b">
 			<ul>
 				<li ng-click="viewProfile()" ><a class="icon ion-person" />Profile Info</a></li>
-				<li ng-click="viewFilters()" ><a class="icon ion-levels" />Filters</a></li>
-				<li ng-click="doLogout()" ><a class="icon ion-power" />Logout</a></li>
+				<li ng-click="logout()" ><a class="icon ion-power" />Logout</a></li>
 			</ul>
 		</li>
 	</ion-header-bar>

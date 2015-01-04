@@ -8,27 +8,33 @@ hoard.controller('editProfileController',function($scope, $routeParams, $locatio
 	$scope.submitter = null;
 	$scope.approvedby = null;
 	$scope.product = null;
+	$scope.productCategory = "";
 	
 	editService.getEditById($routeParams.id, function(editInfo) {
-					$scope.edit = editInfo;
-					if($scope.edit != null) {
-						userService.getUserById($scope.edit.submittedby, function(sub){
-							$scope.submitter = sub;
-						});
-						
-						if($scope.edit.approvedby != undefined && $scope.edit.approvedby != null) {
-							userService.getUserById($scope.edit.approvedby, function(appr){
-									console.log($scope.edit);
-									console.log(appr);
-									$scope.approvedby = appr;
-							});
-						}
-						
-						productService.getProductById($scope.edit.productid, function(prod) {
-							$scope.product = prod;
-						});
-					}
+		$scope.edit = editInfo;
+		if($scope.edit != null) {
+			userService.getUserById($scope.edit.submittedby, function(sub){
+				$scope.submitter = sub;
+			});
+			
+			if($scope.edit.approvedby != undefined && $scope.edit.approvedby != null) {
+				userService.getUserById($scope.edit.approvedby, function(appr){
+						$scope.approvedby = appr;
 				});
+			}
+			
+			productService.getProductById($scope.edit.productid, function(prod) {
+				$scope.product = prod;
+				productService.getCategoryById(prod.category, function (data) {
+					var category = data.categoryid - 1;
+					productService.getCategories(function (result) {
+						$scope.categories = result;
+						$scope.productCategory = $scope.categories[category].name;
+					});
+				});
+			});
+		}
+	});
 				
 	$scope.approveEdit = function(edit) {
 		if(edit.editstatus == "Pending")

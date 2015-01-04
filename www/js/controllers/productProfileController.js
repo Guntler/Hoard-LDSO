@@ -1,4 +1,4 @@
-hoard.controller('productProfileController',function($scope, $routeParams, $location, productService, editService, userService) {
+hoard.controller('productProfileController',function($scope, $routeParams, $location, productService, editService, userService, messageService) {
 	
 	//State variables
 	$scope.productId = $routeParams.id;

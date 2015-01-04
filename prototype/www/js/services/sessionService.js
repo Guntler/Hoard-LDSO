@@ -1,4 +1,6 @@
-hoard.service('sessionService', function($http, $location, $templateCache, messageService) {
+angular.module('starter.sessionService', ['ngResource'])
+
+app.factory('sessionService', function($http, $state, $location, $templateCache, messageService) {
 	var user = null;
 	return {
 		checkUserExists: function(email) {
@@ -13,31 +15,31 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 			});
 		},
 		signin: function(email, password, message) {
-			var Url = "/api/users/signin";
+			var Url = "http://178.62.105.68:8081/api/users/signin";
 			var info = {email: email, password: password};
 			$http.post(Url, info).success(function(data){
 				if(data.user) {
 					user = data.user;
 					messageService.setSuccess(data.message[0]);
-					$location.url('/home/products/1');
+					$state.go('main');
 				}
 				else {
 					messageService.setError(data.message[0]);
-					$location.url('/');
+					$state.go('login');
 				}
 			}).error(function(data,status,headers, config) {
 				messageService.setError(data.message[0]);
-				$location.url('/');
+				$state.go('login');
 			});
 		},
 		signout: function() {
 			var Url = "/api/users/signout";
 			$http.get(Url).success(function(data){
 				$templateCache.removeAll();
-				$location.url('/');
+				$state.go('login');
 			}).error(function(data, status, headers, config) {
 				$templateCache.removeAll();
-				$location.url('/');
+				$state.go('login');
 			});
 		},
 		updateUser: function() {
@@ -53,15 +55,16 @@ hoard.service('sessionService', function($http, $location, $templateCache, messa
 				user = null;
 			});
 		},
-		registerUser: function(email,password) {
+		registerUser: function(email,password) {			
 			var Url = "/api/users/register";
 			var info = {email: email, password: password};
 			$http.post(Url,info).success(function(data){
 				if(data.success == false) {
-					//TODO Error message
+					messageService.setError(data.message[0]);
 				}
 				else {
-					$location.url('/');
+					messageService.setSuccess(data.message[0]);
+					$state.go('login');
 				}
 			}).error(function(data, status, headers, config) {
 				user = null;

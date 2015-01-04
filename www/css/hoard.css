@@ -235,8 +235,11 @@ body {
 	position: relative;
 	max-height: 260px;
 	min-height: 260px;
-	max-width: 100%;
-	min-width: 100%;
+	width:auto;
+}
+
+#search-bar {
+	width: auto;
 }
 
 /*******************************

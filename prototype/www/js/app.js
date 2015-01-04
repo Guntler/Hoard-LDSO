@@ -28,7 +28,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('main', {
       url: '/main',
       templateUrl: 'templates/main.html',
-	  controller: 'NavCtrl'
+	  controller: 'MainController'
     })
 	
 	.state('favorites', {
@@ -40,7 +40,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('profile', {
       url: '/profile',
       templateUrl: 'templates/pages-profile.html',
-	  controller: 'NavCtrl'
+	  controller: 'ProfileController'
     })
 	
 	.state('filters', {
@@ -49,19 +49,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	  controller: 'NavCtrl'
     })
 	
+	.state('recover', {
+      url: '/recover',
+      templateUrl: 'templates/pages-recover.html',
+	  controller: 'RecoverController'
+    })
+	
 	.state('login', {
       url: '/login',
       templateUrl: 'templates/pages-login.html',
-	  controller: 'NavCtrl'
+	  controller: 'LoginController'
     })
 	
 	.state('register', {
       url: '/register',
       templateUrl: 'templates/pages-register.html',
-	  controller: 'NavCtrl'
+	  controller: 'RegisterController'
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/main');
+  $urlRouterProvider.otherwise('/login');
 
 });

@@ -9,29 +9,50 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
     $scope.edits = [];
 	$scope.pImageContents = null;
 	$scope.pImageName = "";
+	$scope.linkError = false;
 
     $scope.addedBy = null;
     $scope.product = null;
     $scope.category = null;
     $scope.reason = null;
+	$scope.defaultName = "";
 
     $scope.editProduct = function (productid, reason, name, link, imageName, category) {
-		if($scope.pImageName != "") {
-			productService.editProduct(productid, reason, name, link, $scope.pImage.name, $scope.pImageContents, category, function (result) {
-				if (result) {
-					messageService.setSuccess("Your edit request has been submitted successfully.");
-					$location.path('home/products/1');
+		var re = /^http\:\/\/www\.|https\:\/\/www\.|www\../i;
+        if (link.match(re)) {
+            messageService.clearAll();
+            $scope.linkError = false;
+			
+			if(name.length > 3 || name == "" || name == null || name == undefined) {
+				if(name == "" || name == null || name == undefined) {
+					name = $scope.defaultName;
 				}
-			})
-		}
-		else {
-			productService.editProduct(productid, reason, name, link, imageName, null, category, function (result) {
-				if (result) {
-					messageService.setSuccess("Your edit request has been submitted successfully.");
-					$location.path('home/products/1');
+				
+				if($scope.pImageName != "") {
+					productService.editProduct(productid, reason, name, link, $scope.pImage.name, $scope.pImageContents, category, function (result) {
+						if (result) {
+							messageService.setSuccess("Your edit request has been submitted successfully.");
+							$location.path('home/products/1');
+						}
+					})
 				}
-			})
-		}
+				else {
+					productService.editProduct(productid, reason, name, link, imageName, null, category, function (result) {
+						if (result) {
+							messageService.setSuccess("Your edit request has been submitted successfully.");
+							$location.path('home/products/1');
+						}
+					})
+				}
+			} else {
+				messageService.setError("The name of the product must be longer than 3 characters.");
+			}
+        } else {
+            messageService.setError("You must insert a valid website in the Link field.");
+            $scope.linkError = true;
+        }
+		
+		
     };
 	
 	$scope.fileChanged = function(files) {
@@ -65,6 +86,7 @@ hoard.controller('productEditController', function ($scope, $routeParams, $locat
                     $scope.category = $scope.categories[category];
                 });
             });
+			$scope.defaultName = $scope.product.name;
         }
     });
 
