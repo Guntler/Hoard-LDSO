@@ -173,7 +173,8 @@ hoard.controller('homeController',function($scope, $routeParams, $location, prod
 	$scope.products = [];
 	if($scope.tab == 'products') {
 		productService.getProductCount($scope.search, function(data) {
-			$scope.totalTabItems = data.integer;
+			if(data != null)
+				$scope.totalTabItems = data.integer;
 		});
 		
 		productService.getProductsByPage($routeParams.page,$scope.itemsPerPage, $scope.search, function(data) {
