@@ -316,11 +316,11 @@ exports.favoriteDown = function (req, res) {
 
 exports.getFavorites = function (req, res) {
     if (req.user == undefined) {
-        res.send({result: [], success: false});
+        res.send({result: [], success: false, err: "User is not logged in."});
     } else {
         products.getFavorites(req.user.userid, function (err, result) {
             if (err)
-                res.send({result: [], success: false});
+                res.send({result: [], success: false, err: err});
             else if (result)
                 res.send({result: result, success: true});
             else
