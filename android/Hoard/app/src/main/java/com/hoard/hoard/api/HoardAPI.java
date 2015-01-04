@@ -59,7 +59,7 @@ public class HoardAPI {
 
             String cookie = getCookieConnectSID(response);
 
-            ReturnParser parser = response.parseAs(ReturnParser.class);
+            ReturnParserWithUser parser = response.parseAs(ReturnParserWithUser.class);
 
             if(parser != null) {
                 if(!parser.getMessage().isEmpty())
@@ -174,9 +174,40 @@ public class HoardAPI {
         return null;
     }
 
+    public Pair<Boolean, String> removeProductFromFavorites(Product product) {
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.remove_product_from_favorites_url)+product.getId();
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+
+            if(session.checkSessionForCookie()) {
+                request.getHeaders().setCookie(session.getCookie());
+                Log.d("Cookie: ", session.getCookie());
+
+                BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
+
+                if(parser.getResult()){
+                    if(parser.getSuccess()) {
+                        return new Pair<Boolean, String>(true, "Product was removed from favorites.");
+                    } else {
+                        return new Pair<Boolean, String>(false, "Product wasn't removed from favorites.");
+                    }
+                }
+
+            }
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>removeProductFromFavorites>Exception:", errorMessage);
+        }
+
+        return new Pair<Boolean, String>(false, "Something went wrong.");
+    }
+
     public Pair<Boolean, String> registerEmailPassword(String email, String password) {
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
-        RegisterReturnParser parser;
 
         String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.register_url);
         String body = "email=" + email + "&password=" + password;
@@ -190,7 +221,7 @@ public class HoardAPI {
 
             String cookie = getCookieConnectSID(response);
 
-            parser = response.parseAs(RegisterReturnParser.class);
+            BasicReturnParser parser = response.parseAs(BasicReturnParser.class);
 
             if(parser != null) {
                 if(parser.getSuccess()) {

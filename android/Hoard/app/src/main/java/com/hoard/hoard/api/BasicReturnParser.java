@@ -6,7 +6,7 @@ import com.google.api.client.util.Key;
  * Created by AndreSilva on 10/12/14
  */
 
-public class RegisterReturnParser {
+public class BasicReturnParser {
 
     @Key
     Boolean result;
