@@ -1,3 +1,13 @@
+html,
+body {
+	height: 100%;
+	margin: 0px;
+	text-rendering: optimizeLegibility;
+	min-width: 320px;
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+
 .centered {
 	height: 100%;
 	width: 100%;
@@ -11,20 +21,20 @@
 	bottom: 0 !important;
 	left: 0 !important;
 	right: 0 !important;
-	background-image:url('../img/bg.gif');
+	background:#FC5447;
+	
 }
 
 .contentPane {
 	position: absolute !important;
-	top: 43px !important;
-	bottom: 0 !important;
+
 	left: 0 !important;
 	right: 0 !important;
-	background-image:url('../img/bg.gif');
+	background:#FC5447;
 }
 
 .product {
-	background-image:url('../img/bg.gif');
+	
 }
 
 .product img {

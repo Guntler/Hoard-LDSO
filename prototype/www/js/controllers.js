@@ -1,13 +1,9 @@
-angular.module('starter.controllers', []);
-
 app.controller('NavCtrl', function($scope, $state, $ionicSideMenuDelegate) {//, User) {
 	$scope.submitInfo = function() {
 		/*TODO*/
 	}
 	
-	$scope.viewProfile = function() {
-		$state.go('profile');
-	}
+	
 	$scope.viewFilters = function() {
 		$state.go('filters');
 	}
@@ -20,9 +16,7 @@ app.controller('NavCtrl', function($scope, $state, $ionicSideMenuDelegate) {//, 
 	$scope.close = function() { 
 		$state.go('main'); 
 	};
-	$scope.viewRegister = function() {
-		$state.go('register');
-	}
+	
 	$scope.login = function() {
 		$state.go('main');
 	}

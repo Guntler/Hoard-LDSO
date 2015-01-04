@@ -1,7 +1,7 @@
 <link href="css/favorites.css" rel="stylesheet">
 <link href="css/dropdown.css" rel="stylesheet">
 
-<ion-view ng-cloak title="favorites" ng-controller="NavCtrl" >
+<ion-view ng-cloak title="favorites">
 	<ion-header-bar class="bar-assertive">
 		<button class="button button-clear" ng-click="close()">
 			<i class="icon ion-chevron-left"></i>
@@ -10,14 +10,18 @@
 		<li class="settings button button-clear icon ion-gear-b">
 			<ul>
 				<li ng-click="viewProfile()"><a class="icon ion-person" />Profile Info</a></li>
-				<li ng-click="viewFilters()"><a class="icon ion-levels" />Filters</a></li>
-				<li ng-click="doLogout()"><a class="icon ion-power" />Logout</a></li>
+				<li ng-click="logout()"><a class="icon ion-power" />Logout</a></li>
 			</ul>
 		</li>
 	</ion-header-bar>
 	
 	<ion-pane class="contentPane">
 		<div class="row">
+			<div class="col col-25" ng-repeat="favorite in favorites">
+				<div class="favoriteItem button button-stable"><img ng-src="http://178.62.105.68:8081/images/products/{{favorite.imageName}}"><br></div>
+			</div>
+		</div>
+		<!--<div class="row">
 			<div class="col col-25">
 				<div class="favoriteItem button button-stable"><img ng-src="img/item1.jpg"><br></div>
 			</div>
@@ -30,20 +34,6 @@
 			<div class="col col-25">
 				<div class="favoriteItem button button-stable"><img ng-src="img/item1.jpg"><br></div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col col-25">
-				<div class="favoriteItem button button-stable"><img ng-src="img/item1.jpg"><br></div>
-			</div>
-			<div class="col col-25">
-				<div class="favoriteItem button button-stable"><img ng-src="img/item2.jpg"><br></div>
-			</div>
-			<div class="col col-25">
-				<div class="favoriteItem button button-stable"><img ng-src="img/item1.jpg"><br></div>
-			</div>
-			<div class="col col-25">
-				<div class="favoriteItem button button-stable"><img ng-src="img/item1.jpg"><br></div>
-			</div>
-		</div>
+		</div>-->
 	</ion-pane>
 </ion-view>

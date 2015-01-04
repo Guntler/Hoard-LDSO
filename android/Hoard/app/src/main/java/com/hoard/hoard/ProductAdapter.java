@@ -3,12 +3,14 @@ package com.hoard.hoard;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -68,15 +70,17 @@ public class ProductAdapter extends BaseAdapter {
             view.setTag(R.id.grid_item_image, view.findViewById(R.id.grid_item_image));
             view.setTag(R.id.grid_item_text, view.findViewById(R.id.grid_item_text));
             view.setTag(R.id.grid_item_progressbar, view.findViewById(R.id.grid_item_progressbar));
+            view.setTag(R.id.grid_item_close_button, view.findViewById(R.id.grid_item_close_button));
         }
 
         ImageView picture = (ImageView)view.getTag(R.id.grid_item_image);
         TextView name = (TextView)view.getTag(R.id.grid_item_text);
         ProgressBar progressBar = (ProgressBar)view.getTag(R.id.grid_item_progressbar);
+        ImageButton closeImageButton = (ImageButton)view.getTag(R.id.grid_item_close_button);
 
         Product product = getItem(i);
 
-        DownloadImageTask task = new DownloadImageTask(picture, progressBar);
+        DownloadImageTask task = new DownloadImageTask(picture, progressBar, closeImageButton);
         task.execute(context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.product_images_url)+product.getImageName());
         name.setText(product.getName());
 
@@ -86,10 +90,12 @@ public class ProductAdapter extends BaseAdapter {
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
         ProgressBar progressBar;
+        ImageButton closeImageButton;
 
-        public DownloadImageTask(ImageView bmImage, ProgressBar progressBar) {
+        public DownloadImageTask(ImageView bmImage, ProgressBar progressBar, ImageButton closeImageButton) {
             this.imageView = bmImage;
             this.progressBar = progressBar;
+            this.closeImageButton = closeImageButton;
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -100,15 +106,18 @@ public class ProductAdapter extends BaseAdapter {
                 mIcon11 = BitmapFactory.decodeStream(in);
                 in.close();
             } catch (Exception e) {
-                Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", e.getMessage());
-                e.printStackTrace();
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", errorMessage);
             }
             return mIcon11;
         }
 
         protected void onPostExecute(Bitmap result) {
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setAdjustViewBounds(true);
             imageView.setImageBitmap(result);
             progressBar.setVisibility(View.GONE);
+            closeImageButton.setVisibility(View.VISIBLE);
         }
     }
 }

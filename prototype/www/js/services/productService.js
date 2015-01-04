@@ -1,7 +1,9 @@
-hoard.service('productService', function ($http, $location, messageService) {
+angular.module('starter.productService', ['ngResource'])
+
+app.service('productService', function ($http, $location, messageService) {
 
     var categories = function (callback) {
-        var Url = "/api/categories/all";
+        var Url = "http://178.62.105.68:8081/api/categories/all";
         $http.get(Url).success(function (data) {
             if (data.success == false) {
                 if (messageService.getMessages().errorMessage == null)
@@ -25,7 +27,7 @@ hoard.service('productService', function ($http, $location, messageService) {
 
     return {
         addProduct: function (name, link, category, imagename, imagecontents, callback) {
-            var Url = "/api/products/new/";
+            var Url = "http://178.62.105.68:8081/api/products/new/";
             var info = {name: name, link: link, imagename: imagename, category: category, imagecontents: imagecontents};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
@@ -42,7 +44,7 @@ hoard.service('productService', function ($http, $location, messageService) {
             });
         },
         editProduct: function (productid, reason, name, link, image, imagecontents, category, callback) {
-            var Url = "/api/editrequests/new/";
+            var Url = "http://178.62.105.68:8081/api/editrequests/new/";
             var info = {productid: productid, edittype: 'Edit', reason: reason, name: name, link: link, image: image, imagename: image, imagecontents: imagecontents, category: category};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
@@ -58,7 +60,7 @@ hoard.service('productService', function ($http, $location, messageService) {
             });
         },
         deleteProduct: function (id, reason, callback) {
-            var Url = "/api/editrequests/new/";
+            var Url = "http://178.62.105.68:8081/api/editrequests/new/";
             var info = {productid: id, edittype: "Delete", reason: reason};
             $http.post(Url, info).success(function (data) {
                 if (data.success == false) {
@@ -75,7 +77,7 @@ hoard.service('productService', function ($http, $location, messageService) {
             });
         },
         getProductsByPage: function (page, productsPerPage, search, callback) {
-            var Url = "/api/products/fromTo/" + page + "/" + productsPerPage;
+            var Url = "http://178.62.105.68:8081/api/products/fromTo/" + page + "/" + productsPerPage;
             if (search != undefined && search != null) {
                 Url += "?search=" + search;
             }
@@ -100,7 +102,7 @@ hoard.service('productService', function ($http, $location, messageService) {
             });
         },
         getProductById: function (id, callback) {
-            var Url = "/api/products/id/" + id;
+            var Url = "http://178.62.105.68:8081/api/products/id/" + id;
             $http.get(Url).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
@@ -121,7 +123,7 @@ hoard.service('productService', function ($http, $location, messageService) {
             });
         },
         getProductCount: function (search, callback) {
-            var Url = "/api/products/count/";
+            var Url = "http://178.62.105.68:8081/api/products/count/";
             if (search != undefined && search != null) {
                 Url += "?search=" + search;
             }
@@ -158,6 +160,27 @@ hoard.service('productService', function ($http, $location, messageService) {
                 }
             });
         },
-        getCategories: categories
+        getCategories: categories,
+		viewProducts: function (n, callback) {
+			var Url = "http://178.62.105.68:8081/api/products/viewProducts/" + n;
+            $http.get(Url).success(function (data) {
+                if (data.success == false) {
+                    if (messageService.getMessages().errorMessage == null)
+                        messageService.setError("There has been an unexpected error.");
+                    callback(null);
+                }
+                if (data.result == null) {
+                    if (messageService.getMessages().errorMessage == null)
+                        messageService.setError("No products found.");
+                    callback(null);
+                }
+                else {
+                    callback(data.result);
+                }
+            }).error(function (data, status, headers, config) {
+                messageService.setError("There has been an unexpected error.");
+                callback(null);
+            });
+		}
     };
 });

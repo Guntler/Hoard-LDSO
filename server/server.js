@@ -42,6 +42,11 @@ app.use("/semantic/css", express.static(full_path + '/semantic/css'));
 app.use("/semantic/javascript", express.static(full_path + '/semantic/javascript'));
 app.use("/semantic/fonts", express.static(full_path + '/semantic/fonts'));
 app.use("/semantic/images", express.static(full_path + '/semantic/images'));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 //define routes
 require('./routes')(app, passport);
@@ -57,7 +62,7 @@ var httpsServer = https.createServer(credentials, app);
 httpServer.listen(8081, function() {
 	console.log('Ready on port 8081');
 });
-httpsServer.listen(443, function() {
-	console.log('Ready on port 443');
+httpsServer.listen(444, function() {
+	console.log('Ready on port 444');
 });
 

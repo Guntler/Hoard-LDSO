@@ -1,8 +1,10 @@
-hoard.service('userService',function($http, messageService, sessionService) {
+angular.module('starter.userService', ['ngResource'])
+
+app.service('userService',function($http, messageService, sessionService) {
 	return {
 		getUsersByPage: function(page, usersPerPage, filterBy, filterVal, search, callback) {
 			var first = true;
-			var Url = "/api/users/fromTo/"+page+"/"+usersPerPage;
+			var Url = "http://178.62.105.68:8081/api/users/fromTo/"+page+"/"+usersPerPage;
 			if(filterBy != undefined && filterBy != null && filterVal != undefined && filterVal != null) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 				first = false;
@@ -37,7 +39,7 @@ hoard.service('userService',function($http, messageService, sessionService) {
 			});
 		},
 		getUserById: function(id, callback) {
-			var Url = "/api/users/id/"+id;
+			var Url = "http://178.62.105.68:8081/api/users/id/"+id;
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null && sessionService.getUser().permissions != "Manager")
@@ -58,7 +60,7 @@ hoard.service('userService',function($http, messageService, sessionService) {
 			});
 		},
 		getUserCount: function(filterBy, filterVal, search, callback) {
-			var Url = "/api/users/count";
+			var Url = "http://178.62.105.68:8081/api/users/count";
 			if(filterBy != undefined && filterBy != null && filterVal != undefined && filterVal != null) {
 				Url += "?filterBy=" + filterBy + "&value=" + filterVal;
 				first = false;
@@ -112,7 +114,7 @@ hoard.service('userService',function($http, messageService, sessionService) {
 			});
 		},
 		changePermissions: function(userID, permission, callback) {
-			var Url = "/api/users/changePermissions/" + userID + "?permission=" + permission;
+			var Url = "http://178.62.105.68:8081/api/users/changePermissions/" + userID + "?permission=" + permission;
 			$http.get(Url).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
@@ -134,7 +136,7 @@ hoard.service('userService',function($http, messageService, sessionService) {
 			});
 		},
 		changePassword: function(oldPassword, newPassword, callback) {
-			var Url = "/api/users/changePassword";
+			var Url = "http://178.62.105.68:8081/api/users/changePassword";
             var info = {oldPassword: oldPassword, newPassword: newPassword};
 			$http.post(Url, info).success(function (data) {
                 if (data.success == false) {
@@ -149,6 +151,27 @@ hoard.service('userService',function($http, messageService, sessionService) {
                 messageService.setError("There has been an unexpected error.");
 				callback(null);
             });
+		},
+		getFavorites: function(callback) {
+			var Url = "http://178.62.105.68:8081/api/products/getFavorites";
+			$http.get(Url).success(function(data){
+				if(data.success == false) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("There has been an unexpected error.");
+					callback(null);
+				}
+				else if(data.result == []) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No favorites found.");
+					callback(data.result);
+				}
+				else {
+					callback(data.result);
+				}
+			}).error(function(data,status,headers, config) {
+				messageService.setError("There has been an unexpected error.");
+				callback(null);
+			});
 		}
 	};
 });

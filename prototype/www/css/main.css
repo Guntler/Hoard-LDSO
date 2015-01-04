@@ -1,0 +1,84 @@
+.bar.bar-positive {
+	background-color:#FC5447;
+}
+
+/*----------------------------
+	The Navigation Menu
+-----------------------------*/
+
+.settings{ /* will style only the top level li */
+	list-style: none;
+	display: inline-block;
+	line-height: 1;
+	position:relative;
+}
+
+.settings ul{
+	position:absolute;
+	list-style:none;
+	text-align:left;
+	width:180px;
+	left:50%;
+	top:38px;
+	margin-left:-158px;
+	font:bold 12px 'Open Sans Condensed', sans-serif;
+	
+	/* This is important for the show/hide CSS animation */
+	max-height:0px;
+	overflow:hidden;
+	
+	-webkit-transition:max-height 0.4s linear;
+	-moz-transition:max-height 0.4s linear;
+	transition:max-height 0.4s linear;
+}
+
+.settings ul li{
+	background-color:#313131;
+}
+
+.settings ul li a{
+	padding:12px;
+	color:#fff !important;
+	text-decoration:none !important;
+	display:block;
+}
+
+.settings ul li:nth-child(odd){ /* zebra stripes */
+	background-color:#363636;
+}
+
+.settings ul li:hover{
+	background-color:#444;
+}
+
+.settings ul li:first-child{
+	border-radius:3px 3px 0 0;
+	position:relative;
+}
+
+.settings ul li:first-child:before{ /* the pointer tip */
+	content:'';
+	position:absolute;
+	width:1px;
+	height:1px;
+	border:5px solid transparent;
+	border-bottom-color:#313131;
+	left:50%;
+	margin-left:-5px;
+}
+
+.settings ul li:last-child{
+	border-bottom-left-radius:3px;
+	border-bottom-right-radius:3px;
+}
+
+/* This will trigger the CSS */
+/* transition animation on hover */
+
+.settings:hover ul{
+	max-height:200px; /* Increase when adding more dropdown items */
+}
+
+ion-pane > .product > img {
+	max-width: 100%;
+}

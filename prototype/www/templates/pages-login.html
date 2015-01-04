@@ -1,35 +1,50 @@
-<link href="css/login.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/login.css">
 
-<ion-view ng-cloak title="settings" ng-controller="NavCtrl">
-	<ion-header-bar class="bar-assertive">
-  		<h1 class="title">Hoard</h1>
-	</ion-header-bar>
+<ion-view ng-cloak ng-controller="LoginController">
 	
 	<ion-pane class="contentPane">
-		<div class="list">
-			<a class="item item-icon-left">
-				<i class="icon ion-email"></i>
-				Email Address
-				<div class><input type="text" placeholder="Email Address" ng-model="submit.email"></div>
-			</a>
-
-			<a class="item item-icon-left">
-				<i class="icon ion-compose"></i>
-				Password
-				<div class><input type="password" placeholder="Password" ng-model="submit.password"></div>
-			</a>
+		<img id="applogo" ng-src="img/hoardlogo.png"></img>
+		<center><h1 id="appname">hoard</h1></center>
+		
+		<form id="signin-form" ng-class='{error:errorMessage != null}' ng-hide="hidSignIn == true">
+			<div class="list list-inset">
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Email Address</span>
+					<input ng-model="email" type="text" placeholder="example@example.example" name="email">
+				</label>
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Password</span>
+					<input ng-model="password" type="password" placeholder="password" name="password">
+				</label>
+			</div>
 			
-			<button class="button button-stable" ng-click="doLogin()">
-				<i class="icon ion-checkmark-round"></i>
-			</button>
+			<center>
+				<div style="background:none;" class="list list-inset">
+					<div class="row">
+						<div ng-hide="errorMessage == null" style="margin-left: auto; margin-right: auto;" class="ui error message">
+							{{errorMessage}}
+						</div>
+					</div>
+					<button id="signin-submit" ng-click="signin(email,password)" type="submit" class="ui large green button">
+						<i class="checkmark icon" style="margin-left: auto; margin-right: auto;"></i>
+					</button>
+					<button class="ui white small button" ng-click="viewRegister()">
+						SIGN UP
+					</button>
+				</div>
 			
-			<button class="button button-stable" ng-click="viewRegister()">
-				SIGN UP
-			</button>
-			
-			<button class="button button-stable" ng-click="viewPasswordRecovery()">
-				RECOVER PASSWORD
-			</button>
-		</div>
+				<div class="col">
+					<button class="ui small white button" ng-click="viewRecoverPassword()">
+						RECOVER PASSWORD
+					</button>
+				</div>
+				
+				<div class="col">
+					<button class="ui facebook button" ng-click="fblogin()">
+						<i class="icon facebook"></i>	Facebook Sign in
+					</button>
+				</div>
+			</center>
+		</form>
 	</ion-pane>
 </ion-view>

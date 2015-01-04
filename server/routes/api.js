@@ -238,7 +238,7 @@ exports.viewProducts = function (req, res) {
             if (err)
                 res.send({result: [], success: false});
             else if (result)
-                res.send({result: reslut, success: true});
+                res.send({result: result, success: true});
             else
                 res.send({result: [], success: true});
         });

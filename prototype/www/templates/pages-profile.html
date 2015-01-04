@@ -1,29 +1,34 @@
-<link href="css/settings.css" rel="stylesheet">
+<link href="css/profile.css" rel="stylesheet">
 
-<ion-view ng-cloak title="settings" ng-controller="NavCtrl" >
+<ion-view ng-cloak title="settings" ng-controller="ProfileController" >
 	<ion-header-bar class="bar-assertive">
 		<button class="button button-clear" ng-click="close()">
 			<i class="icon ion-chevron-left"></i>
 		</button>
   		<h1 class="title">Hoard</h1>
-		<button class="button button-clear" ng-click="submitInfo()">
+		<button class="button button-clear" ng-click="changePassword()">
 			<i class="icon ion-checkmark-round"></i>
 		</button>
 	</ion-header-bar>
 	
 	<ion-pane class="contentPane">
-		<div class="list">
-			<a class="item item-icon-left">
-				<i class="icon ion-email"></i>
-				Email Address
-				<div class><input type="text" placeholder="Email Address" ng-model="submit.email"></div>
-			</a>
-
-			<a class="item item-icon-left">
-				<i class="icon ion-compose"></i>
-				Password
-				<div class><input type="password" placeholder="Password" ng-model="submit.password"></div>
-			</a>
-		</div>
+		<form style="margin-top: 5%;" id="profile-form" ng-class='{error:errorMessage != null}' ng-hide="hidSignIn == true">
+			<div class="list list-inset">
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">You may change your password here. Leave blank to discard changes.</span>
+					<input ng-model="password" type="password" placeholder="password" name="password">
+				</label>
+			</div>
+			
+			<center>
+				<div style="background:none;" class="list list-inset">
+					<div class="row">
+						<div class="ui error message">
+							{{errorMessage}}
+						</div>
+					</div>
+				</div>
+			</center>
+		</form>
 	</ion-pane>
 </ion-view>

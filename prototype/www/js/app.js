@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('starter', ['ionic'])
+var app = angular.module('starter', ['ionic', 'ngCookies'])
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -28,19 +28,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('main', {
       url: '/main',
       templateUrl: 'templates/main.html',
-	  controller: 'NavCtrl'
+	  controller: 'MainController'
     })
 	
 	.state('favorites', {
       url: '/favorites',
       templateUrl: 'templates/pages-favorites.html',
-	  controller: 'NavCtrl'
+	  controller: 'FavoritesController'
     })
 	
 	.state('profile', {
       url: '/profile',
       templateUrl: 'templates/pages-profile.html',
-	  controller: 'NavCtrl'
+	  controller: 'ProfileController'
     })
 	
 	.state('filters', {
@@ -49,19 +49,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	  controller: 'NavCtrl'
     })
 	
+	.state('recover', {
+      url: '/recover',
+      templateUrl: 'templates/pages-recover.html',
+	  controller: 'RecoverController'
+    })
+	
 	.state('login', {
       url: '/login',
       templateUrl: 'templates/pages-login.html',
-	  controller: 'NavCtrl'
+	  controller: 'LoginController'
     })
 	
 	.state('register', {
       url: '/register',
       templateUrl: 'templates/pages-register.html',
-	  controller: 'NavCtrl'
+	  controller: 'RegisterController'
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/main');
+  $urlRouterProvider.otherwise('/login');
 
 });

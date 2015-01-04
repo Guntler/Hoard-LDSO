@@ -70,6 +70,7 @@ module.exports = function (app, passport) {
     app.get('/api/products/addToFavorites/:id', api.addToFavorites);
 	app.get('/api/products/favoriteUp/:productid', api.favoriteUp);
 	app.get('/api/products/favoriteDown/:productid', api.favoriteDown);
+    app.get('/api/products/removeProductFromFavorites/:productid', api.removeProductFromFavorites)
     app.get('/api/products/remove/:id', adminApiPermissions, api.removeProduct);
     app.get('/api/products/similar/:field/:input', api.getSimilarFieldProducts);
     

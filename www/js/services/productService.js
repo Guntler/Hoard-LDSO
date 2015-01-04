@@ -86,7 +86,7 @@ hoard.service('productService', function ($http, $location, messageService) {
                         messageService.setError("There has been an unexpected error.");
                     callback(null);
                 }
-                if (data.result.length == 0) {
+                if ( data.result != null && data.result.length == 0) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("No products found.");
                     callback(null);
