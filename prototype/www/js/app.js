@@ -34,7 +34,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('favorites', {
       url: '/favorites',
       templateUrl: 'templates/pages-favorites.html',
-	  controller: 'NavCtrl'
+	  controller: 'FavoritesController'
     })
 	
 	.state('profile', {

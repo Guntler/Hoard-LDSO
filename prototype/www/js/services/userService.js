@@ -151,6 +151,27 @@ app.service('userService',function($http, messageService, sessionService) {
                 messageService.setError("There has been an unexpected error.");
 				callback(null);
             });
+		},
+		getFavorites: function(callback) {
+			var Url = "http://178.62.105.68:8081/api/products/getFavorites";
+			$http.get(Url).success(function(data){
+				if(data.success == false) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("There has been an unexpected error.");
+					callback(null);
+				}
+				else if(data.result == []) {
+					if(messageService.getMessages().errorMessage == null)
+						messageService.setError("No favorites found.");
+					callback(data.result);
+				}
+				else {
+					callback(data.result);
+				}
+			}).error(function(data,status,headers, config) {
+				messageService.setError("There has been an unexpected error.");
+				callback(null);
+			});
 		}
 	};
 });
