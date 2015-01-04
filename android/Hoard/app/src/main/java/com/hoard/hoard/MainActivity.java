@@ -138,7 +138,7 @@ public class MainActivity extends FragmentActivity {
          */
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mPagerAdapter);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(10);
         viewPager.setOnPageChangeListener(new ProductOnPageChangeListener());
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {

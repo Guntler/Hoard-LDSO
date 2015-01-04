@@ -12,7 +12,7 @@
         android:id="@+id/favorite_grid"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:paddingTop="24dp"
+        android:paddingTop="30dp"
         android:verticalSpacing="0dp"
         android:horizontalSpacing="0dp"
         android:stretchMode="columnWidth"
