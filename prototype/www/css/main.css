@@ -78,3 +78,7 @@
 .settings:hover ul{
 	max-height:200px; /* Increase when adding more dropdown items */
 }
+
+ion-pane > .product > img {
+	max-width: 100%;
+}

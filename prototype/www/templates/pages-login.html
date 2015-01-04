@@ -21,27 +21,27 @@
 			<center>
 				<div style="background:none;" class="list list-inset">
 					<div class="row">
-						<div class="ui error message">
+						<div ng-hide="errorMessage == null" style="margin-left: auto; margin-right: auto;" class="ui error message">
 							{{errorMessage}}
 						</div>
 					</div>
-					<button id="signin-submit" ng-click="signin(email,password)" type="submit" class="ui green submit button">
-						<i class="icon ion-checkmark-round"></i>
+					<button id="signin-submit" ng-click="signin(email,password)" type="submit" class="ui large green button">
+						<i class="checkmark icon" style="margin-left: auto; margin-right: auto;"></i>
 					</button>
-					<button class="button button-stable" ng-click="viewRegister()">
+					<button class="ui white small button" ng-click="viewRegister()">
 						SIGN UP
 					</button>
 				</div>
 			
 				<div class="col">
-					<button class="button button-stable" ng-click="viewRecoverPassword()">
+					<button class="ui small white button" ng-click="viewRecoverPassword()">
 						RECOVER PASSWORD
 					</button>
 				</div>
 				
 				<div class="col">
-					<button class="button button-positive" ng-click="fblogin()">
-						<i class="icon ion-social-facebook"></i>	Facebook Sign in
+					<button class="ui facebook button" ng-click="fblogin()">
+						<i class="icon facebook"></i>	Facebook Sign in
 					</button>
 				</div>
 			</center>

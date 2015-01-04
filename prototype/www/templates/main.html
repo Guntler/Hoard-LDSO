@@ -15,36 +15,14 @@
 	</ion-header-bar>
 	
 	<ion-slide-box does-continue="true" show-pager="false" on-slide-changed="slideHasChanged($index)">
-		<ion-slide>
+		<ion-slide ng-repeat="product in products">
 			<ion-pane>
 				<div class="product button button-stable button-large centered">
-					<img ng-src="img/item1.jpg"><br>
+					<img ng-src="http://178.62.105.68:8081/images/products/{{product.imageName}}"><br>
 					<div class="button button-clear assertive centered">
 						<i class="icon ion-plus-circled"></i>
 					</div>
-					<br>Item 1
-				</div>
-			</ion-pane>
-		</ion-slide>
-		<ion-slide>
-			<ion-pane>
-				<div class="product button button-stable button-large centered">
-					<img ng-src="img/item2.jpg"><br>
-					<div class="button button-clear assertive centered">
-						<i class="icon ion-plus-circled"></i>
-					</div>
-					<br>Item 2
-				</div>
-			</ion-pane>
-		</ion-slide>
-		<ion-slide>
-			<ion-pane>
-				<div class="product button button-stable button-large centered">
-					<img ng-src="img/item2.jpg"><br>
-					<div class="button button-clear assertive centered">
-						<i class="icon ion-plus-circled"></i>
-					</div>
-					<br>Item 2
+					<br>{{product.name}}
 				</div>
 			</ion-pane>
 		</ion-slide>

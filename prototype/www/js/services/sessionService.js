@@ -4,7 +4,7 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 	var user = null;
 	return {
 		checkUserExists: function(email) {
-			var Url = "/api/users/email/"+email;
+			var Url = "http://178.62.105.68:8081/api/users/email/"+email;
 			$http.get(Url).success(function(data){
 				if(data.user != false)
 				{
@@ -33,7 +33,7 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 			});
 		},
 		signout: function() {
-			var Url = "/api/users/signout";
+			var Url = "http://178.62.105.68:8081/api/users/signout";
 			$http.get(Url).success(function(data){
 				$templateCache.removeAll();
 				$state.go('login');
@@ -43,7 +43,7 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 			});
 		},
 		updateUser: function() {
-			var Url = "/api/users/current";
+			var Url = "http://178.62.105.68:8081/api/users/current";
 			$http.get(Url).success(function(data){
 				if(data.user != false)
 				{
@@ -56,7 +56,7 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 			});
 		},
 		registerUser: function(email,password) {			
-			var Url = "/api/users/register";
+			var Url = "http://178.62.105.68:8081/api/users/register";
 			var info = {email: email, password: password};
 			$http.post(Url,info).success(function(data){
 				if(data.success == false) {
