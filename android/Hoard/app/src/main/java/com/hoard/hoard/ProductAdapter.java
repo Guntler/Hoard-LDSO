@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hoard.hoard.api.HoardAPI;
 import com.hoard.hoard.api.Product;
 
 import java.io.InputStream;
@@ -78,13 +81,63 @@ public class ProductAdapter extends BaseAdapter {
         ProgressBar progressBar = (ProgressBar)view.getTag(R.id.grid_item_progressbar);
         ImageButton closeImageButton = (ImageButton)view.getTag(R.id.grid_item_close_button);
 
-        Product product = getItem(i);
+        final int productPosition = i;
+        final Product product = getItem(i);
+        closeImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new RemoveFavoriteTask(context, product, productPosition).execute();
+            }
+        });
 
         DownloadImageTask task = new DownloadImageTask(picture, progressBar, closeImageButton);
         task.execute(context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.product_images_url)+product.getImageName());
         name.setText(product.getName());
 
         return view;
+    }
+
+    private class RemoveFavoriteTask extends AsyncTask<String, String, String> {
+
+        /*
+         * Product
+         */
+        private Product product;
+        private int productPosition;
+
+        /*
+         * Hoard API
+         */
+        private HoardAPI hoardAPI;
+        private Pair<Boolean, String> valid;
+
+
+        public RemoveFavoriteTask(Context context, Product product, int productPosition) {
+            this.product = product;
+            this.productPosition = productPosition;
+            hoardAPI = new HoardAPI(context);
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            try {
+                valid = hoardAPI.removeProductFromFavorites(product);
+            } catch (Exception e) {
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", errorMessage);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String notUsed) {
+            if(valid.first) {
+                items.remove(productPosition);
+            } else {
+
+            }
+        }
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

@@ -54,6 +54,7 @@
     <string name="register_url">api/users/register</string>
     <string name="favorites_url">api/products/getFavorites</string>
     <string name="products_url">api/products/viewProducts</string>
+    <string name="remove_product_from_favorites_url">api/products/removeProductFromFavorites/</string>
     <string name="change_password_url">api/users/changePassword</string>
     <string name="product_images_url">images/products/</string>
 

@@ -9,6 +9,9 @@ import com.google.api.client.util.Key;
 public class Product {
 
     @Key
+    int id;
+
+    @Key
     String name;
 
     @Key
@@ -16,6 +19,8 @@ public class Product {
 
     @Key
     String imageName;
+
+    public int getId() { return id; }
 
     public String getName() {
         return name;
