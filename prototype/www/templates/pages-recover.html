@@ -1,12 +1,12 @@
 <link href="css/profile.css" rel="stylesheet">
 
-<ion-view ng-cloak title="settings" ng-controller="ProfileController" >
+<ion-view ng-cloak title="settings" ng-controller="RecoverController" >
 	<ion-header-bar class="bar-assertive">
-		<button class="button button-clear" ng-click="close()">
+		<button class="button button-clear" ng-click="viewLogin()">
 			<i class="icon ion-chevron-left"></i>
 		</button>
   		<h1 class="title">Hoard</h1>
-		<button class="button button-clear" ng-click="changePassword()">
+		<button class="button button-clear" ng-click="recoverPassword()">
 			<i class="icon ion-checkmark-round"></i>
 		</button>
 	</ion-header-bar>
@@ -15,8 +15,8 @@
 		<form style="margin-top: 5%;" id="profile-form" ng-class='{error:errorMessage != null}' ng-hide="hidSignIn == true">
 			<div class="list list-inset">
 				<label class="item item-input item-stacked-label">
-					<span class="input-label">You may change your password here. Leave blank to discard changes.</span>
-					<input ng-model="password" type="password" placeholder="password" name="password">
+					<span class="input-label">Email</span>
+					<input ng-model="email" type="text" placeholder="example@example.example" name="email">
 				</label>
 			</div>
 			

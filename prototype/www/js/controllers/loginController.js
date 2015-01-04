@@ -70,21 +70,12 @@ app.controller('LoginController', function ($scope, sessionService, messageServi
         }
 
     };
-
-    $scope.recoverPassword = function (email) {
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if ($scope.email.match(re)) {
-            messageService.clearAll();
-            $scope.emailError = false;
-            userService.recoverPassword(email);
-        } else {
-            messageService.setError("You must insert a valid email address.");
-            $scope.emailError = true;
-        }
-    }
-
-    $scope.toggleRecoverPassword = function () {
-        $scope.hidSignIn = !$scope.hidSignIn;
-        $scope.hidRecover = !$scope.hidRecover;
-    };
+	
+	$scope.viewRecoverPassword = function() {
+		$state.go('recover');
+	}
+	
+	$scope.viewRegister = function() {
+		$state.go('register');
+	}
 });
