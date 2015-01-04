@@ -44,7 +44,7 @@ app.use("/semantic/fonts", express.static(full_path + '/semantic/fonts'));
 app.use("/semantic/images", express.static(full_path + '/semantic/images'));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "" + req.getHeader("Access-Control-Request-Headers"));
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
