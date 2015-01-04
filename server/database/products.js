@@ -451,6 +451,53 @@ exports.favoriteDown = function (userid, productid, callback)
             });
         }
     );
-
-
 };
+
+exports.getNProductsFromCat = function (category, nproducts, callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = product.query("SELECT * FROM product WHERE category = $1 LIMIT $2", [category, nproducts]);
+
+        query.on("row", function (row, result) {
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
+        });
+
+        query.on("end", function (result) {
+            done();
+            callback(null, result.rows);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};
+
+exports.getNNewProducts = function (nproducts, callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = product.query("SELECT * FROM product LIMIT $1", [nproducts]);
+
+        query.on("row", function (row, result) {
+            result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
+        });
+
+        query.on("end", function (result) {
+            done();
+            callback(null, result.rows);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};
+

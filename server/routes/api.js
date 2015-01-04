@@ -3,6 +3,7 @@ var products = require('../database/products');
 var editrequests = require('../database/editrequests');
 var favoriteProducts = require('../database/favoriteProducts');
 var categories = require('../database/categories');
+var preferences = require('../database/preferences');
 
 //IMPORTANT
 //change this so it doesn't send the passwords and redirects if the user isn't logged in
@@ -617,3 +618,15 @@ exports.categoryById = function (req, res) {
     }
 };
 
+exports.getUserPreferences = function (req, res) {
+    if (req.params.userid == undefined) {
+        res.send({result: null, success: false});
+    } else {
+        preferences.getPreferences(req.params.userid, function (err, result) {
+            if (err)
+                res.send({result: null, success: false});
+            else
+                res.send({result: result, success: true});
+        });
+    }
+};
