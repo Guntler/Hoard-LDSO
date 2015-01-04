@@ -97,8 +97,6 @@ module.exports = function (app, passport) {
 	app.post('/api/users/changePassword', api.changePassword);
 	
     app.post('/api/users/signin', function (req, res, next) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         passport.authenticate("local-signin", function (err, user, info) {
             if (err) {
                 return next(err);
@@ -114,8 +112,6 @@ module.exports = function (app, passport) {
     });
 	
 	app.post('/api/users/signin-app', function (req, res, next) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         passport.authenticate("local-signin-app", function (err, user, info) {
             if (err) {
                 return next(err);
