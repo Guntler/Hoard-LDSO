@@ -15,7 +15,7 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 			});
 		},
 		signin: function(email, password, message) {
-			var Url = "http://178.62.105.68:8081/api/users/signin";
+			var Url = "http://178.62.105.68:8081/api/users/signin-app";
 			var info = {email: email, password: password};
 			$http.post(Url, info).success(function(data){
 				if(data.user) {
