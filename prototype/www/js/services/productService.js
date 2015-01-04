@@ -160,6 +160,27 @@ app.service('productService', function ($http, $location, messageService) {
                 }
             });
         },
-        getCategories: categories
+        getCategories: categories,
+		viewProducts: function (n) {
+			var Url = "/api/products/viewProducts/" + n;
+            $http.get(Url).success(function (data) {
+                if (data.success == false) {
+                    if (messageService.getMessages().errorMessage == null)
+                        messageService.setError("There has been an unexpected error.");
+                    callback(null);
+                }
+                if (data.result == null) {
+                    if (messageService.getMessages().errorMessage == null)
+                        messageService.setError("No products found.");
+                    callback(null);
+                }
+                else {
+                    callback(data);
+                }
+            }).error(function (data, status, headers, config) {
+                messageService.setError("There has been an unexpected error.");
+                callback(null);
+            });
+		}
     };
 });

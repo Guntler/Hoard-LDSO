@@ -1,6 +1,10 @@
 angular.module('starter.mainController', ['starter.sessionService','starter.messageService','starter.userService']);
 
-app.controller('MainController', function ($scope, sessionService, messageService, userService, $state, $ionicSideMenuDelegate) {
+app.controller('MainController', function ($scope, sessionService, messageService, userService, productService, $state, $ionicSideMenuDelegate) {
+	$scope.products = [];
+	
+	
+
 	$scope.viewProfile = function() {
 		$state.go('profile');
 	}
