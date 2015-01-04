@@ -107,6 +107,8 @@ public class ProductAdapter extends BaseAdapter {
         }
 
         protected void onPostExecute(Bitmap result) {
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setAdjustViewBounds(true);
             imageView.setImageBitmap(result);
             progressBar.setVisibility(View.GONE);
         }

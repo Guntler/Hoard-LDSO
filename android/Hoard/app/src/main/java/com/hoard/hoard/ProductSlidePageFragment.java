@@ -7,6 +7,7 @@ package com.hoard.hoard;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,9 +28,12 @@ import java.io.InputStream;
 public class ProductSlidePageFragment extends Fragment {
 
     /**
-     * Image View
+     * Image View and Progress Bar
      */
     private ImageView productImageView;
+
+    private ImageView productProgressImageView;
+    private ProgressBar productProgressBar;
 
     /**
      * Text View
@@ -55,12 +59,21 @@ public class ProductSlidePageFragment extends Fragment {
         productNameTextView = (TextView)rootView.findViewById(R.id.product_id);
 
         productImageView = (ImageView)rootView.findViewById(R.id.product_image_view);
+        productProgressImageView = (ImageView)rootView.findViewById(R.id.product_progress_image);
+        productImageView.setVisibility(View.GONE);
+
+        productProgressBar = (ProgressBar)rootView.findViewById(R.id.product_progress_bar);
+        productProgressBar.setVisibility(View.VISIBLE);
 
         hoardAPI = new HoardAPI(this.getActivity());
 
         new ProductAsyncTask(this.getActivity()).execute();
 
         return rootView;
+    }
+
+    public Products getProducts() {
+        return products;
     }
 
     class ProductAsyncTask extends AsyncTask<String, String, String> {
@@ -93,17 +106,19 @@ public class ProductSlidePageFragment extends Fragment {
         protected void onPostExecute(String notUsed) {
             if(products != null) {
                 productNameTextView.setText(products.getResult().get(0).getName());
-                new DownloadImageTask(productImageView).execute(context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.product_images_url)+products.getResult().get(0).getImageName());
+                new DownloadImageTask(productImageView, productProgressImageView, productProgressBar).execute(context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.product_images_url) + products.getResult().get(0).getImageName());
             }
         }
 
         private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
             ImageView imageView;
-            //ProgressBar progressBar;
+            ImageView progressImageView;
+            ProgressBar progressBar;
 
-            public DownloadImageTask(ImageView imageView/*, ProgressBar progressBar*/) {
+            public DownloadImageTask(ImageView imageView, ImageView progressImageView, ProgressBar progressBar) {
                 this.imageView = imageView;
-                //this.progressBar = progressBar;
+                this.progressImageView = progressImageView;
+                this.progressBar = progressBar;
             }
 
             protected Bitmap doInBackground(String... urls) {
@@ -123,8 +138,12 @@ public class ProductSlidePageFragment extends Fragment {
             }
 
             protected void onPostExecute(Bitmap imageBitmap) {
-                imageView.setImageBitmap(imageBitmap);
-                //progressBar.setVisibility(View.GONE);
+                if(imageBitmap != null) {
+                    progressImageView.setVisibility(View.GONE);
+                    imageView.setImageBitmap(imageBitmap);
+                    imageView.setVisibility(View.VISIBLE);
+                }
+                progressBar.setVisibility(View.GONE);
             }
         }
     }
