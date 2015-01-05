@@ -189,8 +189,8 @@ public class HoardAPI {
 
                 BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
 
-                if(parser.getResult()){
-                    if(parser.getSuccess()) {
+                if(parser.getSuccess()){
+                    if(parser.getResult()) {
                         return new Pair<Boolean, String>(true, "Product was removed from favorites.");
                     } else {
                         return new Pair<Boolean, String>(false, "Product wasn't removed from favorites.");
@@ -217,8 +217,8 @@ public class HoardAPI {
 
             BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
 
-            if(parser.getResult()){
-                if(parser.getSuccess()) {
+            if(parser.getSuccess()){
+                if(parser.getResult()) {
                     return new Pair<Boolean, String>(true, "An email has been sent.");
                 } else {
                     return new Pair<Boolean, String>(false, "The provided email is invalid.");
