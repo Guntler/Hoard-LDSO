@@ -28,7 +28,16 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
             if (result) {
 
                 FB.api('/me', function (response) {
-                    sessionService.signin(response.email, response.id);
+                    sessionService.checkUserExists(response.email, function (result) {
+                        console.log(result);
+                        if (result) {
+                            sessionService.signin(response.email, response.id);
+
+                        } else {
+                            sessionService.registerUser(response.email, response.id);
+                        }
+                    });
+
                 });
 
             } else {
@@ -36,11 +45,14 @@ hoard.controller('WelcomeController', function ($scope, sessionService, messageS
 
                     FB.api('/me', function (response) {
 
-                        if (sessionService.checkUserExists(response.email)) {
-                            sessionService.signin(response.email, response.id);
-                        } else {
-                            sessionService.registerUser(response.email, response.id);
-                        }
+                        sessionService.checkUserExists(response.email, function (result) {
+                            if (result) {
+                                sessionService.signin(response.email, response.id);
+
+                            } else {
+                                sessionService.registerUser(response.email, response.id);
+                            }
+                        });
                     });
 
                 }, {scope: 'public_profile,email'});
