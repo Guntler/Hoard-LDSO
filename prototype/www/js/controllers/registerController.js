@@ -29,10 +29,12 @@ app.controller('RegisterController', function ($scope, sessionService, messageSe
 	
 	$scope.viewLogin = function() {
 		$state.go('login');
+		messageService.setError(null);
 	}
 	
 	$scope.viewRecoverPassword = function() {
 		$state.go('recover');
+		messageService.setError(null);
 	}
 	
 	$scope.registerUser = function() {
@@ -40,6 +42,7 @@ app.controller('RegisterController', function ($scope, sessionService, messageSe
 		if ($scope.email.match(re)) {
 			if($scope.password.length >= 6) {
 				sessionService.registerUser($scope.email,$scope.password);
+				messageService.setError(null);
 			} else {
 				messageService.setError("Password must be at least 6 characters long.");
 			}

@@ -13,10 +13,22 @@
 	top: 0;
 	left: 0;
 	font-size:300%;
-	margin-bottom: -2%;
 }
 
 .bar.bar-positive {
 	background-color:transparent;
 	border-color:transparent;
+}
+
+button > i {
+	line-height: 15px !important;
+}
+
+.button .icon:before, .button.icon-left:before, .button.icon-right:before, .button.icon:before {
+    display: inline-block;
+    padding: 0px 0px 1px;
+    vertical-align: inherit;
+    font-size: 24px;
+	line-height: 15px;
+    pointer-events: none;
 }
