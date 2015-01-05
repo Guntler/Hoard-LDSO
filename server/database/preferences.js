@@ -3,11 +3,15 @@ var Product = require('../models/Product');
 var products = require('../database/products');
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
+//Returns a set of products according to the user's favorite products.
+//When the user has no favorite products or there are not enough products from a desired category the function returns random products that have not been visualized by the user.
 exports.getPreferences = function (userid, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
+
+        // SELECT Count(product.category) as count, productcategory.categoryid, productcategory.categoryname FROM product, favoriteproduct, productcategory WHERE product.category = productcategory.categoryid AND favoriteproduct.userid = 1 AND favoriteproduct.visible = true AND favoriteproduct.productid = product.productid  AND NOT(EXISTS(SELECT * FROM viewedProducts, product WHERE viewedProducts.productid = product.productId AND viewedProducts.userid = 1))  GROUP BY productcategory.categoryname, productcategory.categoryid
 
         //Get the number of favoriteproducts in each product category
         var query = product.query("SELECT Count(product.category) as count, productcategory.categoryid, productcategory.categoryname FROM product, favoriteproduct, productcategory WHERE product.category = productcategory.categoryid AND favoriteproduct.userid = $1 AND favoriteproduct.visible = true AND favoriteproduct.productid = product.productid GROUP BY productcategory.categoryname, productcategory.categoryid", [userid]);
@@ -130,6 +134,7 @@ exports.getPreferences = function (userid, callback) {
     });
 };
 
+//Utility function used for comparing percentage values used in the function above.
 function comparePercentages(a,b) {
     if (a.percentage > b.percentage)
         return -1;

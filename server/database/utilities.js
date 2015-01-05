@@ -1,3 +1,4 @@
+// Returns a date value in the formatted day-month-year.
 exports.formatDate = function(value){
 	var month = "";
 	var day = "";

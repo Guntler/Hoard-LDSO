@@ -394,7 +394,7 @@ exports.updateUserEmail = function (req, res) {
 //send new password to user
 exports.forgotPassword = function (req, res) {
     if (req.params.email == undefined) {
-        res.send({result: false, message: ['Please supply email'], success: false});
+        res.send({result: false, message: ['Please supply email.'], success: false});
     } else {
         users.forgotPassword(req.params.email, function (err, result) {
             if (err)

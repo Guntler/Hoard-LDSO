@@ -6,6 +6,7 @@ var bcrypt = require("bcrypt-nodejs");
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
+//Returns a user given it's id.
 exports.findById = function (id, callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {
@@ -33,6 +34,7 @@ exports.findById = function (id, callback) {
     });
 };
 
+//Returns a user given it's email.
 exports.findByEmail = function (email, callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {
@@ -60,6 +62,7 @@ exports.findByEmail = function (email, callback) {
     });
 };
 
+//Checks if a provided user and email combination is valid.
 exports.checkLogin = function (email, password, callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {
@@ -98,6 +101,7 @@ exports.checkLogin = function (email, password, callback) {
     });
 };
 
+//Changes the password of a user from and OldValue to a NewValue
 exports.changePassword = function (oldPassword, newPassword, email, callback) {
 
     pg.connect(conString, function (err, client, done) {
@@ -135,13 +139,10 @@ exports.changePassword = function (oldPassword, newPassword, email, callback) {
 			else
 				return callback(null, null);
         });
-
-
     });
-
 };
 
-
+//Inserts a user in the system, matching the email to a regular expression and encrypting his password using the bcrypt algorithm.
 exports.registerUser = function (email, password, callback) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!email.match(re)) {
@@ -181,6 +182,7 @@ exports.registerUser = function (email, password, callback) {
 
 };
 
+//Returns all the users.
 exports.getAllUsers = function (callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {
@@ -205,6 +207,7 @@ exports.getAllUsers = function (callback) {
     });
 };
 
+// Returns an interval of users for pagination purposes, also allowing filters.
 exports.getUsersFromTo = function (from, to, filterBy, value, search, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -266,6 +269,7 @@ exports.getUsersFromTo = function (from, to, filterBy, value, search, callback) 
     });
 };
 
+//Rerturns the total numbers of users.
 exports.getUserCount = function (filterBy, value, search, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -322,6 +326,7 @@ exports.getUserCount = function (filterBy, value, search, callback) {
     })
 }
 
+//Updates the email field of an user.
 exports.updateUserEmail = function (userID, newEmail, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -342,8 +347,7 @@ exports.updateUserEmail = function (userID, newEmail, callback) {
     });
 };
 
-//-------------------------------------------------------------------------------------------------------------
-
+//Changes the privileges of an user.
 exports.changePrivileges = function (userID, permission, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -369,6 +373,7 @@ exports.changePrivileges = function (userID, permission, callback) {
     });
 };
 
+//Returns all the users with manager privileges.
 exports.getAllManagers = function (callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -393,7 +398,7 @@ exports.getAllManagers = function (callback) {
     });
 };
 
-
+//Returns users with a given field similar to a user's input.
 exports.getSimilarFieldUsers = function (field, input, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -421,6 +426,7 @@ exports.getSimilarFieldUsers = function (field, input, callback) {
     });
 };
 
+//Sends an email to an user with an automatically generated password.
 exports.forgotPassword = function (email, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
