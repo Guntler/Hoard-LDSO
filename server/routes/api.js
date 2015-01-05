@@ -294,7 +294,7 @@ exports.addToFavorites = function (req, res) {
             if (err)
                 res.send({result: false, message: "Error on adding the desired product to the user's favorites.", success: false});
             else if (result)
-                res.send({result: result, message: "Success on adding the desired product to the user's favorites.", success: true});
+                res.send({result: true, message: "Success on adding the desired product to the user's favorites.", success: true});
             else
                 res.send({result: false, message: "Something went wrong.", success: true});
         });
