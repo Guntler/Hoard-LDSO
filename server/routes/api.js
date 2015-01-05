@@ -287,10 +287,10 @@ exports.productById = function (req, res) {
 
 //Adds a product to a user's favorites.
 exports.addToFavorites = function (req, res) {
-    if (req.params.id == undefined || req.user == undefined) {
+    if (req.params.productid == undefined || req.user == undefined) {
         res.send({result: false, message: "Please supply the required fields.", success: false});
     } else {
-        products.addToFavorites(req.params.id, req.user.userid, function (err, result) {
+        products.addToFavorites(req.params.productid, req.user.userid, function (err, result) {
             if (err)
                 res.send({result: false, message: "Error on adding the desired product to the user's favorites.", success: false});
             else if (result)
