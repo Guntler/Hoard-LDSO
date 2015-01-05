@@ -43,18 +43,15 @@ exports.getPreferences = function (userid, callback) {
                                     callback(error2, null);
                                 }
                                 else if(res2){
-                                    productsToReturn = productsToReturn.concat(res2);
-                                    callback(null, productsToReturn);
+                                    callback(null, res2);
                                 }
                             });
                         }
                         else {
-                            productsToReturn = productsToReturn.concat(result);
-                            callback(null, productsToReturn);
+                            callback(null, result);
                         }
                     }
                 });
-                callback(null, null);
             }
             else{
                 //console.log("nProductsInCats = " + nProductsInCats);
