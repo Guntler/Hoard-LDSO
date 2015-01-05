@@ -464,14 +464,14 @@ exports.favoriteDown = function (userid, productid, callback)
     );
 };
 
-// Returns n (or less) products from a given category, used in preferences algorithm.
-exports.getNProductsFromCat = function (category, nproducts, callback) {
+// Returns n (or less) products from a given category, that have not been seen by the specified user, used in preferences algorithm.
+exports.getNProductsFromCat = function (userid, category, nproducts, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product WHERE category = $1 LIMIT $2", [category, nproducts]);
+        var query = product.query("SELECT * FROM product WHERE category = $1 AND NOT(EXISTS(SELECT * FROM viewedProducts, product WHERE viewedProducts.productid = product.productid AND viewedProducts.userid = $2)) LIMIT $3", [category, userid, nproducts]);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
@@ -489,14 +489,14 @@ exports.getNProductsFromCat = function (category, nproducts, callback) {
     });
 };
 
-// Returns n (or less) products, used in preferences algorithm.
-exports.getNNewProducts = function (nproducts, callback) {
+// Returns n (or less) products, that have not been seen by the specified user, used in preferences algorithm.
+exports.getNNewProducts = function (userid, nproducts, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product LIMIT $1", [nproducts]);
+        var query = product.query("SELECT * FROM product WHERE NOT(EXISTS(SELECT * FROM viewedProducts, product WHERE viewedProducts.productid = product.productid AND viewedProducts.userid = $1)) LIMIT $2", [userid, nproducts]);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
@@ -514,3 +514,43 @@ exports.getNNewProducts = function (nproducts, callback) {
     });
 };
 
+//Resets the users viewedProducts and returns some products, used in preferences algorithm.
+exports.resetViewedProducts  = function (userid, nProductsToReturn, callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query1 = product.query("DELETE FROM viewedProducts WHERE userid = $1", [userid]);
+
+        query1.on("row", function (row) {
+            done();
+        });
+
+        query1.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+
+        if(nProductsToReturn > 0 ){
+            var query2 = product.query("SELECT * FROM product LIMIT $1", [nProductsToReturn]);
+
+            query2.on("row", function (row, result) {
+                result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
+            });
+
+            query2.on("end", function (result) {
+                done();
+                callback(null, result.rows);
+            });
+
+            query2.on("error", function (err) {
+                done();
+                callback(err, null);
+            });
+        }
+        else{
+            callback(null, []);
+        }
+    });
+};
