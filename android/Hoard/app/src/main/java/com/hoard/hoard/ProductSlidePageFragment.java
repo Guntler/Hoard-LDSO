@@ -7,7 +7,6 @@ package com.hoard.hoard;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,6 +56,7 @@ public class ProductSlidePageFragment extends Fragment {
                 R.layout.single_product_pageviewer_item_layout, container, false);
 
         productNameTextView = (TextView)rootView.findViewById(R.id.product_id);
+        productNameTextView.setVisibility(View.GONE);
 
         productImageView = (ImageView)rootView.findViewById(R.id.product_image_view);
         productProgressImageView = (ImageView)rootView.findViewById(R.id.product_progress_image);
@@ -122,9 +122,9 @@ public class ProductSlidePageFragment extends Fragment {
             }
 
             protected Bitmap doInBackground(String... urls) {
-                Log.i("ProductSlidePageFragment>DownloadImageTask>doInBackground Url: ", urls[0]);
                 String urlDisplay = urls[0];
                 Bitmap imageBitmap = null;
+
                 try {
                     InputStream in = new java.net.URL(urlDisplay).openStream();
                     imageBitmap = BitmapFactory.decodeStream(in);
@@ -132,17 +132,19 @@ public class ProductSlidePageFragment extends Fragment {
                 } catch (Exception e) {
                     String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
                     Log.e("ProductSlidePageFragment>DownloadImageTask>doInBackground: ", errorMessage);
-                    e.printStackTrace();
                 }
+
                 return imageBitmap;
             }
 
-            protected void onPostExecute(Bitmap imageBitmap) {
-                if(imageBitmap != null) {
+            protected void onPostExecute(Bitmap bitmap) {
+                if(bitmap != null) {
                     progressImageView.setVisibility(View.GONE);
-                    imageView.setImageBitmap(imageBitmap);
+                    imageView.setImageBitmap(bitmap);
                     imageView.setVisibility(View.VISIBLE);
+                    productNameTextView.setVisibility(View.VISIBLE);
                 }
+
                 progressBar.setVisibility(View.GONE);
             }
         }

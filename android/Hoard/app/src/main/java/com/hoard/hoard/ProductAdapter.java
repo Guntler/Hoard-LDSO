@@ -153,7 +153,6 @@ public class ProductAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(String notUsed) {
             if(valid.first) {
-                System.out.println("Here");
                 items.remove(productPosition);
                 adapter.notifyDataSetChanged();
             }
@@ -187,10 +186,12 @@ public class ProductAdapter extends BaseAdapter {
             return bitmap;
         }
 
-        protected void onPostExecute(Bitmap result) {
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView.setAdjustViewBounds(true);
-            imageView.setImageBitmap(result);
+        protected void onPostExecute(Bitmap bitmap) {
+            if(bitmap != null) {
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setAdjustViewBounds(true);
+                imageView.setImageBitmap(bitmap);
+            }
 
             progressBar.setVisibility(View.GONE);
             closeImageView.setVisibility(View.VISIBLE);

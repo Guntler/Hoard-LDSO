@@ -264,7 +264,6 @@ public class HoardAPI {
         } catch (Exception e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
             Log.e("HoardAPI>registerEmailPassword>Exception:", errorMessage);
-            return new Pair<Boolean, String>(false, "Something went wrong.");
         }
 
         return new Pair<Boolean, String>(false, "Something went wrong.");
@@ -280,5 +279,4 @@ public class HoardAPI {
             }
         });
     }
-
 }
