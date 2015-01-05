@@ -4,7 +4,14 @@ app.service('productService', function ($http, $location, messageService) {
 
     var categories = function (callback) {
         var Url = "http://178.62.105.68:8081/api/categories/all";
-        $http.get(Url).success(function (data) {
+		var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+        $http(req).success(function (data) {
             if (data.success == false) {
                 if (messageService.getMessages().errorMessage == null)
                     messageService.setError("There has been an unexpected error.");
@@ -29,7 +36,15 @@ app.service('productService', function ($http, $location, messageService) {
         addProduct: function (name, link, category, imagename, imagecontents, callback) {
             var Url = "http://178.62.105.68:8081/api/products/new/";
             var info = {name: name, link: link, imagename: imagename, category: category, imagecontents: imagecontents};
-            $http.post(Url, info).success(function (data) {
+			var req = {
+				 method: 'POST',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 },
+				 data: info
+			}
+            $http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
@@ -46,7 +61,15 @@ app.service('productService', function ($http, $location, messageService) {
         editProduct: function (productid, reason, name, link, image, imagecontents, category, callback) {
             var Url = "http://178.62.105.68:8081/api/editrequests/new/";
             var info = {productid: productid, edittype: 'Edit', reason: reason, name: name, link: link, image: image, imagename: image, imagecontents: imagecontents, category: category};
-            $http.post(Url, info).success(function (data) {
+			var req = {
+				 method: 'POST',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 },
+				 data: info
+			}
+            $http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
@@ -62,7 +85,15 @@ app.service('productService', function ($http, $location, messageService) {
         deleteProduct: function (id, reason, callback) {
             var Url = "http://178.62.105.68:8081/api/editrequests/new/";
             var info = {productid: id, edittype: "Delete", reason: reason};
-            $http.post(Url, info).success(function (data) {
+			var req = {
+				 method: 'POST',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 },
+				 data: info
+			}
+            $http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
@@ -81,8 +112,16 @@ app.service('productService', function ($http, $location, messageService) {
             if (search != undefined && search != null) {
                 Url += "?search=" + search;
             }
+			
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
 
-            $http.get(Url).success(function (data) {
+            $http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
@@ -103,7 +142,14 @@ app.service('productService', function ($http, $location, messageService) {
         },
         getProductById: function (id, callback) {
             var Url = "http://178.62.105.68:8081/api/products/id/" + id;
-            $http.get(Url).success(function (data) {
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+            $http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
@@ -127,7 +173,15 @@ app.service('productService', function ($http, $location, messageService) {
             if (search != undefined && search != null) {
                 Url += "?search=" + search;
             }
-            $http.get(Url).success(function (data) {
+			
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+            $http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
@@ -163,7 +217,15 @@ app.service('productService', function ($http, $location, messageService) {
         getCategories: categories,
 		viewProducts: function (n, callback) {
 			var Url = "http://178.62.105.68:8081/api/products/viewProducts/" + n;
-            $http.get(Url).success(function (data) {
+			console.log(window.localStorage['connect.sid']);
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+            $http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");

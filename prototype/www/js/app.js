@@ -5,9 +5,6 @@
 // the 2nd parameter is an array of 'requires'
 var app = angular.module('starter', ['ionic', 'ngCookies'])
 
-.config(['$httpProvider', function($httpProvider) {
-  $httpProvider.defaults.withCredentials = true;
-}]);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

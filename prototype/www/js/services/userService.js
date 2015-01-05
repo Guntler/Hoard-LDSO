@@ -15,7 +15,15 @@ app.service('userService',function($http, messageService, sessionService) {
 				else Url += "&";
 				Url += "search=" + search;
 			}
-			$http.get(Url).success(function(data){
+			
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null) {
 						if(data.err != null && data.err.code == "22P02")
@@ -40,7 +48,14 @@ app.service('userService',function($http, messageService, sessionService) {
 		},
 		getUserById: function(id, callback) {
 			var Url = "http://178.62.105.68:8081/api/users/id/"+id;
-			$http.get(Url).success(function(data){
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null && sessionService.getUser().permissions != "Manager")
 						messageService.setError("There has been an unexpected error." );
@@ -71,7 +86,14 @@ app.service('userService',function($http, messageService, sessionService) {
 				else Url += "&";
 				Url += "search=" + search;
 			}
-			$http.get(Url).success(function(data){
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null) {
 						if(data.err != null && data.err.code == "22P02")
@@ -96,7 +118,14 @@ app.service('userService',function($http, messageService, sessionService) {
 		},
 		recoverPassword: function(email) {
 			var Url = "/api/users/forgotPassword/" + email;
-			$http.get(Url).success(function(data){
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("No account associated with that email.");
@@ -115,7 +144,14 @@ app.service('userService',function($http, messageService, sessionService) {
 		},
 		changePermissions: function(userID, permission, callback) {
 			var Url = "http://178.62.105.68:8081/api/users/changePermissions/" + userID + "?permission=" + permission;
-			$http.get(Url).success(function(data){
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("There has been an unexpected error.");
@@ -138,7 +174,15 @@ app.service('userService',function($http, messageService, sessionService) {
 		changePassword: function(oldPassword, newPassword, callback) {
 			var Url = "http://178.62.105.68:8081/api/users/changePassword";
             var info = {oldPassword: oldPassword, newPassword: newPassword};
-			$http.post(Url, info).success(function (data) {
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 },
+				 data: info
+			}
+			$http(req).success(function (data) {
                 if (data.success == false) {
                     if (messageService.getMessages().errorMessage == null)
                         messageService.setError("There has been an unexpected error.");
@@ -154,7 +198,14 @@ app.service('userService',function($http, messageService, sessionService) {
 		},
 		getFavorites: function(callback) {
 			var Url = "http://178.62.105.68:8081/api/products/getFavorites";
-			$http.get(Url).success(function(data){
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.success == false) {
 					if(messageService.getMessages().errorMessage == null)
 						messageService.setError("There has been an unexpected error.");

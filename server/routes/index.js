@@ -109,6 +109,7 @@ module.exports = function (app, passport) {
             else req.login(user, function (err) {
                 if (err)
                     return next(err);
+					
                 res.send({user: user, message: req.flash('loginMessage'), success: true});
             });
         })(req, res, next);

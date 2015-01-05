@@ -5,7 +5,14 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 	return {
 		checkUserExists: function(email) {
 			var Url = "http://178.62.105.68:8081/api/users/email/"+email;
-			$http.get(Url).success(function(data){
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.user != false)
 				{
 					return true;
@@ -17,10 +24,18 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 		signin: function(email, password, message) {
 			var Url = "http://178.62.105.68:8081/api/users/signin-app";
 			var info = {email: email, password: password};
-			$http.post(Url, info).success(function(data){
+			$http.post(Url, info).success(function(data, status, headers, config){
 				if(data.user) {
+					console.log(headers('set-cookie'));
 					user = data.user;
 					messageService.setSuccess(data.message[0]);
+					if(headers('Set-Cookie') != undefined && headers('Set-Cookie') != null) {
+						var index = headers('Set-Cookie').indexOf("=");
+						var sid = headers('Set-Cookie').substring(index+1);
+						console.log(headers('Set-Cookie'));
+						console.log(sid);
+						window.localStorage['connect.sid'] = sid;
+					}
 					$state.go('main');
 				}
 				else {
@@ -36,15 +51,24 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 			var Url = "http://178.62.105.68:8081/api/users/signout";
 			$http.get(Url).success(function(data){
 				$templateCache.removeAll();
+				window.localStorage['connect.sid'] = undefined;
 				$state.go('login');
 			}).error(function(data, status, headers, config) {
 				$templateCache.removeAll();
+				window.localStorage['connect.sid'] = undefined;
 				$state.go('login');
 			});
 		},
 		updateUser: function() {
 			var Url = "http://178.62.105.68:8081/api/users/current";
-			$http.get(Url).success(function(data){
+			var req = {
+				 method: 'GET',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 }
+			}
+			$http(req).success(function(data){
 				if(data.user != false)
 				{
 					user = data.user;
@@ -58,7 +82,15 @@ app.factory('sessionService', function($http, $state, $location, $templateCache,
 		registerUser: function(email,password) {			
 			var Url = "http://178.62.105.68:8081/api/users/register";
 			var info = {email: email, password: password};
-			$http.post(Url,info).success(function(data){
+			var req = {
+				 method: 'POST',
+				 url: Url,
+				 headers: {
+				   'Cookie': window.localStorage['connect.sid']
+				 },
+				 data: info
+			}
+			$http(req).success(function(data){
 				if(data.success == false) {
 					messageService.setError(data.message[0]);
 				}
