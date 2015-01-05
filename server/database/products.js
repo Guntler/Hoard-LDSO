@@ -584,3 +584,28 @@ exports.resetViewedProducts  = function (userid, nProductsToReturn, callback) {
         }
     });
 };
+
+//Adds a entry to the viewedProducts table.
+exports.addViewedProduct = function (userid, productid, callback) {
+    pg.connect(conString, function (err, product, done) {
+        if (err) {
+            return callback(err, null);
+        }
+
+        var query = product.query("INSERT INTO viewedProducts (productid, userid) VALUES ($1, $2)", [productid, userid]);
+
+        query.on("row", function (row, result) {
+            done();
+        });
+
+        query.on("end", function (result) {
+            done();
+            callback(null, result.rows);
+        });
+
+        query.on("error", function (err) {
+            done();
+            callback(err, null);
+        });
+    });
+};

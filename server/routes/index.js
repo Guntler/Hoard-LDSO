@@ -88,6 +88,7 @@ module.exports = function (app, passport) {
     app.get('/api/editrequests/similar/:field/:input', api.getSimilarFieldEdits);
 
     app.get('/api/preferences/:userid', api.getUserPreferences);
+    app.get('/api/viewed/:userid/:productid', api.addViewedProduct);
 
     app.get('*', function (req, res) {
         res.render('index.ejs');
@@ -129,8 +130,7 @@ module.exports = function (app, passport) {
             });
         })(req, res, next);
     });
-	
-	
+
     app.post('/api/users/register', api.registerUser);
 }
 
