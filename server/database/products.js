@@ -209,7 +209,7 @@ exports.addToFavorites = function (productid, userid, callback) {
         });
 
         query.on("end", function (result) {
-            var nquery = favorite.query("INSERT INTO favoriteproduct (productid, userid, position) VALUES ($1, $2, $3)", [productid, userid, result.rows[0].count*1+1]);
+            var nquery = favorite.query("INSERT INTO favoriteproduct (productid, userid, position) VALUES ($1, $2, $3)", [productid, userid, result.rows[0].count+1]);
 
             nquery.on("row", function (row, result) {
                 result.addRow(new FavoriteProduct(row.productid, row.userid, row.position, row.visible, row.lastfavorited));
