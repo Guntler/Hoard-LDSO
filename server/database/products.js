@@ -203,30 +203,43 @@ exports.addToFavorites = function (productid, userid, callback) {
         }
 
         var query = favorite.query("SELECT COUNT (*) FROM favoriteproduct WHERE userid = $1", [userid]);
+        var exists = favorite.query("SELECT EXISTS(SELECT 1 FROM favoriteproduct WHERE userid = $1 AND productid = $2)", [userid], [productid]);
 
-        query.on("row", function (row, result) {
-            result.addRow(row);
-        });
+        if (exists) {
+            var updateQuery = favorite.query("UPDATE product SET visible = 'true' WHERE productid = $1", [productid]);
 
-        query.on("end", function (result) {
-            var nquery = favorite.query("INSERT INTO favoriteproduct (productid, userid, position) VALUES ($1, $2, $3)", [productid, userid, result.rows[0].count+1]);
-
-            nquery.on("row", function (row, result) {
-                result.addRow(new FavoriteProduct(row.productid, row.userid, row.position, row.visible, row.lastfavorited));
-            });
-
-            nquery.on("end", function (result) {
+            updateQuery.on("end", function (result) {
                 done();
                 callback(null, result);
             });
 
-            nquery.on("error", function (err) {
+            updateQuery.on("error", function (err) {
                 done();
                 callback(err, null);
             });
-        })
+        } else {
+            query.on("row", function (row, result) {
+                result.addRow(row);
+            });
 
+            query.on("end", function (result) {
+                var nquery = favorite.query("INSERT INTO favoriteproduct (productid, userid, position) VALUES ($1, $2, $3)", [productid, userid, result.rows[0].count+1]);
 
+                nquery.on("row", function (row, result) {
+                    result.addRow(new FavoriteProduct(row.productid, row.userid, row.position, row.visible, row.lastfavorited));
+                });
+
+                nquery.on("end", function (result) {
+                    done();
+                    callback(null, result);
+                });
+
+                nquery.on("error", function (err) {
+                    done();
+                    callback(err, null);
+                });
+            })
+        }
     });
 };
 
