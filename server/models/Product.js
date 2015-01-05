@@ -9,7 +9,7 @@ var Product = function (id, name, link, imageName, category, visible, addedby, d
 	this.visible = visible;
 	this.addedby = addedby;
 	this.dateadded = util.formatDate(new Date(dateadded));
-}
+};
 
 Product.prototype.id = -1;
 Product.prototype.name = "";

@@ -261,9 +261,9 @@ exports.removeProductFromFavorites = function (productid, userID, callback) {
         var query = product.query("UPDATE favoriteproduct SET visible = 'false' WHERE productid = $1 AND userid = $2", [productid, userID]);
 		
 
-        query.on("row", function (row) {
+        query.on("end", function (result) {
             done();
-            callback(null, row);
+            callback(null, result);
         });
 
         query.on("error", function (err) {
