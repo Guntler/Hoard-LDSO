@@ -198,7 +198,6 @@ exports.getProductCount = function (search, callback) {
 // Adds a product to a user's favorite list.
 exports.addToFavorites = function (productid, userid, callback) {
     pg.connect(conString, function (err, favorite, done)  {
-		console.log("here3");
         if (err) {
             return callback(err, null);
         }
@@ -211,20 +210,15 @@ exports.addToFavorites = function (productid, userid, callback) {
 		});
 
 		query.on("end", function (result) {
-			console.log("here2");
 			var exists = favorite.query("SELECT EXISTS(SELECT 1 FROM favoriteproduct WHERE userid = $1 AND productid = $2)", [userid, productid]);
-			console.log("here6");
 			exists.on("row", function (row, result) {
-				console.log("here4");
 				result.addRow(row);
 			});
 			
 			exists.on("end", function (favoriteResult) {
-				console.log("here7");
 				console.log(favoriteResult.rows);
 				if(favoriteResult.rows[0].exists == true) {
-					console.log("here");
-					var updateQuery = favorite.query("UPDATE product SET visible = 'true' WHERE productid = $1", [productid]);
+					var updateQuery = favorite.query("UPDATE favoriteproduct SET visible = TRUE, lastfavorited = NOW() WHERE productid = $1 AND userid = $2", [productid, userid]);
 
 					updateQuery.on("end", function (result) {
 						done();
@@ -237,7 +231,6 @@ exports.addToFavorites = function (productid, userid, callback) {
 					});
 				}
 				else {
-					console.log("here5");
 					var nquery = favorite.query("INSERT INTO favoriteproduct (productid, userid, position) VALUES ($1, $2, $3)", [productid, userid, result.rows[0].count+1]);
 
 					nquery.on("row", function (row, result) {
@@ -257,14 +250,11 @@ exports.addToFavorites = function (productid, userid, callback) {
 			});
 			
 			exists.on("error", function(err) {
-				console.log("here9");
-				console.log(err);
 				callback(err, null);
 			});
 		});
 		
 		query.on("error", function(err) {
-			console.log("here8");
 			callback(err, null);
 		});
     });
