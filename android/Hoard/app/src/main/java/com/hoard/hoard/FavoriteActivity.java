@@ -73,10 +73,10 @@ public class FavoriteActivity extends Activity {
 
         gridView = (GridView)findViewById(R.id.favorite_grid);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
                 Product product = (Product) gridView.getAdapter().getItem(position);
 
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(product.getLink()));

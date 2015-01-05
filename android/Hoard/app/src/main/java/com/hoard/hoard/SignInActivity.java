@@ -6,6 +6,7 @@ package com.hoard.hoard;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,10 +16,12 @@ import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hoard.hoard.api.HoardAPI;
@@ -63,6 +66,20 @@ public class SignInActivity extends Activity {
 
         hoardAPI = new HoardAPI(SignInActivity.this);
 
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.sigin_layout);
+        final InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        layout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                emailEditText.clearFocus();
+                passwordEditText.clearFocus();
+
+                imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
+
         emailEditText = (EditText) findViewById(R.id.signin_email);
         emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -101,7 +118,13 @@ public class SignInActivity extends Activity {
         recoverTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(validator.isValidEmail(emailEditText.getText().toString())) {
+                    logInButton.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    new RecoverAsyncTask().execute();
+                } else {
+                    emailEditText.setError(getResources().getString(R.string.validation_email_error));
+                }
             }
         });
 
@@ -154,19 +177,13 @@ public class SignInActivity extends Activity {
     }
 
 
-    class SignInAsyncTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+    private class SignInAsyncTask extends AsyncTask<String, String, String> {
 
         protected String doInBackground(String... args) {
             try {
                 Log.i("LoginActivity>SignInAsyncTask: Username - ", emailEditText.getText().toString());
                 Log.i("LoginActivity>SignInAsyncTask: Password - ", passwordEditText.getText().toString());
                 valid = hoardAPI.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
-
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
                 Log.e("LoginActivity>SignInAsyncTask>doInBackground>Exception:", errorMessage);
@@ -194,21 +211,16 @@ public class SignInActivity extends Activity {
         }
     }
 
-    class RecoverAsyncTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+    private class RecoverAsyncTask extends AsyncTask<String, String, String> {
 
         protected String doInBackground(String... args) {
             try {
                 Log.i("SignInActivity>SignInAsyncTask: Email - ", emailEditText.getText().toString());
-                //valid = hoardAPI.recoverPassword(emailEditText.getText().toString());
+                valid = hoardAPI.recoverPassword(emailEditText.getText().toString());
 
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("SignInActivity>RecoverAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("SignInActivity>SignInAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;
@@ -216,19 +228,15 @@ public class SignInActivity extends Activity {
 
         protected void onPostExecute(String notUsed) {
             if(valid.first) {
-                Intent i = new Intent(SignInActivity.this, MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("notification", getResources().getString(R.string.notification_signin));
-                i.putExtras(bundle);
-                startActivity(i);
-
-                finish();
+                alertDialog.setTitle("Success");
             } else {
-                progressBar.setVisibility(View.GONE);
-                logInButton.setVisibility(View.VISIBLE);
-                alertDialog.setMessage(valid.second);
-                alertDialog.show();
+                alertDialog.setTitle("Failed");
             }
+
+            progressBar.setVisibility(View.GONE);
+            logInButton.setVisibility(View.VISIBLE);
+            alertDialog.setMessage(valid.second);
+            alertDialog.show();
         }
     }
 }

@@ -85,11 +85,11 @@ public class ProductAdapter extends BaseAdapter {
         ImageView picture = (ImageView)view.getTag(R.id.grid_item_image);
         TextView name = (TextView)view.getTag(R.id.grid_item_text);
         ProgressBar progressBar = (ProgressBar)view.getTag(R.id.grid_item_progressbar);
-        ImageButton closeImageButton = (ImageButton)view.getTag(R.id.grid_item_close_button);
+        ImageView closeImageView = (ImageView)view.getTag(R.id.grid_item_close_button);
 
         final int productPosition = i;
         final Product product = getItem(i);
-        closeImageButton.setOnClickListener(new View.OnClickListener() {
+        closeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(context)
@@ -110,7 +110,7 @@ public class ProductAdapter extends BaseAdapter {
             }
         });
 
-        DownloadImageTask task = new DownloadImageTask(picture, progressBar, closeImageButton);
+        DownloadImageTask task = new DownloadImageTask(picture, progressBar, closeImageView);
         task.execute(context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.product_images_url)+product.getImageName());
         name.setText(product.getName());
 
@@ -162,12 +162,12 @@ public class ProductAdapter extends BaseAdapter {
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
         ProgressBar progressBar;
-        ImageButton closeImageButton;
+        ImageView closeImageView;
 
-        public DownloadImageTask(ImageView bmImage, ProgressBar progressBar, ImageButton closeImageButton) {
+        public DownloadImageTask(ImageView bmImage, ProgressBar progressBar, ImageView closeImageView) {
             this.imageView = bmImage;
             this.progressBar = progressBar;
-            this.closeImageButton = closeImageButton;
+            this.closeImageView = closeImageView;
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -189,7 +189,7 @@ public class ProductAdapter extends BaseAdapter {
             imageView.setAdjustViewBounds(true);
             imageView.setImageBitmap(result);
             progressBar.setVisibility(View.GONE);
-            closeImageButton.setVisibility(View.VISIBLE);
+            closeImageView.setVisibility(View.VISIBLE);
         }
     }
 }

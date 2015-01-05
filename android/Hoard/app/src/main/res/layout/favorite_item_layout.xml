@@ -33,7 +33,7 @@
         style="?android:attr/progressBarStyle" />
 
 
-    <ImageButton
+    <ImageView
         android:id="@+id/grid_item_close_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
