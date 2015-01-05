@@ -1,14 +1,14 @@
 package com.hoard.hoard;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,6 +30,11 @@ import java.util.ArrayList;
 public class ProductAdapter extends BaseAdapter {
 
     /*
+     * This Adapter
+     */
+    ProductAdapter adapter;
+
+    /*
      * Context
      */
     private Context context;
@@ -48,6 +53,7 @@ public class ProductAdapter extends BaseAdapter {
         this.context = context;
         inflater = LayoutInflater.from(context);
         items = favorites;
+        adapter = this;
     }
 
     @Override
@@ -86,7 +92,21 @@ public class ProductAdapter extends BaseAdapter {
         closeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RemoveFavoriteTask(context, product, productPosition).execute();
+                new AlertDialog.Builder(context)
+                        .setTitle("Remove Favorite")
+                        .setMessage("Are you sure you want to remove this product from your favorites?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new RemoveFavoriteTask(context, product, productPosition).execute();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
@@ -134,8 +154,7 @@ public class ProductAdapter extends BaseAdapter {
         protected void onPostExecute(String notUsed) {
             if(valid.first) {
                 items.remove(productPosition);
-            } else {
-
+                adapter.notifyDataSetChanged();
             }
         }
     }

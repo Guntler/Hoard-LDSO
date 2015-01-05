@@ -20,6 +20,7 @@
 
     <string name="login">Sign In</string>
     <string name="register">Register</string>
+    <string name="forgot_password"><u>Forgot Password</u></string>
 
     <!-- Hints -->
     <string name="hint_username">Username</string>

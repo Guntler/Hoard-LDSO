@@ -8,18 +8,18 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/login_register_button"
+        android:id="@+id/signin_register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/app_name"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/login_email"
-        android:layout_alignEnd="@+id/login_email" />
+        android:layout_alignRight="@+id/signin_email"
+        android:layout_alignEnd="@+id/signin_email" />
 
     <EditText
-        android:id="@+id/login_email"
+        android:id="@+id/signin_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -33,11 +33,11 @@
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/login_password"
+        android:id="@+id/signin_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/login_email"
+        android:layout_below="@+id/signin_email"
         android:layout_margin="10dp"
         android:padding="5dp"
         android:background="@drawable/textedit"
@@ -47,12 +47,25 @@
         android:inputType="textPassword"
         android:imeOptions="actionDone" />
 
+    <TextView
+        android:id="@+id/signin_recovery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/signin_password"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:text="@string/forgot_password"
+        android:textColor="@color/black"
+        android:hint="@string/hint_password" />
+
     <ImageButton
-        android:id="@+id/login_button"
+        android:id="@+id/signin_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/login_password"
+        android:layout_below="@id/signin_recovery"
         android:layout_margin="10dp"
         android:padding="5dp"
         android:src="@drawable/ic_action_accept"
@@ -60,21 +73,21 @@
         android:contentDescription="@string/app_name" />
 
     <ProgressBar
-        android:id="@+id/login_progress_bar"
+        android:id="@+id/signin_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/login_password"
+        android:layout_below="@id/signin_password"
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/login_signin"
+        android:id="@+id/signin_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/signin_email"
+        android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="60sp"
-        android:text="@string/login"
-        android:layout_above="@+id/login_email"
-        android:layout_centerHorizontal="true" />
+        android:text="@string/login" />
 
 </RelativeLayout>

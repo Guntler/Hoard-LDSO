@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.hoard.hoard.api.HoardAPI;
 
-public class LoginActivity extends Activity {
+public class SignInActivity extends Activity {
 
     /*
      * Edit Texts Email Password
@@ -59,11 +59,11 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sigin);
 
-        hoardAPI = new HoardAPI(LoginActivity.this);
+        hoardAPI = new HoardAPI(SignInActivity.this);
 
-        emailEditText = (EditText) findViewById(R.id.login_email);
+        emailEditText = (EditText) findViewById(R.id.signin_email);
         emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -73,7 +73,7 @@ public class LoginActivity extends Activity {
                     emailEditText.setHint(getResources().getString(R.string.hint_email));
             }
         });
-        passwordEditText = (EditText) findViewById(R.id.login_password);
+        passwordEditText = (EditText) findViewById(R.id.signin_password);
         passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -97,7 +97,15 @@ public class LoginActivity extends Activity {
 
         validator = new Validation();
 
-        logInButton = (ImageButton) findViewById(R.id.login_button);
+        TextView recoverTextView = (TextView) findViewById(R.id.signin_recovery);
+        recoverTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        logInButton = (ImageButton) findViewById(R.id.signin_button);
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,18 +123,18 @@ public class LoginActivity extends Activity {
             }
         });
 
-        Button registerButton = (Button) findViewById(R.id.login_register_button);
+        Button registerButton = (Button) findViewById(R.id.signin_register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent i = new Intent(SignInActivity.this, RegisterActivity.class);
                 startActivity(i);
             }
         });
 
-        progressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.signin_progress_bar);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
         builder.setMessage(R.string.dialog_fail_login_message)
                 .setTitle(R.string.dialog_fail_login_title);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -170,7 +178,45 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(String notUsed) {
             if(valid.first) {
 
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                Intent i = new Intent(SignInActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("notification", getResources().getString(R.string.notification_signin));
+                i.putExtras(bundle);
+                startActivity(i);
+
+                finish();
+            } else {
+                progressBar.setVisibility(View.GONE);
+                logInButton.setVisibility(View.VISIBLE);
+                alertDialog.setMessage(valid.second);
+                alertDialog.show();
+            }
+        }
+    }
+
+    class RecoverAsyncTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(String... args) {
+            try {
+                Log.i("SignInActivity>SignInAsyncTask: Email - ", emailEditText.getText().toString());
+                //valid = hoardAPI.recoverPassword(emailEditText.getText().toString());
+
+            } catch (Exception e) {
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("SignInActivity>RecoverAsyncTask>doInBackground>Exception:", errorMessage);
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(String notUsed) {
+            if(valid.first) {
+                Intent i = new Intent(SignInActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("notification", getResources().getString(R.string.notification_signin));
                 i.putExtras(bundle);
