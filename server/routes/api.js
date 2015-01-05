@@ -353,7 +353,7 @@ exports.removeProductFromFavorites = function (req, res) {
             if (err)
                 res.send({result: false, success: false});
             else if (result)
-                res.send({result: result, success: true});
+                res.send({result: true, success: true});
             else
                 res.send({result: false, success: true});
         });

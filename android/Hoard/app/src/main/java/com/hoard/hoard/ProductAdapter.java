@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,11 +27,6 @@ import java.util.ArrayList;
  */
 
 public class ProductAdapter extends BaseAdapter {
-
-    /*
-     * This Adapter
-     */
-    ProductAdapter adapter;
 
     /*
      * Context
@@ -53,7 +47,6 @@ public class ProductAdapter extends BaseAdapter {
         this.context = context;
         inflater = LayoutInflater.from(context);
         items = favorites;
-        adapter = this;
     }
 
     @Override
@@ -89,6 +82,7 @@ public class ProductAdapter extends BaseAdapter {
 
         final int productPosition = i;
         final Product product = getItem(i);
+        final ProductAdapter adapter = this;
         closeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +91,7 @@ public class ProductAdapter extends BaseAdapter {
                         .setMessage("Are you sure you want to remove this product from your favorites?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                new RemoveFavoriteTask(context, product, productPosition).execute();
+                                new RemoveFavoriteAsyncTask(context, product, productPosition, adapter).execute();
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -117,7 +111,12 @@ public class ProductAdapter extends BaseAdapter {
         return view;
     }
 
-    private class RemoveFavoriteTask extends AsyncTask<String, String, String> {
+    private class RemoveFavoriteAsyncTask extends AsyncTask<String, String, String> {
+
+        /*
+         * Adapter
+         */
+        private ProductAdapter adapter;
 
         /*
          * Product
@@ -132,9 +131,10 @@ public class ProductAdapter extends BaseAdapter {
         private Pair<Boolean, String> valid;
 
 
-        public RemoveFavoriteTask(Context context, Product product, int productPosition) {
+        public RemoveFavoriteAsyncTask(Context context, Product product, int productPosition, ProductAdapter adapter) {
             this.product = product;
             this.productPosition = productPosition;
+            this.adapter = adapter;
             hoardAPI = new HoardAPI(context);
         }
 
@@ -144,7 +144,7 @@ public class ProductAdapter extends BaseAdapter {
                 valid = hoardAPI.removeProductFromFavorites(product);
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("FavoriteActivity>RemoveFavoriteAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;
@@ -153,6 +153,7 @@ public class ProductAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(String notUsed) {
             if(valid.first) {
+                System.out.println("Here");
                 items.remove(productPosition);
                 adapter.notifyDataSetChanged();
             }
@@ -164,30 +165,33 @@ public class ProductAdapter extends BaseAdapter {
         ProgressBar progressBar;
         ImageView closeImageView;
 
-        public DownloadImageTask(ImageView bmImage, ProgressBar progressBar, ImageView closeImageView) {
-            this.imageView = bmImage;
+        public DownloadImageTask(ImageView bitMapImage, ProgressBar progressBar, ImageView closeImageView) {
+            this.imageView = bitMapImage;
             this.progressBar = progressBar;
             this.closeImageView = closeImageView;
         }
 
         protected Bitmap doInBackground(String... urls) {
             String urlDisplay = urls[0];
-            Bitmap mIcon11 = null;
+            Bitmap bitmap = null;
+
             try {
                 InputStream in = new java.net.URL(urlDisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
+                bitmap = BitmapFactory.decodeStream(in);
                 in.close();
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
                 Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", errorMessage);
             }
-            return mIcon11;
+
+            return bitmap;
         }
 
         protected void onPostExecute(Bitmap result) {
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView.setAdjustViewBounds(true);
             imageView.setImageBitmap(result);
+
             progressBar.setVisibility(View.GONE);
             closeImageView.setVisibility(View.VISIBLE);
         }
