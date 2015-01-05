@@ -3,6 +3,7 @@ var ProductCategory = require('../models/ProductCategory');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
+// Returns a category given its id.
 exports.findById = function (id, callback) {
     pg.connect(conString, function (err, category, done) {
         if (err) {
@@ -30,6 +31,7 @@ exports.findById = function (id, callback) {
     });
 };
 
+// Returns all categories.
 exports.getAllCategories = function (callback) {
     pg.connect(conString, function (err, client, done) {
         if (err) {

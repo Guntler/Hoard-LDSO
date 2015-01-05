@@ -5,7 +5,7 @@ var Product = require('../models/Product');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
-
+// Returns edit request given an edit type.
 exports.findByEditType = function (edittype, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -30,6 +30,7 @@ exports.findByEditType = function (edittype, callback) {
     });
 };
 
+// Returns an edit request given its id.
 exports.findById = function (id, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -58,6 +59,7 @@ exports.findById = function (id, callback) {
     });
 };
 
+// Returns all edit requests ordered by id.
 exports.getAllById = function (callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -82,6 +84,7 @@ exports.getAllById = function (callback) {
     });
 };
 
+// Returns all edit requests ordered by date.
 exports.getAllByDate = function (callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -106,6 +109,7 @@ exports.getAllByDate = function (callback) {
     });
 };
 
+// Returns an interval of edit request for pagination purposes, also allowing filters.
 exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -120,6 +124,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
             filterVals = value.split("|");
         }
         var i = 0;
+        var arr;
 
         if (filterBy == "User") {
 
@@ -131,7 +136,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
                     queryStr += " OR ";
             }
             queryStr += " ORDER BY editdate desc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
-            var arr = filterVals.concat([(from - 1) * to, to]);
+            arr = filterVals.concat([(from - 1) * to, to]);
             query = editrequest.query(queryStr, arr);
         }
         else if (filterBy == "Status") {
@@ -143,7 +148,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
                     queryStr += " OR ";
             }
             queryStr += " ORDER BY editdate desc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
-            var arr = filterVals.concat([(from - 1) * to, to]);
+            arr = filterVals.concat([(from - 1) * to, to]);
             query = editrequest.query(queryStr, arr);
         }
         else if (filterBy == "Product") {
@@ -155,7 +160,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
                     queryStr += " OR ";
             }
             queryStr += " ORDER BY editdate desc OFFSET $" + (i + 1) + " LIMIT $" + (i + 2);
-            var arr = filterVals.concat([(from - 1) * to, to]);
+            arr = filterVals.concat([(from - 1) * to, to]);
             query = editrequest.query(queryStr, arr);
         }
         else {
@@ -180,6 +185,7 @@ exports.getEditsFromTo = function (from, to, filterBy, value, callback) {
     });
 };
 
+// Returns number of edit requests, also allowing filters.
 exports.getEditCount = function (filterBy, value, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -243,8 +249,9 @@ exports.getEditCount = function (filterBy, value, callback) {
             callback(err, null);
         });
     })
-}
+};
 
+// Returns all the edit requests made by a given manager.
 exports.getManagerEdits = function (managerId, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -269,6 +276,7 @@ exports.getManagerEdits = function (managerId, callback) {
     });
 };
 
+// Inserts a new edit request.
 exports.newRequest = function (productid, userid, editType, reason, name, link, image, imagename, imagecontents, category, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -338,6 +346,7 @@ exports.newRequest = function (productid, userid, editType, reason, name, link, 
     });
 };
 
+// Rejects an edit request given its id, also storing the admin responsible for the rejection.
 exports.rejectRequest = function (adminid, editid, callback) {
     pg.connect(conString, function (err, editrequest, done) {
             if (err) {
@@ -356,7 +365,6 @@ exports.rejectRequest = function (adminid, editid, callback) {
             });
 
             query1.on("end", function (result) {
-                var resultData = result.rows[0];
 
                 if (result.rows.length < 1) {
                     done();
@@ -383,6 +391,7 @@ exports.rejectRequest = function (adminid, editid, callback) {
     );
 };
 
+// Approves an edit request given its id, also storing the admin responsible for the approval.
 exports.approveRequest = function (adminid, editid, callback) {
     pg.connect(conString, function (err, editrequest, done) {
             if (err) {
@@ -405,9 +414,10 @@ exports.approveRequest = function (adminid, editid, callback) {
                     var query2 = editrequest.query("UPDATE editrequest SET approvedby = $1, editstatus = 'Approved' WHERE requestid = $2", [adminid, editid]);
 
                     query2.on("end", function (result) {
+                        var query3;
 
                         if (resultData.edittype == 'Add') {
-                            var query3 = editrequest.query("UPDATE product SET visible = 'true' WHERE productid = $1", [resultData.productid]);
+                            query3 = editrequest.query("UPDATE product SET visible = 'true' WHERE productid = $1", [resultData.productid]);
 
                             query3.on("error", function (err) {
                                 done();
@@ -420,7 +430,7 @@ exports.approveRequest = function (adminid, editid, callback) {
                             });
                         } else if (resultData.edittype == 'Delete') {
 
-                            var query3 = editrequest.query("UPDATE product SET visible = 'false' WHERE productid = $1", [resultData.productid]);
+                            query3 = editrequest.query("UPDATE product SET visible = 'false' WHERE productid = $1", [resultData.productid]);
 
                             query3.on("error", function (err) {
                                 done();
@@ -433,7 +443,7 @@ exports.approveRequest = function (adminid, editid, callback) {
                             });
                         } else if (resultData.edittype == 'Edit') {
 
-                            var query3 = editrequest.query("SELECT * FROM product WHERE productid = $1", [resultData.productid]);
+                            query3 = editrequest.query("SELECT * FROM product WHERE productid = $1", [resultData.productid]);
 
                             query3.on("row", function (row, result) {
                                 result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded))
@@ -487,6 +497,7 @@ exports.approveRequest = function (adminid, editid, callback) {
     );
 };
 
+// Returns the edit list of a given product.
 exports.getEditsOfProduct = function (product, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
@@ -514,16 +525,19 @@ exports.getEditsOfProduct = function (product, callback) {
     });
 };
 
+// Returns edits with a given field similar to a users input. Ex: given a product name, gets edits for that product name.
 exports.getSimilarFieldEdits = function (field, input, callback) {
     pg.connect(conString, function (err, editrequest, done) {
         if (err) {
             return callback(err, null);
         }
 
+        var query;
+
         if (field == "product")
-            var query = editrequest.query("SELECT * FROM editrequest, product WHERE product.productid = editrequest.productid AND similarity(product.name, $1) > 0.2", [input]);
+            query = editrequest.query("SELECT * FROM editrequest, product WHERE product.productid = editrequest.productid AND similarity(product.name, $1) > 0.2", [input]);
         else if (field == "user")
-            var query = editrequest.query("SELECT * FROM editrequest, useraccount WHERE useraccount.userid = editrequest.submittedby AND similarity(useraccount.email, $1) > 0.2", [input]);
+            query = editrequest.query("SELECT * FROM editrequest, useraccount WHERE useraccount.userid = editrequest.submittedby AND similarity(useraccount.email, $1) > 0.2", [input]);
         else
             return callback(err, null);
 

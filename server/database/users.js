@@ -229,7 +229,7 @@ exports.getUsersFromTo = function (from, to, filterBy, value, search, callback) 
 			queryStr += "WHERE ";
 			
 			if(search != undefined && search != null) {
-				queryStr += "similarity(email, $1) > 0.5"
+				queryStr += "similarity(email, $1) > 0.5";
 				currArg++;
 				arr = [search];
 			}
@@ -291,7 +291,7 @@ exports.getUserCount = function (filterBy, value, search, callback) {
 			queryStr += "WHERE ";
 			
 			if(search != undefined && search != null) {
-				queryStr += "similarity(email, $1) > 0.5"
+				queryStr += "similarity(email, $1) > 0.5";
 				currArg++;
 				arr = [search];
 			}
@@ -324,7 +324,7 @@ exports.getUserCount = function (filterBy, value, search, callback) {
             callback(err, null);
         });
     })
-}
+};
 
 //Updates the email field of an user.
 exports.updateUserEmail = function (userID, newEmail, callback) {

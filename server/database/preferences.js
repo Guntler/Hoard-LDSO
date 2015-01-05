@@ -1,3 +1,4 @@
+// NEEDS COMMENTS
 pg = require("pg");
 var Product = require('../models/Product');
 var products = require('../database/products');
@@ -39,10 +40,9 @@ exports.getPreferences = function (userid, callback) {
                 var percentageArray = [];
 
                 for(i = 0; i < result.rows.length; i++){
-
                     var percent = result.rows[i].count/nProducts;
-                    var element = {catname: result.rows[i].categoryname, catid: result.rows[i].categoryid, percentage : percent};
-                    percentageArray[i] = element;
+
+                    percentageArray[i] = {catname: result.rows[i].categoryname, catid: result.rows[i].categoryid, percentage : percent};
                 }
 
                 percentageArray.sort(comparePercentages);
@@ -53,16 +53,16 @@ exports.getPreferences = function (userid, callback) {
                 //Make the percentages correspond to a int number of products.
                 var sum = 0;
                 var numProductsArray = [];
-                var productsToReturn = 10;
+                var nProducts = 10;
 
                 for(j = 0; j < percentageArray.length; j++) {
                     var rounded = Math.round( percentageArray[j].percentage * 10 ) / 10;
                     rounded *= 10;
 
-                    var difference = sum + rounded - productsToReturn;
+                    var difference = sum + rounded - nProducts;
                     var testSum = sum + rounded;
 
-                    if(testSum > productsToReturn){
+                    if(testSum > nProducts){
                         console.log("Sum(" + sum + ") exceeded nProducts, subtracting " + difference + " from current product.");
                         rounded -= difference;
                     }

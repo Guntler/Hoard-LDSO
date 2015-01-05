@@ -5,6 +5,7 @@ var EditRequests = require('../database/editrequests');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
+// Returns a product given its id.
 exports.findById = function (id, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -32,6 +33,7 @@ exports.findById = function (id, callback) {
     });
 };
 
+// Inserts a new product.
 exports.newProduct = function (name, link, imagename, category, imagecontents, userid,callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -61,6 +63,7 @@ exports.newProduct = function (name, link, imagename, category, imagecontents, u
     });
 };
 
+// Returns 5 random products or n random products if n is given.
 exports.getProducts = function (n, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -92,6 +95,7 @@ exports.getProducts = function (n, callback) {
     });
 };
 
+// Returns an interval of products for pagination purposes.
 exports.getProductsFromTo = function (from, to, search, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -103,7 +107,7 @@ exports.getProductsFromTo = function (from, to, search, callback) {
 		var arr = [];
 		
 		if(search != undefined && search != null) {
-			queryStr += " similarity(name, $1) > 0.1 AND"
+			queryStr += " similarity(name, $1) > 0.1 AND";
 			currArg++;
 			arr = [search];
 		}
@@ -129,7 +133,7 @@ exports.getProductsFromTo = function (from, to, search, callback) {
     });
 };
 
-
+// Returns all products.
 exports.getAllProducts = function (callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -154,6 +158,7 @@ exports.getAllProducts = function (callback) {
     });
 };
 
+// Retuns the total number of products, allowing to filter by name.
 exports.getProductCount = function (search, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -165,7 +170,7 @@ exports.getProductCount = function (search, callback) {
 		var arr = [];
 		
 		if(search != undefined && search != null) {
-			queryStr += " similarity(name, $1) > 0.2 AND"
+			queryStr += " similarity(name, $1) > 0.2 AND";
 			currArg++;
 			arr = [search];
 		}
@@ -190,6 +195,7 @@ exports.getProductCount = function (search, callback) {
     });
 };
 
+// Adds a product to a user's favorite list.
 exports.addToFavorites = function (productid, userid, callback) {
     pg.connect(conString, function (err, favorite, done)  {
         if (err) {
@@ -224,6 +230,7 @@ exports.addToFavorites = function (productid, userid, callback) {
     });
 };
 
+// Removes a product, effectively making it invisible but keeping in the db.
 exports.removeProduct = function (productid, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -244,7 +251,7 @@ exports.removeProduct = function (productid, callback) {
     });
 };
 
-//remove product from the favorites 
+// Remove product from the favorites.
 exports.removeProductFromFavorites = function (productid, userID, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -266,6 +273,7 @@ exports.removeProductFromFavorites = function (productid, userID, callback) {
     });
 };
 
+// Returns a user's favorite products, given the user id.
 exports.getFavorites = function (userid, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -290,16 +298,19 @@ exports.getFavorites = function (userid, callback) {
     });
 };
 
+// Returns products with a given field similar to a users input. Ex: given a product name, gets products with a similar name.
 exports.getSimilarFieldProducts = function (field, input, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
             return callback(err, null);
         }
 
+        var query;
+
         if(field == "name")
-            var query = product.query("SELECT * FROM product WHERE similarity(name, $1) > 0.1", [input]);
+            query = product.query("SELECT * FROM product WHERE similarity(name, $1) > 0.1", [input]);
         else if (field == "category")
-            var query = product.query("SELECT * FROM product, productcategory WHERE similarity(productcategory.categoryname, $1) > 0.2 AND productcategory.categoryid = product.category", [input]);
+            query = product.query("SELECT * FROM product, productcategory WHERE similarity(productcategory.categoryname, $1) > 0.2 AND productcategory.categoryid = product.category", [input]);
         else
             return callback(err, null);
 
@@ -319,7 +330,7 @@ exports.getSimilarFieldProducts = function (field, input, callback) {
     });
 };
 
-
+// Moves a favorite up in the favorite list.
 exports.favoriteUp = function (userid, productid, callback)
 {
    pg.connect(conString, function (err, favoriteproduct, done) {
@@ -382,7 +393,7 @@ exports.favoriteUp = function (userid, productid, callback)
 
 };
 
-
+// Moves a favorite down in the favorite list.
 exports.favoriteDown = function (userid, productid, callback)
 {
    pg.connect(conString, function (err, favoriteproduct, done) {
@@ -453,6 +464,7 @@ exports.favoriteDown = function (userid, productid, callback)
     );
 };
 
+// Returns n (or less) products from a given category, used in preferences algorithm.
 exports.getNProductsFromCat = function (category, nproducts, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {
@@ -477,6 +489,7 @@ exports.getNProductsFromCat = function (category, nproducts, callback) {
     });
 };
 
+// Returns n (or less) products, used in preferences algorithm.
 exports.getNNewProducts = function (nproducts, callback) {
     pg.connect(conString, function (err, product, done) {
         if (err) {

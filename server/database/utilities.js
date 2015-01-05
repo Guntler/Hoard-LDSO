@@ -13,4 +13,4 @@ exports.formatDate = function(value){
 	day += value.getDate();
 		
    return  day + "-" + month + "-" + value.getFullYear();
-}
+};
