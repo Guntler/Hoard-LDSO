@@ -15,6 +15,7 @@ app.controller('ProfileController', function ($scope, sessionService, messageSer
 	$scope.changePassword = function() {
 		if($scope.password != "" && $scope.password != null) {
 			$state.go('main');
+			messageService.setError(null);
 		} else {
 			userService.changePassword($scope.previousPassword,$scope.password, function (data) {
 				if (data.success == false) {

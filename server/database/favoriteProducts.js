@@ -3,6 +3,7 @@ var FavoriteProduct = require('../models/FavoriteProduct');
 
 var conString = "postgres://hoard:hoardingisfun@178.62.105.68:5432/hoard";
 
+//Returns a user's favorite products given it's id.
 exports.findById = function(id, callback) {
 	pg.connect(conString, function(err, favoriteProduct, done) {
 		if(err) {

@@ -108,7 +108,7 @@ public class MainActivity extends FragmentActivity {
                 if (menuDown) {
                     session.logOut();
 
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    Intent i = new Intent(MainActivity.this, SignInActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                 }
@@ -138,7 +138,7 @@ public class MainActivity extends FragmentActivity {
          */
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mPagerAdapter);
-        viewPager.setOffscreenPageLimit(10);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setOnPageChangeListener(new ProductOnPageChangeListener());
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -349,7 +349,7 @@ public class MainActivity extends FragmentActivity {
         protected void onPostExecute(String string) {
             session.logOut();
 
-            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            Intent i = new Intent(MainActivity.this, SignInActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         }

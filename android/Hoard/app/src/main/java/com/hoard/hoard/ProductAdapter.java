@@ -1,18 +1,17 @@
 package com.hoard.hoard;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -79,25 +78,45 @@ public class ProductAdapter extends BaseAdapter {
         ImageView picture = (ImageView)view.getTag(R.id.grid_item_image);
         TextView name = (TextView)view.getTag(R.id.grid_item_text);
         ProgressBar progressBar = (ProgressBar)view.getTag(R.id.grid_item_progressbar);
-        ImageButton closeImageButton = (ImageButton)view.getTag(R.id.grid_item_close_button);
+        ImageView closeImageView = (ImageView)view.getTag(R.id.grid_item_close_button);
 
         final int productPosition = i;
         final Product product = getItem(i);
-        closeImageButton.setOnClickListener(new View.OnClickListener() {
+        final ProductAdapter adapter = this;
+        closeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RemoveFavoriteTask(context, product, productPosition).execute();
+                new AlertDialog.Builder(context)
+                        .setTitle("Remove Favorite")
+                        .setMessage("Are you sure you want to remove this product from your favorites?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new RemoveFavoriteAsyncTask(context, product, productPosition, adapter).execute();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
-        DownloadImageTask task = new DownloadImageTask(picture, progressBar, closeImageButton);
+        DownloadImageTask task = new DownloadImageTask(picture, progressBar, closeImageView);
         task.execute(context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.product_images_url)+product.getImageName());
         name.setText(product.getName());
 
         return view;
     }
 
-    private class RemoveFavoriteTask extends AsyncTask<String, String, String> {
+    private class RemoveFavoriteAsyncTask extends AsyncTask<String, String, String> {
+
+        /*
+         * Adapter
+         */
+        private ProductAdapter adapter;
 
         /*
          * Product
@@ -112,9 +131,10 @@ public class ProductAdapter extends BaseAdapter {
         private Pair<Boolean, String> valid;
 
 
-        public RemoveFavoriteTask(Context context, Product product, int productPosition) {
+        public RemoveFavoriteAsyncTask(Context context, Product product, int productPosition, ProductAdapter adapter) {
             this.product = product;
             this.productPosition = productPosition;
+            this.adapter = adapter;
             hoardAPI = new HoardAPI(context);
         }
 
@@ -124,7 +144,7 @@ public class ProductAdapter extends BaseAdapter {
                 valid = hoardAPI.removeProductFromFavorites(product);
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("FavoriteActivity>RemoveFavoriteAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;
@@ -134,8 +154,7 @@ public class ProductAdapter extends BaseAdapter {
         protected void onPostExecute(String notUsed) {
             if(valid.first) {
                 items.remove(productPosition);
-            } else {
-
+                adapter.notifyDataSetChanged();
             }
         }
     }
@@ -143,34 +162,39 @@ public class ProductAdapter extends BaseAdapter {
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
         ProgressBar progressBar;
-        ImageButton closeImageButton;
+        ImageView closeImageView;
 
-        public DownloadImageTask(ImageView bmImage, ProgressBar progressBar, ImageButton closeImageButton) {
-            this.imageView = bmImage;
+        public DownloadImageTask(ImageView bitMapImage, ProgressBar progressBar, ImageView closeImageView) {
+            this.imageView = bitMapImage;
             this.progressBar = progressBar;
-            this.closeImageButton = closeImageButton;
+            this.closeImageView = closeImageView;
         }
 
         protected Bitmap doInBackground(String... urls) {
             String urlDisplay = urls[0];
-            Bitmap mIcon11 = null;
+            Bitmap bitmap = null;
+
             try {
                 InputStream in = new java.net.URL(urlDisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
+                bitmap = BitmapFactory.decodeStream(in);
                 in.close();
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
                 Log.e("ProductAdapter>DownloadImageTask>doInBackground: ", errorMessage);
             }
-            return mIcon11;
+
+            return bitmap;
         }
 
-        protected void onPostExecute(Bitmap result) {
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView.setAdjustViewBounds(true);
-            imageView.setImageBitmap(result);
+        protected void onPostExecute(Bitmap bitmap) {
+            if(bitmap != null) {
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setAdjustViewBounds(true);
+                imageView.setImageBitmap(bitmap);
+            }
+
             progressBar.setVisibility(View.GONE);
-            closeImageButton.setVisibility(View.VISIBLE);
+            closeImageView.setVisibility(View.VISIBLE);
         }
     }
 }

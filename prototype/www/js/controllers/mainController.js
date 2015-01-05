@@ -11,14 +11,17 @@ app.controller('MainController', function ($scope, sessionService, messageServic
 
 	$scope.viewProfile = function() {
 		$state.go('profile');
+		messageService.setError(null);
 	}
 	
 	$scope.viewFavorites = function() {
 		$state.go('favorites');
+		messageService.setError(null);
 	}
 	
 	$scope.logout = function() {
 		sessionService.signout();
 		$cookieStore.remove("connect.sid");
+		messageService.setError(null);
 	}
 });

@@ -13,7 +13,7 @@ var EditRequest = function (requestid, productid, submittedby, approvedby, editt
 	this.category = category;
 	this.reason = reason;
 	this.editdate = util.formatDate(new Date(editdate));
-}
+};
 
 EditRequest.prototype.requestid = -1;
 EditRequest.prototype.productid = null;

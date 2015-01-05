@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS product CASCADE;
 DROP TABLE IF EXISTS favoriteProduct CASCADE;
 DROP TABLE IF EXISTS editRequest CASCADE;
 DROP TABLE IF EXISTS productCategory CASCADE;
+DROP TABLE IF EXISTS viewedProducts CASCADE;
 
 DROP TYPE IF EXISTS editStatus CASCADE;
 DROP TYPE IF EXISTS userType CASCADE;
@@ -55,6 +56,10 @@ CREATE TABLE favoriteProduct (
 	CHECK (lastFavorited <= now())
 );
 
+CREATE TABLE viewedProducts (
+	productID INTEGER NOT NULL REFERENCES product(productID),
+	userID INTEGER NOT NULL REFERENCES userAccount(userID)
+);
 
 -- description: Link', 'Name', 'Category' --
 CREATE TABLE editRequest (

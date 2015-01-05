@@ -24,7 +24,7 @@ public class SplashScreen extends Activity {
             i.putExtras(bundle);
             startActivity(i);
         } else {
-            Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+            Intent i = new Intent(SplashScreen.this, SignInActivity.class);
             startActivity(i);
         }
 

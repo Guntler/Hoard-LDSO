@@ -73,9 +73,11 @@ app.controller('LoginController', function ($scope, sessionService, messageServi
 	
 	$scope.viewRecoverPassword = function() {
 		$state.go('recover');
+		messageService.setError(null);
 	}
 	
 	$scope.viewRegister = function() {
 		$state.go('register');
+		messageService.setError(null);
 	}
 });

@@ -29,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.set('view engine', 'ejs'); //poderá eventualmente alterado para jade
+app.set('view engine', 'ejs');
 app.set('views', full_path);
 
 app.use("/css", express.static(full_path + '/css'));
@@ -54,14 +54,10 @@ require('./routes')(app, passport);
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
-/*app.listen('8081',  function(){ //8081 porque é o jenkins no 8080
-	console.log('Ready on port 8081');
-});*/
-
-
 httpServer.listen(8081, function() {
 	console.log('Ready on port 8081');
 });
+
 httpsServer.listen(444, function() {
 	console.log('Ready on port 444');
 });

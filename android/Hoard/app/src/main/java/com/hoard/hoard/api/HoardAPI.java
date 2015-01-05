@@ -189,8 +189,8 @@ public class HoardAPI {
 
                 BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
 
-                if(parser.getResult()){
-                    if(parser.getSuccess()) {
+                if(parser.getSuccess()){
+                    if(parser.getResult()) {
                         return new Pair<Boolean, String>(true, "Product was removed from favorites.");
                     } else {
                         return new Pair<Boolean, String>(false, "Product wasn't removed from favorites.");
@@ -201,6 +201,32 @@ public class HoardAPI {
         } catch (IOException e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
             Log.e("HoardAPI>removeProductFromFavorites>Exception:", errorMessage);
+        }
+
+        return new Pair<Boolean, String>(false, "Something went wrong.");
+    }
+
+    public Pair<Boolean, String> recoverPassword(String email) {
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.forgot_password_url)+email;
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+
+            BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
+
+            if(parser.getSuccess()){
+                if(parser.getResult()) {
+                    return new Pair<Boolean, String>(true, "An email has been sent.");
+                } else {
+                    return new Pair<Boolean, String>(false, "The provided email is invalid.");
+                }
+            }
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>recoverPassword>Exception:", errorMessage);
         }
 
         return new Pair<Boolean, String>(false, "Something went wrong.");
@@ -238,7 +264,6 @@ public class HoardAPI {
         } catch (Exception e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
             Log.e("HoardAPI>registerEmailPassword>Exception:", errorMessage);
-            return new Pair<Boolean, String>(false, "Something went wrong.");
         }
 
         return new Pair<Boolean, String>(false, "Something went wrong.");
@@ -254,5 +279,4 @@ public class HoardAPI {
             }
         });
     }
-
 }

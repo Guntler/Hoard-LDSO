@@ -6,6 +6,7 @@ package com.hoard.hoard;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,9 +16,11 @@ import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hoard.hoard.api.HoardAPI;
@@ -61,6 +64,20 @@ public class RegisterActivity extends Activity {
         setContentView(R.layout.activity_register);
 
         hoardAPI = new HoardAPI(RegisterActivity.this);
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.register_layout);
+        final InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        layout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                emailEditText.clearFocus();
+                passwordEditText.clearFocus();
+
+                imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
 
         emailEditText = (EditText) findViewById(R.id.register_email);
         emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {

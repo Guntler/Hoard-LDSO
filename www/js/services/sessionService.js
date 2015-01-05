@@ -1,15 +1,15 @@
 hoard.service('sessionService', function($http, $location, $templateCache, messageService) {
 	var user = null;
 	return {
-		checkUserExists: function(email) {
+		checkUserExists: function(email, callback) {
 			var Url = "/api/users/email/"+email;
 			$http.get(Url).success(function(data){
-				if(data.user != false)
+				if(data.result != null)
 				{
-					return true;
+					callback(true);
 				}
 				else
-					return false;
+					callback(false);
 			});
 		},
 		signin: function(email, password, message) {
