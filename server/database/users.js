@@ -326,7 +326,7 @@ exports.getUserCount = function (filterBy, value, search, callback) {
     })
 };
 
-//Updates the email field of an user.
+//Updates the email field of a user .
 exports.updateUserEmail = function (userID, newEmail, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -347,7 +347,7 @@ exports.updateUserEmail = function (userID, newEmail, callback) {
     });
 };
 
-//Changes the privileges of an user.
+//Changes the privileges of a user .
 exports.changePrivileges = function (userID, permission, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
@@ -426,7 +426,7 @@ exports.getSimilarFieldUsers = function (field, input, callback) {
     });
 };
 
-//Sends an email to an user with an automatically generated password.
+//Sends an email to a user  with an automatically generated password.
 exports.forgotPassword = function (email, callback) {
     pg.connect(conString, function (err, user, done) {
         if (err) {
