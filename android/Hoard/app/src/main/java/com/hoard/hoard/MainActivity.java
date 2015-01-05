@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Intent;
+import android.gesture.Gesture;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +32,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hoard.hoard.api.HoardAPI;
+import com.hoard.hoard.api.Product;
 import com.hoard.hoard.api.Products;
 
 import java.util.HashMap;
@@ -51,11 +55,13 @@ public class MainActivity extends FragmentActivity {
      * GestureDetector
      */
     private GestureDetector gestureDetector;
+    private boolean stillLoading = true;
 
     /*
-     * Notification View Bar
+     * Notification View Bar and TextView
      */
     private RelativeLayout notificationBar;
+    private TextView notificationTextView;
 
     /*
      * Menu View
@@ -74,6 +80,11 @@ public class MainActivity extends FragmentActivity {
      */
     private boolean isConnected = false;
 
+    /**
+     * Hoard API
+     */
+    private HoardAPI hoardAPI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +93,7 @@ public class MainActivity extends FragmentActivity {
         session = new Session(MainActivity.this);
 
         notificationBar = (RelativeLayout) findViewById(R.id.top_layout_notification_bar);
-        TextView notificationTextView = (TextView) findViewById(R.id.notification_bar_text_edit);
+        notificationTextView = (TextView) findViewById(R.id.notification_bar_text_edit);
 
         menuView = (RelativeLayout) findViewById(R.id.top_layout_menu);
         menuView.setVisibility(View.GONE);
@@ -94,6 +105,8 @@ public class MainActivity extends FragmentActivity {
             new NotificationShowDelayAsyncTask().execute();
             return;
         }
+
+        hoardAPI = new HoardAPI(this);
 
         if(getIntent().hasExtra("notification")) {
             notificationTextView.setText(getIntent().getStringExtra("notification"));
@@ -142,11 +155,49 @@ public class MainActivity extends FragmentActivity {
         viewPager.setOnPageChangeListener(new ProductOnPageChangeListener());
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+
             public void onLongPress(MotionEvent e) {
-                Products products = ((ProductSlidePageFragment)((ScreenSlidePagerAdapter)viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getProducts();
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(products.getResult().get(0).getLink()));
-                startActivity(browserIntent);
-                urlLoadProgressBar.setVisibility(View.GONE);
+                if(!stillLoading) {
+                    Products products = ((ProductSlidePageFragment) ((ScreenSlidePagerAdapter) viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getProducts();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(products.getResult().get(0).getLink()));
+                    startActivity(browserIntent);
+                    urlLoadProgressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2,
+                                   float velocityX, float velocityY) {
+
+                switch (getSlope(e1.getX(), e1.getY(), e2.getX(), e2.getY())) {
+                    case 1:
+                        if(!stillLoading) {
+                            Products products = ((ProductSlidePageFragment) ((ScreenSlidePagerAdapter) viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getProducts();
+                            Product product = products.getResult().get(0);
+                            new AddToFavoritesAsyncTask(product).execute();
+
+                            return true;
+                        }
+                        break;
+                }
+                return false;
+            }
+
+            private int getSlope(float x1, float y1, float x2, float y2) {
+                Double angle = Math.toDegrees(Math.atan2(y1 - y2, x2 - x1));
+                if (angle > 45 && angle <= 135)
+                    // top
+                    return 1;/*
+                if (angle >= 135 && angle < 180 || angle < -135 && angle > -180)
+                    // left
+                    return 2;
+                if (angle < -45 && angle >= -135)
+                    // down
+                    return 3;
+                if (angle > -45 && angle <= 45)
+                    // right
+                    return 4;*/
+                return 0;
             }
         });
 
@@ -255,6 +306,10 @@ public class MainActivity extends FragmentActivity {
                 startActivity(i);
             }
         });
+    }
+
+    public void setStillLoading(boolean bool) {
+        stillLoading = bool;
     }
 
     /**
@@ -374,9 +429,42 @@ public class MainActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(String string) {
             if (visibility) {
-                Log.i("Here", "h");
                 urlLoadProgressBar.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    /**
+     * AsyncTask Class to add product to favorites.
+     */
+    class AddToFavoritesAsyncTask extends AsyncTask<String, String, String> {
+
+        /**
+         * Product to be added
+         */
+        private Product product;
+
+        private Pair<Boolean, String> valid;
+
+        public AddToFavoritesAsyncTask(Product product) {
+            this.product = product;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                valid = hoardAPI.addToFavorites(product);
+            } catch (Exception e) {
+                String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                Log.e("MainActivity>AddToFavoritesAsyncTask>doInBackground>Exception:", errorMessage);
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(String notUsed) {
+            notificationTextView.setText(valid.second);
+            new NotificationShowDelayAsyncTask().execute();
         }
     }
 
@@ -408,7 +496,8 @@ public class MainActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             Log.i("MainActivity>ScreenSlidePagerAdapter:getItem", " " + position);
-            return new ProductSlidePageFragment();
+            ProductSlidePageFragment productSlidePageFragment = new ProductSlidePageFragment();
+            return productSlidePageFragment;
         }
 
         @Override

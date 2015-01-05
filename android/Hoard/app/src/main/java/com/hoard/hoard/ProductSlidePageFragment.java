@@ -87,7 +87,7 @@ public class ProductSlidePageFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                products = hoardAPI.getProducts();
+                products = hoardAPI.getPreferencesProducts();
 
                 if(products != null)
                     for(Product prod : products.getResult()) {
@@ -142,7 +142,11 @@ public class ProductSlidePageFragment extends Fragment {
                     progressImageView.setVisibility(View.GONE);
                     imageView.setImageBitmap(bitmap);
                     imageView.setVisibility(View.VISIBLE);
+                }
+
+                if(products != null) {
                     productNameTextView.setVisibility(View.VISIBLE);
+                    ((MainActivity)getActivity()).setStillLoading(false);
                 }
 
                 progressBar.setVisibility(View.GONE);
