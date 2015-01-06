@@ -291,6 +291,33 @@ public class HoardAPI {
         return new Pair<Boolean, String>(false, "Something went wrong.");
     }
 
+    public Pair<Boolean, String> viewedProduct(Product product) {
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.viewed_product_url)+product.getId();
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+
+            BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
+
+            if(parser.getSuccess()){
+                if(parser.getResult()) {
+                    return new Pair<Boolean, String>(true, "Product has been viewed.");
+                } else {
+                    return new Pair<Boolean, String>(false, "Product was not viewed.");
+                }
+            }
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>recoverPassword>Exception:", errorMessage);
+        }
+
+        return new Pair<Boolean, String>(false, "Something went wrong.");
+    }
+
+
     public Pair<Boolean, String> registerEmailPassword(String email, String password) {
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 

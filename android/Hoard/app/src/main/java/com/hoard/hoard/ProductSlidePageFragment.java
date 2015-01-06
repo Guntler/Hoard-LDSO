@@ -23,6 +23,7 @@ import com.hoard.hoard.api.Product;
 import com.hoard.hoard.api.Products;
 
 import java.io.InputStream;
+import java.util.Random;
 
 public class ProductSlidePageFragment extends Fragment {
 
@@ -43,7 +44,7 @@ public class ProductSlidePageFragment extends Fragment {
      * Products
      */
     private Products products;
-
+    private int currentProduct = 0;
     /**
      * Hoard API
      */
@@ -76,6 +77,8 @@ public class ProductSlidePageFragment extends Fragment {
         return products;
     }
 
+    public int getCurrentProduct() { return currentProduct; }
+
     class ProductAsyncTask extends AsyncTask<String, String, String> {
 
         private Context context;
@@ -104,9 +107,11 @@ public class ProductSlidePageFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String notUsed) {
-            if(products != null) {
-                productNameTextView.setText(products.getResult().get(0).getName());
-                new DownloadImageTask(productImageView, productProgressImageView, productProgressBar).execute(context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.product_images_url) + products.getResult().get(0).getImageName());
+            if(products != null && products.getResult().size() > 0) {
+                Random rnd = new Random();
+                currentProduct = rnd.nextInt(products.getResult().size());
+                productNameTextView.setText(products.getResult().get(currentProduct).getName());
+                new DownloadImageTask(productImageView, productProgressImageView, productProgressBar).execute(context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.product_images_url) + products.getResult().get(currentProduct).getImageName());
             } else
                 productProgressBar.setVisibility(View.GONE);
         }
@@ -153,5 +158,6 @@ public class ProductSlidePageFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         }
+
     }
 }

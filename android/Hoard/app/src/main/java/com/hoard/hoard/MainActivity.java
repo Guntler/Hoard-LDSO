@@ -159,7 +159,8 @@ public class MainActivity extends FragmentActivity {
             public void onLongPress(MotionEvent e) {
                 if(!stillLoading) {
                     Products products = ((ProductSlidePageFragment) ((ScreenSlidePagerAdapter) viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getProducts();
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(products.getResult().get(0).getLink()));
+                    int currentProduct = ((ProductSlidePageFragment) ((ScreenSlidePagerAdapter) viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getCurrentProduct();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(products.getResult().get(currentProduct).getLink()));
                     startActivity(browserIntent);
                     urlLoadProgressBar.setVisibility(View.GONE);
                 }
@@ -173,7 +174,8 @@ public class MainActivity extends FragmentActivity {
                     case 1:
                         if(!stillLoading) {
                             Products products = ((ProductSlidePageFragment) ((ScreenSlidePagerAdapter) viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getProducts();
-                            Product product = products.getResult().get(0);
+                            int currentProduct = ((ProductSlidePageFragment) ((ScreenSlidePagerAdapter) viewPager.getAdapter()).getFragment(viewPager.getCurrentItem())).getCurrentProduct();
+                            Product product = products.getResult().get(currentProduct);
                             new AddToFavoritesAsyncTask(product).execute();
 
                             return true;

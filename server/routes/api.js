@@ -654,12 +654,12 @@ exports.categoryById = function (req, res) {
 exports.getUserPreferences = function (req, res) {
     console.log("here");
     if (req.user == undefined) {
-        res.send({result: null, message: "Please supply the required field.", success: false});
+        res.send({result: false, message: "Please supply the required field.", success: false});
     } else {
         console.log(req.user.userid);
         preferences.getPreferences(req.user.userid, function (err, result) {
             if (err)
-                res.send({result: null, message: "Error on retrieving products according to the user's preferences.", success: false});
+                res.send({result: false, message: "Error on retrieving products according to the user's preferences.", success: false});
             else {
                 console.log(result);
                 res.send({result: result, message: "Success on retrieving products according to the user's preferences.", success: true});
@@ -671,13 +671,13 @@ exports.getUserPreferences = function (req, res) {
 //States that a specific user has seen a specific product.
 exports.addViewedProduct = function (req, res) {
     if (req.user == undefined || req.params.productid == undefined) {
-        res.send({result: null, message: "Please supply the required fields.", success: false});
+        res.send({result: false, message: "Please supply the required fields.", success: false});
     } else {
         products.addViewedProduct(req.user.userid, req.params.productid, function (err, result) {
             if (err)
-                res.send({result: null, message: "Error on adding entry to viewedProducts.", success: false});
+                res.send({result: false, message: "Error on adding entry to viewedProducts.", success: false});
             else
-                res.send({result: result, message: "Success on adding entry to viewedProducts.", success: true});
+                res.send({result: true, message: "Success on adding entry to viewedProducts.", success: true});
         });
     }
 };
