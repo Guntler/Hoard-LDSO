@@ -652,24 +652,28 @@ exports.categoryById = function (req, res) {
 
 //Returns a set of products according to the user's favorite products.
 exports.getUserPreferences = function (req, res) {
-    if (req.params.userid == undefined) {
+    console.log("here");
+    if (req.user == undefined) {
         res.send({result: null, message: "Please supply the required field.", success: false});
     } else {
-        preferences.getPreferences(req.params.userid, function (err, result) {
+        console.log(req.user.userid);
+        preferences.getPreferences(req.user.userid, function (err, result) {
             if (err)
                 res.send({result: null, message: "Error on retrieving products according to the user's preferences.", success: false});
-            else
+            else {
+                console.log(result);
                 res.send({result: result, message: "Success on retrieving products according to the user's preferences.", success: true});
+            }
         });
     }
 };
 
 //States that a specific user has seen a specific product.
 exports.addViewedProduct = function (req, res) {
-    if (req.params.userid == undefined || req.params.productid == undefined) {
+    if (req.user == undefined || req.params.productid == undefined) {
         res.send({result: null, message: "Please supply the required fields.", success: false});
     } else {
-        products.addViewedProduct(req.params.userid, req.params.productid, function (err, result) {
+        products.addViewedProduct(req.user.userid, req.params.productid, function (err, result) {
             if (err)
                 res.send({result: null, message: "Error on adding entry to viewedProducts.", success: false});
             else

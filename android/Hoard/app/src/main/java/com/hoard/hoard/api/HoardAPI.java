@@ -174,6 +174,32 @@ public class HoardAPI {
         return null;
     }
 
+    public Products getPreferencesProducts() {
+
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.preferences_products_url);
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+
+            if(session.checkSessionForCookie()) {
+                request.getHeaders().setCookie(session.getCookie());
+                Log.d("Cookie: ", session.getCookie());
+
+                Products products = request.execute().parseAs(Products.class);
+
+                if(products.getSuccess())
+                    return products;
+            }
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>getPreferencesProducts>Exception:", errorMessage);
+        }
+        return null;
+    }
+
     public Pair<Boolean, String> removeProductFromFavorites(Product product) {
         HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
 
@@ -197,6 +223,39 @@ public class HoardAPI {
                     }
                 }
 
+            }
+        } catch (IOException e) {
+            String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+            Log.e("HoardAPI>removeProductFromFavorites>Exception:", errorMessage);
+        }
+
+        return new Pair<Boolean, String>(false, "Something went wrong.");
+    }
+
+    public Pair<Boolean, String> addToFavorites(Product product) {
+        HttpRequestFactory httpRequestFactory = createRequestFactory(HTTP_TRANSPORT);
+
+        String url = context.getResources().getString(R.string.server_url)+context.getResources().getString(R.string.add_product_to_favorites_url)+product.getId();
+
+        try {
+            HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+            request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
+
+            if(session.checkSessionForCookie()) {
+                request.getHeaders().setCookie(session.getCookie());
+                Log.d("Cookie: ", session.getCookie());
+
+                BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
+
+                System.out.println("Result: "+parser.getResult());
+                System.out.println("Success: "+parser.getSuccess());
+                if(parser.getSuccess()){
+                    if(parser.getResult()) {
+                        return new Pair<Boolean, String>(true, "Success adding the product to favorites.");
+                    } else {
+                        return new Pair<Boolean, String>(false, "Error adding the product to favorites.");
+                    }
+                }
             }
         } catch (IOException e) {
             String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();

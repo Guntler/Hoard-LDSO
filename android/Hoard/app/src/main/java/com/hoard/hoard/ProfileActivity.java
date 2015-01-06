@@ -2,6 +2,7 @@ package com.hoard.hoard;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
@@ -11,9 +12,11 @@ import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hoard.hoard.api.HoardAPI;
@@ -66,6 +69,21 @@ public class ProfileActivity extends Activity {
         }
 
         hoardAPI = new HoardAPI(ProfileActivity.this);
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.profile_layout);
+        final InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        layout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                passwordOldEditText.clearFocus();
+                passwordNewEditText.clearFocus();
+                passwordConfirmationEditText.clearFocus();
+
+                imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+            }
+        });
 
         passwordOldEditText = (EditText) findViewById(R.id.profile_old_password);
         passwordOldEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
