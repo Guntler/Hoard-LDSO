@@ -547,6 +547,7 @@ exports.getNNewProducts = function (userid, nproducts, callback) {
 //Resets the users viewedProducts and returns some products, used in preferences algorithm.
 exports.resetViewedProducts  = function (userid, nProductsToReturn, callback) {
     pg.connect(conString, function (err, product, done) {
+        console.log("here");
         if (err) {
             return callback(err, null);
         }
