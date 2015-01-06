@@ -310,7 +310,7 @@ exports.getFavorites = function (userid, callback) {
             return callback(err, null);
         }
         var query;
-            query = product.query("SELECT * FROM favoriteproduct NATURAL JOIN product WHERE userid = $1 AND visible", [userid]);
+            query = product.query("SELECT * FROM favoriteproduct, product WHERE userid = $1 AND favoriteproduct.visible and product.productid = favoriteproduct.productid", [userid]);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded, [], false));
