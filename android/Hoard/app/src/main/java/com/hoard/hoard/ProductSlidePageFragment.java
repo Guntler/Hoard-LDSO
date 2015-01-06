@@ -107,7 +107,8 @@ public class ProductSlidePageFragment extends Fragment {
             if(products != null) {
                 productNameTextView.setText(products.getResult().get(0).getName());
                 new DownloadImageTask(productImageView, productProgressImageView, productProgressBar).execute(context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.product_images_url) + products.getResult().get(0).getImageName());
-            }
+            } else
+                productProgressBar.setVisibility(View.GONE);
         }
 
         private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
