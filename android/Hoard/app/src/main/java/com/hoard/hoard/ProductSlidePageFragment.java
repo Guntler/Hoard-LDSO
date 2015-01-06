@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,18 +111,21 @@ public class ProductSlidePageFragment extends Fragment {
             if(products != null && products.getResult().size() > 0) {
                 Random rnd = new Random();
                 currentProduct = rnd.nextInt(products.getResult().size());
-                productNameTextView.setText(products.getResult().get(currentProduct).getName());
-                new DownloadImageTask(productImageView, productProgressImageView, productProgressBar).execute(context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.product_images_url) + products.getResult().get(currentProduct).getImageName());
+                Product product = products.getResult().get(currentProduct);
+                productNameTextView.setText(product.getName());
+                new DownloadImageTask(product, productImageView, productProgressImageView, productProgressBar).execute(context.getResources().getString(R.string.server_url) + context.getResources().getString(R.string.product_images_url) + products.getResult().get(currentProduct).getImageName());
             } else
                 productProgressBar.setVisibility(View.GONE);
         }
 
         private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+            Product product;
             ImageView imageView;
             ImageView progressImageView;
             ProgressBar progressBar;
 
-            public DownloadImageTask(ImageView imageView, ImageView progressImageView, ProgressBar progressBar) {
+            public DownloadImageTask(Product product, ImageView imageView, ImageView progressImageView, ProgressBar progressBar) {
+                this.product = product;
                 this.imageView = imageView;
                 this.progressImageView = progressImageView;
                 this.progressBar = progressBar;
@@ -153,9 +157,38 @@ public class ProductSlidePageFragment extends Fragment {
                 if(products != null) {
                     productNameTextView.setVisibility(View.VISIBLE);
                     ((MainActivity)getActivity()).setStillLoading(false);
+                    new ViewedProductAsyncTask(product).execute();
                 }
 
                 progressBar.setVisibility(View.GONE);
+            }
+        }
+
+        private class ViewedProductAsyncTask extends AsyncTask<String, String, String> {
+
+            private Product product;
+
+            private Pair<Boolean, String> valid;
+
+            public ViewedProductAsyncTask(Product product) {
+                this.product = product;
+            }
+
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+                    valid = hoardAPI.viewedProduct(product);
+                } catch (Exception e) {
+                    String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
+                    Log.e("ProductSlidePageFragment>ViewedProductAsyncTask>doInBackground: ", errorMessage);
+                }
+
+                return null;
+            }
+
+            protected void onPostExecute(String notUsed) {
+                if(valid.first)
+                    System.out.println(product.getName()+" was viewed " + valid.second);
             }
         }
 

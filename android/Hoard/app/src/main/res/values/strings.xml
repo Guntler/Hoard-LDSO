@@ -57,7 +57,7 @@
     <string name="favorites_url">api/products/getFavorites</string>
     <string name="products_url">api/products/viewProducts</string>
     <string name="preferences_products_url">api/preferences</string>
-    <string name="viewed_product_url">/api/viewed/</string>
+    <string name="viewed_product_url">api/viewed/</string>
     <string name="remove_product_from_favorites_url">api/products/removeProductFromFavorites/</string>
     <string name="add_product_to_favorites_url">api/products/addToFavorites/</string>
     <string name="change_password_url">api/users/changePassword</string>

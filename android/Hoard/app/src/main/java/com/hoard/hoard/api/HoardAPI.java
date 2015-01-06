@@ -247,13 +247,11 @@ public class HoardAPI {
 
                 BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
 
-                System.out.println("Result: "+parser.getResult());
-                System.out.println("Success: "+parser.getSuccess());
                 if(parser.getSuccess()){
                     if(parser.getResult()) {
-                        return new Pair<Boolean, String>(true, "Success adding the product to favorites.");
+                        return new Pair<Boolean, String>(true, "This product was added to the favorites.");
                     } else {
-                        return new Pair<Boolean, String>(false, "Error adding the product to favorites.");
+                        return new Pair<Boolean, String>(false, "Error adding this product to favorites.");
                     }
                 }
             }
@@ -276,8 +274,8 @@ public class HoardAPI {
 
             BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
 
-            if(parser.getSuccess()){
-                if(parser.getResult()) {
+            if (parser.getSuccess()) {
+                if (parser.getResult()) {
                     return new Pair<Boolean, String>(true, "An email has been sent.");
                 } else {
                     return new Pair<Boolean, String>(false, "The provided email is invalid.");
@@ -300,13 +298,18 @@ public class HoardAPI {
             HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
             request.setConnectTimeout(Integer.parseInt(context.getResources().getString(R.string.timeout)));
 
-            BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
+            if(session.checkSessionForCookie()) {
+                request.getHeaders().setCookie(session.getCookie());
+                Log.d("Cookie: ", session.getCookie());
 
-            if(parser.getSuccess()){
-                if(parser.getResult()) {
-                    return new Pair<Boolean, String>(true, "Product has been viewed.");
-                } else {
-                    return new Pair<Boolean, String>(false, "Product was not viewed.");
+                BasicReturnParser parser = request.execute().parseAs(BasicReturnParser.class);
+
+                if (parser.getSuccess()) {
+                    if (parser.getResult()) {
+                        return new Pair<Boolean, String>(true, "Product has been viewed.");
+                    } else {
+                        return new Pair<Boolean, String>(false, "Product was not viewed.");
+                    }
                 }
             }
         } catch (IOException e) {
