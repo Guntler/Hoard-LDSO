@@ -653,11 +653,11 @@ exports.categoryById = function (req, res) {
 //Returns a set of products according to the user's favorite products.
 exports.getUserPreferences = function (req, res) {
     if (req.user == undefined) {
-        res.send({result: false, message: "Please supply the required field.", success: false});
+        res.send({result: null, message: "Please supply the required field.", success: false});
     } else {
         preferences.getPreferences(req.user.userid, function (err, result) {
             if (err)
-                res.send({result: false, message: "Error on retrieving products according to the user's preferences.", success: false});
+                res.send({result: null, message: "Error on retrieving products according to the user's preferences.", success: false});
             else {
                 res.send({result: result, message: "Success on retrieving products according to the user's preferences.", success: true});
             }

@@ -93,14 +93,14 @@ public class ProductSlidePageFragment extends Fragment {
             try {
                 products = hoardAPI.getPreferencesProducts();
 
-                if(products != null)
+                /*if(products != null)
                     for(Product prod : products.getResult()) {
-                        //Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
-                    }
+                        Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
+                    }*/
 
             } catch (Exception e) {
                 String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                Log.e("FavoriteActivity>FavoritesAsyncTask>doInBackground>Exception:", errorMessage);
+                Log.e("ProductSlidePageFragment>ProductAsyncTask>doInBackground>Exception:", errorMessage);
             }
 
             return null;
