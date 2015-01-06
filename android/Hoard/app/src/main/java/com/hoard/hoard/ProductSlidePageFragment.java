@@ -95,7 +95,7 @@ public class ProductSlidePageFragment extends Fragment {
 
                 if(products != null)
                     for(Product prod : products.getResult()) {
-                        Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
+                        //Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
                     }
 
             } catch (Exception e) {
@@ -141,7 +141,7 @@ public class ProductSlidePageFragment extends Fragment {
                     in.close();
                 } catch (Exception e) {
                     String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                    Log.e("ProductSlidePageFragment>DownloadImageTask>doInBackground: ", errorMessage);
+                    //Log.e("ProductSlidePageFragment>DownloadImageTask>doInBackground: ", errorMessage);
                 }
 
                 return imageBitmap;
