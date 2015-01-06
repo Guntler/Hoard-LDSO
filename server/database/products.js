@@ -526,7 +526,7 @@ exports.getNNewProducts = function (userid, nproducts, callback) {
             return callback(err, null);
         }
 
-        var query = product.query("SELECT * FROM product WHERE NOT(EXISTS(SELECT * FROM viewedProducts, product WHERE viewedProducts.productid = product.productid AND viewedProducts.userid = $1)) LIMIT $2", [userid, nproducts]);
+        var query = product.query("SELECT * FROM product WHERE product.productid NOT IN (SELECT productid FROM viewedproducts where userid = $1) LIMIT $2", [userid, nproducts]);
 
         query.on("row", function (row, result) {
             result.addRow(new Product(row.productid, row.name, row.link, row.imagename, row.category, row.visible, row.addedby, row.dateadded));
@@ -547,7 +547,6 @@ exports.getNNewProducts = function (userid, nproducts, callback) {
 //Resets the users viewedProducts and returns some products, used in preferences algorithm.
 exports.resetViewedProducts  = function (userid, nProductsToReturn, callback) {
     pg.connect(conString, function (err, product, done) {
-        console.log("here");
         if (err) {
             return callback(err, null);
         }
