@@ -644,16 +644,15 @@ exports.categoryById = function (req, res) {
         categories.findById(req.params.id, function (err, result) {
             if (err)
                 res.send({result: null, message: "Error on retrieving the specified category .", success: false});
-            else {
-                console.log(result);
+            else
                 res.send({result: result, message: "Success on retrieving the specified category.", success: true});
-            }
         });
     }
 };
 
 //Returns a set of products according to the user's favorite products.
 exports.getUserPreferences = function (req, res) {
+    console.log("here");
     if (req.user == undefined) {
         res.send({result: null, message: "Please supply the required field.", success: false});
     } else {
