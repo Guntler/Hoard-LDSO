@@ -656,6 +656,7 @@ exports.getUserPreferences = function (req, res) {
     if (req.user == undefined) {
         res.send({result: null, message: "Please supply the required field.", success: false});
     } else {
+        console.log(req.user.userid);
         preferences.getPreferences(req.user.userid, function (err, result) {
             if (err)
                 res.send({result: null, message: "Error on retrieving products according to the user's preferences.", success: false});
