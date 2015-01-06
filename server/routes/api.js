@@ -659,8 +659,10 @@ exports.getUserPreferences = function (req, res) {
         preferences.getPreferences(req.user.userid, function (err, result) {
             if (err)
                 res.send({result: null, message: "Error on retrieving products according to the user's preferences.", success: false});
-            else
+            else {
+                console.log(result);
                 res.send({result: result, message: "Success on retrieving products according to the user's preferences.", success: true});
+            }
         });
     }
 };
