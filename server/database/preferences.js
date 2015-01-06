@@ -21,17 +21,17 @@ exports.getPreferences = function (userid, callback) {
 
         query.on("row", function (row, result) {
             result.addRow(row);
-            //console.log("This is row" +counter + ":" + JSON.stringify(result.rows[counter]));
+            console.log("This is row" +counter + ":" + JSON.stringify(result.rows[counter]));
             nProductsInCats += parseInt(result.rows[counter].count);
             counter++;
         });
 
         query.on("end", function (result) {
             done();
-            if (result.rows.length < 1) {
+            if (result.rows.length < 5) {
                 products.getNNewProducts(userid, nProducts, function (error1, res1) {
                     if (error1) {
-                        //console.log("Failed on getting random products.");
+                        console.log("Failed on getting random products.");
                         callback(error1, null);
                     }
                     else if (res1) {
@@ -39,7 +39,7 @@ exports.getPreferences = function (userid, callback) {
                         if (diff > 0) {
                             products.resetViewedProducts(userid, diff, function(error2, res2){
                                 if(error2){
-                                    //console.log("Failed on resetting user's products.");
+                                    console.log("Failed on resetting user's products.");
                                     callback(error2, null);
                                 }
                                 else if(res2){
@@ -48,13 +48,13 @@ exports.getPreferences = function (userid, callback) {
                             });
                         }
                         else {
-                            callback(null, result);
+                            callback(null, res1);
                         }
                     }
                 });
             }
             else{
-                //console.log("nProductsInCats = " + nProductsInCats);
+                console.log("nProductsInCats = " + nProductsInCats);
 
                 //Array with the percentages of each category on the user's favoriteprodutcs
                 var percentageArray = [];
@@ -67,8 +67,8 @@ exports.getPreferences = function (userid, callback) {
 
                 percentageArray.sort(comparePercentages);
 
-                //console.log("Printing: percentageArray");
-                //console.log(JSON.stringify(percentageArray));
+                console.log("Printing: percentageArray");
+                console.log(JSON.stringify(percentageArray));
 
                 //Make the percentages correspond to a int number of products.
                 var sum = 0;
@@ -83,36 +83,36 @@ exports.getPreferences = function (userid, callback) {
                     var testSum = sum + rounded;
 
                     if(testSum > nProducts){
-                        //console.log("Sum(" + sum + ") exceeded nProducts, subtracting " + difference + " from current product.");
+                        console.log("Sum(" + sum + ") exceeded nProducts, subtracting " + difference + " from current product.");
                         rounded -= difference;
                     }
 
                     sum += rounded;
 
                     var numProduct = {cat: percentageArray[j].catid, num: rounded};
-                    //console.log("Added numProduct:" + JSON.stringify(numProduct));
+                    console.log("Added numProduct:" + JSON.stringify(numProduct));
                     numProductsArray[numProductsArray.length] = numProduct;
                 }
 
-                //console.log("Printing: numProductsArray");
-                //console.log(JSON.stringify(numProductsArray));
+                console.log("Printing: numProductsArray");
+                console.log(JSON.stringify(numProductsArray));
 
                 var productsToReturn = [];
                 var randomProducts = 0;
                 var counter = 0;
 
                 for(k = 0; k < numProductsArray.length; k++) {
-                    //console.log("Iterations:" + k);
+                    console.log("Iterations:" + k);
 
                     var number = numProductsArray[k].num;
 
                     products.getNProductsFromCat(userid, numProductsArray[k].cat, numProductsArray[k].num, function (err, result) {
                         if(counter >= k-1){
                             if(randomProducts > 0) {
-                                //console.log("Getting " + randomProducts + " random products.");
+                                console.log("Getting " + randomProducts + " random products.");
                                 products.getNNewProducts(userid, randomProducts, function (error1, res1) {
                                     if (error1) {
-                                        //console.log("Failed on getting random products.");
+                                        console.log("Failed on getting random products.");
                                         callback(error1, null);
                                     }
                                     else if (res1) {
@@ -120,7 +120,7 @@ exports.getPreferences = function (userid, callback) {
                                         if (diff > 0) {
                                             products.resetViewedProducts(userid, diff, function(error2, res2){
                                                 if(error2){
-                                                    //console.log("Failed on resetting user's products.");
+                                                    console.log("Failed on resetting user's products.");
                                                     callback(error2, null);
                                                 }
                                                 else if(res2){
@@ -145,13 +145,13 @@ exports.getPreferences = function (userid, callback) {
                         }
 
                         if (err) {
-                            //console.log("Failed on getting products from categories.");
+                            console.log("Failed on getting products from categories.");
                             callback(err, null);
                         }
                         else if (result) {
                             var difference = number - result.length;
                             if(difference > 0) {
-                                //console.log("Added "+ difference + "to randomProducts");
+                                console.log("Added " + difference + " to randomProducts");
                                 randomProducts += difference;
                             }
                             productsToReturn = productsToReturn.concat(result);
