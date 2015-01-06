@@ -13,7 +13,7 @@ exports.getPreferences = function (userid, callback) {
 
         //Get the number of favoriteproducts in each product category
         //OLD FUNCTIONAL QUERY : var query = product.query("SELECT Count(product.category) as count, productcategory.categoryid, productcategory.categoryname FROM product, favoriteproduct, productcategory WHERE product.category = productcategory.categoryid AND favoriteproduct.userid = $1 AND favoriteproduct.visible = true AND favoriteproduct.productid = product.productid GROUP BY productcategory.categoryname, productcategory.categoryid", [userid]);
-        var query = product.query("SELECT Count(product.category) as count, productcategory.categoryid, productcategory.categoryname FROM product, favoriteproduct, productcategory WHERE product.category = productcategory.categoryid AND favoriteproduct.userid = $1 AND favoriteproduct.visible = true AND favoriteproduct.productid = product.productid  AND NOT(EXISTS(SELECT * FROM viewedProducts, product WHERE viewedProducts.productid = product.productid AND viewedProducts.userid = $1)) GROUP BY productcategory.categoryname, productcategory.categoryid", [userid]);
+        var query = product.query("SELECT Count(product.category) as count, productcategory.categoryid, productcategory.categoryname FROM product, favoriteproduct, productcategory WHERE product.category = productcategory.categoryid AND favoriteproduct.userid = $1 AND favoriteproduct.productid = product.productid GROUP BY productcategory.categoryname, productcategory.categoryid", [userid]);
 
         var counter = 0;
         var nProductsInCats = 0;
@@ -21,13 +21,14 @@ exports.getPreferences = function (userid, callback) {
 
         query.on("row", function (row, result) {
             result.addRow(row);
-            console.log("This is row" +counter + ":" + JSON.stringify(result.rows[counter]));
-            nProductsInCats += parseInt(result.rows[counter].count);
-            counter++;
+            //console.log("This is row" +counter + ":" + JSON.stringify(result.rows[counter]));
+            nProductsInCats += parseInt(row.count);
+            //counter++;
         });
 
         query.on("end", function (result) {
             done();
+			
             if (result.rows.length < 5) {
                 products.getNNewProducts(userid, nProducts, function (error1, res1) {
                     if (error1) {
