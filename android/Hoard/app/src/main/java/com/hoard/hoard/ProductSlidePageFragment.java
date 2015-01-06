@@ -141,7 +141,7 @@ public class ProductSlidePageFragment extends Fragment {
                     in.close();
                 } catch (Exception e) {
                     String errorMessage = (e.getMessage()==null)?"Message is empty":e.getMessage();
-                    //Log.e("ProductSlidePageFragment>DownloadImageTask>doInBackground: ", errorMessage);
+                    Log.e("ProductSlidePageFragment>DownloadImageTask>doInBackground: ", errorMessage);
                 }
 
                 return imageBitmap;
