@@ -17,7 +17,7 @@ public class Validation {
     }
 
     public boolean isValidPassword(String password) {
-        return password != null && password.length() > 0;
+        return password != null && password.length() > 6;
     }
 
     public boolean isValidPasswordConfirmation(String password, String confirmation) {

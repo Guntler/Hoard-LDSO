@@ -212,7 +212,7 @@ public class FavoriteActivity extends Activity {
 
                 if(favorites != null)
                     for(Product prod : favorites.getResult()) {
-                        //Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
+                        Log.d("Product: ", prod.getName() + " link - " + prod.getImageName());
                     }
 
             } catch (Exception e) {
